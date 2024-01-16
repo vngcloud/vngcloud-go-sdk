@@ -45,6 +45,8 @@ type (
 		Algorithm     CreateOptsAlgorithmOpt `json:"algorithm"`
 		PoolName      string                 `json:"poolName"`
 		PoolProtocol  CreateOptsProtocolOpt  `json:"poolProtocol"`
+		Stickiness    bool                   `json:"stickiness"`
+		TLSEncryption bool                   `json:"tlsEncryption"`
 		HealthMonitor HealthMonitor          `json:"healthMonitor"`
 		Members       []Member               `json:"members"`
 
