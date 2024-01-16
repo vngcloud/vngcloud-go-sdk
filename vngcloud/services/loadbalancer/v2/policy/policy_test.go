@@ -76,15 +76,15 @@ func TestCreateL7PolicyOfListener(t *testing.T) {
 
 	opt := &CreateOptsBuilder{
 		Name:             "l7policy",
-		Action:           CreateOptsActionOptREJECT,
+		Action:           PolicyOptsActionOptREJECT,
 		RedirectPoolID:   "pool-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 		RedirectURL:      "https://www.example.com",
 		RedirectHTTPCode: 301,
 		KeepQueryString:  true,
 		Rules: []Rule{
 			{
-				CompareType: CreateOptsCompareTypeOptCONTAINS,
-				RuleType:    CreateOptsRuleTypeOptHOSTNAME,
+				CompareType: PolicyOptsCompareTypeOptCONTAINS,
+				RuleType:    PolicyOptsRuleTypeOptHOSTNAME,
 				RuleValue:   "www.example.com",
 			},
 		},
@@ -134,6 +134,59 @@ func TestDeleteL7PolicyOfListener(t *testing.T) {
 	opt.PolicyID = policyID
 
 	err := Delete(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+}
+
+func TestUpdateL7PolicyOfListener(t *testing.T) {
+	var (
+		identityURL  = ""
+		vLbURL       = ""
+		clientID     = ""
+		clientSecret = ""
+		projectID    = ""
+		lbID         = ""
+		listenerID   = ""
+		policyID     = ""
+	)
+
+	provider, _ := vcontainer.NewClient(identityURL)
+	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		AuthOptionsBuilder: &tokens.AuthOptions{
+			IdentityEndpoint: identityURL,
+		},
+	})
+
+	vlb, _ := vcontainer.NewServiceClient(
+		vLbURL,
+		provider,
+		"vlb")
+
+	opt := &UpdateOptsBuilder{
+		Action:         PolicyOptsActionOptREDIRECTTOPOOL,
+		RedirectPoolID: "pool-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		Rules: []Rule{
+			{
+				CompareType: PolicyOptsCompareTypeOptCONTAINS,
+				RuleType:    PolicyOptsRuleTypeOptHOSTNAME,
+				RuleValue:   "www.example.com",
+			},
+			{
+				CompareType: PolicyOptsCompareTypeOptCONTAINS,
+				RuleType:    PolicyOptsRuleTypeOptHOSTNAME,
+				RuleValue:   "www.example7.com",
+			},
+		},
+	}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.ListenerID = listenerID
+	opt.PolicyID = policyID
+
+	err := Update(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
