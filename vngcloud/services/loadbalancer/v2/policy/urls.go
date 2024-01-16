@@ -38,3 +38,15 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		pOpts.GetPolicyID(),
 	)
 }
+
+func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"listeners",
+		pOpts.GetListenerID(),
+		"l7policies",
+		pOpts.GetPolicyID(),
+	)
+}

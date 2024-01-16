@@ -19,3 +19,11 @@ type IDeleteOptsBuilder interface {
 	GetListenerID() string
 	GetPolicyID() string
 }
+
+type IUpdateOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	GetListenerID() string
+	GetPolicyID() string
+	ToRequestBody() interface{}
+}
