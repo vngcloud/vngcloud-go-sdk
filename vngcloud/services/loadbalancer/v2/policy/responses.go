@@ -84,3 +84,17 @@ func (s *ListResponse) ToListPolicyObjects() []*objects.Policy {
 
 	return result
 }
+
+type CreateResponse struct {
+	UUID string `json:"uuid"`
+}
+
+func (s *CreateResponse) ToPolicyObject() *objects.Policy {
+	if s == nil {
+		return nil
+	}
+
+	return &objects.Policy{
+		UUID: s.UUID,
+	}
+}

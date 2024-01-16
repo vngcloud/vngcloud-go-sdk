@@ -5,3 +5,17 @@ type IListOptsBuilder interface {
 	GetLoadBalancerID() string
 	GetListenerID() string
 }
+
+type ICreateOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	GetListenerID() string
+	ToRequestBody() interface{}
+}
+
+type IDeleteOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	GetListenerID() string
+	GetPolicyID() string
+}

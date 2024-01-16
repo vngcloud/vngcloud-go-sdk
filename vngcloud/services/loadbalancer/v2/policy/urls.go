@@ -15,3 +15,26 @@ func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
 		"l7policies",
 	)
 }
+
+func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"listeners",
+		pOpts.GetListenerID(),
+		"l7policies",
+	)
+}
+
+func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"listeners",
+		pOpts.GetListenerID(),
+		"l7policies",
+		pOpts.GetPolicyID(),
+	)
+}
