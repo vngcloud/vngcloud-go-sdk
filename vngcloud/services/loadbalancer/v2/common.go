@@ -23,3 +23,11 @@ type ListenerV2Common struct {
 func (s *ListenerV2Common) GetListenerID() string {
 	return s.ListenerID
 }
+
+type PolicyV2Common struct {
+	PolicyID string
+}
+
+func (s *PolicyV2Common) GetPolicyID() string {
+	return s.PolicyID
+}
