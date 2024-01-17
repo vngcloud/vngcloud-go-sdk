@@ -2,25 +2,32 @@ package policy
 
 import (
 	"fmt"
+	"testing"
+
+	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/extensions/oauth2"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/tokens"
-	"testing"
 )
 
-func TestListPolicyOfListener(t *testing.T) {
+var (
+	projectID  = ""
+	lbID       = ""
+	listenerID = ""
+	poolID     = ""
+	policyID   = ""
+)
+
+func NewSC() *client.ServiceClient {
 	var (
-		clientID     = ""
-		clientSecret = ""
-		projectID    = ""
-		lbID         = ""
-		listenerID   = ""
 		identityURL  = ""
 		vLbURL       = ""
+		clientID     = ""
+		clientSecret = ""
 	)
 
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
+	provider, _ := vngcloud.NewClient(identityURL)
+	vngcloud.Authenticate(provider, &oauth2.AuthOptions{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		AuthOptionsBuilder: &tokens.AuthOptions{
@@ -28,10 +35,14 @@ func TestListPolicyOfListener(t *testing.T) {
 		},
 	})
 
-	vlb, _ := vcontainer.NewServiceClient(
+	vlb, _ := vngcloud.NewServiceClient(
 		vLbURL,
 		provider,
 		"vlb")
+	return vlb
+}
+func TestListPolicyOfListener(t *testing.T) {
+	vlb := NewSC()
 
 	opt := &ListOptsBuilder{}
 	opt.ProjectID = projectID
@@ -50,34 +61,12 @@ func TestListPolicyOfListener(t *testing.T) {
 }
 
 func TestCreateL7PolicyOfListener(t *testing.T) {
-	var (
-		clientID     = ""
-		clientSecret = ""
-		projectID    = ""
-		lbID         = ""
-		listenerID   = ""
-		identityURL  = ""
-		vLbURL       = ""
-	)
-
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		AuthOptionsBuilder: &tokens.AuthOptions{
-			IdentityEndpoint: identityURL,
-		},
-	})
-
-	vlb, _ := vcontainer.NewServiceClient(
-		vLbURL,
-		provider,
-		"vlb")
+	vlb := NewSC()
 
 	opt := &CreateOptsBuilder{
 		Name:             "l7policy",
 		Action:           PolicyOptsActionOptREJECT,
-		RedirectPoolID:   "pool-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		RedirectPoolID:   poolID,
 		RedirectURL:      "https://www.example.com",
 		RedirectHTTPCode: 301,
 		KeepQueryString:  true,
@@ -102,30 +91,7 @@ func TestCreateL7PolicyOfListener(t *testing.T) {
 }
 
 func TestDeleteL7PolicyOfListener(t *testing.T) {
-	var (
-		clientID     = ""
-		clientSecret = ""
-		projectID    = ""
-		lbID         = ""
-		listenerID   = ""
-		policyID     = ""
-		identityURL  = ""
-		vLbURL       = ""
-	)
-
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		AuthOptionsBuilder: &tokens.AuthOptions{
-			IdentityEndpoint: identityURL,
-		},
-	})
-
-	vlb, _ := vcontainer.NewServiceClient(
-		vLbURL,
-		provider,
-		"vlb")
+	vlb := NewSC()
 
 	opt := &DeleteOptsBuilder{}
 	opt.ProjectID = projectID
@@ -140,34 +106,11 @@ func TestDeleteL7PolicyOfListener(t *testing.T) {
 }
 
 func TestUpdateL7PolicyOfListener(t *testing.T) {
-	var (
-		identityURL  = ""
-		vLbURL       = ""
-		clientID     = ""
-		clientSecret = ""
-		projectID    = ""
-		lbID         = ""
-		listenerID   = ""
-		policyID     = ""
-	)
-
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		AuthOptionsBuilder: &tokens.AuthOptions{
-			IdentityEndpoint: identityURL,
-		},
-	})
-
-	vlb, _ := vcontainer.NewServiceClient(
-		vLbURL,
-		provider,
-		"vlb")
+	vlb := NewSC()
 
 	opt := &UpdateOptsBuilder{
 		Action:         PolicyOptsActionOptREDIRECTTOPOOL,
-		RedirectPoolID: "pool-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		RedirectPoolID: poolID,
 		Rules: []Rule{
 			{
 				CompareType: PolicyOptsCompareTypeOptCONTAINS,
