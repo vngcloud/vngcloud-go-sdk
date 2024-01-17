@@ -26,8 +26,8 @@ func NewSC() *client.ServiceClient {
 		clientSecret = ""
 	)
 
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
+	provider, _ := vngcloud.NewClient(identityURL)
+	vngcloud.Authenticate(provider, &oauth2.AuthOptions{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		AuthOptionsBuilder: &tokens.AuthOptions{
@@ -35,7 +35,7 @@ func NewSC() *client.ServiceClient {
 		},
 	})
 
-	vlb, _ := vcontainer.NewServiceClient(
+	vlb, _ := vngcloud.NewServiceClient(
 		vLbURL,
 		provider,
 		"vlb")

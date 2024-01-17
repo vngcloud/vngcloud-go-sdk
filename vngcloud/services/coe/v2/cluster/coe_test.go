@@ -15,8 +15,8 @@ func TestCreate(t *testing.T) {
 	clusterID := ""
 
 	identityURL := "https://iamapis.vngcloud.vn/accounts-api/v2"
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
+	provider, _ := vngcloud.NewClient(identityURL)
+	vngcloud.Authenticate(provider, &oauth2.AuthOptions{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		AuthOptionsBuilder: &tokens.AuthOptions{
@@ -24,7 +24,7 @@ func TestCreate(t *testing.T) {
 		},
 	})
 
-	vserver, _ := vcontainer.NewServiceClient(
+	vserver, _ := vngcloud.NewServiceClient(
 		"https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2",
 		provider,
 		"vserver")

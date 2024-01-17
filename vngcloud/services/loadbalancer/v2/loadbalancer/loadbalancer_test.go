@@ -2,29 +2,29 @@ package loadbalancer
 
 import (
 	"fmt"
+	"testing"
+
+	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/extensions/oauth2"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/tokens"
-	"testing"
 )
 
-func TestListBySubnetID(t *testing.T) {
-	// Load file env
+var (
+	projectID = ""
+	subnetID  = ""
+)
+
+func NewSC() *client.ServiceClient {
 	var (
-		clientID     string
-		clientSecret string
-		projectID    string
-		subnetID     string
+		identityURL  = ""
+		vLbURL       = ""
+		clientID     = ""
+		clientSecret = ""
 	)
 
-	clientID, clientSecret, projectID, subnetID = "", "", "", ""
-	// Override clientID, clientSecret, projectID, subnetID here
-
-	identityURL := "https://iamapis.vngcloud.vn/accounts-api/v2"
-	vLbURL := "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
-
-	provider, _ := vcontainer.NewClient(identityURL)
-	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
+	provider, _ := vngcloud.NewClient(identityURL)
+	vngcloud.Authenticate(provider, &oauth2.AuthOptions{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		AuthOptionsBuilder: &tokens.AuthOptions{
@@ -32,10 +32,15 @@ func TestListBySubnetID(t *testing.T) {
 		},
 	})
 
-	vlb, _ := vcontainer.NewServiceClient(
+	vlb, _ := vngcloud.NewServiceClient(
 		vLbURL,
 		provider,
 		"vlb")
+	return vlb
+}
+
+func TestListBySubnetID(t *testing.T) {
+	vlb := NewSC()
 
 	opt := new(ListBySubnetIDOptsBuilder)
 	opt.ProjectID = projectID
@@ -46,5 +51,7 @@ func TestListBySubnetID(t *testing.T) {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
 
-	fmt.Printf("LB: %s\n", resp[0].Name)
+	for _, lb := range resp {
+		fmt.Printf("%+v\n", lb.Name)
+	}
 }
