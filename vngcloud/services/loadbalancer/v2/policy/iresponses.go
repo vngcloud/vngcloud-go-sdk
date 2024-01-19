@@ -11,3 +11,7 @@ type IListResponse interface {
 type ICreateResponse interface {
 	ToPolicyObject() *objects.Policy
 }
+
+type IGetResponse interface {
+	ToPolicyObject() *objects.Policy
+}

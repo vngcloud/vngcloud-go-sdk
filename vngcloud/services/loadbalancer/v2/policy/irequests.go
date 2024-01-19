@@ -27,3 +27,10 @@ type IUpdateOptsBuilder interface {
 	GetPolicyID() string
 	ToRequestBody() interface{}
 }
+
+type IGetOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	GetListenerID() string
+	GetPolicyID() string
+}

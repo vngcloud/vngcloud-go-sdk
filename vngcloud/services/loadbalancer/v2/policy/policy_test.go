@@ -134,3 +134,23 @@ func TestUpdateL7PolicyOfListener(t *testing.T) {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
 }
+
+func TestGet(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &GetOptsBuilder{}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.ListenerID = listenerID
+	opt.PolicyID = policyID
+
+	resp, err := Get(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
+	for _, lb := range resp.L7Rules {
+		fmt.Println(lb)
+	}
+}

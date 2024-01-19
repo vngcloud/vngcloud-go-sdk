@@ -1,4 +1,4 @@
-package loadbalancer
+package listener
 
 import (
 	"fmt"
@@ -10,11 +10,14 @@ import (
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/tokens"
 )
 
+func PointerOf[T any](t T) *T {
+	return &t
+}
+
 var (
-	projectID      = ""
-	subnetID       = ""
-	packageId      = ""
-	loadbalancerID = ""
+	projectID     = ""
+	lbID          = ""
+	defaultPoolID = ""
 )
 
 func NewSC() *client.ServiceClient {
@@ -40,55 +43,41 @@ func NewSC() *client.ServiceClient {
 		"vlb")
 	return vlb
 }
-
-func TestListBySubnetID(t *testing.T) {
-	vlb := NewSC()
-
-	opt := new(ListBySubnetIDOptsBuilder)
-	opt.ProjectID = projectID
-	opt.SubnetID = subnetID
-
-	resp, err := ListBySubnetID(vlb, opt)
-	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
-	}
-
-	for _, lb := range resp {
-		fmt.Printf("%+v\n", lb.Name)
-	}
-}
-
-func TestCreate(t *testing.T) {
+func TestCreateListener(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &CreateOpts{
-		Name:      "annd2_test",
-		PackageID: packageId,
-		Scheme:    CreateOptsSchemeOptInternet,
-		SubnetID:  subnetID,
-		Type:      CreateOptsTypeOptLayer7,
+		AllowedCidrs:         "0.0.0.0/0",
+		DefaultPoolId:        defaultPoolID,
+		ListenerName:         "annd2_test_listener",
+		ListenerProtocol:     CreateOptsListenerProtocolOptHTTP,
+		ListenerProtocolPort: 90,
+		TimeoutClient:        100,
+		TimeoutConnection:    100,
+		TimeoutMember:        100,
 	}
 	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
 
 	resp, err := Create(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
 
-	fmt.Printf("%+v\n", resp)
+	fmt.Printf("resp: %+v\n", resp)
 }
 
-func TestGet(t *testing.T) {
+func TestGetBasedLoadBalancer(t *testing.T) {
 	vlb := NewSC()
 
-	opt := &GetOpts{}
+	opt := &GetBasedLoadBalancerOpts{}
 	opt.ProjectID = projectID
-	opt.LoadBalancerID = loadbalancerID
+	opt.LoadBalancerID = lbID
 
-	resp, err := Get(vlb, opt)
+	resp, err := GetBasedLoadBalancer(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
 
-	fmt.Printf("%+v\n", resp)
+	fmt.Printf("resp: %+v\n", resp)
 }
