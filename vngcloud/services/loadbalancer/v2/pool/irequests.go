@@ -23,3 +23,15 @@ type IUpdatePoolMembersOptsBuilder interface {
 	GetPoolID() string
 	ToRequestBody() interface{}
 }
+
+type IGetOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+	GetPoolID() string
+}
+
+type IGetMemberOptsBuilder interface {
+	GetProjectID() string
+	GetPoolID() string
+	GetLoadBalancerID() string
+}

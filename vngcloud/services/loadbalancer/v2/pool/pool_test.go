@@ -43,6 +43,7 @@ func NewSC() *client.ServiceClient {
 		"vlb")
 	return vlb
 }
+
 func TestCreatePool(t *testing.T) {
 	vlb := NewSC()
 
@@ -129,5 +130,40 @@ func TestUpdatePoolMembers(t *testing.T) {
 	err := UpdatePoolMembers(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
+	}
+}
+
+func TestGet(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &GetOpts{}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.PoolID = poolID
+
+	resp, err := Get(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
+}
+
+func TestGetMember(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &GetMemberOpts{}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.PoolID = poolID
+
+	resp, err := GetMember(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
+	for _, lb := range resp {
+		fmt.Println(lb)
 	}
 }

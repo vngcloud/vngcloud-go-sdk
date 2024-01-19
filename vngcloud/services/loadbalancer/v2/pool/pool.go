@@ -2,9 +2,10 @@ package pool
 
 import (
 	"encoding/json"
+	"strings"
+
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
-	"strings"
 )
 
 func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Pool, error) {
@@ -70,4 +71,32 @@ func UpdatePoolMembers(pSc *client.ServiceClient, pOpts IUpdatePoolMembersOptsBu
 	}
 
 	return nil
+}
+
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Pool, error) {
+	response := NewGetResponse()
+	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToPoolObject(), nil
+}
+
+func GetMember(pSc *client.ServiceClient, pOpts IGetMemberOptsBuilder) ([]*objects.Member, error) {
+	response := NewGetMemberResponse()
+	_, err := pSc.Get(getMemberURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListMemberObject(), nil
 }
