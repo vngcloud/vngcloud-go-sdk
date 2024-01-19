@@ -7,3 +7,11 @@ func NewCreateResponse() ICreateResponse {
 func NewListPoolsBasedLoadBalancerResponse() IListPoolsBasedLoadBalancerResponse {
 	return &ListPoolsBasedLoadBalancerResponse{}
 }
+
+func NewGetResponse() IGetResponse {
+	return &GetResponse{}
+}
+
+func NewGetMemberResponse() IGetMemberResponse {
+	return &GetMemberResponse{}
+}

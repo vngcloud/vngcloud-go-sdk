@@ -11,3 +11,11 @@ type ICreateResponse interface {
 type IListPoolsBasedLoadBalancerResponse interface {
 	ToListPoolObjects() []*objects.Pool
 }
+
+type IGetResponse interface {
+	ToPoolObject() *objects.Pool
+}
+
+type IGetMemberResponse interface {
+	ToListMemberObject() []*objects.Member
+}

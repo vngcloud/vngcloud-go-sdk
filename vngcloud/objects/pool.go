@@ -13,9 +13,19 @@ type Pool struct {
 }
 
 type Member struct {
-	Address string
-	Backup  bool
-	Status  string
-	Name    string
-	UUID    string
+	UUID           string
+	Address        string
+	ProtocolPort   int
+	Weight         int
+	MonitorPort    int
+	SubnetID       string
+	Name           string
+	PoolID         string
+	TypeCreate     string
+	Backup         bool
+	DisplayStatus  string
+	CreatedAt      string
+	UpdatedAt      string
+	CreatedBy      string
+	ProgressStatus string
 }

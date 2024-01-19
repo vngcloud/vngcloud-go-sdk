@@ -134,3 +134,15 @@ type UpdatePoolMembersOpts struct {
 func (s *UpdatePoolMembersOpts) ToRequestBody() interface{} {
 	return s
 }
+
+type GetOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.PoolV2Common
+}
+
+type GetMemberOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.PoolV2Common
+}
