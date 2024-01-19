@@ -98,3 +98,43 @@ func (s *CreateResponse) ToPolicyObject() *objects.Policy {
 		UUID: s.UUID,
 	}
 }
+
+type GetResponse struct {
+	Data ResponseData `json:"data"`
+}
+
+func (s *GetResponse) ToPolicyObject() *objects.Policy {
+	if s == nil {
+		return nil
+	}
+
+	l7rule := make([]*objects.L7Rule, 0)
+	for _, itemL7 := range s.Data.L7Rules {
+		l7rule = append(l7rule, &objects.L7Rule{
+			UUID:               itemL7.UUID,
+			CompareType:        itemL7.CompareType,
+			RuleValue:          itemL7.RuleValue,
+			RuleType:           itemL7.RuleType,
+			ProvisioningStatus: itemL7.ProvisioningStatus,
+			OperatingStatus:    itemL7.OperatingStatus,
+		})
+	}
+
+	return &objects.Policy{
+		UUID:             s.Data.UUID,
+		Name:             s.Data.Name,
+		Description:      s.Data.Description,
+		RedirectPoolID:   s.Data.RedirectPoolID,
+		RedirectPoolName: s.Data.RedirectPoolName,
+		Action:           s.Data.Action,
+		RedirectURL:      s.Data.RedirectURL,
+		RedirectHTTPCode: s.Data.RedirectHTTPCode,
+		KeepQueryString:  s.Data.KeepQueryString,
+		Position:         s.Data.Position,
+		L7Rules:          l7rule,
+		DisplayStatus:    s.Data.DisplayStatus,
+		CreatedAt:        s.Data.CreatedAt,
+		UpdatedAt:        s.Data.UpdatedAt,
+		ProgressStatus:   s.Data.ProgressStatus,
+	}
+}

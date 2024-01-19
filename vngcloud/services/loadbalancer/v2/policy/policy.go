@@ -60,3 +60,17 @@ func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) error {
 
 	return nil
 }
+
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Policy, error) {
+	response := NewGetResponse()
+	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToPolicyObject(), nil
+}

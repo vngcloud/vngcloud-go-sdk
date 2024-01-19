@@ -154,3 +154,10 @@ func (s *UpdateOptsBuilder) ToRequestBody() interface{} {
 	}
 	return nil
 }
+
+type GetOptsBuilder struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.ListenerV2Common
+	lbCm.PolicyV2Common
+}
