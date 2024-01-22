@@ -92,3 +92,19 @@ func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBal
 
 	return response.ToListLoadBalancerObjects(), nil
 }
+
+func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) (*objects.LoadBalancer, error) {
+	response := NewUpdateResponse()
+	body := pOpts.ToRequestBody()
+	_, err := pSc.Put(updateURL(pSc, pOpts), &client.RequestOpts{
+		JSONBody:     body,
+		JSONResponse: response,
+		OkCodes:      []int{202},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToLoadBalancerObject(), nil
+}

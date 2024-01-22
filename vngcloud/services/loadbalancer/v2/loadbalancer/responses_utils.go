@@ -16,3 +16,7 @@ func NewListBySubnetIDResponse() []*ListBySubnetIDResponse {
 func NewListResponse() IListResponse {
 	return &ListResponse{}
 }
+
+func NewUpdateResponse() IUpdateResponse {
+	return &UpdateResponse{}
+}

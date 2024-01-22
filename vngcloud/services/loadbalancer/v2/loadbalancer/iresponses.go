@@ -15,3 +15,9 @@ type IListResponse interface {
 type ICommonResponse interface {
 	ToLoadBalancerObject() *objects.LoadBalancer
 }
+
+// ********************************************** Response of Update API ***********************************************
+
+type IUpdateResponse interface {
+	ToLoadBalancerObject() *objects.LoadBalancer
+}

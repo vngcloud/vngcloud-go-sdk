@@ -37,7 +37,7 @@ func TestListBySubnetID(t *testing.T) {
 		provider,
 		"vlb")
 
-	opt := new(ListBySubnetIDOptsBuilder)
+	opt := new(ListBySubnetIDOpts)
 	opt.ProjectID = projectID
 	opt.SubnetID = subnetID
 
