@@ -43,6 +43,7 @@ func NewSC() *client.ServiceClient {
 		"vlb")
 	return vlb
 }
+
 func TestCreateListener(t *testing.T) {
 	vlb := NewSC()
 
@@ -55,6 +56,33 @@ func TestCreateListener(t *testing.T) {
 		TimeoutClient:        100,
 		TimeoutConnection:    100,
 		TimeoutMember:        100,
+	}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+
+	resp, err := Create(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
+}
+
+func TestCreateTLSListener(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &CreateOpts{
+		AllowedCidrs:                "0.0.0.0/0",
+		DefaultPoolId:               defaultPoolID,
+		ListenerName:                "annd2_test_listener",
+		ListenerProtocol:            CreateOptsListenerProtocolOptHTTPS,
+		ListenerProtocolPort:        445,
+		TimeoutClient:               100,
+		TimeoutConnection:           100,
+		TimeoutMember:               100,
+		CertificateAuthorities:      &[]string{"secret-xxxxxxxxxxxxx", "secret-yyyyyyyyyyyyyyy"},
+		ClientCertificate:           PointerOf(""),
+		DefaultCertificateAuthority: PointerOf("secret-xxxxxxxxxxxxx"),
 	}
 	opt.ProjectID = projectID
 	opt.LoadBalancerID = lbID

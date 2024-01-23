@@ -28,11 +28,24 @@ type CreateOpts struct {
 	TimeoutConnection    int                           `json:"timeoutConnection"`
 	TimeoutMember        int                           `json:"timeoutMember"`
 
+	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
+	ClientCertificate           *string   `json:"clientCertificate"`
+	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
+
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
 
 func (s *CreateOpts) ToRequestBody() interface{} {
+	if s == nil {
+		return nil
+	}
+	if s.ListenerProtocol == CreateOptsListenerProtocolOptHTTPS {
+		return s
+	}
+	s.CertificateAuthorities = nil
+	s.ClientCertificate = nil
+	s.DefaultCertificateAuthority = nil
 	return s
 }
 
