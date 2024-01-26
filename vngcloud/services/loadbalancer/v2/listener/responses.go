@@ -14,7 +14,7 @@ func (s *CreateResponse) ToListenerObject() *objects.Listener {
 	}
 
 	return &objects.Listener{
-		ID: s.UUID,
+		UUID: s.UUID,
 	}
 }
 
@@ -54,12 +54,26 @@ func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*objects.Listene
 
 	for _, itemListener := range s.Data {
 		listeners = append(listeners, &objects.Listener{
-			ID:              itemListener.UUID,
-			Name:            itemListener.Name,
-			Protocol:        itemListener.Protocol,
-			ProtocolPort:    itemListener.ProtocolPort,
-			Status:          itemListener.DisplayStatus,
-			DefaultPoolUUID: itemListener.DefaultPoolId,
+			UUID:                            itemListener.UUID,
+			Name:                            itemListener.Name,
+			Description:                     itemListener.Description,
+			Protocol:                        itemListener.Protocol,
+			ProtocolPort:                    itemListener.ProtocolPort,
+			ConnectionLimit:                 itemListener.ConnectionLimit,
+			DefaultPoolId:                   itemListener.DefaultPoolId,
+			DefaultPoolName:                 itemListener.DefaultPoolName,
+			TimeoutClient:                   itemListener.TimeoutClient,
+			TimeoutMember:                   itemListener.TimeoutMember,
+			TimeoutConnection:               itemListener.TimeoutConnection,
+			AllowedCidrs:                    itemListener.AllowedCidrs,
+			Headers:                         itemListener.Headers,
+			CertificateAuthorities:          itemListener.CertificateAuthorities,
+			DisplayStatus:                   itemListener.DisplayStatus,
+			CreatedAt:                       itemListener.CreatedAt,
+			UpdatedAt:                       itemListener.UpdatedAt,
+			DefaultCertificateAuthority:     itemListener.DefaultCertificateAuthority,
+			ClientCertificateAuthentication: itemListener.ClientCertificateAuthentication,
+			ProgressStatus:                  itemListener.ProgressStatus,
 		})
 	}
 	return listeners
