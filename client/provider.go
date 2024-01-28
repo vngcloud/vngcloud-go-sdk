@@ -16,6 +16,7 @@ type (
 	ProviderClient struct {
 		IdentityEndpoint string
 		AccessToken      string
+		UserAgent        string
 		HTTPClient       *req.Client
 		ReauthFunc       func() error
 		ThrowAway        bool
@@ -62,6 +63,10 @@ func (s *ProviderClient) SetThrowaway(pIsThrowAway bool) {
 		defer s.reauthmut.Unlock()
 	}
 	s.ThrowAway = pIsThrowAway
+}
+
+func (s *ProviderClient) SetUserAgent(pUserAgent string) {
+	s.UserAgent = pUserAgent
 }
 
 func (s *ProviderClient) IsThrowAway() bool {
@@ -111,12 +116,16 @@ func (s *ProviderClient) SetAccessToken(pNewAccessToken string) {
 }
 
 func (s *ProviderClient) getDefaultHeaders() map[string]string {
-	authorization := "Bearer " + s.AccessToken
-	contentType := "application/json"
-	return map[string]string{
-		"Authorization": authorization,
-		"Content-Type":  contentType,
+	headers := map[string]string{
+		"Authorization": "Bearer " + s.AccessToken,
+		"Content-Type":  "application/json",
 	}
+
+	if s.UserAgent != "" {
+		headers["User-Agent"] = s.UserAgent
+	}
+
+	return headers
 }
 
 func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*req.Response, error) {
