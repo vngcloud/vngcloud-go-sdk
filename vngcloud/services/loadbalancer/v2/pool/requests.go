@@ -45,8 +45,8 @@ type (
 		Algorithm     CreateOptsAlgorithmOpt `json:"algorithm"`
 		PoolName      string                 `json:"poolName"`
 		PoolProtocol  CreateOptsProtocolOpt  `json:"poolProtocol"`
-		Stickiness    bool                   `json:"stickiness"`
-		TLSEncryption bool                   `json:"tlsEncryption"`
+		Stickiness    *bool                  `json:"stickiness"`
+		TLSEncryption *bool                  `json:"tlsEncryption"`
 		HealthMonitor HealthMonitor          `json:"healthMonitor"`
 		Members       []Member               `json:"members"`
 
@@ -86,6 +86,8 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 		s.HealthMonitor.SuccessCode = nil
 		s.HealthMonitor.HealthCheckMethod = nil
 		s.HealthMonitor.DomainName = nil
+		s.Stickiness = nil
+		s.TLSEncryption = nil
 
 	case CreateOptsHealthCheckProtocolOptHTTP, CreateOptsHealthCheckProtocolOptHTTPs:
 		if s.HealthMonitor.HttpVersion != nil {
