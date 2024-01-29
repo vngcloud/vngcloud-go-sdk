@@ -17,6 +17,7 @@ func PointerOf[T any](t T) *T {
 var (
 	projectID     = ""
 	lbID          = ""
+	listenerID    = ""
 	defaultPoolID = ""
 )
 
@@ -108,4 +109,27 @@ func TestGetBasedLoadBalancer(t *testing.T) {
 	}
 
 	fmt.Printf("resp: %+v\n", resp)
+	for _, item := range resp {
+		fmt.Printf("item: %+v\n", item)
+	}
+}
+
+func TestUpdateListener(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &UpdateOpts{
+		AllowedCidrs:      "0.0.0.0/0",
+		DefaultPoolId:     "",
+		TimeoutClient:     100,
+		TimeoutConnection: 100,
+		TimeoutMember:     100,
+	}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.ListenerID = listenerID
+
+	err := Update(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
 }
