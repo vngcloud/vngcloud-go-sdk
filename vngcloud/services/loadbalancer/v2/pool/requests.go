@@ -86,8 +86,6 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 		s.HealthMonitor.SuccessCode = nil
 		s.HealthMonitor.HealthCheckMethod = nil
 		s.HealthMonitor.DomainName = nil
-		s.Stickiness = nil
-		s.TLSEncryption = nil
 
 	case CreateOptsHealthCheckProtocolOptHTTP, CreateOptsHealthCheckProtocolOptHTTPs:
 		if s.HealthMonitor.HttpVersion != nil {
