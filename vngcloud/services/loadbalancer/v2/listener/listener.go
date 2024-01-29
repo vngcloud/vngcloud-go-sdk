@@ -46,3 +46,17 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 
 	return nil
 }
+
+func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) error {
+	body := pOpts.ToRequestBody()
+	_, err := pSc.Put(updateURL(pSc, pOpts), &client.RequestOpts{
+		JSONBody: body,
+		OkCodes:  []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

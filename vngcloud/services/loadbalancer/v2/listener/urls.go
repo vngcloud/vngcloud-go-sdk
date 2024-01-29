@@ -26,3 +26,12 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		"listeners",
 		pOpts.GetListenerID())
 }
+
+func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"listeners",
+		pOpts.GetListenerID())
+}
