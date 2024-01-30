@@ -12,3 +12,10 @@ type GetOpts struct {
 	common.CommonOpts
 	lNetworkCommonV2.NetworkV2Common
 }
+
+// ************************************************** ListByNetworkID **************************************************
+
+type ListByNetworkIDOpts struct {
+	common.CommonOpts
+	lNetworkCommonV2.NetworkV2Common
+}

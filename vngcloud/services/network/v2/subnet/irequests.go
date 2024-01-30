@@ -5,3 +5,8 @@ type IGetOptsBuilder interface {
 	GetProjectID() string
 	GetNetworkUUID() string
 }
+
+type IListByNetworkIDOptsBuilder interface {
+	GetNetworkUUID() string
+	GetProjectID() string
+}
