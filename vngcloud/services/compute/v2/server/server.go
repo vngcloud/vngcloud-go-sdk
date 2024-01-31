@@ -18,12 +18,3 @@ func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error
 
 	return response.ToServerObject(), nil
 }
-
-func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) error {
-	_, err := sc.Delete(deleteServerURL(sc, opts), &client.RequestOpts{
-		JSONBody: opts.ToRequestBody(),
-		OkCodes:  []int{202},
-	})
-
-	return err
-}
