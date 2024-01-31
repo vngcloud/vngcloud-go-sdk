@@ -1,19 +1,13 @@
 package server
 
-type GetOptsBuilder interface {
-	ExtractProjectID() string
-	ExtractInstanceID() string
-}
+import (
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
+	lServerV2 "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/compute/v2"
+)
 
-type GetServerOpts struct {
-	InstanceID string
-	ProjectID  string
-}
+// ************************************************** GetOptsBuilder ***************************************************
 
-func (s GetServerOpts) ExtractProjectID() string {
-	return s.ProjectID
-}
-
-func (s GetServerOpts) ExtractInstanceID() string {
-	return s.InstanceID
+type GetOpts struct {
+	common.CommonOpts
+	lServerV2.ServerV2Common
 }
