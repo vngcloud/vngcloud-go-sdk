@@ -5,8 +5,8 @@ import (
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func Get(sc *client.ServiceClient, opts GetOptsBuilder) (*objects.Server, error) {
-	var response *objects.Server
+func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error) {
+	response := NewGetResponse()
 	_, err := sc.Get(getServerURL(sc, opts), &client.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
@@ -16,5 +16,5 @@ func Get(sc *client.ServiceClient, opts GetOptsBuilder) (*objects.Server, error)
 		return nil, err
 	}
 
-	return response, nil
+	return response.ToServerObject(), nil
 }
