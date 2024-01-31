@@ -14,4 +14,5 @@ type Cloud struct {
 	IamGatewayURL           string `yaml:"iam_gateway_url,omitempty" json:"iam_gateway_url,omitempty"`
 	ClienID                 string `yaml:"client_id,omitempty" json:"client_id,omitempty"`
 	ClientSecret            string `yaml:"client_secret,omitempty" json:"client_secret,omitempty"`
+	DatabaseDSN             string `yaml:"database_dsn,omitempty" json:"database_dsn,omitempty"`
 }
