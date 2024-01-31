@@ -15,4 +15,5 @@ type Cloud struct {
 	ClienID                 string `yaml:"client_id,omitempty" json:"client_id,omitempty"`
 	ClientSecret            string `yaml:"client_secret,omitempty" json:"client_secret,omitempty"`
 	DatabaseDSN             string `yaml:"database_dsn,omitempty" json:"database_dsn,omitempty"`
+	CacheExpireIn           int    `yaml:"cache_expire_in,omitempty" json:"cache_expire_in,omitempty"`
 }
