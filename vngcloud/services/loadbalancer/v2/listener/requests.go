@@ -63,3 +63,23 @@ type DeleteOpts struct {
 	lbCm.LoadBalancerV2Common
 	lbCm.ListenerV2Common
 }
+
+type UpdateOpts struct {
+	AllowedCidrs                string   `json:"allowedCidrs"`
+	DefaultPoolId               string   `json:"defaultPoolId"`
+	TimeoutClient               int      `json:"timeoutClient"`
+	TimeoutConnection           int      `json:"timeoutConnection"`
+	TimeoutMember               int      `json:"timeoutMember"`
+	Headers                     []string `json:"headers"`
+	ClientCertificate           *string  `json:"clientCertificate"`
+	DefaultCertificateAuthority *string  `json:"defaultCertificateAuthority"`
+	// CertificateAuthorities      *[]string `json:"certificateAuthorities"`
+
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.ListenerV2Common
+}
+
+func (s *UpdateOpts) ToRequestBody() interface{} {
+	return s
+}
