@@ -82,7 +82,7 @@ type (
 )
 
 type GetResponse struct {
-	Server
+	Data Server `json:"data"`
 }
 
 func (s *GetResponse) ToServerObject() *objects.Server {
@@ -91,57 +91,57 @@ func (s *GetResponse) ToServerObject() *objects.Server {
 	}
 
 	server := new(objects.Server)
-	server.BootVolumeId = s.BootVolumeId
-	server.CreatedAt = s.CreatedAt
-	server.EncryptionVolume = s.EncryptionVolume
-	server.Licence = s.Licence
-	server.Location = s.Location
-	server.Metadata = s.Metadata
-	server.MigrateState = s.MigrateState
-	server.Name = s.Name
-	server.Product = s.Product
-	server.ServerGroupId = s.ServerGroupId
-	server.ServerGroupName = s.ServerGroupName
-	server.SshKeyName = s.SshKeyName
-	server.Status = s.Status
-	server.StopBeforeMigrate = s.StopBeforeMigrate
-	server.User = s.User
-	server.Uuid = s.Uuid
+	server.BootVolumeId = s.Data.BootVolumeId
+	server.CreatedAt = s.Data.CreatedAt
+	server.EncryptionVolume = s.Data.EncryptionVolume
+	server.Licence = s.Data.Licence
+	server.Location = s.Data.Location
+	server.Metadata = s.Data.Metadata
+	server.MigrateState = s.Data.MigrateState
+	server.Name = s.Data.Name
+	server.Product = s.Data.Product
+	server.ServerGroupId = s.Data.ServerGroupId
+	server.ServerGroupName = s.Data.ServerGroupName
+	server.SshKeyName = s.Data.SshKeyName
+	server.Status = s.Data.Status
+	server.StopBeforeMigrate = s.Data.StopBeforeMigrate
+	server.User = s.Data.User
+	server.Uuid = s.Data.Uuid
 	server.Image = objects.Image{
-		FlavorZoneIds: s.Image.FlavorZoneIds,
-		Id:            s.Image.Id,
-		ImageType:     s.Image.ImageType,
-		ImageVersion:  s.Image.ImageVersion,
-		Licence:       s.Image.Licence,
+		FlavorZoneIds: s.Data.Image.FlavorZoneIds,
+		Id:            s.Data.Image.Id,
+		ImageType:     s.Data.Image.ImageType,
+		ImageVersion:  s.Data.Image.ImageVersion,
+		Licence:       s.Data.Image.Licence,
 		PackageLimit: objects.PackageLimit{
-			Cpu:      s.Image.PackageLimit.Cpu,
-			DiskSize: s.Image.PackageLimit.DiskSize,
-			Memory:   s.Image.PackageLimit.Memory,
+			Cpu:      s.Data.Image.PackageLimit.Cpu,
+			DiskSize: s.Data.Image.PackageLimit.DiskSize,
+			Memory:   s.Data.Image.PackageLimit.Memory,
 		},
 	}
 	server.Flavor = objects.Flavor{
-		Bandwidth:              s.Flavor.Bandwidth,
-		BandwidthUnit:          s.Flavor.BandwidthUnit,
-		Cpu:                    s.Flavor.Cpu,
-		CpuPlatformDescription: s.Flavor.CpuPlatformDescription,
-		FlavorId:               s.Flavor.FlavorId,
-		Gpu:                    s.Flavor.Gpu,
-		Group:                  s.Flavor.Group,
-		Memory:                 s.Flavor.Memory,
-		MetaData:               s.Flavor.MetaData,
-		Name:                   s.Flavor.Name,
-		RemainingVms:           s.Flavor.RemainingVms,
-		ZoneId:                 s.Flavor.ZoneId,
+		Bandwidth:              s.Data.Flavor.Bandwidth,
+		BandwidthUnit:          s.Data.Flavor.BandwidthUnit,
+		Cpu:                    s.Data.Flavor.Cpu,
+		CpuPlatformDescription: s.Data.Flavor.CpuPlatformDescription,
+		FlavorId:               s.Data.Flavor.FlavorId,
+		Gpu:                    s.Data.Flavor.Gpu,
+		Group:                  s.Data.Flavor.Group,
+		Memory:                 s.Data.Flavor.Memory,
+		MetaData:               s.Data.Flavor.MetaData,
+		Name:                   s.Data.Flavor.Name,
+		RemainingVms:           s.Data.Flavor.RemainingVms,
+		ZoneId:                 s.Data.Flavor.ZoneId,
 	}
 
-	for _, secGroup := range s.SecGroups {
+	for _, secGroup := range s.Data.SecGroups {
 		server.SecGroups = append(server.SecGroups, objects.ServerSecGroup{
 			Name: secGroup.Name,
 			Uuid: secGroup.Uuid,
 		})
 	}
 
-	for _, externalInterface := range s.ExternalInterfaces {
+	for _, externalInterface := range s.Data.ExternalInterfaces {
 		server.ExternalInterfaces = append(server.ExternalInterfaces, objects.NetworkInterface{
 			CreatedAt:     externalInterface.CreatedAt,
 			FixedIp:       externalInterface.FixedIp,
@@ -161,7 +161,110 @@ func (s *GetResponse) ToServerObject() *objects.Server {
 		})
 	}
 
-	for _, internalInterface := range s.InternalInterfaces {
+	for _, internalInterface := range s.Data.InternalInterfaces {
+		server.InternalInterfaces = append(server.InternalInterfaces, objects.NetworkInterface{
+			CreatedAt:     internalInterface.CreatedAt,
+			FixedIp:       internalInterface.FixedIp,
+			FloatingIp:    internalInterface.FloatingIp,
+			FloatingIpId:  internalInterface.FloatingIpId,
+			InterfaceType: internalInterface.InterfaceType,
+			Mac:           internalInterface.Mac,
+			NetworkUuid:   internalInterface.NetworkUuid,
+			PortUuid:      internalInterface.PortUuid,
+			Product:       internalInterface.Product,
+			ServerUuid:    internalInterface.ServerUuid,
+			Status:        internalInterface.Status,
+			SubnetUuid:    internalInterface.SubnetUuid,
+			Type:          internalInterface.Type,
+			UpdatedAt:     internalInterface.UpdatedAt,
+			Uuid:          internalInterface.Uuid,
+		})
+	}
+
+	return server
+}
+
+type CreateResponse struct {
+	Data Server `json:"data"`
+}
+
+func (s *CreateResponse) ToServerObject() *objects.Server {
+	if s == nil {
+		return nil
+	}
+
+	server := new(objects.Server)
+	server.BootVolumeId = s.Data.BootVolumeId
+	server.CreatedAt = s.Data.CreatedAt
+	server.EncryptionVolume = s.Data.EncryptionVolume
+	server.Licence = s.Data.Licence
+	server.Location = s.Data.Location
+	server.Metadata = s.Data.Metadata
+	server.MigrateState = s.Data.MigrateState
+	server.Name = s.Data.Name
+	server.Product = s.Data.Product
+	server.ServerGroupId = s.Data.ServerGroupId
+	server.ServerGroupName = s.Data.ServerGroupName
+	server.SshKeyName = s.Data.SshKeyName
+	server.Status = s.Data.Status
+	server.StopBeforeMigrate = s.Data.StopBeforeMigrate
+	server.User = s.Data.User
+	server.Uuid = s.Data.Uuid
+	server.Image = objects.Image{
+		FlavorZoneIds: s.Data.Image.FlavorZoneIds,
+		Id:            s.Data.Image.Id,
+		ImageType:     s.Data.Image.ImageType,
+		ImageVersion:  s.Data.Image.ImageVersion,
+		Licence:       s.Data.Image.Licence,
+		PackageLimit: objects.PackageLimit{
+			Cpu:      s.Data.Image.PackageLimit.Cpu,
+			DiskSize: s.Data.Image.PackageLimit.DiskSize,
+			Memory:   s.Data.Image.PackageLimit.Memory,
+		},
+	}
+	server.Flavor = objects.Flavor{
+		Bandwidth:              s.Data.Flavor.Bandwidth,
+		BandwidthUnit:          s.Data.Flavor.BandwidthUnit,
+		Cpu:                    s.Data.Flavor.Cpu,
+		CpuPlatformDescription: s.Data.Flavor.CpuPlatformDescription,
+		FlavorId:               s.Data.Flavor.FlavorId,
+		Gpu:                    s.Data.Flavor.Gpu,
+		Group:                  s.Data.Flavor.Group,
+		Memory:                 s.Data.Flavor.Memory,
+		MetaData:               s.Data.Flavor.MetaData,
+		Name:                   s.Data.Flavor.Name,
+		RemainingVms:           s.Data.Flavor.RemainingVms,
+		ZoneId:                 s.Data.Flavor.ZoneId,
+	}
+
+	for _, secGroup := range s.Data.SecGroups {
+		server.SecGroups = append(server.SecGroups, objects.ServerSecGroup{
+			Name: secGroup.Name,
+			Uuid: secGroup.Uuid,
+		})
+	}
+
+	for _, externalInterface := range s.Data.ExternalInterfaces {
+		server.ExternalInterfaces = append(server.ExternalInterfaces, objects.NetworkInterface{
+			CreatedAt:     externalInterface.CreatedAt,
+			FixedIp:       externalInterface.FixedIp,
+			FloatingIp:    externalInterface.FloatingIp,
+			FloatingIpId:  externalInterface.FloatingIpId,
+			InterfaceType: externalInterface.InterfaceType,
+			Mac:           externalInterface.Mac,
+			NetworkUuid:   externalInterface.NetworkUuid,
+			PortUuid:      externalInterface.PortUuid,
+			Product:       externalInterface.Product,
+			ServerUuid:    externalInterface.ServerUuid,
+			Status:        externalInterface.Status,
+			SubnetUuid:    externalInterface.SubnetUuid,
+			Type:          externalInterface.Type,
+			UpdatedAt:     externalInterface.UpdatedAt,
+			Uuid:          externalInterface.Uuid,
+		})
+	}
+
+	for _, internalInterface := range s.Data.InternalInterfaces {
 		server.InternalInterfaces = append(server.InternalInterfaces, objects.NetworkInterface{
 			CreatedAt:     internalInterface.CreatedAt,
 			FixedIp:       internalInterface.FixedIp,

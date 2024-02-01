@@ -14,3 +14,9 @@ func NewDeleteOpts(pProjectID, pServerID string, pDeleteAllVolume bool) IDeleteO
 	opts.DeleteAllVolume = pDeleteAllVolume
 	return opts
 }
+
+func NewCreateOpts(pProjectID string, pOpts *CreateOpts) ICreateOptsBuilder {
+	opts := new(CreateOpts)
+	opts.ProjectID = pProjectID
+	return opts
+}

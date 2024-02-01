@@ -27,3 +27,18 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) error {
 
 	return err
 }
+
+func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, error) {
+	response := NewCreateResponse()
+	_, err := sc.Post(createServerURL(sc, opts), &client.RequestOpts{
+		JSONBody:     opts.ToRequestBody(),
+		JSONResponse: response,
+		OkCodes:      []int{202},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToServerObject(), nil
+}
