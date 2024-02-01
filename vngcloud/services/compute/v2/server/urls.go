@@ -1,6 +1,8 @@
 package server
 
-import "github.com/vngcloud/vngcloud-go-sdk/client"
+import (
+	"github.com/vngcloud/vngcloud-go-sdk/client"
+)
 
 func getServerURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
 	return pSc.ServiceURL(
