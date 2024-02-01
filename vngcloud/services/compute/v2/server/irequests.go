@@ -10,3 +10,8 @@ type IDeleteOptsBuilder interface {
 	GetProjectID() string
 	ToRequestBody() interface{}
 }
+
+type ICreateOptsBuilder interface {
+	GetProjectID() string
+	ToRequestBody() interface{}
+}

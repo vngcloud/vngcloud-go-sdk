@@ -17,3 +17,9 @@ func deleteServerURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string
 		"servers",
 		pOpts.GetServerID())
 }
+
+func createServerURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"servers")
+}
