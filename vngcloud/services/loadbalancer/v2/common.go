@@ -31,3 +31,11 @@ type PolicyV2Common struct {
 func (s *PolicyV2Common) GetPolicyID() string {
 	return s.PolicyID
 }
+
+type CertificateV2Common struct {
+	CaID string
+}
+
+func (s *CertificateV2Common) GetCertificateID() string {
+	return s.CaID
+}
