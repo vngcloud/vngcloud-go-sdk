@@ -15,3 +15,11 @@ type NetworkV2Common struct {
 func (s *NetworkV2Common) GetNetworkUUID() string {
 	return s.CommonNetworkUUID
 }
+
+type SecgroupRuleV2Common struct {
+	SecgroupRuleUUID string
+}
+
+func (s *SecgroupRuleV2Common) GetRuleUUID() string {
+	return s.SecgroupRuleUUID
+}

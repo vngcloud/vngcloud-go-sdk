@@ -43,3 +43,9 @@ type CreateOpts struct {
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
 }
+
+type DeleteOpts struct {
+	common.CommonOpts
+	lSecgroupCommonV2.SecgroupV2Common
+	lSecgroupCommonV2.SecgroupRuleV2Common
+}
