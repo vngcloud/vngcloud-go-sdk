@@ -20,3 +20,11 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Secgr
 
 	return response.ToSecgroupRuleObject(), nil
 }
+
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes: []int{204}},
+	)
+
+	return err
+}

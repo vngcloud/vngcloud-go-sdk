@@ -5,3 +5,9 @@ type ICreateOptsBuilder interface {
 	ToRequestBody() interface{}
 	GetSecgroupUUID() string
 }
+
+type IDeleteOptsBuilder interface {
+	GetProjectID() string
+	GetSecgroupUUID() string
+	GetRuleUUID() string
+}
