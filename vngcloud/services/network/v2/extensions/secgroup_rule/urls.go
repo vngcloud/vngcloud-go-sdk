@@ -18,3 +18,11 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		"secgroupRules",
 		pOpts.GetRuleUUID())
 }
+
+func listRulesURL(pSc *client.ServiceClient, pOpts IListRulesBySecgroupIDOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"secgroups",
+		pOpts.GetSecgroupUUID(),
+		"secgroupRules")
+}

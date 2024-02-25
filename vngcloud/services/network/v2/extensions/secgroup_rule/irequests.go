@@ -11,3 +11,8 @@ type IDeleteOptsBuilder interface {
 	GetSecgroupUUID() string
 	GetRuleUUID() string
 }
+
+type IListRulesBySecgroupIDOptsBuilder interface {
+	GetProjectID() string
+	GetSecgroupUUID() string
+}
