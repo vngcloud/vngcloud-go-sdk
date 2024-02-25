@@ -49,3 +49,8 @@ type DeleteOpts struct {
 	lSecgroupCommonV2.SecgroupV2Common
 	lSecgroupCommonV2.SecgroupRuleV2Common
 }
+
+type ListRulesBySecgroupIDOpts struct {
+	common.CommonOpts
+	lSecgroupCommonV2.SecgroupV2Common
+}

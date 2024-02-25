@@ -28,3 +28,17 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 
 	return err
 }
+
+func ListRulesBySecgroupID(pSc *client.ServiceClient, pOpts IListRulesBySecgroupIDOptsBuilder) ([]*objects.SecgroupRule, error) {
+	response := NewListRulesBySecgroupIDResponse()
+	_, err := pSc.Get(listRulesURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListSecgroupRules(), nil
+}

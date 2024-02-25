@@ -12,3 +12,10 @@ func NewDeleteOpts(pProjectID string, pSecgroupUUID string, pRuleUUID string) ID
 	opts.SecgroupRuleUUID = pRuleUUID
 	return opts
 }
+
+func NewListRulesBySecgroupIDOpts(pProjectID, pSecgroupUUID string) IListRulesBySecgroupIDOptsBuilder {
+	opts := new(ListRulesBySecgroupIDOpts)
+	opts.ProjectID = pProjectID
+	opts.SecgroupUUID = pSecgroupUUID
+	return opts
+}
