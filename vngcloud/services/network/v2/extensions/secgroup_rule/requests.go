@@ -22,8 +22,9 @@ const (
 )
 
 const (
-	CreateOptsProtocolOptTCP CreateOptsProtocolOpt = "tcp"
-	CreateOptsProtocolOptUDP CreateOptsProtocolOpt = "udp"
+	CreateOptsProtocolOptTCP    CreateOptsProtocolOpt = "tcp"
+	CreateOptsProtocolOptUDP    CreateOptsProtocolOpt = "udp"
+	CreateOptsProtocolOptIpInIp CreateOptsProtocolOpt = "4"
 )
 
 type CreateOpts struct {
