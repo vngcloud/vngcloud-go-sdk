@@ -24,5 +24,5 @@ func listRulesURL(pSc *client.ServiceClient, pOpts IListRulesBySecgroupIDOptsBui
 		pOpts.GetProjectID(),
 		"secgroups",
 		pOpts.GetSecgroupUUID(),
-		"secgroupRules")
+		"secGroupRules")
 }
