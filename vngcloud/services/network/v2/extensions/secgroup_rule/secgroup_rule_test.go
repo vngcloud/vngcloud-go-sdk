@@ -12,7 +12,7 @@ import (
 
 var (
 	projectID  = ""
-	secgroupID = "secg"
+	secgroupID = ""
 )
 
 func NewSC() *client.ServiceClient {
@@ -47,6 +47,28 @@ func TestListBySecgroupID(t *testing.T) {
 	opt.SecgroupUUID = secgroupID
 
 	resp, err := ListRulesBySecgroupID(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("%+v\n", resp)
+}
+
+func TestCreateRule(t *testing.T) {
+	vlb := NewSC()
+
+	opt := NewCreateOpts(projectID, secgroupID, &CreateOpts{
+		Description:     "test",
+		Direction:       "ingress",
+		EtherType:       "IPv4",
+		PortRangeMax:    8080,
+		PortRangeMin:    8080,
+		Protocol:        "tcp",
+		RemoteIPPrefix:  "0.0.0.0/0",
+		SecurityGroupID: secgroupID,
+	})
+
+	resp, err := Create(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}

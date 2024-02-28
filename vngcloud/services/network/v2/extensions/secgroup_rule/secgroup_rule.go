@@ -1,6 +1,7 @@
 package secgroup_rule
 
 import (
+	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
@@ -8,6 +9,7 @@ import (
 func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.SecgroupRule, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
+	fmt.Println("The url is ", createURL(pSc, pOpts))
 	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
