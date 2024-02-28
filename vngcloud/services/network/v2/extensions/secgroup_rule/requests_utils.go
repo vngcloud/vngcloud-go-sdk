@@ -1,7 +1,8 @@
 package secgroup_rule
 
-func NewCreateOpts(pProjectID string, pOpts *CreateOpts) ICreateOptsBuilder {
+func NewCreateOpts(pProjectID string, pSecgroupUUID string, pOpts *CreateOpts) ICreateOptsBuilder {
 	pOpts.ProjectID = pProjectID
+	pOpts.SecgroupUUID = pSecgroupUUID
 	return pOpts
 }
 
