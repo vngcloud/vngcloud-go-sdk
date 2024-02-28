@@ -6,16 +6,18 @@ import (
 )
 
 func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.SecgroupRule, error) {
+	errorResolver := new(ErrorResolver)
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
 	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
+		JSONError:    errorResolver,
 		OkCodes:      []int{201},
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, errorResolver.ToError()
 	}
 
 	return response.ToSecgroupRuleObject(), nil
