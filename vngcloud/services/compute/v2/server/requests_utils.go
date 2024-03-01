@@ -20,3 +20,24 @@ func NewCreateOpts(pProjectID string, pOpts *CreateOpts) ICreateOptsBuilder {
 	opts.ProjectID = pProjectID
 	return opts
 }
+
+func NewListOpts(pProjectID, pName string, pPage, pSize int) IListOptsBuilder {
+	opts := new(ListOpts)
+	opts.ProjectID = pProjectID
+	opts.Name = pName
+	opts.Page = func(page int) int {
+		if page < 1 {
+			return 1
+		}
+		return page
+	}(pPage)
+
+	opts.Size = func(size int) int {
+		if size < 1 {
+			return 10
+		}
+		return size
+	}(pSize)
+
+	return opts
+}

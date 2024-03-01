@@ -9,3 +9,7 @@ type IGetResponse interface {
 type ICreateResponse interface {
 	ToServerObject() *objects.Server
 }
+
+type IListResponse interface {
+	ToServerList() ([]*objects.Server, error)
+}
