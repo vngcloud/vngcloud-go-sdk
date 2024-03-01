@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
@@ -41,4 +42,25 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server,
 	}
 
 	return response.ToServerObject(), nil
+}
+
+func List(sc *client.ServiceClient, opts IListOptsBuilder) ([]*objects.Server, error) {
+	url, err := opts.ToListQuery()
+
+	if err != nil {
+		return nil, err
+	}
+
+	resp := NewListResponse()
+	url = fmt.Sprintf("%s%s", listURL(sc, opts), url)
+	fmt.Println(url)
+	_, err = sc.Get(url, &client.RequestOpts{
+		JSONResponse: resp,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToServerList()
 }

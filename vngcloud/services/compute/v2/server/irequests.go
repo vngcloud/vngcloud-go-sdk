@@ -15,3 +15,8 @@ type ICreateOptsBuilder interface {
 	GetProjectID() string
 	ToRequestBody() interface{}
 }
+
+type IListOptsBuilder interface {
+	GetProjectID() string
+	ToListQuery() (string, error)
+}

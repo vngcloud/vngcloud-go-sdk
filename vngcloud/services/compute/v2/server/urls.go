@@ -23,3 +23,9 @@ func createServerURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string
 		pOpts.GetProjectID(),
 		"servers")
 }
+
+func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"servers")
+}

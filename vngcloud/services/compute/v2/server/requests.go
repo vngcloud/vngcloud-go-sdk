@@ -1,6 +1,7 @@
 package server
 
 import (
+	lParser "github.com/cuongpiger/joat/parser"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lServerV2 "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/compute/v2"
 )
@@ -66,4 +67,23 @@ type CreateOpts struct {
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+type ListOpts struct {
+	Page int    `q:"page"`
+	Size int    `q:"size"`
+	Name string `q:"name"`
+
+	common.CommonOpts
+}
+
+func (s *ListOpts) ToListQuery() (string, error) {
+	parser, _ := lParser.GetParser()
+	url, err := parser.UrlMe(s)
+
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
 }
