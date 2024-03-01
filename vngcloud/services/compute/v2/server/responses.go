@@ -65,7 +65,7 @@ type (
 		Id            string       `json:"id"`
 		ImageType     string       `json:"imageType"`
 		ImageVersion  string       `json:"imageVersion"`
-		Licence       string       `json:"licence"`
+		Licence       bool         `json:"licence"`
 		PackageLimit  PackageLimit `json:"packageLimit"`
 	}
 

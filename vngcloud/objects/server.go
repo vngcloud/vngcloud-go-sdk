@@ -63,7 +63,7 @@ type (
 		Id            string
 		ImageType     string
 		ImageVersion  string
-		Licence       string
+		Licence       bool
 		PackageLimit  PackageLimit
 	}
 
