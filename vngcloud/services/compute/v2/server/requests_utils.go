@@ -16,9 +16,8 @@ func NewDeleteOpts(pProjectID, pServerID string, pDeleteAllVolume bool) IDeleteO
 }
 
 func NewCreateOpts(pProjectID string, pOpts *CreateOpts) ICreateOptsBuilder {
-	opts := new(CreateOpts)
-	opts.ProjectID = pProjectID
-	return opts
+	pOpts.ProjectID = pProjectID
+	return pOpts
 }
 
 func NewListOpts(pProjectID, pName string, pPage, pSize int) IListOptsBuilder {
