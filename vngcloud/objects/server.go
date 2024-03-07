@@ -78,3 +78,12 @@ type (
 		Uuid string
 	}
 )
+
+// Extensions addons
+
+type ServerTag struct {
+	Key       string
+	Value     string
+	CreatedAt string
+	SystemTag bool
+}
