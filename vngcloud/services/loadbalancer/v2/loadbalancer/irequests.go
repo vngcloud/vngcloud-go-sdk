@@ -24,8 +24,8 @@ type IListOptsBuilder interface {
 	GetProjectID() string
 }
 
-type IResizeOptsBuilder interface {
-	GetLoadBalancerID() string
+type IUpdateOptsBuilder interface {
 	GetProjectID() string
+	GetLoadBalancerID() string
 	ToRequestBody() interface{}
 }

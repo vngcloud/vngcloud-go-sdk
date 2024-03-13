@@ -32,7 +32,7 @@ type ResponseData struct {
 	ProgressStatus string `json:"progressStatus"`
 }
 
-// ******************************************* Response of CreateVolume API ********************************************
+// **************************************** Response of CreateLoadBalancer API *****************************************
 
 type CreateResponse struct {
 	UUID string `json:"uuid"`
@@ -48,7 +48,7 @@ func (s *CreateResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 	}
 }
 
-// ********************************************* Response of GetVolume API *********************************************
+// ****************************************** Response of GetLoadbalancer API ******************************************
 
 type GetResponse struct {
 	Data ResponseData `json:"data"`
@@ -61,12 +61,13 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 
 	internal := lStr.ToUpper(lStr.TrimSpace(s.Data.LoadBalancerSchema)) == "INTERNAL"
 	return &objects.LoadBalancer{
-		UUID:     s.Data.UUID,
-		Status:   s.Data.DisplayStatus,
-		Address:  s.Data.Address,
-		Name:     s.Data.Name,
-		SubnetID: s.Data.PrivateSubnetID,
-		Internal: internal,
+		UUID:      s.Data.UUID,
+		Status:    s.Data.DisplayStatus,
+		Address:   s.Data.Address,
+		Name:      s.Data.Name,
+		SubnetID:  s.Data.PrivateSubnetID,
+		PackageID: s.Data.PackageID,
+		Internal:  internal,
 	}
 }
 
@@ -130,4 +131,20 @@ func (s *ListResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
 	}
 
 	return result
+}
+
+// ********************************************** Response of Update API ***********************************************
+
+type UpdateResponse struct {
+	UUID string `json:"uuid"`
+}
+
+func (s *UpdateResponse) ToLoadBalancerObject() *objects.LoadBalancer {
+	if s == nil {
+		return nil
+	}
+
+	return &objects.LoadBalancer{
+		UUID: s.UUID,
+	}
 }

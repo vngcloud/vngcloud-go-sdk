@@ -45,8 +45,8 @@ type (
 		Algorithm     CreateOptsAlgorithmOpt `json:"algorithm"`
 		PoolName      string                 `json:"poolName"`
 		PoolProtocol  CreateOptsProtocolOpt  `json:"poolProtocol"`
-		Stickiness    bool                   `json:"stickiness"`
-		TLSEncryption bool                   `json:"tlsEncryption"`
+		Stickiness    *bool                  `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
+		TLSEncryption *bool                  `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
 		HealthMonitor HealthMonitor          `json:"healthMonitor"`
 		Members       []Member               `json:"members"`
 

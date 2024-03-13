@@ -44,7 +44,7 @@ func NewSC() *client.ServiceClient {
 func TestListBySubnetID(t *testing.T) {
 	vlb := NewSC()
 
-	opt := new(ListBySubnetIDOptsBuilder)
+	opt := new(ListBySubnetIDOpts)
 	opt.ProjectID = projectID
 	opt.SubnetID = subnetID
 

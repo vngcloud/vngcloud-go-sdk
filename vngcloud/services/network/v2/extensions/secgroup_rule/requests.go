@@ -22,19 +22,21 @@ const (
 )
 
 const (
-	CreateOptsProtocolOptTCP CreateOptsProtocolOpt = "tcp"
-	CreateOptsProtocolOptUDP CreateOptsProtocolOpt = "udp"
+	CreateOptsProtocolOptTCP    CreateOptsProtocolOpt = "tcp"
+	CreateOptsProtocolOptUDP    CreateOptsProtocolOpt = "udp"
+	CreateOptsProtocolOptAll    CreateOptsProtocolOpt = "any"
+	CreateOptsProtocolOptIpInIp CreateOptsProtocolOpt = "4"
 )
 
 type CreateOpts struct {
-	Description    string                 `json:"description"`
-	Direction      CreateOptsDirectionOpt `json:"direction"`
-	EtherType      CreateOptsEtherTypeOpt `json:"etherType"`
-	PortRangeMax   int                    `json:"portRangeMax"`
-	PortRangeMin   int                    `json:"portRangeMin"`
-	Protocol       CreateOptsProtocolOpt  `json:"protocol"`
-	RemoteIPPrefix string                 `json:"remoteIpPrefix"`
-	SecgroupUUID   string                 `json:"securityGroupId"`
+	Description     string                 `json:"description"`
+	Direction       CreateOptsDirectionOpt `json:"direction"`
+	EtherType       CreateOptsEtherTypeOpt `json:"etherType"`
+	PortRangeMax    int                    `json:"portRangeMax"`
+	PortRangeMin    int                    `json:"portRangeMin"`
+	Protocol        CreateOptsProtocolOpt  `json:"protocol"`
+	RemoteIPPrefix  string                 `json:"remoteIpPrefix"`
+	SecurityGroupID string                 `json:"securityGroupId"`
 
 	common.CommonOpts
 	lSecgroupCommonV2.SecgroupV2Common
@@ -42,4 +44,15 @@ type CreateOpts struct {
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+type DeleteOpts struct {
+	common.CommonOpts
+	lSecgroupCommonV2.SecgroupV2Common
+	lSecgroupCommonV2.SecgroupRuleV2Common
+}
+
+type ListRulesBySecgroupIDOpts struct {
+	common.CommonOpts
+	lSecgroupCommonV2.SecgroupV2Common
 }

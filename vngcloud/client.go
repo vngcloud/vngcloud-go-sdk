@@ -57,46 +57,6 @@ func Authenticate(pPc *client.ProviderClient, pAuthOpts tokens.AuthOptionsBuilde
 	return nil
 }
 
-func NewCompute(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
-	return &client.ServiceClient{
-		ProviderClient: pProvider,
-		Endpoint:       utils.NormalizeURL(pEndpoint),
-		Type:           "compute",
-	}, nil
-}
-
-func NewBlockstorage(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
-	return &client.ServiceClient{
-		ProviderClient: pProvider,
-		Endpoint:       utils.NormalizeURL(pEndpoint),
-		Type:           "volume",
-	}, nil
-}
-
-func NewPortal(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
-	return &client.ServiceClient{
-		ProviderClient: pProvider,
-		Endpoint:       utils.NormalizeURL(pEndpoint),
-		Type:           "portal",
-	}, nil
-}
-
-func NewVBackUpGateWay(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
-	return &client.ServiceClient{
-		ProviderClient: pProvider,
-		Endpoint:       utils.NormalizeURL(pEndpoint),
-		Type:           "vbackupgateway",
-	}, nil
-}
-
-func NewLoadBalancer(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
-	return &client.ServiceClient{
-		ProviderClient: pProvider,
-		Endpoint:       utils.NormalizeURL(pEndpoint),
-		Type:           "load-balancer",
-	}, nil
-}
-
 func NewServiceClient(pEndpoint string, pProvider *client.ProviderClient, pType string) (*client.ServiceClient, error) {
 	return &client.ServiceClient{
 		ProviderClient: pProvider,

@@ -51,8 +51,8 @@ func TestCreatePool(t *testing.T) {
 		Algorithm:     CreateOptsAlgorithmOptSourceIP, // CreateOptsAlgorithmOptLeastConn, CreateOptsAlgorithmOptRoundRobin
 		PoolName:      "annd2",
 		PoolProtocol:  CreateOptsProtocolOptHTTP,
-		Stickiness:    true,
-		TLSEncryption: true,
+		Stickiness:    PointerOf(true),
+		TLSEncryption: PointerOf(true),
 		HealthMonitor: HealthMonitor{
 			HealthyThreshold:    2,
 			UnhealthyThreshold:  5,

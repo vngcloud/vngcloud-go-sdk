@@ -51,29 +51,30 @@ type DeleteOpts struct {
 
 // ********************************************* GetBySubnetIDOptsBuilder **********************************************
 
-type ListBySubnetIDOptsBuilder struct {
+type ListBySubnetIDOpts struct {
 	SubnetID string
 	common.CommonOpts
 }
 
-func (s *ListBySubnetIDOptsBuilder) GetSubnetID() string {
+func (s *ListBySubnetIDOpts) GetSubnetID() string {
 	return s.SubnetID
 }
 
 // ************************************************** ListOptsBuilder **************************************************
 
-type ListOptsBuilder struct {
+type ListOpts struct {
 	common.CommonOpts
 }
 
-// ************************************************* ResizeOptsBuilder *************************************************
-type ResizeOpts struct {
-	PackageId string `json:"packageId"`
+// ************************************************* UpdateOptsBuilder *************************************************
+
+type UpdateOpts struct {
+	PackageID string `json:"packageId"`
 
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
 
-func (s *ResizeOpts) ToRequestBody() interface{} {
+func (s *UpdateOpts) ToRequestBody() interface{} {
 	return s
 }
