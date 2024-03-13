@@ -65,3 +65,15 @@ func (s *ListBySubnetIDOptsBuilder) GetSubnetID() string {
 type ListOptsBuilder struct {
 	common.CommonOpts
 }
+
+// ************************************************* ResizeOptsBuilder *************************************************
+type ResizeOpts struct {
+	PackageId string `json:"packageId"`
+
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+}
+
+func (s *ResizeOpts) ToRequestBody() interface{} {
+	return s
+}

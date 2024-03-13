@@ -39,3 +39,12 @@ func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
 		pOpts.GetProjectID(),
 		fmt.Sprintf("loadBalancers?name=&page=1&size=%d", size))
 }
+
+func resizeURL(pSc *client.ServiceClient, pOpts IResizeOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"resize",
+	)
+}

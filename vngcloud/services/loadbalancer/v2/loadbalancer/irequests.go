@@ -23,3 +23,9 @@ type IListBySubnetIDOptsBuilder interface {
 type IListOptsBuilder interface {
 	GetProjectID() string
 }
+
+type IResizeOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+	ToRequestBody() interface{}
+}

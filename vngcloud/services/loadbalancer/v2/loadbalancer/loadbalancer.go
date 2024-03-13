@@ -92,3 +92,17 @@ func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBal
 
 	return response.ToListLoadBalancerObjects(), nil
 }
+
+func Resize(pSc *client.ServiceClient, pOpts IResizeOptsBuilder) error {
+	body := pOpts.ToRequestBody()
+	_, err := pSc.Put(resizeURL(pSc, pOpts), &client.RequestOpts{
+		JSONBody: body,
+		OkCodes:  []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
