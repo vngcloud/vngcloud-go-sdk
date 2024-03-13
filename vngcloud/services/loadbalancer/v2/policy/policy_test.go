@@ -41,6 +41,7 @@ func NewSC() *client.ServiceClient {
 		"vlb")
 	return vlb
 }
+
 func TestListPolicyOfListener(t *testing.T) {
 	vlb := NewSC()
 
