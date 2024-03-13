@@ -22,8 +22,11 @@ const (
 	PolicyOptsActionOptREDIRECTTOURL  PolicyOptsActionOpt = "REDIRECT_TO_URL"
 	PolicyOptsActionOptREDIRECTTOPOOL PolicyOptsActionOpt = "REDIRECT_TO_POOL"
 
-	PolicyOptsCompareTypeOptCONTAINS PolicyOptsCompareTypeOpt = "CONTAINS"
-	PolicyOptsCompareTypeOptEQUALS   PolicyOptsCompareTypeOpt = "EQUAL_TO"
+	PolicyOptsCompareTypeOptCONTAINS   PolicyOptsCompareTypeOpt = "CONTAINS"
+	PolicyOptsCompareTypeOptEQUALS     PolicyOptsCompareTypeOpt = "EQUAL_TO"
+	PolicyOptsCompareTypeOptREGEX      PolicyOptsCompareTypeOpt = "REGEX"
+	PolicyOptsCompareTypeOptSTARTSWITH PolicyOptsCompareTypeOpt = "STARTS_WITH"
+	PolicyOptsCompareTypeOptENDSWITH   PolicyOptsCompareTypeOpt = "ENDS_WITH"
 
 	PolicyOptsRuleTypeOptHOSTNAME PolicyOptsRuleTypeOpt = "HOST_NAME"
 	PolicyOptsRuleTypeOptPATH     PolicyOptsRuleTypeOpt = "PATH"
