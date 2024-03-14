@@ -48,7 +48,7 @@ type (
 		Stickiness    *bool                  `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
 		TLSEncryption *bool                  `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
 		HealthMonitor HealthMonitor          `json:"healthMonitor"`
-		Members       []Member               `json:"members"`
+		Members       []*Member              `json:"members"`
 
 		common.CommonOpts
 		lbCm.LoadBalancerV2Common

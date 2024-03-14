@@ -66,7 +66,7 @@ func TestCreatePool(t *testing.T) {
 			HealthCheckMethod: PointerOf[CreateOptsHealthCheckMethodOpt]("GET"),
 			HttpVersion:       PointerOf[CreateOptsHealthCheckHttpVersionOpt]("1.1"),
 		},
-		Members: []Member{
+		Members: []*Member{
 			{Backup: true, Name: "member_1", IpAddress: "10.0.0.9", Port: 70, MonitorPort: 71, Weight: 1},
 			{Backup: true, Name: "member_2", IpAddress: "10.0.0.9", Port: 72, MonitorPort: 71, Weight: 1},
 		},
