@@ -55,3 +55,13 @@ func getMemberURL(pSc *client.ServiceClient, pOpts IGetMemberOptsBuilder) string
 		pOpts.GetPoolID(),
 		"members")
 }
+
+func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"pools",
+		pOpts.GetPoolID(),
+	)
+}

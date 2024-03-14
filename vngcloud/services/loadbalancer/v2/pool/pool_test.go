@@ -44,7 +44,12 @@ func NewSC() *client.ServiceClient {
 	return vlb
 }
 
-func TestCreatePool(t *testing.T) {
+func TestController(t *testing.T) {
+	// _TestGetMember(t)
+	_TestUpdate(t)
+}
+
+func _TestCreatePool(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &CreateOpts{
@@ -82,7 +87,7 @@ func TestCreatePool(t *testing.T) {
 	fmt.Printf("resp: %+v\n", resp)
 }
 
-func TestListPoolsBasedLoadBalancer(t *testing.T) {
+func _TestListPoolsBasedLoadBalancer(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &ListPoolsBasedLoadBalancerOpts{}
@@ -100,7 +105,7 @@ func TestListPoolsBasedLoadBalancer(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
+func _TestDelete(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &DeleteOpts{}
@@ -114,7 +119,7 @@ func TestDelete(t *testing.T) {
 	}
 }
 
-func TestUpdatePoolMembers(t *testing.T) {
+func _TestUpdatePoolMembers(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &UpdatePoolMembersOpts{
@@ -133,7 +138,7 @@ func TestUpdatePoolMembers(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
+func _TestGet(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &GetOpts{}
@@ -149,7 +154,7 @@ func TestGet(t *testing.T) {
 	fmt.Printf("resp: %+v\n", resp)
 }
 
-func TestGetMember(t *testing.T) {
+func _TestGetMember(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &GetMemberOpts{}
@@ -165,5 +170,36 @@ func TestGetMember(t *testing.T) {
 	fmt.Printf("resp: %+v\n", resp)
 	for _, lb := range resp {
 		fmt.Println(lb)
+	}
+}
+
+func _TestUpdate(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &UpdateOpts{
+		Algorithm:     CreateOptsAlgorithmOptLeastConn,
+		Stickiness:    PointerOf(false),
+		TLSEncryption: PointerOf(true),
+		HealthMonitor: HealthMonitor{
+			HealthyThreshold:    3,
+			UnhealthyThreshold:  5,
+			Interval:            30,
+			Timeout:             15,
+			HealthCheckProtocol: CreateOptsHealthCheckProtocolOptHTTP,
+			// these param is invalid in some case, need to pass in pointer to ignore in the body
+			DomainName:        PointerOf[string]("annd2.spacee"),
+			HealthCheckPath:   PointerOf[string]("/heathz"),
+			SuccessCode:       PointerOf[string]("200,201"),
+			HealthCheckMethod: PointerOf[CreateOptsHealthCheckMethodOpt]("POST"),
+			HttpVersion:       PointerOf[CreateOptsHealthCheckHttpVersionOpt]("1.1"),
+		},
+	}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.PoolID = poolID
+
+	err := Update(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
 	}
 }

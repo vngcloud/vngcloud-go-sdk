@@ -100,3 +100,16 @@ func GetMember(pSc *client.ServiceClient, pOpts IGetMemberOptsBuilder) ([]*objec
 
 	return response.ToListMemberObject(), nil
 }
+
+func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) error {
+	_, err := pSc.Put(updateURL(pSc, pOpts), &client.RequestOpts{
+		JSONBody: pOpts.ToRequestBody(),
+		OkCodes:  []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

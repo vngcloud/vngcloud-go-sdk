@@ -54,6 +54,17 @@ type (
 		lbCm.LoadBalancerV2Common
 	}
 
+	UpdateOpts struct {
+		Algorithm     CreateOptsAlgorithmOpt `json:"algorithm"`
+		Stickiness    *bool                  `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
+		TLSEncryption *bool                  `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
+		HealthMonitor HealthMonitor          `json:"healthMonitor"`
+
+		common.CommonOpts
+		lbCm.LoadBalancerV2Common
+		lbCm.PoolV2Common
+	}
+
 	Member struct {
 		Backup      bool   `json:"backup"`
 		IpAddress   string `json:"ipAddress"`
@@ -77,32 +88,33 @@ type (
 	}
 )
 
-func (s *CreateOpts) ToRequestBody() interface{} {
-	// If health check protocol is TCP, health check path must be empty
-	switch s.HealthMonitor.HealthCheckProtocol {
+func (s *HealthMonitor) validate() {
+	switch s.HealthCheckProtocol {
 	case CreateOptsHealthCheckProtocolOptPINGUDP, CreateOptsHealthCheckProtocolOptTCP:
-		s.HealthMonitor.HealthCheckPath = nil
-		s.HealthMonitor.HttpVersion = nil
-		s.HealthMonitor.SuccessCode = nil
-		s.HealthMonitor.HealthCheckMethod = nil
-		s.HealthMonitor.DomainName = nil
+		s.HealthCheckPath = nil
+		s.HttpVersion = nil
+		s.SuccessCode = nil
+		s.HealthCheckMethod = nil
+		s.DomainName = nil
 
 	case CreateOptsHealthCheckProtocolOptHTTP, CreateOptsHealthCheckProtocolOptHTTPs:
-		if s.HealthMonitor.HttpVersion != nil {
-			switch opt := *s.HealthMonitor.HttpVersion; opt {
+		if s.HttpVersion != nil {
+			switch opt := *s.HttpVersion; opt {
 			case CreateOptsHealthCheckHttpVersionOptHttp1:
-				s.HealthMonitor.DomainName = nil
+				s.DomainName = nil
 			case CreateOptsHealthCheckHttpVersionOptHttp1Minor1:
-				if s.HealthMonitor.DomainName == nil ||
-					(s.HealthMonitor.DomainName != nil && len(*s.HealthMonitor.DomainName) < 1) {
+				if s.DomainName == nil ||
+					(s.DomainName != nil && len(*s.DomainName) < 1) {
 
 					fakeDomainName := defaultFakeDomainName
-					s.HealthMonitor.DomainName = &fakeDomainName
+					s.DomainName = &fakeDomainName
 				}
 			}
 		}
 	}
-
+}
+func (s *CreateOpts) ToRequestBody() interface{} {
+	s.HealthMonitor.validate()
 	return s
 }
 
@@ -145,4 +157,9 @@ type GetMemberOpts struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 	lbCm.PoolV2Common
+}
+
+func (s *UpdateOpts) ToRequestBody() interface{} {
+	s.HealthMonitor.validate()
+	return s
 }
