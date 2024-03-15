@@ -15,3 +15,7 @@ func NewGetResponse() IGetResponse {
 func NewGetMemberResponse() IGetMemberResponse {
 	return &GetMemberResponse{}
 }
+
+func NewGetHealthMonitorResponse() IGetHealthMonitorResponse {
+	return &GetHealthMonitorResponse{}
+}

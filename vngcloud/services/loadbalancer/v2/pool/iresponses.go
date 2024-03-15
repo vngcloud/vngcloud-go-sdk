@@ -19,3 +19,7 @@ type IGetResponse interface {
 type IGetMemberResponse interface {
 	ToListMemberObject() []*objects.Member
 }
+
+type IGetHealthMonitorResponse interface {
+	ToPoolHealthMonitorObject() *objects.PoolHealthMonitor
+}

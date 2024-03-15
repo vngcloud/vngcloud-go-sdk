@@ -10,7 +10,8 @@ type CreateResponse struct {
 
 func (p *CreateResponse) ToPoolObject() *objects.Pool {
 	return &objects.Pool{
-		UUID: p.UUID,
+		UUID:          p.UUID,
+		HealthMonitor: nil,
 	}
 }
 
@@ -133,6 +134,7 @@ func (s *GetResponse) ToPoolObject() *objects.Pool {
 		Stickiness:        s.Data.Stickiness,
 		TLSEncryption:     s.Data.TLSEncryption,
 		Members:           members,
+		HealthMonitor:     nil,
 	}
 }
 
@@ -165,4 +167,47 @@ func (s *GetMemberResponse) ToListMemberObject() []*objects.Member {
 		})
 	}
 	return members
+}
+
+type GetHealthMonitorResponse struct {
+	Data struct {
+		UUID                string  `json:"uuid"`
+		Timeout             int     `json:"timeout"`
+		CreatedAt           string  `json:"createdAt"`
+		UpdatedAt           string  `json:"updatedAt"`
+		DomainName          *string `json:"domainName"`
+		HttpVersion         *string `json:"httpVersion"`
+		HealthCheckProtocol string  `json:"healthCheckProtocol"`
+		Interval            int     `json:"interval"`
+		HealthyThreshold    int     `json:"healthyThreshold"`
+		UnhealthyThreshold  int     `json:"unhealthyThreshold"`
+		HealthCheckMethod   *string `json:"healthCheckMethod"`
+		HealthCheckPath     *string `json:"healthCheckPath"`
+		SuccessCode         *string `json:"successCode"`
+		ProgressStatus      string  `json:"progressStatus"`
+		DisplayStatus       string  `json:"displayStatus"`
+	} `json:"data"`
+}
+
+func (s *GetHealthMonitorResponse) ToPoolHealthMonitorObject() *objects.PoolHealthMonitor {
+	if s == nil {
+		return nil
+	}
+
+	return &objects.PoolHealthMonitor{
+		Timeout:             s.Data.Timeout,
+		CreatedAt:           s.Data.CreatedAt,
+		UpdatedAt:           s.Data.UpdatedAt,
+		DomainName:          s.Data.DomainName,
+		HttpVersion:         s.Data.HttpVersion,
+		HealthCheckProtocol: s.Data.HealthCheckProtocol,
+		Interval:            s.Data.Interval,
+		HealthyThreshold:    s.Data.HealthyThreshold,
+		UnhealthyThreshold:  s.Data.UnhealthyThreshold,
+		HealthCheckMethod:   s.Data.HealthCheckMethod,
+		HealthCheckPath:     s.Data.HealthCheckPath,
+		SuccessCode:         s.Data.SuccessCode,
+		ProgressStatus:      s.Data.ProgressStatus,
+		DisplayStatus:       s.Data.DisplayStatus,
+	}
 }

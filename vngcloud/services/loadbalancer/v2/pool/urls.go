@@ -65,3 +65,13 @@ func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
 		pOpts.GetPoolID(),
 	)
 }
+
+func getHealthMonitorURL(pSc *client.ServiceClient, pOpts IGetHealthMonitorOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"pools",
+		pOpts.GetPoolID(),
+		"healthMonitor")
+}

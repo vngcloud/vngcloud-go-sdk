@@ -44,12 +44,7 @@ func NewSC() *client.ServiceClient {
 	return vlb
 }
 
-func TestController(t *testing.T) {
-	// _TestGetMember(t)
-	_TestUpdate(t)
-}
-
-func _TestCreatePool(t *testing.T) {
+func TestCreatePool(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &CreateOpts{
@@ -87,7 +82,7 @@ func _TestCreatePool(t *testing.T) {
 	fmt.Printf("resp: %+v\n", resp)
 }
 
-func _TestListPoolsBasedLoadBalancer(t *testing.T) {
+func TestListPoolsBasedLoadBalancer(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &ListPoolsBasedLoadBalancerOpts{}
@@ -105,7 +100,7 @@ func _TestListPoolsBasedLoadBalancer(t *testing.T) {
 	}
 }
 
-func _TestDelete(t *testing.T) {
+func TestDelete(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &DeleteOpts{}
@@ -119,7 +114,7 @@ func _TestDelete(t *testing.T) {
 	}
 }
 
-func _TestUpdatePoolMembers(t *testing.T) {
+func TestUpdatePoolMembers(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &UpdatePoolMembersOpts{
@@ -138,7 +133,7 @@ func _TestUpdatePoolMembers(t *testing.T) {
 	}
 }
 
-func _TestGet(t *testing.T) {
+func TestGet(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &GetOpts{}
@@ -154,7 +149,7 @@ func _TestGet(t *testing.T) {
 	fmt.Printf("resp: %+v\n", resp)
 }
 
-func _TestGetMember(t *testing.T) {
+func TestGetMember(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &GetMemberOpts{}
@@ -173,7 +168,7 @@ func _TestGetMember(t *testing.T) {
 	}
 }
 
-func _TestUpdate(t *testing.T) {
+func TestUpdate(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &UpdateOpts{
@@ -202,4 +197,20 @@ func _TestUpdate(t *testing.T) {
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
+}
+
+func TestGetHealthMonitor(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &GetHealthMonitorOpts{}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.PoolID = poolID
+
+	resp, err := GetHealthMonitor(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
 }

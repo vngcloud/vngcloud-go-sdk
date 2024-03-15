@@ -113,3 +113,17 @@ func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) error {
 
 	return nil
 }
+
+func GetHealthMonitor(pSc *client.ServiceClient, pOpts IGetHealthMonitorOptsBuilder) (*objects.PoolHealthMonitor, error) {
+	response := NewGetHealthMonitorResponse()
+	_, err := pSc.Get(getHealthMonitorURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToPoolHealthMonitorObject(), nil
+}

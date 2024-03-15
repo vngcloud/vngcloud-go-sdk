@@ -163,3 +163,9 @@ func (s *UpdateOpts) ToRequestBody() interface{} {
 	s.HealthMonitor.validate()
 	return s
 }
+
+type GetHealthMonitorOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.PoolV2Common
+}
