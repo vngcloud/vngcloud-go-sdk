@@ -42,9 +42,3 @@ type IUpdateOptsBuilder interface {
 	GetPoolID() string
 	ToRequestBody() interface{}
 }
-
-type IGetHealthMonitorOptsBuilder interface {
-	GetProjectID() string
-	GetPoolID() string
-	GetLoadBalancerID() string
-}

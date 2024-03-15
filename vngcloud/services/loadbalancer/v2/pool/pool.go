@@ -114,7 +114,7 @@ func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) error {
 	return nil
 }
 
-func GetHealthMonitor(pSc *client.ServiceClient, pOpts IGetHealthMonitorOptsBuilder) (*objects.PoolHealthMonitor, error) {
+func GetHealthMonitor(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.PoolHealthMonitor, error) {
 	response := NewGetHealthMonitorResponse()
 	_, err := pSc.Get(getHealthMonitorURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
@@ -126,4 +126,19 @@ func GetHealthMonitor(pSc *client.ServiceClient, pOpts IGetHealthMonitorOptsBuil
 	}
 
 	return response.ToPoolHealthMonitorObject(), nil
+}
+
+func GetTotal(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Pool, error) {
+	p, err := Get(pSc, pOpts)
+	if err != nil {
+		return nil, err
+	}
+
+	h, err := GetHealthMonitor(pSc, pOpts)
+	if err != nil {
+		return nil, err
+	}
+
+	p.HealthMonitor = h
+	return p, nil
 }

@@ -202,7 +202,7 @@ func TestUpdate(t *testing.T) {
 func TestGetHealthMonitor(t *testing.T) {
 	vlb := NewSC()
 
-	opt := &GetHealthMonitorOpts{}
+	opt := &GetOpts{}
 	opt.ProjectID = projectID
 	opt.LoadBalancerID = lbID
 	opt.PoolID = poolID
@@ -213,4 +213,21 @@ func TestGetHealthMonitor(t *testing.T) {
 	}
 
 	fmt.Printf("resp: %+v\n", resp)
+}
+
+func TestGetTotal(t *testing.T) {
+	vlb := NewSC()
+
+	opt := &GetOpts{}
+	opt.ProjectID = projectID
+	opt.LoadBalancerID = lbID
+	opt.PoolID = poolID
+
+	resp, err := GetTotal(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("resp: %+v\n", resp)
+	fmt.Printf("resp: %+v\n", resp.HealthMonitor)
 }

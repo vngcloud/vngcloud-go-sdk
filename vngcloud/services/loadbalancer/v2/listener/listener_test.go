@@ -123,6 +123,11 @@ func TestUpdateListener(t *testing.T) {
 		TimeoutClient:     100,
 		TimeoutConnection: 100,
 		TimeoutMember:     100,
+		Headers:           []string{"X-Forwarded-For", "X-Forwarded-Proto", "X-Forwarded-Port"},
+		// ClientCertificate:           nil,
+		// DefaultCertificateAuthority: nil,
+		ClientCertificate:           PointerOf[string]("secret-xxxxxxxxxx"),
+		DefaultCertificateAuthority: PointerOf[string]("secret-xxxxxxxxxx"),
 	}
 	opt.ProjectID = projectID
 	opt.LoadBalancerID = lbID

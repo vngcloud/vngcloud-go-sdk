@@ -66,7 +66,7 @@ func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
 	)
 }
 
-func getHealthMonitorURL(pSc *client.ServiceClient, pOpts IGetHealthMonitorOptsBuilder) string {
+func getHealthMonitorURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
 	return pSc.ServiceURL(
 		pOpts.GetProjectID(),
 		"loadBalancers",
