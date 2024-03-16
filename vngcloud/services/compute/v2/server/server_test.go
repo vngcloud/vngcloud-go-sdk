@@ -15,16 +15,16 @@ func PointerOf[T any](t T) *T {
 }
 
 var (
-	projectID = ""
-	serverID  = "ins-26029e6f-0a29-4ed3-a72a-6bfc53381b40"
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	serverID  = "ins-26029e6f-0a29-xxxx-a72a-6bfc53381b40"
 )
 
 func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = ""
-		clientSecret = ""
+		clientID     = "3661d468-2d6b-4093-bab3-1f1d3804478f"
+		clientSecret = "88346d8f-630c-4115-a2ab-f5f0700a6745"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -92,4 +92,15 @@ func TestCreateServer(t *testing.T) {
 	}
 
 	fmt.Printf("resp: %+v\n", resp)
+}
+
+func TestDeleteServer(t *testing.T) {
+	vserverClient := NewSC()
+
+	opt := NewDeleteOpts(projectID, serverID, true)
+
+	err := Delete(vserverClient, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
 }
