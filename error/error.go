@@ -23,3 +23,13 @@ func (s *BaseError) ChoseErrString() string {
 	}
 	return s.DefaultError
 }
+
+//
+
+type ErrorResponse struct {
+	Message string `json:"message,omitempty"`
+}
+
+func NewErrorResponse() *ErrorResponse {
+	return new(ErrorResponse)
+}

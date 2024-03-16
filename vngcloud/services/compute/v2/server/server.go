@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
@@ -21,12 +22,14 @@ func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error
 }
 
 func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) error {
+	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Delete(deleteServerURL(sc, opts), &client.RequestOpts{
-		JSONBody: opts.ToRequestBody(),
-		OkCodes:  []int{202},
+		JSONBody:  opts.ToRequestBody(),
+		JSONError: errResp,
+		OkCodes:   []int{202},
 	})
 
-	return err
+	return resolveError(errResp, err)
 }
 
 func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, error) {
