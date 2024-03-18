@@ -13,6 +13,7 @@ func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, *lsdk
 	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Get(getServerURL(sc, opts), &client.RequestOpts{
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{200},
 	})
 
