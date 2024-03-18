@@ -8,15 +8,28 @@ import (
 	"strings"
 )
 
-func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error) {
+func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, *lsdkError.SdkError) {
 	response := NewGetResponse()
+	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Get(getServerURL(sc, opts), &client.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
 	})
 
 	if err != nil {
-		return nil, err
+		if strings.Contains(errResp.Message, patternErrNotFound) {
+			return nil, &lsdkError.SdkError{
+				Code:    ErrNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		} else {
+			return nil, &lsdkError.SdkError{
+				Code:    ErrUnknown,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
 	}
 
 	return response.ToServerObject(), nil
@@ -31,7 +44,7 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) lsdkError.SdkErro
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, "Cannot get server with id ins-") {
+		if strings.Contains(errResp.Message, patternErrNotFound) {
 			return lsdkError.SdkError{
 				Code:    ErrNotFound,
 				Message: errResp.Message,
