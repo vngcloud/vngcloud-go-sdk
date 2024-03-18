@@ -61,13 +61,26 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 
 	internal := lStr.ToUpper(lStr.TrimSpace(s.Data.LoadBalancerSchema)) == "INTERNAL"
 	return &objects.LoadBalancer{
-		UUID:      s.Data.UUID,
-		Status:    s.Data.DisplayStatus,
-		Address:   s.Data.Address,
-		Name:      s.Data.Name,
-		SubnetID:  s.Data.PrivateSubnetID,
-		PackageID: s.Data.PackageID,
-		Internal:  internal,
+		UUID:               s.Data.UUID,
+		Name:               s.Data.Name,
+		Address:            s.Data.Address,
+		DisplayStatus:      s.Data.DisplayStatus,
+		PrivateSubnetID:    s.Data.PrivateSubnetID,
+		PrivateSubnetCidr:  s.Data.PrivateSubnetCidr,
+		Type:               s.Data.Type,
+		DisplayType:        s.Data.DisplayType,
+		LoadBalancerSchema: s.Data.LoadBalancerSchema,
+		PackageID:          s.Data.PackageID,
+		Description:        s.Data.Description,
+		Location:           s.Data.Location,
+		CreatedAt:          s.Data.CreatedAt,
+		UpdatedAt:          s.Data.UpdatedAt,
+		ProgressStatus:     s.Data.ProgressStatus,
+
+		// will be removed
+		Status:   s.Data.DisplayStatus,
+		Internal: internal,
+		SubnetID: s.Data.PrivateSubnetID,
 	}
 }
 
