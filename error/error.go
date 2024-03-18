@@ -33,3 +33,11 @@ type ErrorResponse struct {
 func NewErrorResponse() *ErrorResponse {
 	return new(ErrorResponse)
 }
+
+type SdkError struct {
+	Code    ErrorCode
+	Message string
+	Error   error
+}
+
+type ErrorCode string

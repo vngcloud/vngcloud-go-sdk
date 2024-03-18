@@ -5,6 +5,7 @@ import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+	"strings"
 )
 
 func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error) {
@@ -21,7 +22,7 @@ func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, error
 	return response.ToServerObject(), nil
 }
 
-func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) error {
+func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) lsdkError.SdkError {
 	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Delete(deleteServerURL(sc, opts), &client.RequestOpts{
 		JSONBody:  opts.ToRequestBody(),
@@ -29,7 +30,21 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) error {
 		OkCodes:   []int{202},
 	})
 
-	return resolveError(errResp, err)
+	if err != nil {
+		if strings.Contains(errResp.Message, "Cannot get server with id ins-") {
+			return lsdkError.SdkError{
+				Code:    ErrNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
+	}
+
+	return lsdkError.SdkError{
+		Code:    ErrUnknown,
+		Message: errResp.Message,
+		Error:   err,
+	}
 }
 
 func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, error) {
