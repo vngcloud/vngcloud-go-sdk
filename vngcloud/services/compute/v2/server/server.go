@@ -35,7 +35,7 @@ func Get(sc *client.ServiceClient, opts IGetOptsBuilder) (*objects.Server, *lsdk
 	return response.ToServerObject(), nil
 }
 
-func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) lsdkError.SdkError {
+func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) *lsdkError.SdkError {
 	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Delete(deleteServerURL(sc, opts), &client.RequestOpts{
 		JSONBody:  opts.ToRequestBody(),
@@ -45,19 +45,21 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) lsdkError.SdkErro
 
 	if err != nil {
 		if strings.Contains(errResp.Message, patternErrNotFound) {
-			return lsdkError.SdkError{
+			return &lsdkError.SdkError{
 				Code:    ErrNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		} else {
+			return &lsdkError.SdkError{
+				Code:    ErrUnknown,
 				Message: errResp.Message,
 				Error:   err,
 			}
 		}
 	}
 
-	return lsdkError.SdkError{
-		Code:    ErrUnknown,
-		Message: errResp.Message,
-		Error:   err,
-	}
+	return nil
 }
 
 func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, error) {
