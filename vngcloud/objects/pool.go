@@ -9,7 +9,7 @@ type Pool struct {
 	Status            string
 	Stickiness        bool
 	TLSEncryption     bool
-	Members           []Member
+	Members           []*Member
 	HealthMonitor     *PoolHealthMonitor
 }
 

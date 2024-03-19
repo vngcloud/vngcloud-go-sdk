@@ -58,10 +58,10 @@ func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*objects.Pool
 	}
 
 	for _, item := range s.Data {
-		var members []objects.Member
+		var members []*objects.Member
 		if item.Members != nil && len(item.Members) > 0 {
 			for _, member := range item.Members {
-				members = append(members, objects.Member{
+				members = append(members, &objects.Member{
 					Address:        member.Address,
 					Backup:         member.Backup,
 					Name:           member.Name,
@@ -103,10 +103,10 @@ func (s *GetResponse) ToPoolObject() *objects.Pool {
 		return nil
 	}
 
-	var members []objects.Member
+	var members []*objects.Member
 	if s.Data.Members != nil && len(s.Data.Members) > 0 {
 		for _, member := range s.Data.Members {
-			members = append(members, objects.Member{
+			members = append(members, &objects.Member{
 				Address:        member.Address,
 				Backup:         member.Backup,
 				Name:           member.Name,
