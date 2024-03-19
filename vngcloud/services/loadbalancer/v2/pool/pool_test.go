@@ -230,4 +230,6 @@ func TestGetTotal(t *testing.T) {
 
 	fmt.Printf("resp: %+v\n", resp)
 	fmt.Printf("resp: %+v\n", resp.HealthMonitor)
+	fmt.Printf("resp: %+v\n", resp.HealthMonitor.DomainName)
+	fmt.Printf("resp: %+v\n", *resp.HealthMonitor.DomainName)
 }
