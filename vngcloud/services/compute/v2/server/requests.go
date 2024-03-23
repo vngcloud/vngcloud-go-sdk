@@ -61,6 +61,9 @@ type CreateOpts struct {
 	UserDataBase64Encoded  bool                   `json:"userDataBase64Encoded,omitempty"`
 	UserName               string                 `json:"userName,omitempty"`
 	UserPassword           string                 `json:"userPassword,omitempty"`
+	IsPoc                  bool                   `json:"isPoc,omitempty"`
+	Product                string                 `json:"product,omitempty"`
+	Type                   string                 `json:"type,omitempty"`
 
 	common.CommonOpts
 }

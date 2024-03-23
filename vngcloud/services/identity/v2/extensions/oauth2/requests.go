@@ -2,7 +2,6 @@ package oauth2
 
 import (
 	"encoding/base64"
-	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/identity/v2/tokens"
 )
@@ -49,7 +48,7 @@ func Create(pSc *client.ServiceClient, pOpts tokens.AuthOptionsBuilder) (string,
 	body, _ := pOpts.ToTokenV2BodyMap(nil)
 	headers, _ := pOpts.ToTokenV2HeadersMap(nil)
 
-	resp, err := pSc.Post(authURL(pSc), &client.RequestOpts{
+	_, err := pSc.Post(authURL(pSc), &client.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: &result,
 		MoreHeaders:  headers,
@@ -57,7 +56,6 @@ func Create(pSc *client.ServiceClient, pOpts tokens.AuthOptionsBuilder) (string,
 	})
 
 	if err != nil {
-		fmt.Println("The failed response is: ", resp)
 		return "", err
 	}
 

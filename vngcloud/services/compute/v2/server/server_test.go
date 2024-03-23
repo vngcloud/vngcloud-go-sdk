@@ -50,7 +50,7 @@ func TestGetInstance(t *testing.T) {
 
 	resp, err := Get(vserverClient, opt)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
+		fmt.Printf("Error: %s\n", err)
 	}
 
 	fmt.Printf("resp: %+v\n", resp)
@@ -101,6 +101,6 @@ func TestDeleteServer(t *testing.T) {
 
 	err := Delete(vserverClient, opt)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
+		fmt.Printf("Error: %s\n", err)
 	}
 }
