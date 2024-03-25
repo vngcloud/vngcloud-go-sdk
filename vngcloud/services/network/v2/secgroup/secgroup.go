@@ -3,6 +3,7 @@ package secgroup
 import (
 	"encoding/json"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"strings"
 )
@@ -39,15 +40,29 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return err
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, *lsdkError.SdkError) {
 	response := NewGetResponse()
+	errResp := lsdkError.NewErrorResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{200},
 	})
 
 	if err != nil {
-		return nil, err
+		if strings.Contains(errResp.Message, patternErrNotFound) {
+			return nil, &lsdkError.SdkError{
+				Code:    ErrSecgroupNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
+
+		return nil, &lsdkError.SdkError{
+			Code:    ErrSecgroupUnknown,
+			Message: errResp.Message,
+			Error:   err,
+		}
 	}
 
 	return response.ToSecgroupObject(), nil
