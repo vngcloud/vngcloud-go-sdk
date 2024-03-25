@@ -51,6 +51,12 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) *lsdkError.SdkErr
 				Message: errResp.Message,
 				Error:   err,
 			}
+		} else if strings.Contains(errResp.Message, patternDeleteCreatingServer) {
+			return &lsdkError.SdkError{
+				Code:    ErrDeleteCreatingServer,
+				Message: errResp.Message,
+				Error:   err,
+			}
 		} else {
 			return &lsdkError.SdkError{
 				Code:    ErrUnknown,
