@@ -5,6 +5,15 @@ import (
 	vconError "github.com/vngcloud/vngcloud-go-sdk/error"
 )
 
+const (
+	patternErrNotFound = "Cannot get security group with id secg-"
+)
+
+var (
+	ErrSecgroupNotFound vconError.ErrorCode = "SECURITY_GROUP_NOT_FOUND"
+	ErrSecgroupUnknown  vconError.ErrorCode = "SECURITY_GROUP_UNKNOWN_ERROR"
+)
+
 func NewErrNameDuplicate(pName, pInfo string) vconError.IErrorBuilder {
 	err := new(ErrNameDuplicate)
 	err.Name = pName
