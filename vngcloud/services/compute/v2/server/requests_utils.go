@@ -40,3 +40,11 @@ func NewListOpts(pProjectID, pName string, pPage, pSize int) IListOptsBuilder {
 
 	return opts
 }
+
+func NewUpdateSecGroupsOpts(pProjectID, pServerID string, securityGroups []string) IUpdateSecGroupsOptsBuilder {
+	opts := new(UpdateSecGroupsOpts)
+	opts.ProjectID = pProjectID
+	opts.ServerID = pServerID
+	opts.SecurityGroup = securityGroups
+	return opts
+}

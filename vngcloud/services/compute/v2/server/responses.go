@@ -311,3 +311,14 @@ func (s *ListResponse) ToServerList() ([]*objects.Server, error) {
 
 	return servers, nil
 }
+
+type UpdateSecGroupsResponse struct {
+	Data Server `json:"data"`
+}
+
+func (s *UpdateSecGroupsResponse) ToServerObject() *objects.Server {
+	if s == nil {
+		return nil
+	}
+	return s.Data.toServerObject()
+}

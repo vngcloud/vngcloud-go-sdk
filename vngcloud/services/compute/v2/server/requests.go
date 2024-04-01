@@ -90,3 +90,16 @@ func (s *ListOpts) ToListQuery() (string, error) {
 
 	return url.String(), err
 }
+
+// ************************************************* UpdateSecGroupsOptsBuilder *************************************************
+
+type UpdateSecGroupsOpts struct {
+	SecurityGroup []string `json:"securityGroup"`
+
+	common.CommonOpts
+	lServerV2.ServerV2Common
+}
+
+func (s *UpdateSecGroupsOpts) ToRequestBody() interface{} {
+	return s
+}

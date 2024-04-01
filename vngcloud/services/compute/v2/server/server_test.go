@@ -15,16 +15,16 @@ func PointerOf[T any](t T) *T {
 }
 
 var (
-	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
-	serverID  = "ins-c363f3b5-a23b-430c-b7e7-36166a041904"
+	projectID = ""
+	serverID  = ""
 )
 
 func NewSC() *client.ServiceClient {
 	var (
-		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
-		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "c3f65a4-abb16f95fc29"
-		clientSecret = "8637fea6-9c19-5ad396bf82"
+		identityURL  = ""
+		vServerURL   = ""
+		clientID     = ""
+		clientSecret = ""
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -100,6 +100,22 @@ func TestDeleteServer(t *testing.T) {
 	opt := NewDeleteOpts(projectID, serverID, true)
 
 	err := Delete(vserverClient, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+	}
+}
+
+func TestUpdateSecGroupsServer(t *testing.T) {
+	vserverClient := NewSC()
+
+	opt := NewUpdateSecGroupsOpts(projectID, serverID,
+		[]string{
+			"secg-ab24d606-c6e5-4600-aedf-222602834406",
+			"secg-5a71c1a4-d096-404a-9788-1c5530fbd94c",
+		})
+	resp, err := UpdateSecGroups(vserverClient, opt)
+
+	fmt.Println(resp.SecGroups)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 	}
