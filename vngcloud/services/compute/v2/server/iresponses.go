@@ -13,3 +13,7 @@ type ICreateResponse interface {
 type IListResponse interface {
 	ToServerList() ([]*objects.Server, error)
 }
+
+type IUpdateSecGroupsResponse interface {
+	ToServerObject() *objects.Server
+}

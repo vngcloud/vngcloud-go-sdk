@@ -136,7 +136,7 @@ type DeleteOpts struct {
 // *********************************************** UpdatePoolMembersOpts ***********************************************
 
 type UpdatePoolMembersOpts struct {
-	Members []Member `json:"members"`
+	Members []*Member `json:"members"`
 
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common

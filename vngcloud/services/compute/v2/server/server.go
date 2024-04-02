@@ -104,3 +104,18 @@ func List(sc *client.ServiceClient, opts IListOptsBuilder) ([]*objects.Server, e
 	}
 	return resp.ToServerList()
 }
+
+func UpdateSecGroups(sc *client.ServiceClient, opts IUpdateSecGroupsOptsBuilder) (*objects.Server, error) {
+	response := NewUpdateSecGroupsResponse()
+	_, err := sc.Put(updateSecGroupsServerURL(sc, opts), &client.RequestOpts{
+		JSONBody:     opts.ToRequestBody(),
+		JSONResponse: response,
+		OkCodes:      []int{202},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToServerObject(), nil
+}

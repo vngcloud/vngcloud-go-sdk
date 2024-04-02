@@ -11,3 +11,7 @@ func NewCreateResponse() *CreateResponse {
 func NewListResponse() *ListResponse {
 	return &ListResponse{}
 }
+
+func NewUpdateSecGroupsResponse() *UpdateSecGroupsResponse {
+	return &UpdateSecGroupsResponse{}
+}

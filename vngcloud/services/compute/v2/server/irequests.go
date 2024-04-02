@@ -20,3 +20,9 @@ type IListOptsBuilder interface {
 	GetProjectID() string
 	ToListQuery() (string, error)
 }
+
+type IUpdateSecGroupsOptsBuilder interface {
+	GetServerID() string
+	GetProjectID() string
+	ToRequestBody() interface{}
+}

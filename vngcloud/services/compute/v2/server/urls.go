@@ -29,3 +29,11 @@ func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
 		pOpts.GetProjectID(),
 		"servers")
 }
+
+func updateSecGroupsServerURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"servers",
+		pOpts.GetServerID(),
+		"update-sec-group")
+}

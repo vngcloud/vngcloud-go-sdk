@@ -61,13 +61,26 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 
 	internal := lStr.ToUpper(lStr.TrimSpace(s.Data.LoadBalancerSchema)) == "INTERNAL"
 	return &objects.LoadBalancer{
-		UUID:      s.Data.UUID,
-		Status:    s.Data.DisplayStatus,
-		Address:   s.Data.Address,
-		Name:      s.Data.Name,
-		SubnetID:  s.Data.PrivateSubnetID,
-		PackageID: s.Data.PackageID,
-		Internal:  internal,
+		UUID:               s.Data.UUID,
+		Name:               s.Data.Name,
+		Address:            s.Data.Address,
+		DisplayStatus:      s.Data.DisplayStatus,
+		PrivateSubnetID:    s.Data.PrivateSubnetID,
+		PrivateSubnetCidr:  s.Data.PrivateSubnetCidr,
+		Type:               s.Data.Type,
+		DisplayType:        s.Data.DisplayType,
+		LoadBalancerSchema: s.Data.LoadBalancerSchema,
+		PackageID:          s.Data.PackageID,
+		Description:        s.Data.Description,
+		Location:           s.Data.Location,
+		CreatedAt:          s.Data.CreatedAt,
+		UpdatedAt:          s.Data.UpdatedAt,
+		ProgressStatus:     s.Data.ProgressStatus,
+
+		// will be removed
+		Status:   s.Data.DisplayStatus,
+		Internal: internal,
+		SubnetID: s.Data.PrivateSubnetID,
 	}
 }
 
@@ -96,10 +109,23 @@ func (s *ListBySubnetIDResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 	}
 
 	return &objects.LoadBalancer{
-		UUID:     s.UUID,
+		UUID:               s.UUID,
+		Name:               s.Name,
+		Address:            s.Address,
+		Description:        s.Description,
+		DisplayStatus:      s.DisplayStatus,
+		DisplayType:        s.DisplayType,
+		LoadBalancerSchema: s.LoadBalancerSchema,
+		PackageID:          s.PackageId,
+		PrivateSubnetCidr:  s.PrivateSubnetCidr,
+		PrivateSubnetID:    s.PrivateSubnetId,
+		ProgressStatus:     s.ProgressStatus,
+		Type:               s.Type,
+		CreatedAt:          s.CreatedAt,
+		UpdatedAt:          s.UpdatedAt,
+
 		Status:   s.DisplayStatus,
-		Address:  s.Address,
-		Name:     s.Name,
+		Internal: lStr.ToUpper(lStr.TrimSpace(s.LoadBalancerSchema)) == "INTERNAL",
 		SubnetID: s.PrivateSubnetId,
 	}
 }
@@ -122,10 +148,23 @@ func (s *ListResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
 	var result []*objects.LoadBalancer
 	for _, itemLb := range s.ListData {
 		result = append(result, &objects.LoadBalancer{
-			UUID:     itemLb.UUID,
+			UUID:               itemLb.UUID,
+			Name:               itemLb.Name,
+			Address:            itemLb.Address,
+			Description:        itemLb.Description,
+			DisplayStatus:      itemLb.DisplayStatus,
+			DisplayType:        itemLb.DisplayType,
+			LoadBalancerSchema: itemLb.LoadBalancerSchema,
+			PackageID:          itemLb.PackageID,
+			PrivateSubnetCidr:  itemLb.PrivateSubnetCidr,
+			PrivateSubnetID:    itemLb.PrivateSubnetID,
+			ProgressStatus:     itemLb.ProgressStatus,
+			Type:               itemLb.Type,
+			CreatedAt:          itemLb.CreatedAt,
+			UpdatedAt:          itemLb.UpdatedAt,
+
 			Status:   itemLb.DisplayStatus,
-			Address:  itemLb.Address,
-			Name:     itemLb.Name,
+			Internal: lStr.ToUpper(lStr.TrimSpace(itemLb.LoadBalancerSchema)) == "INTERNAL",
 			SubnetID: itemLb.PrivateSubnetID,
 		})
 	}
