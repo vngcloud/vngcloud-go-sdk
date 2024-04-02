@@ -40,7 +40,7 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lsdkError.SdkE
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, patternErrNotFound) {
+		if strings.Contains(errResp.Message, patternSecgroupInUse) {
 			return &lsdkError.SdkError{
 				Code:    ErrSecgroupInUse,
 				Message: errResp.Message,
