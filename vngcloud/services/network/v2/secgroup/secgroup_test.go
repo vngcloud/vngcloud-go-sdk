@@ -23,8 +23,8 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "c3f65a3d-f134-4216-9314-abb16f95fc29"
-		clientSecret = "8637fea6-9c19-4e46-bd74-645ad396bf82"
+		clientID     = "c3f65abb16f95fc29"
+		clientSecret = "8637f-645ad396bf82"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
