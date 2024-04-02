@@ -6,12 +6,14 @@ import (
 )
 
 const (
-	patternErrNotFound = "Cannot get security group with id secg-"
+	patternErrNotFound   = "Cannot get security group with id secg-"
+	patternSecgroupInUse = "SecurityGroupInUse"
 )
 
 var (
 	ErrSecgroupNotFound vconError.ErrorCode = "SECURITY_GROUP_NOT_FOUND"
 	ErrSecgroupUnknown  vconError.ErrorCode = "SECURITY_GROUP_UNKNOWN_ERROR"
+	ErrSecgroupInUse    vconError.ErrorCode = "SECURITY_GROUP_IN_USE"
 )
 
 func NewErrNameDuplicate(pName, pInfo string) vconError.IErrorBuilder {
