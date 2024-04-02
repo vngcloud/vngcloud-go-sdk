@@ -77,13 +77,19 @@ func TestCreateServer(t *testing.T) {
 	opt := NewCreateOpts(projectID, &CreateOpts{
 		Name:             "cuongdm3-uchiha-master-0",
 		EncryptionVolume: false,
-		ImageId:          "img-a98db89e-ef87-44fd-9567-f1877cbd4cd2",
+		ImageId:          "img-acad7cac-0b7a-4ecb-89e5-4a6530571007",
 		FlavorId:         "flav-3929c073-9da9-486f-a96f-9282dbb8d83f",
 		NetworkId:        "net-ef3a97fc-3d82-4356-b1d8-9cdbcc1dd80b",
 		RootDiskSize:     30,
 		RootDiskTypeId:   "vtype-7a7a8610-34f5-11ee-be56-0242ac120002",
 		SubnetId:         "sub-55ec620d-943d-4285-bdfd-a3428b37d306",
 		UserData:         "echo haha > /tmp/haha.txt",
+		IsPoc:            true,
+		UserName:         "stackops",
+		UserPassword:     "manhcuong123",
+
+		Product: "VKS",
+		Type:    "VKS",
 	})
 
 	resp, err := Create(vserverClient, opt)

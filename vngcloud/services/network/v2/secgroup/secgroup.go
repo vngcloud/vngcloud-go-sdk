@@ -32,12 +32,30 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Secgr
 	return response.ToSecgroupObject(), nil
 }
 
-func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lsdkError.SdkError {
+	errResp := lsdkError.NewErrorResponse()
 	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
-		OkCodes: []int{204},
+		OkCodes:   []int{204},
+		JSONError: errResp,
 	})
 
-	return err
+	if err != nil {
+		if strings.Contains(errResp.Message, patternSecgroupInUse) {
+			return &lsdkError.SdkError{
+				Code:    ErrSecgroupInUse,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
+
+		return &lsdkError.SdkError{
+			Code:    ErrSecgroupUnknown,
+			Message: errResp.Message,
+			Error:   err,
+		}
+	}
+
+	return nil
 }
 
 func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, *lsdkError.SdkError) {
