@@ -1,13 +1,17 @@
 package tag
 
-import "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+// import "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 
 // ***************************************** Response of Create Attachment API *****************************************
 
-type ICreateResponse interface {
-	ToServerTagObject() *objects.ServerTag
-}
+// type ICreateResponse interface {
+// 	ToResourceTagObject() *objects.ResourceTag
+// }
 
-type IGetResponse interface {
-	ToServerTagObject() *objects.VolumeAttach
-}
+// type IGetResponse interface {
+// 	ToResourceTagObject() []*objects.ResourceTag
+// }
+
+// type IUpdateResponse interface {
+// 	ToResourceTagObject() []*objects.ResourceTag
+// }

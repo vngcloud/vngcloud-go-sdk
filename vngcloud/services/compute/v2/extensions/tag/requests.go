@@ -5,21 +5,21 @@ import (
 	v2 "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/compute/v2"
 )
 
-// ******************************************** Create Attach Volume Request *******************************************
-
-type CreateOpts struct {
-	ResourceID     string                     `json:"resourceId"`
-	ResourceType   string                     `json:"resourceType"`
-	TagRequestList []CreateOptsTagRequestItem `json:"tagRequestList"`
-
-	v2.ServerV2Common
-	common.CommonOpts
-}
-
-type CreateOptsTagRequestItem struct {
+type TagRequestItem struct {
 	IsEdited bool   `json:"isEdited"`
 	Key      string `json:"key"`
 	Value    string `json:"value"`
+}
+
+// ******************************************** Create Attach Volume Request *******************************************
+
+type CreateOpts struct {
+	ResourceType   string           `json:"resourceType"`
+	ResourceID     string           `json:"resourceId"`
+	TagRequestList []TagRequestItem `json:"tagRequestList"`
+
+	v2.ResourceV2Common
+	common.CommonOpts
 }
 
 func (s *CreateOpts) ToRequestBody() interface{} {
@@ -29,6 +29,21 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 // ***************************************** Delete Volume Attachment Requests *****************************************
 
 type GetOpts struct {
-	v2.ServerV2Common
+	v2.ResourceV2Common
 	common.CommonOpts
+}
+
+// ***************************************** Update Tags *****************************************
+
+type UpdateOpts struct {
+	ResourceType   string           `json:"resourceType"`
+	ResourceID     string           `json:"resourceId"`
+	TagRequestList []TagRequestItem `json:"tagRequestList"`
+
+	v2.ResourceV2Common
+	common.CommonOpts
+}
+
+func (s *UpdateOpts) ToRequestBody() interface{} {
+	return s
 }

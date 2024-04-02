@@ -1,11 +1,16 @@
 package tag
 
-func NewDeleteResponse() []*GetResponse {
-	var resp []*GetResponse
+func NewDeleteResponse() []*ItemTagResponse {
+	var resp []*ItemTagResponse
 	return resp
 }
 
-func NewCreateResponse() []*CreateResponse {
-	var resp []*CreateResponse
+func NewCreateResponse() []*ItemTagResponse {
+	var resp []*ItemTagResponse
+	return resp
+}
+
+func NewUpdateResponse() []*ItemTagResponse {
+	var resp []*ItemTagResponse
 	return resp
 }

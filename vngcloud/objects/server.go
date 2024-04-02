@@ -81,7 +81,7 @@ type (
 
 // Extensions addons
 
-type ServerTag struct {
+type ResourceTag struct {
 	Key       string
 	Value     string
 	CreatedAt string

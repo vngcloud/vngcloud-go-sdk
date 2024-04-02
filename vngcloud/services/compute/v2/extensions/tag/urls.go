@@ -7,7 +7,7 @@ func createURL(sc *client.ServiceClient, opts ICreateOptsBuilder) string {
 		opts.GetProjectID(),
 		"tag",
 		"resource",
-		opts.GetServerID(),
+		opts.GetResourceID(),
 	)
 }
 
@@ -16,6 +16,15 @@ func getURL(sc *client.ServiceClient, opts IGetOptsBuilder) string {
 		opts.GetProjectID(),
 		"tag",
 		"resource",
-		opts.GetServerID(),
+		opts.GetResourceID(),
+	)
+}
+
+func updateURL(sc *client.ServiceClient, opts IGetOptsBuilder) string {
+	return sc.ServiceURL(
+		opts.GetProjectID(),
+		"tag",
+		"resource",
+		opts.GetResourceID(),
 	)
 }

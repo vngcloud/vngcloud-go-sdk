@@ -2,11 +2,17 @@ package tag
 
 type ICreateOptsBuilder interface {
 	GetProjectID() string
-	GetServerID() string
+	GetResourceID() string
 	ToRequestBody() interface{}
 }
 
 type IGetOptsBuilder interface {
 	GetProjectID() string
-	GetServerID() string
+	GetResourceID() string
+}
+
+type IUpdateOptsBuilder interface {
+	GetProjectID() string
+	GetResourceID() string
+	ToRequestBody() interface{}
 }
