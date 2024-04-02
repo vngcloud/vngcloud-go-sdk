@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	patternErrNotFound   = "Cannot get security group with id secg-"
+	patternErrNotFound   = "Cannot get security group with id"
 	patternSecgroupInUse = "SecurityGroupInUse"
 )
 

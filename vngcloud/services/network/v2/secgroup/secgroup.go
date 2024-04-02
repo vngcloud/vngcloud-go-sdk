@@ -48,6 +48,14 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lsdkError.SdkE
 			}
 		}
 
+		if strings.Contains(errResp.Message, patternErrNotFound) {
+			return &lsdkError.SdkError{
+				Code:    ErrSecgroupNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
+
 		return &lsdkError.SdkError{
 			Code:    ErrSecgroupUnknown,
 			Message: errResp.Message,
