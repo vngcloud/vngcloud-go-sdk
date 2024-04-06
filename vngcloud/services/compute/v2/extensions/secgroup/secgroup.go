@@ -4,7 +4,7 @@ import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 )
 
-func UpdateSecgroups(sc *client.ServiceClient, opts *UpdateSecgroupOpts) error {
+func UpdateSecgroups(sc *client.ServiceClient, opts IUpdateSecgroupOptsBuilder) error {
 	_, err := sc.Put(updateSecgroupURL(sc, opts), &client.RequestOpts{
 		OkCodes:  []int{202},
 		JSONBody: opts,
