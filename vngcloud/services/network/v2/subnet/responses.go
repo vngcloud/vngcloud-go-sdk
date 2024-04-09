@@ -23,7 +23,7 @@ func (s *GetResponse) ToSubnetObject() *objects.Subnet {
 	return &objects.Subnet{
 		UUID:      s.Subnet,
 		NetworkID: s.NetworkUUID,
-		CIRD:      s.Cidr,
+		CIDR:      s.Cidr,
 	}
 }
 
@@ -47,6 +47,6 @@ func (s *ListByNetworkIDResponse) ToSubnetObject() *objects.Subnet {
 	return &objects.Subnet{
 		UUID:      s.UUID,
 		NetworkID: s.NetworkUUID,
-		CIRD:      s.Cidr,
+		CIDR:      s.Cidr,
 	}
 }

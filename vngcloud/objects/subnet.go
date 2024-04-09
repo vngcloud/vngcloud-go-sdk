@@ -2,6 +2,6 @@ package objects
 
 type Subnet struct {
 	NetworkID string
-	CIRD      string
+	CIDR      string
 	UUID      string
 }
