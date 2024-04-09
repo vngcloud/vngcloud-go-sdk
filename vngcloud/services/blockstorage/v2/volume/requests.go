@@ -3,7 +3,6 @@ package volume
 import (
 	lParser "github.com/cuongpiger/joat/parser"
 
-	bstCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/blockstorage/v2"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 )
 
@@ -57,16 +56,23 @@ func (s *ListOpts) ToListQueryWithParams(pParams *map[string]interface{}) (strin
 // ************************************************* CreateOptsBuilder *************************************************
 
 type CreateOpts struct {
-	BackupVolumePointId string `json:"backupVolumePointId,omitempty"`
-	CreatedFrom         string `json:"createdFrom,omitempty"`
-	EncryptionType      string `json:"encryptionType,omitempty"`
-	MultiAttach         bool   `json:"multiAttach,omitempty"`
-	Name                string `json:"name"`
-	Size                uint64 `json:"size"`
-	VolumeTypeId        string `json:"volumeTypeId"`
-	PersistentVolume    bool   `json:"persistentVolume"`
+	BackupVolumePointId string          `json:"backupVolumePointId,omitempty"`
+	CreatedFrom         string          `json:"createdFrom,omitempty"`
+	EncryptionType      string          `json:"encryptionType,omitempty"`
+	MultiAttach         bool            `json:"multiAttach,omitempty"`
+	Name                string          `json:"name"`
+	Size                uint64          `json:"size"`
+	VolumeTypeId        string          `json:"volumeTypeId"`
+	Tags                []CreateOptsTag `json:"tags,omitempty"`
+	IsPoc               bool            `json:"isPoc,omitempty"`
+	IsEnableAutoRenew   bool            `json:"isEnableAutoRenew,omitempty"`
 
 	common.CommonOpts
+}
+
+type CreateOptsTag struct {
+	Key string `json:"key"`
+	Value string `json:"value"
 }
 
 func (s *CreateOpts) ToRequestBody() interface{} {
