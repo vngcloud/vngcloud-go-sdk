@@ -2,8 +2,10 @@ package volume
 
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/pagination"
+	"strings"
 )
 
 func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) *pagination.Pager {
@@ -61,15 +63,29 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return err
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Volume, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Volume, *lsdkError.SdkError) {
+	errResp := lsdkError.NewErrorResponse()
 	response := NewGetResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
+		JSONError:    errResp,
 	})
 
 	if err != nil {
-		return nil, err
+		if strings.Contains(errResp.Message, patternVolumeNotFound) {
+			return nil, &lsdkError.SdkError{
+				Code:    ErrVolumeNotFound,
+				Message: errResp.Message,
+				Error:   err,
+			}
+		}
+
+		return nil, &lsdkError.SdkError{
+			Code:    ErrVolumeUnknown,
+			Message: errResp.Message,
+			Error:   err,
+		}
 	}
 
 	return response.ToVolumeObject(), nil
