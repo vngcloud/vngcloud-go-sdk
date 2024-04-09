@@ -3,6 +3,7 @@ package volume
 import (
 	lParser "github.com/cuongpiger/joat/parser"
 
+	bstCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/blockstorage/v2"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 )
 
