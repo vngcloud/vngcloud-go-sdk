@@ -1,7 +1,6 @@
 package errors
 
 import (
-	lfmt "fmt"
 	lstr "strings"
 
 	lssdkErr "github.com/vngcloud/vngcloud-go-sdk/error"
@@ -16,7 +15,7 @@ var (
 const (
 	patternVolumeAvailable       = "this volume is available"
 	patternVolumeNotFound        = "is not found"
-	patternVolumeAlreadyAttached = "volume %s already attached to instance %s"
+	patternVolumeAlreadyAttached = "already attached to instance"
 )
 
 func WithErrorVolumeAvailable(perrResp *lssdkErr.ErrorResponse, perr error) func(*lssdkErr.SdkError) {
@@ -56,10 +55,7 @@ func WithErrorVolumeAlreadyAttached(perrResp *lssdkErr.ErrorResponse, pvolID, pi
 		}
 
 		errMsg := perrResp.Message
-		if lstr.Contains(
-			lstr.ToLower(lstr.TrimSpace(errMsg)),
-			lstr.ToLower(lfmt.Sprintf(patternVolumeAlreadyAttached, pvolID, pinstanceID))) {
-
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeAlreadyAttached) {
 			sdkError.Code = ErrCodeVolumeAlreadyAttached
 			sdkError.Message = errMsg
 			sdkError.Error = perr
