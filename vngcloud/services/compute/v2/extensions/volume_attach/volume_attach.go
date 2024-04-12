@@ -3,7 +3,7 @@ package volume_attach
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
+	lstr "strings"
 
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
@@ -24,7 +24,7 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.VolumeA
 		result := make(map[string]interface{})
 		err2 := json.Unmarshal(reqRes.Bytes(), &result)
 		if err2 == nil {
-			if message, _ := result["message"].(string); strings.TrimSpace(message) == "This volume is available" {
+			if message, _ := result["message"].(string); lstr.TrimSpace(message) == "This volume is available" {
 				return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
 			}
 		}
@@ -35,25 +35,23 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.VolumeA
 	return response.ToVolumeAttachObject(), nil
 }
 
-func Attach(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.VolumeAttach, error) {
+func Attach(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.VolumeAttach, *lsdkError.SdkError) {
 	response := NewCreateResponse()
-	reqRes, err := sc.Put(createURL(sc, opts), &client.RequestOpts{
+	errResp := lsdkError.NewErrorResponse()
+	_, err := sc.Put(createURL(sc, opts), &client.RequestOpts{
 		OkCodes:      []int{202},
 		JSONResponse: response,
 		JSONBody:     map[string]interface{}{},
+		JSONError:    errResp,
 	})
 
 	if err != nil {
-		fmt.Println(err)
-		result := make(map[string]interface{})
-		err2 := json.Unmarshal(reqRes.Bytes(), &result)
-		if err2 == nil {
-			if message, _ := result["message"].(string); strings.TrimSpace(message) == "This volume is available" {
-				return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
-			}
-		}
+		sdkErr := errors.ErrorHandler(err,
+			errors.WithErrorVolumeAvailable(errResp, err),
+			errors.WithErrorVolumeNotFound(errResp, err),
+			errors.WithErrorVolumeAlreadyAttached(errResp, opts.GetVolumeID(), opts.GetInstanceID(), err))
 
-		return nil, err
+		return nil, sdkErr
 	}
 
 	return response.ToVolumeAttachObject(), nil
@@ -72,7 +70,7 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeA
 		result := make(map[string]interface{})
 		err2 := json.Unmarshal(reqRes.Bytes(), &result)
 		if err2 == nil {
-			if message, _ := result["message"].(string); strings.TrimSpace(message) == "This volume is available" {
+			if message, _ := result["message"].(string); lstr.TrimSpace(message) == "This volume is available" {
 				return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
 			}
 		}
@@ -83,7 +81,6 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeA
 	return response.ToVolumeAttachObject(), nil
 }
 
-// Delete deletes a volume attachment.
 func Detach(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeAttach, *lsdkError.SdkError) {
 	response := NewDeleteResponse()
 	errResp := lsdkError.NewErrorResponse()
@@ -97,7 +94,7 @@ func Detach(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeA
 	if err != nil {
 		sdkErr := errors.ErrorHandler(err,
 			errors.WithErrorVolumeAvailable(errResp, err),
-			errors.WithErrorNotFound(errResp, err))
+			errors.WithErrorVolumeNotFound(errResp, err))
 
 		return nil, sdkErr
 	}
