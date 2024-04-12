@@ -3,11 +3,12 @@ package volume_attach
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
-	"strings"
 )
 
 // Create creates a volume attachment.
