@@ -3,9 +3,9 @@ package volume
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/pagination"
-	"strings"
 )
 
 func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) *pagination.Pager {
@@ -73,19 +73,10 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Volume, *ls
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, patternVolumeNotFound) {
-			return nil, &lsdkError.SdkError{
-				Code:    ErrVolumeNotFound,
-				Message: errResp.Message,
-				Error:   err,
-			}
-		}
+		sdkErr := errors.ErrorHandler(err,
+			errors.WithErrorNotFound(errResp, err))
 
-		return nil, &lsdkError.SdkError{
-			Code:    ErrVolumeUnknown,
-			Message: errResp.Message,
-			Error:   err,
-		}
+		return nil, sdkErr
 	}
 
 	return response.ToVolumeObject(), nil
