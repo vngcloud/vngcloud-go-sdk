@@ -74,7 +74,7 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Volume, *ls
 
 	if err != nil {
 		sdkErr := errors.ErrorHandler(err,
-			errors.WithErrorNotFound(errResp, err))
+			errors.WithErrorVolumeNotFound(errResp, err))
 
 		return nil, sdkErr
 	}
