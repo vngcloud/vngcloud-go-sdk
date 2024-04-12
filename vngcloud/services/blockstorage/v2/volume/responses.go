@@ -165,6 +165,7 @@ func (s *GetResponse) ToVolumeObject() *objects.Volume {
 		UpdatedAt:        s.Data.UpdatedAt,
 		VmId:             s.Data.ServerID,
 		PersistentVolume: s.Data.PersistentVolume,
+		AttachedMachine:  s.Data.ServerIDList,
 	}
 }
 
