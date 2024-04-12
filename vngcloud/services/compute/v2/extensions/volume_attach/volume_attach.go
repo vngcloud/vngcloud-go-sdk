@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"strings"
 )
@@ -82,7 +83,7 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeA
 }
 
 // Delete deletes a volume attachment.
-func Detach(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeAttach, error) {
+func Detach(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeAttach, *lsdkError.SdkError) {
 	response := NewDeleteResponse()
 	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Put(deleteURL(sc, opts), &client.RequestOpts{
@@ -93,15 +94,11 @@ func Detach(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*objects.VolumeA
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, "This volume is available") {
-			return nil, nil
-		}
+		sdkErr := errors.ErrorHandler(err,
+			errors.WithErrorVolumeAvailable(errResp, err),
+			errors.WithErrorNotFound(errResp, err))
 
-		if strings.Contains(errResp.Message, "is not found") {
-			return nil, nil
-		}
-
-		return nil, err
+		return nil, sdkErr
 	}
 
 	return response.ToVolumeAttachObject(), nil
