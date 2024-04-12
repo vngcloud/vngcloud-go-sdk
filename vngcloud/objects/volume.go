@@ -12,4 +12,5 @@ type Volume struct {
 	CreatedAt        string
 	UpdatedAt        *string
 	PersistentVolume bool
+	AttachedMachine  []string
 }
