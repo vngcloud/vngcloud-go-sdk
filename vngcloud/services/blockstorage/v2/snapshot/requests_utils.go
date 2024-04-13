@@ -1,14 +1,9 @@
 package snapshot
 
-func NewCreateOpts(pProjectID, pVolumeID, pDesc string, pPermanently bool, pName string, pRetainedDay uint64) ICreateOptsBuilder {
-	opts := new(CreateOpts)
-	opts.ProjectID = pProjectID
-	opts.VolumeID = pVolumeID
-	opts.Description = pDesc
-	opts.Permanently = pPermanently
-	opts.Name = pName
-	opts.RetainedDay = pRetainedDay
-	return opts
+func NewCreateOpts(pprojectID, pVolumeID string, popts *CreateOpts) ICreateOptsBuilder {
+	popts.ProjectID = pprojectID
+	popts.VolumeID = pVolumeID
+	return popts
 }
 
 func NewDeleteOpts(pProjectID, pVolumeID, pSnapshotID string) IDeleteOptsBuilder {
