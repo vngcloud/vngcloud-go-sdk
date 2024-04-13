@@ -93,5 +93,10 @@ func (s *ListVolumeSnapshotResponse) ToSnapshotListObject() *lso.SnapshotList {
 		sl.Items = append(sl.Items, *item.ToSnapshotObject())
 	}
 
+	sl.Page = s.Page
+	sl.PageSize = s.PageSize
+	sl.TotalPages = s.TotalPages
+	sl.TotalItems = s.TotalItems
+
 	return sl
 }
