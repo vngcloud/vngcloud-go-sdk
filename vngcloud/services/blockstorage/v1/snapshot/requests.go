@@ -1,20 +1,27 @@
 package snapshot
 
-import lParser "github.com/cuongpiger/joat/parser"
+import (
+	lfmt "fmt"
+	ljparser "github.com/cuongpiger/joat/parser"
+	lssvCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
+)
 
-type ListOpts struct {
-	Page int `q:"page"`
-	Size int `q:"size"`
+/**
+ * Define the request for the API List Snapshot
+ */
 
-	VolumeID string
-	Status   string
-	Name     string
+type ListVolumeOpts struct {
+	VolumeID string `q:"volumeId"`
+	Page     int    `q:"page"`
+	Size     int    `q:"size"`
+
+	lssvCm.CommonOpts
 }
 
-func (s *ListOpts) ToListQuery() (string, error) {
-	parser, _ := lParser.GetParser()
+// ToListQuery formats a ListOpts into a query string
+func (s *ListVolumeOpts) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
 	url, err := parser.UrlMe(s)
-
 	if err != nil {
 		return "", err
 	}
@@ -22,36 +29,6 @@ func (s *ListOpts) ToListQuery() (string, error) {
 	return url.String(), err
 }
 
-func (s *ListOpts) ToListQueryWithParams(pParams *map[string]interface{}) (string, error) {
-	if pParams != nil {
-		if value, ok := (*pParams)["page"]; ok {
-			s.Page = value.(int)
-		}
-
-		if value, ok := (*pParams)["size"]; ok {
-			s.Size = value.(int)
-		}
-
-		parser, _ := lParser.GetParser()
-		url, err := parser.UrlMe(s)
-		if err != nil {
-			return "", err
-		}
-
-		return url.String(), err
-	}
-
-	return "", nil
-}
-
-func (s *ListOpts) GetVolumeID() string {
-	return s.VolumeID
-}
-
-func (s *ListOpts) GetStatus() string {
-	return s.Status
-}
-
-func (s *ListOpts) GetName() string {
-	return s.Name
+func (s *ListVolumeOpts) GetDefaultQuery() string {
+	return lfmt.Sprintf("page=%d&size=%d", defaultPageListVolumeSnapshot, defaultSizeListVolumeSnapshot)
 }

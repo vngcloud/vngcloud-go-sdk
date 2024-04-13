@@ -22,9 +22,9 @@ var (
 func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
-		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "cc1363480a"
-		clientSecret = "f595630bd6fabe28"
+		vServerURL   = "https://hcm-3.console.vngcloud.vn/vserver/vbackup-gateway/v1"
+		clientID     = "cc1364480a"
+		clientSecret = "f59560bd6fabe28"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -43,23 +43,10 @@ func NewSC() *client.ServiceClient {
 	return vlb
 }
 
-func TestCreateSnapshot(t *testing.T) {
-	vserverClient := NewSC()
-
-	opt := NewCreateOpts(projectID, volID, "cuongdm3-test", true, "cuongdm3-convit-leo-nui", 0)
-
-	resp, err := Create(vserverClient, opt)
-	if err != nil {
-		fmt.Printf("Error: %s\n", err)
-	}
-
-	fmt.Printf("resp: %+v\n", resp)
-}
-
 func TestListVolumeSnapshot(t *testing.T) {
 	vserverClient := NewSC()
 
-	opt := NewListVolumeOpts(projectID, volID, 1, 10)
+	opt := NewListVolumeOpts(projectID, "", 1, 10)
 
 	resp, err := ListVolumeSnapshot(vserverClient, opt)
 	if err != nil {

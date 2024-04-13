@@ -1,9 +1,7 @@
 package snapshot
 
-type IListOptsBuilder interface {
+type IListVolumeOptsBuilder interface {
+	GetProjectID() string
 	ToListQuery() (string, error)
-	ToListQueryWithParams(*map[string]interface{}) (string, error)
-	GetVolumeID() string
-	GetStatus() string
-	GetName() string
+	GetDefaultQuery() string
 }

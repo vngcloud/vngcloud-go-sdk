@@ -1,23 +1,10 @@
 package snapshot
 
-import "strings"
-
-func NewListOpts(pPage, pSize int, pVolumeID, pStatus, pName string) IListOptsBuilder {
-	opts := new(ListOpts)
-	opts.Page = pPage
-	opts.Size = pSize
-
-	if pVolumeID != "" {
-		opts.VolumeID = pVolumeID
-	}
-
-	if pStatus != "" {
-		opts.Status = strings.ToLower(pStatus)
-	}
-
-	if pName != "" {
-		opts.Name = pName
-	}
-
+func NewListVolumeOpts(pprojectId, pVolumeId string, ppage, psize int) IListVolumeOptsBuilder {
+	opts := new(ListVolumeOpts)
+	opts.ProjectID = pprojectId
+	opts.VolumeID = pVolumeId
+	opts.Page = ppage
+	opts.Size = psize
 	return opts
 }

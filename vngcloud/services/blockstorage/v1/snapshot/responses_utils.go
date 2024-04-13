@@ -1,5 +1,5 @@
 package snapshot
 
-func NewListResponse() IListResponse {
-	return &ListResponse{}
+func NewListVolumeResponse() IListVolumeResponse {
+	return new(ListVolumeSnapshotResponse)
 }
