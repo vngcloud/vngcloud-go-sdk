@@ -43,19 +43,6 @@ func NewSC() *client.ServiceClient {
 	return vlb
 }
 
-func TestCreateSnapshot(t *testing.T) {
-	vserverClient := NewSC()
-
-	opt := NewCreateOpts(projectID, volID, "cuongdm3-test", true, "cuongdm3-convit-leo-nui", 0)
-
-	resp, err := Create(vserverClient, opt)
-	if err != nil {
-		fmt.Printf("Error: %s\n", err)
-	}
-
-	fmt.Printf("resp: %+v\n", resp)
-}
-
 func TestListVolumeSnapshot(t *testing.T) {
 	vserverClient := NewSC()
 
