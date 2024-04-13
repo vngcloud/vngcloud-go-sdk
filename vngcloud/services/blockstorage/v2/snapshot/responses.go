@@ -65,6 +65,7 @@ func (s *CreateResponse) ToSnapshotObject() *lso.Snapshot {
 		VolumeID:  s.VolumeId,
 		Status:    s.Status,
 		Size:      s.Size,
+		Name:      s.Name,
 	}
 }
 
