@@ -73,6 +73,7 @@ type (
 func (s *Snapshot) toSnapshotObject() *lso.Snapshot {
 	return &lso.Snapshot{
 		ID:        s.ID,
+		Name:      s.Name,
 		CreatedAt: s.CreatedAt,
 		VolumeID:  s.VolumeId,
 		Status:    s.Status,

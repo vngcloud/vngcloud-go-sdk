@@ -6,6 +6,7 @@ type Snapshot struct {
 	VolumeID  string
 	Size      int64
 	Status    string
+	Name      string
 }
 
 type SnapshotList struct {
