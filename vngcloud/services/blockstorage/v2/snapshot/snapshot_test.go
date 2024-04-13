@@ -16,16 +16,16 @@ func PointerOf[T any](t T) *T {
 
 var (
 	projectID  = "pro-462803f3-6858-466f-bf05-df2b33faa360"
-	volID      = "vol-a31e5c00-470a-4165-bf25-d3e469a2ce86"
-	snapshotID = "snap-vol-pt-278a66d3-6a3e-44f0-9df9-06cf714abaa7"
+	volID      = "undefined"
+	snapshotID = "snap-vol-pt-3b54f3a8-a3ee-4a9b-b0a5-2d45053e9feb"
 )
 
 func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "cc136c74480a"
-		clientSecret = "f595635bd6fabe28"
+		clientID     = "cc1366c74480a"
+		clientSecret = "f59fabe28"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -60,7 +60,7 @@ func TestListVolumeSnapshot(t *testing.T) {
 func TestDeleteSnapshot(t *testing.T) {
 	vserverClient := NewSC()
 
-	opt := NewDeleteOpts(projectID, volID, snapshotID)
+	opt := NewDeleteOpts(projectID, snapshotID)
 
 	err := Delete(vserverClient, opt)
 	if err != nil {
