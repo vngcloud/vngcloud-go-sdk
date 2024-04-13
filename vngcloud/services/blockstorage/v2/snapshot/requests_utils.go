@@ -6,11 +6,11 @@ func NewCreateOpts(pprojectID, pVolumeID string, popts *CreateOpts) ICreateOptsB
 	return popts
 }
 
-func NewDeleteOpts(pProjectID, pVolumeID, pSnapshotID string) IDeleteOptsBuilder {
+func NewDeleteOpts(pProjectID, pSnapshotID string) IDeleteOptsBuilder {
 	opts := new(DeleteOpts)
 	opts.ProjectID = pProjectID
-	opts.VolumeID = pVolumeID
 	opts.SnapshotID = pSnapshotID
+	opts.VolumeID = "undefined"
 	return opts
 }
 

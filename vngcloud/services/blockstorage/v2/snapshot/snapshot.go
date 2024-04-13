@@ -7,10 +7,10 @@ import (
 	lso "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func Create(pSc *lsc.ServiceClient, pOpts ICreateOptsBuilder) (*lso.Snapshot, error) {
+func Create(psc *lsc.ServiceClient, ptops ICreateOptsBuilder) (*lso.Snapshot, error) {
 	response := NewCreateResponse()
-	body := pOpts.ToRequestBody()
-	_, err := pSc.Post(createURL(pSc, pOpts), &lsc.RequestOpts{
+	body := ptops.ToRequestBody()
+	_, err := psc.Post(createURL(psc, ptops), &lsc.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
 		OkCodes:      []int{200},
@@ -23,8 +23,8 @@ func Create(pSc *lsc.ServiceClient, pOpts ICreateOptsBuilder) (*lso.Snapshot, er
 	return response.ToSnapshotObject(), nil
 }
 
-func Delete(pSc *lsc.ServiceClient, pOpts IDeleteOptsBuilder) error {
-	_, err := pSc.Delete(deleteURL(pSc, pOpts), &lsc.RequestOpts{
+func Delete(psc *lsc.ServiceClient, ptops IDeleteOptsBuilder) error {
+	_, err := psc.Delete(deleteURL(psc, ptops), &lsc.RequestOpts{
 		OkCodes: []int{200},
 	})
 
