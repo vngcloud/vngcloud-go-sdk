@@ -23,12 +23,19 @@ func Create(psc *lsc.ServiceClient, ptops ICreateOptsBuilder) (*lso.Snapshot, er
 	return response.ToSnapshotObject(), nil
 }
 
-func Delete(psc *lsc.ServiceClient, ptops IDeleteOptsBuilder) error {
+func Delete(psc *lsc.ServiceClient, ptops IDeleteOptsBuilder) *lse.SdkError {
+	errResp := lse.NewErrorResponse()
 	_, err := psc.Delete(deleteURL(psc, ptops), &lsc.RequestOpts{
-		OkCodes: []int{200},
+		JSONError: errResp,
+		OkCodes:   []int{200},
 	})
 
-	return err
+	if err != nil {
+		return lserrHandler.ErrorHandler(err,
+			lserrHandler.WithErrorSnapshotNotFound(errResp, err))
+	}
+
+	return nil
 }
 
 func ListVolumeSnapshot(psc *lsc.ServiceClient, popts IListVolumeOptsBuilder) (*lso.SnapshotList, *lse.SdkError) {
