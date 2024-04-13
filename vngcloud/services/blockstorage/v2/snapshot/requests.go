@@ -45,10 +45,10 @@ func (s *DeleteOpts) GetSnapshotID() string {
  */
 
 type ListVolumeOpts struct {
-	VolumeID string `q:"volumeId"`
-	Page     int    `q:"page"`
-	Size     int    `q:"size"`
+	Page int `q:"page"`
+	Size int `q:"size"`
 
+	lsbsV2Cm.BlockStorageV2Common
 	lssvCm.CommonOpts
 }
 

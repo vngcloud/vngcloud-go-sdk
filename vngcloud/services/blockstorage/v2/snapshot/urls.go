@@ -1,27 +1,29 @@
 package snapshot
 
-import "github.com/vngcloud/vngcloud-go-sdk/client"
+import (
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
+)
 
 // createURL generates the URL for creating a Snapshot based on the given options.
-func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
-	return pSc.ServiceURL(
-		pOpts.GetProjectID(),
+func createURL(psc *lsclient.ServiceClient, popts ICreateOptsBuilder) string {
+	return psc.ServiceURL(
+		popts.GetProjectID(),
 		"volumes",
-		pOpts.GetVolumeID(),
+		popts.GetVolumeID(),
 		"snapshots")
 }
 
-func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
-	return pSc.ServiceURL(
-		pOpts.GetProjectID(),
+func deleteURL(psc *lsclient.ServiceClient, popts IDeleteOptsBuilder) string {
+	return psc.ServiceURL(
+		popts.GetProjectID(),
 		"volumes",
-		pOpts.GetVolumeID(),
+		popts.GetVolumeID(),
 		"snapshots",
-		pOpts.GetSnapshotID(),
+		popts.GetSnapshotID(),
 	)
 }
 
-func listVolumeSnapshotURL(psc *client.ServiceClient, popts IListVolumeOptsBuilder) string {
+func listVolumeSnapshotURL(psc *lsclient.ServiceClient, popts IListVolumeOptsBuilder) string {
 	query, err := popts.ToListQuery()
 	if err != nil {
 		query = popts.GetDefaultQuery()
@@ -29,6 +31,8 @@ func listVolumeSnapshotURL(psc *client.ServiceClient, popts IListVolumeOptsBuild
 
 	return psc.ServiceURL(
 		popts.GetProjectID(),
-		"snapshot-volumes",
+		"volumes",
+		popts.GetVolumeID(),
+		"snapshots",
 	) + query
 }
