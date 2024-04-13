@@ -16,7 +16,7 @@ func PointerOf[T any](t T) *T {
 
 var (
 	projectID  = "pro-462803f3-6858-466f-bf05-df2b33faa360"
-	volID      = "undefined"
+	volID      = "vol-a31e5c00-470a-4165-bf25-d3e469a2ce86"
 	snapshotID = "snap-vol-pt-3b54f3a8-a3ee-4a9b-b0a5-2d45053e9feb"
 )
 
@@ -24,8 +24,8 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "cc134480a"
-		clientSecret = "f5956abe28"
+		clientID     = "cc1366c74480a"
+		clientSecret = "f5956bd6fabe28"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
