@@ -1,6 +1,8 @@
 package snapshot
 
-import "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+import (
+	lso "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+)
 
 type (
 	CreateResponse struct {
@@ -56,12 +58,39 @@ type (
 	}
 )
 
-func (s *CreateResponse) ToSnapshotObject() *objects.Snapshot {
-	return &objects.Snapshot{
+func (s *CreateResponse) ToSnapshotObject() *lso.Snapshot {
+	return &lso.Snapshot{
 		ID:        s.ID,
 		CreatedAt: s.CreatedAt,
 		VolumeID:  s.VolumeId,
 		Status:    s.Status,
 		Size:      s.Size,
 	}
+}
+
+/**
+ * Define the response for the API List Snapshot of Block Storage volume
+ */
+
+type (
+	ListVolumeSnapshotResponse struct {
+		Items      []CreateResponse `json:"items"`
+		Page       int              `json:"page"`
+		PageSize   int              `json:"pageSize"`
+		TotalPages int              `json:"totalPages"`
+		TotalItems int              `json:"totalItems"`
+	}
+)
+
+func (s *ListVolumeSnapshotResponse) ToSnapshotListObject() *lso.SnapshotList {
+	if s == nil {
+		return nil
+	}
+
+	sl := new(lso.SnapshotList)
+	for _, item := range s.Items {
+		sl.Items = append(sl.Items, *item.ToSnapshotObject())
+	}
+
+	return sl
 }

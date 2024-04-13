@@ -11,3 +11,9 @@ type IDeleteOptsBuilder interface {
 	GetVolumeID() string
 	GetSnapshotID() string
 }
+
+type IListVolumeOptsBuilder interface {
+	GetProjectID() string
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
+}

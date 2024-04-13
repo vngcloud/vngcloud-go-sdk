@@ -18,3 +18,12 @@ func NewDeleteOpts(pProjectID, pVolumeID, pSnapshotID string) IDeleteOptsBuilder
 	opts.SnapshotID = pSnapshotID
 	return opts
 }
+
+func NewListVolumeOpts(pprojectId, pVolumeId string, ppage, psize int) IListVolumeOptsBuilder {
+	opts := new(ListVolumeOpts)
+	opts.ProjectID = pprojectId
+	opts.VolumeID = pVolumeId
+	opts.Page = ppage
+	opts.Size = psize
+	return opts
+}

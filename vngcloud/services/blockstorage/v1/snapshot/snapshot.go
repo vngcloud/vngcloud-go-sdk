@@ -1,40 +1,27 @@
 package snapshot
 
 import (
-	"github.com/vngcloud/vngcloud-go-sdk/client"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/pagination"
+	lsc "github.com/vngcloud/vngcloud-go-sdk/client"
+	lse "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
+	lso "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) *pagination.Pager {
-	url := listURL(pSc, pOpts)
-	return pagination.NewPager(pSc, url, pOpts,
-		func() interface{} {
-			return NewListResponse()
-		},
-		func(r interface{}) pagination.IPage {
-			resp := r.(*ListResponse)
+func ListVolumeSnapshot(psc *lsc.ServiceClient, popts IListVolumeOptsBuilder) (*lso.SnapshotList, *lse.SdkError) {
+	resp := NewListVolumeResponse()
+	errResp := lse.NewErrorResponse()
+	url := listVolumeSnapshotURL(psc, popts)
 
-			if pOpts.GetVolumeID()+pOpts.GetName() != "" {
-				result := new(ListResponse)
-				result.Items = make([]Snapshot, 0)
-				for _, snapshot := range resp.Items {
-					if snapshot.VolumeId == pOpts.GetVolumeID() || snapshot.Name == pOpts.GetName() {
-						if (pOpts.GetStatus() != "" && pOpts.GetStatus() == snapshot.Status) ||
-							pOpts.GetStatus() == "" {
-							result.Items = append(result.Items, snapshot)
-						}
-					}
-				}
+	_, err := psc.Get(url, &lsc.RequestOpts{
+		JSONResponse: resp,
+		JSONError:    errResp,
+		OkCodes:      []int{200},
+	})
 
-				result.Page = resp.Page
-				result.PageSize = resp.PageSize
-				result.TotalPage = resp.TotalPage
-				result.TotalItem = resp.TotalItem
+	if err != nil {
+		sdkErr := lserrHandler.ErrorHandler(err)
+		return nil, sdkErr
+	}
 
-				return result
-			}
-
-			return resp
-		},
-	)
+	return resp.ToSnapshotListObject(), nil
 }

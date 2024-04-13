@@ -20,3 +20,15 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		pOpts.GetSnapshotID(),
 	)
 }
+
+func listVolumeSnapshotURL(psc *client.ServiceClient, popts IListVolumeOptsBuilder) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(
+		popts.GetProjectID(),
+		"snapshot-volumes",
+	) + query
+}

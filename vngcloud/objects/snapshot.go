@@ -7,3 +7,7 @@ type Snapshot struct {
 	Size      int64
 	Status    string
 }
+
+type SnapshotList struct {
+	Items []Snapshot
+}
