@@ -2,29 +2,32 @@ package volume
 
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
-	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	lssdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/pagination"
+	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) *pagination.Pager {
-	qp, err := pOpts.ToListQuery()
-	url := listURL(pSc, pOpts)
-	if err == nil {
-		url = url + qp
+func List(psc *client.ServiceClient, popts IListOptsBuilder) (*lsobj.VolumeList, *lssdkError.SdkError) {
+	resp := NewListResponse()
+	errResp := lssdkError.NewErrorResponse()
+	url := listURL(psc, popts)
+
+	_, err := psc.Get(url, &client.RequestOpts{
+		JSONResponse: resp,
+		JSONError:    errResp,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		sdkErr := errors.ErrorHandler(err)
+		return nil, sdkErr
+
 	}
-	return pagination.NewPager(pSc, url, pOpts,
-		func() interface{} {
-			return NewListResponse()
-		},
-		func(r interface{}) pagination.IPage {
-			resp := r.(*ListResponse)
-			return resp
-		})
+
+	return resp.ToVolumeListObject(), nil
 }
 
-func ListAll(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) ([]*objects.Volume, error) {
+func ListAll(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) ([]*lsobj.Volume, error) {
 	resp := NewListAllResponse()
 	url := listAllURL(pSc, pOpts)
 	_, err := pSc.Get(url, &client.RequestOpts{
@@ -39,7 +42,7 @@ func ListAll(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) ([]*objects.V
 	return resp.ToListVolumeObjects(), nil
 }
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Volume, error) {
+func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*lsobj.Volume, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
 	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
@@ -63,8 +66,8 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return err
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Volume, *lsdkError.SdkError) {
-	errResp := lsdkError.NewErrorResponse()
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.Volume, *lssdkError.SdkError) {
+	errResp := lssdkError.NewErrorResponse()
 	response := NewGetResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,

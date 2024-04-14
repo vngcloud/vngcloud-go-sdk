@@ -16,9 +16,9 @@ type ICreateOptsBuilder interface {
 }
 
 type IListOptsBuilder interface {
-	ToListQuery() (string, error)
-	ToListQueryWithParams(*map[string]interface{}) (string, error)
 	GetProjectID() string
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
 }
 
 type IListAllOptsBuilder interface {

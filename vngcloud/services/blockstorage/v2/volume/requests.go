@@ -1,6 +1,7 @@
 package volume
 
 import (
+	lfmt "fmt"
 	lParser "github.com/cuongpiger/joat/parser"
 
 	bstCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/blockstorage/v2"
@@ -28,30 +29,8 @@ func (s *ListOpts) ToListQuery() (string, error) {
 	return url.String(), err
 }
 
-func (s *ListOpts) ToListQueryWithParams(pParams *map[string]interface{}) (string, error) {
-	if pParams != nil {
-		if value, ok := (*pParams)["name"]; ok {
-			s.Name = value.(string)
-		}
-
-		if value, ok := (*pParams)["page"]; ok {
-			s.Page = value.(int)
-		}
-
-		if value, ok := (*pParams)["size"]; ok {
-			s.Size = value.(int)
-		}
-
-		parser, _ := lParser.GetParser()
-		url, err := parser.UrlMe(s)
-		if err != nil {
-			return "", err
-		}
-
-		return url.String(), err
-	}
-
-	return "", nil
+func (s *ListOpts) GetDefaultQuery() string {
+	return lfmt.Sprintf("page=%d&size=%d&name=", defaultPageListVolume, defaultSizeListVolume)
 }
 
 // ************************************************* CreateOptsBuilder *************************************************

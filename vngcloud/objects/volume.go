@@ -14,3 +14,11 @@ type Volume struct {
 	PersistentVolume bool
 	AttachedMachine  []string
 }
+
+type VolumeList struct {
+	Items      []Volume
+	Page       int
+	PageSize   int
+	TotalPages int
+	TotalItems int
+}
