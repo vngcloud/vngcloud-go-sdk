@@ -23,8 +23,8 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vServerURL   = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "cc13636c74480a"
-		clientSecret = "f595636fabe28"
+		clientID     = "cc136c74480a"
+		clientSecret = "f5956bd6fabe28"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -76,10 +76,10 @@ func TestCreateVolumeFromSnapshot(t *testing.T) {
 		Name:         "test-volume",
 		CreatedFrom:  CreateFromSnapshot,
 		Size:         20,
-		VolumeTypeId: "vtype-93a22a9f-1ec0-4e61-84fb-75ac181c13dc",
+		VolumeTypeId: "vtype-0a11e78f-9880-4bf3-b0af-f0f974e0beb0",
 		ConfigureVolumeRestore: &ConfigureVolumeRestore{
 			SnapshotVolumePointId: "snap-vol-pt-ee5103b1-c8d9-4c42-98f7-fe840ca808d3",
-			VolumeTypeId:          "vtype-93a22a9f-1ec0-4e61-84fb-75ac181c13dc",
+			VolumeTypeId:          "vtype-0a11e78f-9880-4bf3-b0af-f0f974e0beb0",
 		},
 	})
 

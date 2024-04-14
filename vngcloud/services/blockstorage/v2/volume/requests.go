@@ -67,7 +67,7 @@ type CreateOpts struct {
 	Tags                   []CreateOptsTag         `json:"tags,omitempty"`
 	IsPoc                  bool                    `json:"isPoc,omitempty"`
 	IsEnableAutoRenew      bool                    `json:"isEnableAutoRenew,omitempty"`
-	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configureVolumeRestore,omitempty"`
+	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configVolumeRestore,omitempty"`
 
 	common.CommonOpts
 }
