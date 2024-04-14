@@ -17,9 +17,7 @@ type IGetResponse interface {
 // ******************************************** Response of ListVolume API *********************************************
 
 type IListResponse interface {
-	ToListVolumeObjects() []*objects.Volume
-	ToVolumeObject(pIdx int) *objects.Volume
-	NextPage() string
+	ToVolumeListObject() *objects.VolumeList
 }
 
 // ******************************************* Response of ListAllVolume API *******************************************

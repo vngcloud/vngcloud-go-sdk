@@ -1,7 +1,6 @@
 package volume
 
 import (
-	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/pagination"
 )
@@ -42,62 +41,19 @@ type (
 	}
 )
 
-func (s *ListResponse) IsEmpty() (bool, error) {
-	if len(s.ListData) < 1 {
-		return true, nil
-	}
-
-	return false, nil
-}
-
-func (s *ListResponse) NextPageURL(pOpts pagination.IPageOpts) (string, error) {
-	currentPage := s.Page
-	totalPages := s.TotalPage
-	defaultOpts := pOpts.(*ListOpts)
-
-	if totalPages > currentPage {
-		query, err := pOpts.ToListQueryWithParams(&map[string]interface{}{
-			"page": defaultOpts.Page + 1,
-			"size": defaultOpts.Size,
-			"name": defaultOpts.Name,
-		})
-		if err != nil {
-			return "", err
-		}
-
-		return query, nil
-	}
-
-	return "", nil
-}
-
-func (s *ListResponse) GetBody() interface{} {
-	return s
-}
-
-func (s *ListResponse) ToListVolumeObjects() []*objects.Volume {
-	var volumes []*objects.Volume
+func (s *ListResponse) ToVolumeListObject() *objects.VolumeList {
+	vl := new(objects.VolumeList)
 	for i, _ := range s.ListData {
-		vol := s.ToVolumeObject(i)
+		vol := s.toVolumeObject(i)
 		if vol != nil {
-			volumes = append(volumes, vol)
+			vl.Items = append(vl.Items, *vol)
 		}
 	}
 
-	return volumes
+	return vl
 }
 
-func (s *ListResponse) NextPage() string {
-	currentPage := s.Page
-	totalPages := s.TotalPage
-	if totalPages > currentPage {
-		return fmt.Sprintf("%d", currentPage+1)
-	}
-
-	return ""
-}
-
-func (s *ListResponse) ToVolumeObject(pIdx int) *objects.Volume {
+func (s *ListResponse) toVolumeObject(pIdx int) *objects.Volume {
 	if s == nil {
 		return nil
 	}

@@ -1,28 +1,35 @@
 package volume_actions
 
 import (
-	"github.com/vngcloud/vngcloud-go-sdk/client"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
+	lssdkErr "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserr "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
+	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func Resize(pSc *client.ServiceClient, pOpts IResizeOptsBuilder) (*objects.ResizeVolume, error) {
+func Resize(psc *lsclient.ServiceClient, popts IResizeOptsBuilder) (*lsobj.ResizeVolume, *lssdkErr.SdkError) {
 	response := NewResizeResponse()
-	_, err := pSc.Put(resizeURL(pSc, pOpts), &client.RequestOpts{
+	errResp := lssdkErr.NewErrorResponse()
+	_, err := psc.Put(resizeURL(psc, popts), &lsclient.RequestOpts{
 		JSONResponse: response,
-		JSONBody:     pOpts.ToRequestBody(),
+		JSONBody:     popts.ToRequestBody(),
+		JSONError:    errResp,
 		OkCodes:      []int{202},
 	})
 
 	if err != nil {
-		return nil, err
+		sdkErr := lserr.ErrorHandler(err,
+			lserr.WithErrorVolumeUnchanged(errResp, err))
+
+		return nil, sdkErr
 	}
 
 	return response.ToResizeVolumeObject(), nil
 }
 
-func GetMappingVolume(pSc *client.ServiceClient, pOpts IMappingOptsBuilder) (*objects.MappingVolume, error) {
+func GetMappingVolume(psc *lsclient.ServiceClient, popts IMappingOptsBuilder) (*lsobj.MappingVolume, error) {
 	response := NewBackendVolumeResponse()
-	_, err := pSc.Get(mappingURL(pSc, pOpts), &client.RequestOpts{
+	_, err := psc.Get(mappingURL(psc, popts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
 	})

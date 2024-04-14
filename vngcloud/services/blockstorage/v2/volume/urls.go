@@ -2,10 +2,15 @@ package volume
 
 import "github.com/vngcloud/vngcloud-go-sdk/client"
 
-func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
+func listURL(pSc *client.ServiceClient, popts IListOptsBuilder) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
 	return pSc.ServiceURL(
-		pOpts.GetProjectID(),
-		"volumes")
+		popts.GetProjectID(),
+		"volumes") + query
 }
 
 func listAllURL(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) string {
