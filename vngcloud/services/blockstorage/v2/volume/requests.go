@@ -57,21 +57,27 @@ func (s *ListOpts) ToListQueryWithParams(pParams *map[string]interface{}) (strin
 // ************************************************* CreateOptsBuilder *************************************************
 
 type CreateOpts struct {
-	BackupVolumePointId string               `json:"backupVolumePointId,omitempty"`
-	CreatedFrom         CreateOptsCreateFrom `json:"createdFrom,omitempty"`
-	EncryptionType      string               `json:"encryptionType,omitempty"`
-	MultiAttach         bool                 `json:"multiAttach,omitempty"`
-	Name                string               `json:"name"`
-	Size                uint64               `json:"size"`
-	VolumeTypeId        string               `json:"volumeTypeId"`
-	Tags                []CreateOptsTag      `json:"tags,omitempty"`
-	IsPoc               bool                 `json:"isPoc,omitempty"`
-	IsEnableAutoRenew   bool                 `json:"isEnableAutoRenew,omitempty"`
+	BackupVolumePointId    string                  `json:"backupVolumePointId,omitempty"`
+	CreatedFrom            CreateOptsCreateFrom    `json:"createdFrom,omitempty"`
+	EncryptionType         string                  `json:"encryptionType,omitempty"`
+	MultiAttach            bool                    `json:"multiAttach,omitempty"`
+	Name                   string                  `json:"name"`
+	Size                   uint64                  `json:"size"`
+	VolumeTypeId           string                  `json:"volumeTypeId"`
+	Tags                   []CreateOptsTag         `json:"tags,omitempty"`
+	IsPoc                  bool                    `json:"isPoc,omitempty"`
+	IsEnableAutoRenew      bool                    `json:"isEnableAutoRenew,omitempty"`
+	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configureVolumeRestore,omitempty"`
 
 	common.CommonOpts
 }
 
 type CreateOptsCreateFrom string
+
+type ConfigureVolumeRestore struct {
+	SnapshotVolumePointId string `json:"snapshotVolumePointId"`
+	VolumeTypeId          string `json:"volumeTypeId"`
+}
 
 const (
 	CreateFromNew      CreateOptsCreateFrom = "NEW"
