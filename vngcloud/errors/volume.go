@@ -10,7 +10,7 @@ var (
 	ErrCodeVolumeAvailable       lssdkErr.ErrorCode = "ErrorVolumeAvailable"
 	ErrCodeVolumeNotFound        lssdkErr.ErrorCode = "ErrorVolumeNotFound"
 	ErrCodeVolumeAlreadyAttached lssdkErr.ErrorCode = "ErrorVolumeAlreadyAttached"
-	ErrCodeVolumeUnchaged        lssdkErr.ErrorCode = "ErrorUnchangedVolume"
+	ErrCodeVolumeUnchanged       lssdkErr.ErrorCode = "ErrorVolumeUnchanged"
 )
 
 const (
@@ -73,7 +73,7 @@ func WithErrorVolumeUnchanged(perrResp *lssdkErr.ErrorResponse, perr error) func
 
 		errMsg := perrResp.Message
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeUnchaged) {
-			sdkError.Code = ErrCodeVolumeUnchaged
+			sdkError.Code = ErrCodeVolumeUnchanged
 			sdkError.Message = errMsg
 			sdkError.Error = perr
 		}
