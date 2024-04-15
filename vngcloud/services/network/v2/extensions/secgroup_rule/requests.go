@@ -24,6 +24,7 @@ const (
 const (
 	CreateOptsProtocolOptTCP    CreateOptsProtocolOpt = "tcp"
 	CreateOptsProtocolOptUDP    CreateOptsProtocolOpt = "udp"
+	CreateOptsProtocolOptICMP   CreateOptsProtocolOpt = "icmp"
 	CreateOptsProtocolOptAll    CreateOptsProtocolOpt = "any"
 	CreateOptsProtocolOptIpInIp CreateOptsProtocolOpt = "4"
 )
