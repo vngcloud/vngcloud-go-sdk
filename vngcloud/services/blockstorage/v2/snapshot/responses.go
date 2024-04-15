@@ -60,12 +60,13 @@ type (
 
 func (s *CreateResponse) ToSnapshotObject() *lso.Snapshot {
 	return &lso.Snapshot{
-		ID:        s.ID,
-		CreatedAt: s.CreatedAt,
-		VolumeID:  s.VolumeId,
-		Status:    s.Status,
-		Size:      s.Size,
-		Name:      s.Name,
+		ID:         s.ID,
+		CreatedAt:  s.CreatedAt,
+		VolumeID:   s.VolumeId,
+		Status:     s.Status,
+		Size:       s.Size,
+		Name:       s.Name,
+		VolumeSize: s.VolumeSnapshot.Size,
 	}
 }
 
