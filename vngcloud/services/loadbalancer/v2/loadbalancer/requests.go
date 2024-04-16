@@ -23,12 +23,28 @@ type (
 )
 
 type CreateOpts struct {
-	Name      string              `json:"name"`
-	PackageID string              `json:"packageId"`
-	Scheme    CreateOptsSchemeOpt `json:"scheme"`
-	SubnetID  string              `json:"subnetId"`
-	Type      CreateOptsTypeOpt   `json:"type"`
+	Name               string              `json:"name"`
+	PackageID          string              `json:"packageId"`
+	Scheme             CreateOptsSchemeOpt `json:"scheme"`
+	SubnetID           string              `json:"subnetId"`
+	Type               CreateOptsTypeOpt   `json:"type"`
+	CreateOptsListener *CreateOptsListener `json:"listener"`
+
 	common.CommonOpts
+}
+
+type CreateOptsListener struct {
+	AllowCidrs                  string    `json:"allowedCidrs"`
+	CertificateAuthorities      *[]string `json:"certificateAuthorities,omitempty"`
+	ClientCertificate           *string   `json:"clientCertificate,omitempty"`
+	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority,omitempty"`
+	Headers                     *[]string `json:"headers,omitempty"`
+	ListenerName                string    `json:"listenerName"`
+	ListenerProtocol            string    `json:"listenerProtocol"`
+	ListenerProtocolPort        int       `json:"listenerProtocolPort"`
+	TimeoutClient               int       `json:"timeoutClient"`
+	TimeoutConnection           int       `json:"timeoutConnection"`
+	TimeoutMember               int       `json:"timeoutMember"`
 }
 
 func (s *CreateOpts) ToRequestBody() interface{} {
