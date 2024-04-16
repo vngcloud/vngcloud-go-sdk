@@ -3,6 +3,8 @@ package loadbalancer
 import (
 	"encoding/json"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
@@ -22,15 +24,18 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.LoadB
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.LoadBalancer, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.LoadBalancer, *lsdkError.SdkError) {
 	response := NewGetResponse()
+	errResp := lsdkError.NewErrorResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{200},
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, lserrHandler.ErrorHandler(err,
+			lserrHandler.WithErrorLoadBalancerNotFound(errResp, err))
 	}
 
 	return response.ToLoadBalancerObject(), nil
