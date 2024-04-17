@@ -2,6 +2,8 @@ package loadbalancer
 
 import (
 	"fmt"
+	lsListener "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/listener"
+	lsPool "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/pool"
 	"testing"
 
 	"github.com/vngcloud/vngcloud-go-sdk/client"
@@ -19,10 +21,10 @@ var (
 
 func NewSC() *client.ServiceClient {
 	var (
-		identityURL  = ""
-		vLbURL       = ""
-		clientID     = ""
-		clientSecret = ""
+		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
+		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
+		clientID     = "1ab81f5d91289"
+		clientSecret = "ea5903645ec8"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -87,7 +89,7 @@ func TestGet(t *testing.T) {
 
 	resp, err := Get(vlb, opt)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
+		fmt.Printf("Error: %s\n", err)
 	}
 
 	fmt.Printf("%+v\n", resp)
@@ -107,4 +109,59 @@ func TestUpdate(t *testing.T) {
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
+}
+
+func TestCreateL4Full(t *testing.T) {
+	_packageID := "lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa" // NLB_Small
+	_subnetID := "sub-403b36d2-39fc-47c4-b40b-8df0ecb71045"
+	_projectID := "pro-462803f3-6858-466f-bf05-df2b33faa360"
+
+	vlb := NewSC()
+
+	opt := &CreateOpts{
+		Name:      "cuongdm3-test-lb",
+		PackageID: _packageID,
+		Scheme:    CreateOptsSchemeOptInternet,
+		SubnetID:  _subnetID,
+		Type:      CreateOptsTypeOptLayer4,
+		Listener: &lsListener.CreateOpts{
+			AllowedCidrs:         "0.0.0.0/0",
+			ListenerName:         "cuongdm3-test-lb-listener",
+			ListenerProtocol:     lsListener.CreateOptsListenerProtocolOptTCP,
+			ListenerProtocolPort: 80,
+			TimeoutConnection:    50,
+			TimeoutClient:        50,
+			TimeoutMember:        5,
+		},
+		Pool: &lsPool.CreateOpts{
+			Algorithm:    lsPool.CreateOptsAlgorithmOptRoundRobin,
+			PoolName:     "cuongdm3-test-lb-pool",
+			PoolProtocol: lsPool.CreateOptsProtocolOptTCP,
+			HealthMonitor: lsPool.HealthMonitor{
+				HealthCheckProtocol: lsPool.CreateOptsHealthCheckProtocolOptTCP,
+				HealthyThreshold:    3,
+				UnhealthyThreshold:  3,
+				Interval:            30,
+				Timeout:             5,
+			},
+			Members: []*lsPool.Member{
+				{
+					Backup:      false,
+					IpAddress:   "10.21.0.18",
+					MonitorPort: 80,
+					Name:        "cuongdm3-test-lb-member",
+					Port:        80,
+					Weight:      1,
+				},
+			},
+		},
+	}
+	opt.ProjectID = _projectID
+
+	resp, err := Create(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+	}
+
+	fmt.Printf("%+v\n", resp)
 }

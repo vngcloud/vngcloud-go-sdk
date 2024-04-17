@@ -19,18 +19,17 @@ const (
 )
 
 type CreateOpts struct {
-	AllowedCidrs         string                        `json:"allowedCidrs"`
-	DefaultPoolId        string                        `json:"defaultPoolId"`
-	ListenerName         string                        `json:"listenerName"`
-	ListenerProtocol     CreateOptsListenerProtocolOpt `json:"listenerProtocol"`
-	ListenerProtocolPort int                           `json:"listenerProtocolPort"`
-	TimeoutClient        int                           `json:"timeoutClient"`
-	TimeoutConnection    int                           `json:"timeoutConnection"`
-	TimeoutMember        int                           `json:"timeoutMember"`
-
-	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
-	ClientCertificate           *string   `json:"clientCertificate"`
-	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
+	AllowedCidrs                string                        `json:"allowedCidrs"`
+	ListenerName                string                        `json:"listenerName"`
+	ListenerProtocol            CreateOptsListenerProtocolOpt `json:"listenerProtocol"`
+	ListenerProtocolPort        int                           `json:"listenerProtocolPort"`
+	TimeoutClient               int                           `json:"timeoutClient"`
+	TimeoutConnection           int                           `json:"timeoutConnection"`
+	TimeoutMember               int                           `json:"timeoutMember"`
+	DefaultPoolId               *string                       `json:"defaultPoolId"`
+	CertificateAuthorities      *[]string                     `json:"certificateAuthorities"`
+	ClientCertificate           *string                       `json:"clientCertificate"`
+	DefaultCertificateAuthority *string                       `json:"defaultCertificateAuthority"`
 
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
