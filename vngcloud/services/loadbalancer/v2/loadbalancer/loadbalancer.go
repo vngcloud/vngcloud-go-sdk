@@ -2,6 +2,7 @@ package loadbalancer
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
@@ -20,6 +21,8 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.LoadB
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println()
 
 	return response.ToLoadBalancerObject(), nil
 }
