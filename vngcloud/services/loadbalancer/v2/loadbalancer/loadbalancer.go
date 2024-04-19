@@ -2,17 +2,17 @@ package loadbalancer
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/vngcloud/vngcloud-go-sdk/client"
+
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
 	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.LoadBalancer, error) {
+func Create(pSc *lsclient.ServiceClient, pOpts ICreateOptsBuilder) (*lsobj.LoadBalancer, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
-	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
+	_, err := pSc.Post(createURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
 		OkCodes:      []int{202},
@@ -22,15 +22,13 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.LoadB
 		return nil, err
 	}
 
-	fmt.Println()
-
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.LoadBalancer, *lsdkError.SdkError) {
+func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.LoadBalancer, *lsdkError.SdkError) {
 	response := NewGetResponse()
 	errResp := lsdkError.NewErrorResponse()
-	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+	_, err := pSc.Get(getURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		JSONError:    errResp,
 		OkCodes:      []int{200},
@@ -44,8 +42,8 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.LoadBalance
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
-	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) error {
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &lsclient.RequestOpts{
 		OkCodes: []int{202},
 	})
 
@@ -56,9 +54,9 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return nil
 }
 
-func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*objects.LoadBalancer, error) {
+func ListBySubnetID(pSc *lsclient.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*lsobj.LoadBalancer, error) {
 	response := NewListBySubnetIDResponse()
-	resp, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &client.RequestOpts{
+	resp, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &lsclient.RequestOpts{
 		OkCodes: []int{200},
 	})
 
@@ -73,7 +71,7 @@ func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder)
 		}
 	}
 
-	var lstLbObjects []*objects.LoadBalancer
+	var lstLbObjects []*lsobj.LoadBalancer
 	if response == nil || len(response) < 1 {
 		return lstLbObjects, nil
 	}
@@ -87,9 +85,9 @@ func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder)
 	return lstLbObjects, nil
 }
 
-func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBalancer, error) {
+func List(pSc *lsclient.ServiceClient, pOpts IListOptsBuilder) ([]*lsobj.LoadBalancer, error) {
 	response := NewListResponse()
-	_, err := pSc.Get(listURL(pSc, pOpts), &client.RequestOpts{
+	_, err := pSc.Get(listURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
 	})
@@ -101,10 +99,10 @@ func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBal
 	return response.ToListLoadBalancerObjects(), nil
 }
 
-func Update(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) (*objects.LoadBalancer, error) {
+func Update(pSc *lsclient.ServiceClient, pOpts IUpdateOptsBuilder) (*lsobj.LoadBalancer, error) {
 	response := NewUpdateResponse()
 	body := pOpts.ToRequestBody()
-	_, err := pSc.Put(updateURL(pSc, pOpts), &client.RequestOpts{
+	_, err := pSc.Put(updateURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
 		OkCodes:      []int{202},
