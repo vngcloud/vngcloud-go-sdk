@@ -35,6 +35,13 @@ type CreateOpts struct {
 }
 
 func (s *CreateOpts) ToRequestBody() interface{} {
+	if s.Pool != nil {
+		s.Pool = s.Pool.ToRequestBody().(*lsPool.CreateOpts)
+	}
+
+	if s.Listener != nil {
+		s.Listener = s.Listener.ToRequestBody().(*lsListener.CreateOpts)
+	}
 	return s
 }
 
