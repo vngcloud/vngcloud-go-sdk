@@ -20,4 +20,6 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
-.idea/
+
+/tmp/
+.idea
