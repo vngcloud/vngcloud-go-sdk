@@ -9,6 +9,6 @@
   ```bash
   git add .
   git commit -am "Release version v1.0.0"
-  git tag v1.0.0
+  git tag -a -m "[release] release version 1.0.0" v1.0.0
   git push --tags
   ```
