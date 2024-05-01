@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserr "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	"strings"
 )
@@ -69,16 +70,21 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) *lsdkError.SdkErr
 	return nil
 }
 
-func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, error) {
+func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, *lsdkError.SdkError) {
 	response := NewCreateResponse()
+	errResp := lsdkError.NewErrorResponse()
 	_, err := sc.Post(createServerURL(sc, opts), &client.RequestOpts{
 		JSONBody:     opts.ToRequestBody(),
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{202},
 	})
 
 	if err != nil {
-		return nil, err
+		sdkErr := lserr.ErrorHandler(err,
+			lserr.WithErrorOutOfPoc(errResp, err))
+
+		return nil, sdkErr
 	}
 
 	return response.ToServerObject(), nil
