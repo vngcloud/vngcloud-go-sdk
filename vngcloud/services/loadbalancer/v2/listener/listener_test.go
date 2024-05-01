@@ -50,7 +50,7 @@ func TestCreateListener(t *testing.T) {
 
 	opt := &CreateOpts{
 		AllowedCidrs:         "0.0.0.0/0",
-		DefaultPoolId:        defaultPoolID,
+		DefaultPoolId:        nil,
 		ListenerName:         "annd2_test_listener",
 		ListenerProtocol:     CreateOptsListenerProtocolOptHTTP,
 		ListenerProtocolPort: 90,
@@ -74,7 +74,7 @@ func TestCreateTLSListener(t *testing.T) {
 
 	opt := &CreateOpts{
 		AllowedCidrs:                "0.0.0.0/0",
-		DefaultPoolId:               defaultPoolID,
+		DefaultPoolId:               nil,
 		ListenerName:                "annd2_test_listener",
 		ListenerProtocol:            CreateOptsListenerProtocolOptHTTPS,
 		ListenerProtocolPort:        445,

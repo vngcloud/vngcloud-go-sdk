@@ -27,3 +27,11 @@ func NewUpdatePoolMembersOpts(pProjectID, pLbID, pPoolID string, pOpts *UpdatePo
 	pOpts.PoolID = pPoolID
 	return pOpts
 }
+
+func NewGetMembersOpts(pprojectId, plbId, ppoolId string) IGetMemberOptsBuilder {
+	opts := new(GetMemberOpts)
+	opts.ProjectID = pprojectId
+	opts.LoadBalancerID = plbId
+	opts.PoolID = ppoolId
+	return opts
+}
