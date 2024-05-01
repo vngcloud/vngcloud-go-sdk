@@ -1,6 +1,6 @@
 # VngCloud Go SDK
 
-[![Release VngCloud GoSDK project](https://github.com/vngcloud/vngcloud-go-sdk/actions/workflows/release_build.yml/badge.svg?branch=main)](https://github.com/vngcloud/vngcloud-go-sdk/actions/workflows/release_build.yml)
+[![Release VngCloud GoSDK project](https://github.com/vngcloud/vngcloud-go-sdk/actions/workflows/release_build.yml/badge.svg)](https://github.com/vngcloud/vngcloud-go-sdk/actions/workflows/release_build.yml)
 
 <hr>
 
