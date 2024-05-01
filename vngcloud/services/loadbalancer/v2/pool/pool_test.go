@@ -15,17 +15,17 @@ func PointerOf[T any](t T) *T {
 }
 
 var (
-	projectID = ""
-	lbID      = ""
-	poolID    = ""
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	lbID      = "lb-3dc42c25-2027-4786-a5e9-74072b84c208"
+	poolID    = "pool-91075353-680c-4fd2-9e8d-e8e1fc3de1ef"
 )
 
 func NewSC() *client.ServiceClient {
 	var (
-		identityURL  = ""
-		vLbURL       = ""
-		clientID     = ""
-		clientSecret = ""
+		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
+		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
+		clientID     = "cc136360-709c-4248-9358-e8e9674480a"
+		clientSecret = "113ea24eecbf688e5"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -95,8 +95,8 @@ func TestListPoolsBasedLoadBalancer(t *testing.T) {
 	}
 
 	fmt.Printf("resp: %+v\n", resp)
-	for _, lb := range resp {
-		fmt.Println(lb)
+	for _, pool := range resp {
+		fmt.Printf("pool: %s: %+v\n", pool.Name, pool.Members)
 	}
 }
 
