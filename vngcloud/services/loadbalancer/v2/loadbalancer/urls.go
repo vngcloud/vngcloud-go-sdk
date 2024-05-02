@@ -47,3 +47,11 @@ func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {
 		pOpts.GetLoadBalancerID(),
 		"resize")
 }
+
+func createTagUrl(psc *client.ServiceClient, popts ICreateTagOptsBuilder) string {
+	return psc.ServiceURL(
+		popts.GetProjectID(),
+		"tag",
+		"resource",
+		popts.GetLoadBalancerID())
+}

@@ -78,3 +78,23 @@ type UpdateOpts struct {
 func (s *UpdateOpts) ToRequestBody() interface{} {
 	return s
 }
+
+type (
+	CreateTagOpts struct {
+		ResourceID     string             `json:"resourceId"`
+		ResourceType   string             `json:"resourceType"`
+		TagRequestList []CreateTagOptsTag `json:"tagRequestList"`
+		lsCm.CommonOpts
+		lbCm.LoadBalancerV2Common
+	}
+
+	CreateTagOptsTag struct {
+		IsEdited bool   `json:"isEdited"`
+		Key      string `json:"key"`
+		Value    string `json:"value"`
+	}
+)
+
+func (s *CreateTagOpts) ToRequestBody() interface{} {
+	return s
+}
