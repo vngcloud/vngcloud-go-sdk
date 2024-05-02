@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
-	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserr "github.com/vngcloud/vngcloud-go-sdk/error"
 	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
@@ -25,9 +25,9 @@ func Create(pSc *lsclient.ServiceClient, pOpts ICreateOptsBuilder) (*lsobj.LoadB
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.LoadBalancer, *lsdkError.SdkError) {
+func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.LoadBalancer, *lserr.SdkError) {
 	response := NewGetResponse()
-	errResp := lsdkError.NewErrorResponse()
+	errResp := lserr.NewErrorResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		JSONError:    errResp,
@@ -113,4 +113,20 @@ func Update(pSc *lsclient.ServiceClient, pOpts IUpdateOptsBuilder) (*lsobj.LoadB
 	}
 
 	return response.ToLoadBalancerObject(), nil
+}
+
+func CreateTag(psc *lsclient.ServiceClient, popts ICreateTagOptsBuilder) *lserr.SdkError {
+	body := popts.ToRequestBody()
+	errResp := lserr.NewErrorResponse()
+	_, err := psc.Put(createTagUrl(psc, popts), &lsclient.RequestOpts{
+		JSONBody:  body,
+		JSONError: errResp,
+		OkCodes:   []int{200},
+	})
+
+	if err != nil {
+		return lserrHandler.ErrorHandler(err)
+	}
+
+	return nil
 }

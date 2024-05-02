@@ -23,8 +23,32 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
-		clientID     = "1ab81f5d91289"
-		clientSecret = "ea5903645ec8"
+		clientID     = "b6f68d8e8822bcb"
+		clientSecret = "e4db5081f56813ca"
+	)
+
+	provider, _ := vngcloud.NewClient(identityURL)
+	vngcloud.Authenticate(provider, &oauth2.AuthOptions{
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		AuthOptionsBuilder: &tokens.AuthOptions{
+			IdentityEndpoint: identityURL,
+		},
+	})
+
+	vlb, _ := vngcloud.NewServiceClient(
+		vLbURL,
+		provider,
+		"vlb")
+	return vlb
+}
+
+func NewSC2() *client.ServiceClient {
+	var (
+		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
+		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
+		clientID     = "b6f689e8822bcb"
+		clientSecret = "e4db508f56813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -164,4 +188,20 @@ func TestCreateL4Full(t *testing.T) {
 	}
 
 	fmt.Printf("%+v\n", resp)
+}
+
+func TestCreateTag(t *testing.T) {
+	vlb := NewSC2()
+	projectID = "pro-462802b33faa360"
+	loadbalancerID = "lb-cfa16de0-fcb2-45f9-8168-a6a2cd7bd590"
+
+	opt := NewCreateTagOpts(projectID, loadbalancerID, map[string]string{
+		"tag1": "value1",
+		"tag2": "value2",
+	})
+
+	err := CreateTag(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+	}
 }

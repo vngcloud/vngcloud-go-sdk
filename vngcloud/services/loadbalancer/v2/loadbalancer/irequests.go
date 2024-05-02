@@ -29,3 +29,9 @@ type IUpdateOptsBuilder interface {
 	GetLoadBalancerID() string
 	ToRequestBody() interface{}
 }
+
+type ICreateTagOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	ToRequestBody() interface{}
+}
