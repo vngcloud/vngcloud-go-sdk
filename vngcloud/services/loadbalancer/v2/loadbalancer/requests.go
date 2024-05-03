@@ -1,10 +1,13 @@
 package loadbalancer
 
 import (
+	lfmt "fmt"
+	ljparser "github.com/cuongpiger/joat/parser"
 	lsCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lbCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2"
 	lsListener "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/listener"
 	lsPool "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/pool"
+	lstr "strings"
 )
 
 const (
@@ -64,8 +67,52 @@ func (s *ListBySubnetIDOpts) GetSubnetID() string {
 	return s.SubnetID
 }
 
-type ListOpts struct {
-	lsCm.CommonOpts
+type (
+	ListOpts struct {
+		Name string `q:"name,beempty"`
+		Page int    `q:"page"`
+		Size int    `q:"size"`
+
+		Tags []ListOptsTag
+
+		lsCm.CommonOpts
+	}
+
+	ListOptsTag struct {
+		Key   string
+		Value string
+	}
+)
+
+func (s *ListOpts) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	if err != nil {
+		return "", err
+	}
+
+	var tuples []string
+	for _, tag := range s.Tags {
+		if tag.Key == "" {
+			continue
+		}
+
+		tuple := "tags=key:" + tag.Key
+		if tag.Value != "" {
+			tuple += ",value:" + tag.Value
+		}
+		tuples = append(tuples, tuple)
+	}
+
+	if len(tuples) > 0 {
+		return url.String() + "&" + lstr.Join(tuples, "&"), nil
+	}
+
+	return url.String(), err
+}
+
+func (s *ListOpts) GetDefaultQuery() string {
+	return lfmt.Sprintf("name=&page=%d&size=%d", defaultPageListLoadBalancer, defaultSizeListLoadBalancer)
 }
 
 type UpdateOpts struct {

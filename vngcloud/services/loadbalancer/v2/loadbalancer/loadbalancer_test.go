@@ -23,8 +23,8 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
-		clientID     = "b6f68d8e8822bcb"
-		clientSecret = "e4db5081f56813ca"
+		clientID     = "b6f68928e8822bcb"
+		clientSecret = "e4db50f56813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -203,5 +203,33 @@ func TestCreateTag(t *testing.T) {
 	err := CreateTag(vlb, opt)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
+	}
+}
+
+func TestList(t *testing.T) {
+	vlb := NewSC()
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+
+	opt := NewListOpts(projectID, &ListOpts{
+		Page: 1,
+		Size: 20,
+		Tags: []ListOptsTag{
+			{
+				Key:   "tag1",
+				Value: "value1",
+			},
+			{
+				Key: "tag2",
+			},
+		},
+	})
+
+	resp, err := List(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+
+	for _, lb := range resp {
+		fmt.Printf("%+v\n", lb.Name)
 	}
 }
