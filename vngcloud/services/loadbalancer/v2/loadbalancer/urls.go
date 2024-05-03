@@ -1,7 +1,6 @@
 package loadbalancer
 
 import (
-	"fmt"
 	"github.com/vngcloud/vngcloud-go-sdk/client"
 )
 
@@ -33,11 +32,13 @@ func listBySubnetIDURL(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuild
 		pOpts.GetSubnetID())
 }
 
-func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
-	size := 999999
-	return pSc.ServiceURL(
-		pOpts.GetProjectID(),
-		fmt.Sprintf("loadBalancers?name=&page=1&size=%d", size))
+func listURL(psc *client.ServiceClient, popts IListOptsBuilder) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(popts.GetProjectID(), "loadBalancers") + query
 }
 
 func updateURL(pSc *client.ServiceClient, pOpts IUpdateOptsBuilder) string {

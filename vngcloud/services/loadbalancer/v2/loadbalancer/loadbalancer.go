@@ -85,15 +85,19 @@ func ListBySubnetID(pSc *lsclient.ServiceClient, pOpts IListBySubnetIDOptsBuilde
 	return lstLbObjects, nil
 }
 
-func List(pSc *lsclient.ServiceClient, pOpts IListOptsBuilder) ([]*lsobj.LoadBalancer, error) {
+func List(psc *lsclient.ServiceClient, popts IListOptsBuilder) ([]*lsobj.LoadBalancer, *lserr.SdkError) {
 	response := NewListResponse()
-	_, err := pSc.Get(listURL(pSc, pOpts), &lsclient.RequestOpts{
+	errResp := lserr.NewErrorResponse()
+	url := listURL(psc, popts)
+	_, err := psc.Get(url, &lsclient.RequestOpts{
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{200},
 	})
 
 	if err != nil {
-		return nil, err
+		sdkErr := lserrHandler.ErrorHandler(err)
+		return nil, sdkErr
 	}
 
 	return response.ToListLoadBalancerObjects(), nil

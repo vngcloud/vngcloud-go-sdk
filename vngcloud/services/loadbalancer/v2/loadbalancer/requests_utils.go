@@ -26,10 +26,9 @@ func NewListBySubnetIDOpts(pProjectID, pSubnetID string) IListBySubnetIDOptsBuil
 	return opts
 }
 
-func NewListOpts(pProjectID string) IListOptsBuilder {
-	opts := new(ListOpts)
-	opts.ProjectID = pProjectID
-	return opts
+func NewListOpts(pprojectID string, popts *ListOpts) IListOptsBuilder {
+	popts.ProjectID = pprojectID
+	return popts
 }
 
 func NewUpdateOpts(pProjectID, pLoadBalancerID string, pOpts *UpdateOpts) IUpdateOptsBuilder {

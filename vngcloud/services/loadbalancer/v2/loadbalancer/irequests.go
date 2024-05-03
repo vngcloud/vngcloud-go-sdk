@@ -22,6 +22,8 @@ type IListBySubnetIDOptsBuilder interface {
 
 type IListOptsBuilder interface {
 	GetProjectID() string
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
 }
 
 type IUpdateOptsBuilder interface {
