@@ -70,21 +70,18 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) *lsdkError.SdkErr
 	return nil
 }
 
-func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.Server, *lsdkError.SdkError) {
+func Create(psc *client.ServiceClient, popts ICreateOptsBuilder) (*objects.Server, *lsdkError.SdkError) {
 	response := NewCreateResponse()
 	errResp := lsdkError.NewErrorResponse()
-	_, err := sc.Post(createServerURL(sc, opts), &client.RequestOpts{
-		JSONBody:     opts.ToRequestBody(),
+	if _, err := psc.Post(createServerURL(psc, popts), &client.RequestOpts{
+		JSONBody:     popts.ToRequestBody(),
 		JSONResponse: response,
 		JSONError:    errResp,
 		OkCodes:      []int{202},
-	})
-
-	if err != nil {
-		sdkErr := lserr.ErrorHandler(err,
-			lserr.WithErrorOutOfPoc(errResp, err))
-
-		return nil, sdkErr
+	}); err != nil {
+		return nil, lserr.ErrorHandler(err,
+			lserr.WithErrorOutOfPoc(errResp, err),
+			lserr.WithErrorSubnetNotFound(errResp, err))
 	}
 
 	return response.ToServerObject(), nil
