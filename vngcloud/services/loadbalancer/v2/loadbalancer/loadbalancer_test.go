@@ -47,8 +47,8 @@ func NewSC2() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "b6f689e8822bcb"
-		clientSecret = "e4db508f56813ca"
+		clientID     = "b6f689d8e8822bcb"
+		clientSecret = "e4db56813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -192,8 +192,8 @@ func TestCreateL4Full(t *testing.T) {
 
 func TestCreateTag(t *testing.T) {
 	vlb := NewSC2()
-	projectID = "pro-462802b33faa360"
-	loadbalancerID = "lb-cfa16de0-fcb2-45f9-8168-a6a2cd7bd590"
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	loadbalancerID = "lb-acc8eaeb-9098-47fb-98f5-656af6a14d2d"
 
 	opt := NewCreateTagOpts(projectID, loadbalancerID, map[string]string{
 		"tag1": "value1",
