@@ -20,3 +20,8 @@ func NewListResponse() IListResponse {
 func NewUpdateResponse() IUpdateResponse {
 	return &UpdateResponse{}
 }
+
+func NewListTagsResponse() []*ListTagsResponse {
+	var resp []*ListTagsResponse
+	return resp
+}

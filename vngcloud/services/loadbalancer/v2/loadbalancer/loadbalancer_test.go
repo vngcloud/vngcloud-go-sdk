@@ -47,8 +47,8 @@ func NewSC2() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway/v2"
-		clientID     = "b6f689d8e8822bcb"
-		clientSecret = "e4db56813ca"
+		clientID     = "b6f688d8e8822bcb"
+		clientSecret = "e4db5f1f56813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -231,5 +231,37 @@ func TestList(t *testing.T) {
 
 	for _, lb := range resp {
 		fmt.Printf("%+v\n", lb.Name)
+	}
+}
+
+func TestListTags(t *testing.T) {
+	vlb := NewSC2()
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	loadbalancerID = "lb-76654bb0-72fe-4694-9f43-cc1be0317a5e"
+
+	opt := NewListTagsOpts(projectID, loadbalancerID)
+
+	resp, err := ListTags(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+	}
+
+	for _, tag := range resp {
+		fmt.Printf("%+v\n", tag)
+	}
+}
+
+func TestUpdateTag(t *testing.T) {
+	vlb := NewSC2()
+	projectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	loadbalancerID = "lb-3a886fec-c853-4ef9-974b-308d7587880a"
+
+	opt := NewUpdateTagOpts(projectID, loadbalancerID, map[string]string{
+		"vks-owned-cluster": "asdadadadasdas",
+	})
+
+	err := UpdateTag(vlb, opt)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
 	}
 }

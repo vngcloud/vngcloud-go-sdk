@@ -21,3 +21,7 @@ type ICommonResponse interface {
 type IUpdateResponse interface {
 	ToLoadBalancerObject() *objects.LoadBalancer
 }
+
+type IListTagsResponse interface {
+	ToLoadBalancerTags() []*objects.LoadBalancerTag
+}

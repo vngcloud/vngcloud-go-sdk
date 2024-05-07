@@ -2,12 +2,15 @@ package loadbalancer
 
 import (
 	lfmt "fmt"
+	lstr "strings"
+
 	ljparser "github.com/cuongpiger/joat/parser"
+
+	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 	lsCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lbCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2"
 	lsListener "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/listener"
 	lsPool "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/pool"
-	lstr "strings"
 )
 
 const (
@@ -128,14 +131,14 @@ func (s *UpdateOpts) ToRequestBody() interface{} {
 
 type (
 	CreateTagOpts struct {
-		ResourceID     string             `json:"resourceId"`
-		ResourceType   string             `json:"resourceType"`
-		TagRequestList []CreateTagOptsTag `json:"tagRequestList"`
+		ResourceID     string       `json:"resourceId"`
+		ResourceType   string       `json:"resourceType"`
+		TagRequestList []TagOptsTag `json:"tagRequestList"`
 		lsCm.CommonOpts
 		lbCm.LoadBalancerV2Common
 	}
 
-	CreateTagOptsTag struct {
+	TagOptsTag struct {
 		IsEdited bool   `json:"isEdited"`
 		Key      string `json:"key"`
 		Value    string `json:"value"`
@@ -143,5 +146,42 @@ type (
 )
 
 func (s *CreateTagOpts) ToRequestBody() interface{} {
+	return s
+}
+
+type ListTagsOpts struct {
+	lsCm.CommonOpts
+	lbCm.LoadBalancerV2Common
+}
+
+type (
+	UpdateTagOpts struct {
+		ResourceID     string       `json:"resourceId"`
+		ResourceType   string       `json:"resourceType"`
+		TagRequestList []TagOptsTag `json:"tagRequestList"`
+		lsCm.CommonOpts
+		lbCm.LoadBalancerV2Common
+	}
+)
+
+func (s *UpdateTagOpts) ToRequestBody(ptags []*lsobj.LoadBalancerTag) interface{} {
+	st := map[string]TagOptsTag{}
+	for _, tag := range ptags {
+		st[tag.Key] = TagOptsTag{
+			IsEdited: false,
+			Key:      tag.Key,
+			Value:    tag.Value,
+		}
+	}
+
+	for _, tag := range s.TagRequestList {
+		st[tag.Key] = tag
+	}
+
+	s.TagRequestList = make([]TagOptsTag, 0)
+	for _, tag := range st {
+		s.TagRequestList = append(s.TagRequestList, tag)
+	}
+
 	return s
 }

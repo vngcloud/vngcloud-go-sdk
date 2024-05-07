@@ -27,3 +27,8 @@ type LoadBalancer struct {
 	SubnetID string
 	Internal bool
 }
+
+type LoadBalancerTag struct {
+	Key   string
+	Value string
+}

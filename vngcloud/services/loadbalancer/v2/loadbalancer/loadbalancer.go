@@ -1,7 +1,7 @@
 package loadbalancer
 
 import (
-	"encoding/json"
+	ljson "encoding/json"
 
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/error"
@@ -65,7 +65,7 @@ func ListBySubnetID(pSc *lsclient.ServiceClient, pOpts IListBySubnetIDOptsBuilde
 	}
 
 	if resp.StatusCode == 200 {
-		err = json.Unmarshal(resp.Bytes(), &response)
+		err = ljson.Unmarshal(resp.Bytes(), &response)
 		if err != nil {
 			return nil, err
 		}
@@ -123,6 +123,54 @@ func CreateTag(psc *lsclient.ServiceClient, popts ICreateTagOptsBuilder) *lserr.
 	body := popts.ToRequestBody()
 	errResp := lserr.NewErrorResponse()
 	_, err := psc.Put(createTagUrl(psc, popts), &lsclient.RequestOpts{
+		JSONBody:  body,
+		JSONError: errResp,
+		OkCodes:   []int{200},
+	})
+
+	if err != nil {
+		return lserrHandler.ErrorHandler(err)
+	}
+
+	return nil
+}
+
+func ListTags(psc *lsclient.ServiceClient, popts IListTagsOptsBuilder) ([]*lsobj.LoadBalancerTag, *lserr.SdkError) {
+	response := NewListTagsResponse()
+	errResp := lserr.NewErrorResponse()
+	resp, err := psc.Get(listTagsURL(psc, popts), &lsclient.RequestOpts{
+		JSONError: errResp,
+		OkCodes:   []int{200},
+	})
+
+	if err != nil {
+		sdkErr := lserrHandler.ErrorHandler(err)
+		return nil, sdkErr
+	}
+
+	if err := ljson.Unmarshal(resp.Bytes(), &response); err != nil {
+		return nil, lserrHandler.ErrorHandler(err)
+	}
+
+	var lstTags []*lsobj.LoadBalancerTag
+	for _, item := range response {
+		if item != nil {
+			lstTags = append(lstTags, item.ToLoadBalancerTagObject())
+		}
+	}
+
+	return lstTags, nil
+}
+
+func UpdateTag(psc *lsclient.ServiceClient, popts IUpdateTagOptsBuilder) *lserr.SdkError {
+	tags, sdkErr := ListTags(psc, NewListTagsOpts(popts.GetProjectID(), popts.GetLoadBalancerID()))
+	if sdkErr != nil {
+		return sdkErr
+	}
+
+	body := popts.ToRequestBody(tags)
+	errResp := lserr.NewErrorResponse()
+	_, err := psc.Put(updateTagURL(psc, popts), &lsclient.RequestOpts{
 		JSONBody:  body,
 		JSONError: errResp,
 		OkCodes:   []int{200},

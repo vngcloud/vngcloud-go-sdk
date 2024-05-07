@@ -45,11 +45,39 @@ func NewCreateTagOpts(pprojectID, plbId string, ptags map[string]string) ICreate
 	opts.ResourceID = plbId
 
 	if ptags != nil {
-		opts.TagRequestList = make([]CreateTagOptsTag, 0)
+		opts.TagRequestList = make([]TagOptsTag, 0)
 		for key, value := range ptags {
-			opts.TagRequestList = append(opts.TagRequestList, CreateTagOptsTag{
+			opts.TagRequestList = append(opts.TagRequestList, TagOptsTag{
 				Key:   key,
 				Value: value,
+			})
+		}
+	}
+
+	return opts
+}
+
+func NewListTagsOpts(pprojectID, plbId string) IListTagsOptsBuilder {
+	opts := new(ListTagsOpts)
+	opts.ProjectID = pprojectID
+	opts.LoadBalancerID = plbId
+	return opts
+}
+
+func NewUpdateTagOpts(pprojectID, plbId string, ptags map[string]string) IUpdateTagOptsBuilder {
+	opts := new(UpdateTagOpts)
+	opts.ProjectID = pprojectID
+	opts.LoadBalancerID = plbId
+	opts.ResourceType = "LOAD-BALANCER"
+	opts.ResourceID = plbId
+
+	if ptags != nil {
+		opts.TagRequestList = make([]TagOptsTag, 0)
+		for key, value := range ptags {
+			opts.TagRequestList = append(opts.TagRequestList, TagOptsTag{
+				Key:      key,
+				Value:    value,
+				IsEdited: true,
 			})
 		}
 	}

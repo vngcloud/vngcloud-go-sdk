@@ -1,5 +1,7 @@
 package loadbalancer
 
+import lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
+
 type ICreateOptsBuilder interface {
 	ToRequestBody() interface{}
 	GetProjectID() string
@@ -36,4 +38,15 @@ type ICreateTagOptsBuilder interface {
 	GetProjectID() string
 	GetLoadBalancerID() string
 	ToRequestBody() interface{}
+}
+
+type IListTagsOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+}
+
+type IUpdateTagOptsBuilder interface {
+	GetProjectID() string
+	GetLoadBalancerID() string
+	ToRequestBody(ptags []*lsobj.LoadBalancerTag) interface{}
 }

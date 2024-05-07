@@ -187,3 +187,20 @@ func (s *UpdateResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 		UUID: s.UUID,
 	}
 }
+
+type ListTagsResponse struct {
+	Key       string `json:"key"`
+	Value     string `json:"value"`
+	CreatedAt string `json:"createdAt"`
+}
+
+func (s *ListTagsResponse) ToLoadBalancerTagObject() *objects.LoadBalancerTag {
+	if s == nil {
+		return nil
+	}
+
+	return &objects.LoadBalancerTag{
+		Key:   s.Key,
+		Value: s.Value,
+	}
+}
