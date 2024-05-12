@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	patternListenerNotFound = "cannot get listener with id"
+	patternListenerNotFound         = "cannot get listener with id"
+	patternListenerResourceNotFound = "could not find resource" // "Could not find resource"
 )
 
 var (
@@ -21,7 +22,8 @@ func WithErrorListenerNotFound(perrResp *lssdkErr.ErrorResponse, perr error) fun
 		}
 
 		errMsg := perrResp.Message
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) {
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) ||
+			lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerResourceNotFound) {
 			sdkError.Code = ErrCodeListenerNotFound
 			sdkError.Message = errMsg
 			sdkError.Error = perr
