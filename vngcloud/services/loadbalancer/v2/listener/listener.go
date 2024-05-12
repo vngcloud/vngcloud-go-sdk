@@ -2,6 +2,8 @@ package listener
 
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserrHandler "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
@@ -35,13 +37,16 @@ func GetBasedLoadBalancer(pSc *client.ServiceClient, pOpts IGetBasedLoadBalancer
 	return response.ToListListenerObject(), nil
 }
 
-func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lsdkError.SdkError {
+	errResp := lsdkError.NewErrorResponse()
 	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
-		OkCodes: []int{202},
+		OkCodes:   []int{202},
+		JSONError: errResp,
 	})
 
 	if err != nil {
-		return err
+		return lserrHandler.ErrorHandler(err,
+			lserrHandler.WithErrorListenerNotFound(errResp, err))
 	}
 
 	return nil
