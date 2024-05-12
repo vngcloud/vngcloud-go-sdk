@@ -24,7 +24,7 @@ func NewSC() *client.ServiceClient {
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
 		clientID     = "b6f68928e8822bcb"
-		clientSecret = "e4db50f56813ca"
+		clientSecret = "e4db5056813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -108,8 +108,8 @@ func TestGet(t *testing.T) {
 	vlb := NewSC()
 
 	opt := &GetOpts{}
-	opt.ProjectID = projectID
-	opt.LoadBalancerID = loadbalancerID
+	opt.ProjectID = "pro-462803f3-6858-466f-bf05-df2b33faa360"
+	opt.LoadBalancerID = "lb-af85f586-5d71-xxxx-8fe4-ea0c0dc26655"
 
 	resp, err := Get(vlb, opt)
 	if err != nil {
