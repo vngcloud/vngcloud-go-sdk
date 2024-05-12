@@ -24,8 +24,8 @@ func NewSC() *client.ServiceClient {
 	var (
 		identityURL  = "https://iamapis.vngcloud.vn/accounts-api/v2"
 		vLbURL       = "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
-		clientID     = "cc136360-709c-4248-9358-e8e9674480a"
-		clientSecret = "113ea24eecbf688e5"
+		clientID     = "b6f689e8822bcb"
+		clientSecret = "e4db5f56813ca"
 	)
 
 	provider, _ := vngcloud.NewClient(identityURL)
@@ -105,12 +105,12 @@ func TestDelete(t *testing.T) {
 
 	opt := &DeleteOpts{}
 	opt.ProjectID = projectID
-	opt.LoadBalancerID = lbID
-	opt.PoolID = poolID
+	opt.LoadBalancerID = "lb-af85f586-5d71-435c-xxxx-ea0c0dc26655"
+	opt.PoolID = "lb-af85f586-5d71-435c-8fe4-ea0c0dc26655"
 
 	err := Delete(vlb, opt)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
+		fmt.Printf("Error: %s\n", err.Code)
 	}
 }
 

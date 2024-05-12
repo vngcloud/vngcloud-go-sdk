@@ -1,10 +1,9 @@
 package pool
 
 import (
-	"encoding/json"
-	"strings"
-
 	"github.com/vngcloud/vngcloud-go-sdk/client"
+	lserror "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserrors "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
@@ -38,21 +37,17 @@ func ListPoolsBasedLoadBalancer(pSc *client.ServiceClient, pOpts IListPoolsBased
 	return response.ToListPoolObjects(), nil
 }
 
-func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
-	reqRes, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
-		OkCodes: []int{202},
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lserror.SdkError {
+	errResp := lserror.NewErrorResponse()
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes:   []int{202},
+		JSONError: errResp,
 	})
 
 	if err != nil {
-		result := make(map[string]interface{})
-		err2 := json.Unmarshal(reqRes.Bytes(), &result)
-		if err2 == nil {
-			if message, _ := result["message"].(string); strings.Contains(strings.ToLower(strings.TrimSpace(message)), "is used in listener") {
-				return NewErrPoolInUse(pOpts.GetPoolID(), "")
-			}
-		}
-
-		return err
+		return lserrors.ErrorHandler(err,
+			lserrors.WithErrorPoolNotFound(errResp, err),
+			lserrors.WithErrorPoolInUse(errResp, err))
 	}
 
 	return nil
