@@ -1,102 +1,68 @@
 package secgroup
 
 import (
-	"encoding/json"
-	"github.com/vngcloud/vngcloud-go-sdk/client"
-	lsdkError "github.com/vngcloud/vngcloud-go-sdk/error"
-	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
-	"strings"
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/client"
+	lserrors "github.com/vngcloud/vngcloud-go-sdk/error"
+	lserror "github.com/vngcloud/vngcloud-go-sdk/vngcloud/errors"
+	lsobj "github.com/vngcloud/vngcloud-go-sdk/vngcloud/objects"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Secgroup, error) {
+func Create(psc *lsclient.ServiceClient, popts ICreateOptsBuilder) (*lsobj.Secgroup, *lserrors.SdkError) {
 	response := NewCreateResponse()
-	body := pOpts.ToRequestBody()
-	reqRes, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
+	body := popts.ToRequestBody()
+	errResp := lserrors.NewErrorResponse()
+	_, err := psc.Post(createURL(psc, popts), &lsclient.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
+		JSONError:    errResp,
 		OkCodes:      []int{201},
 	})
 
 	if err != nil {
-		result := make(map[string]interface{})
-		err2 := json.Unmarshal(reqRes.Bytes(), &result)
-		if err2 == nil {
-			if message, _ := result["message"].(string); strings.Contains(strings.ToLower(strings.TrimSpace(message)), "name of security group already exist") {
-				return nil, NewErrNameDuplicate("", "name is already used")
-			}
-		}
-
-		return nil, err
+		return nil, lserror.ErrorHandler(err,
+			lserror.WithErrorSecgroupNameAlreadyExists(errResp, err),
+			lserror.WithErrorSecgroupExceedQuota(errResp, err))
 	}
 
 	return response.ToSecgroupObject(), nil
 }
 
-func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) *lsdkError.SdkError {
-	errResp := lsdkError.NewErrorResponse()
-	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) *lserrors.SdkError {
+	errResp := lserrors.NewErrorResponse()
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &lsclient.RequestOpts{
 		OkCodes:   []int{204},
 		JSONError: errResp,
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, patternSecgroupInUse) {
-			return &lsdkError.SdkError{
-				Code:    ErrSecgroupInUse,
-				Message: errResp.Message,
-				Error:   err,
-			}
-		}
-
-		if strings.Contains(errResp.Message, patternErrNotFound) {
-			return &lsdkError.SdkError{
-				Code:    ErrSecgroupNotFound,
-				Message: errResp.Message,
-				Error:   err,
-			}
-		}
-
-		return &lsdkError.SdkError{
-			Code:    ErrSecgroupUnknown,
-			Message: errResp.Message,
-			Error:   err,
-		}
+		return lserror.ErrorHandler(err,
+			lserror.WithErrorSecgroupInUse(errResp, err),
+			lserror.WithErrorSecgroupNotFound(errResp, err))
 	}
 
 	return nil
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, *lsdkError.SdkError) {
+func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.Secgroup, *lserrors.SdkError) {
 	response := NewGetResponse()
-	errResp := lsdkError.NewErrorResponse()
-	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+	errResp := lserrors.NewErrorResponse()
+	_, err := pSc.Get(getURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		JSONError:    errResp,
 		OkCodes:      []int{200},
 	})
 
 	if err != nil {
-		if strings.Contains(errResp.Message, patternErrNotFound) {
-			return nil, &lsdkError.SdkError{
-				Code:    ErrSecgroupNotFound,
-				Message: errResp.Message,
-				Error:   err,
-			}
-		}
-
-		return nil, &lsdkError.SdkError{
-			Code:    ErrSecgroupUnknown,
-			Message: errResp.Message,
-			Error:   err,
-		}
+		return nil, lserror.ErrorHandler(err,
+			lserror.WithErrorSecgroupNotFound(errResp, err))
 	}
 
 	return response.ToSecgroupObject(), nil
 }
 
-func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.Secgroup, error) {
+func List(pSc *lsclient.ServiceClient, pOpts IListOptsBuilder) ([]*lsobj.Secgroup, error) {
 	response := NewListResponse()
-	_, err := pSc.Get(listURL(pSc, pOpts), &client.RequestOpts{
+	_, err := pSc.Get(listURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
 	})
