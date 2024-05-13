@@ -11,14 +11,13 @@ func Create(psc *lsclient.ServiceClient, popts ICreateOptsBuilder) (*lsobj.Secgr
 	response := NewCreateResponse()
 	body := popts.ToRequestBody()
 	errResp := lserrors.NewErrorResponse()
-	_, err := psc.Post(createURL(psc, popts), &lsclient.RequestOpts{
+
+	if _, err := psc.Post(createURL(psc, popts), &lsclient.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
 		JSONError:    errResp,
 		OkCodes:      []int{201},
-	})
-
-	if err != nil {
+	}); err != nil {
 		return nil, lserror.ErrorHandler(err,
 			lserror.WithErrorSecgroupNameAlreadyExists(errResp, err),
 			lserror.WithErrorSecgroupExceedQuota(errResp, err))
@@ -29,12 +28,11 @@ func Create(psc *lsclient.ServiceClient, popts ICreateOptsBuilder) (*lsobj.Secgr
 
 func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) *lserrors.SdkError {
 	errResp := lserrors.NewErrorResponse()
-	_, err := pSc.Delete(deleteURL(pSc, pOpts), &lsclient.RequestOpts{
+
+	if _, err := pSc.Delete(deleteURL(pSc, pOpts), &lsclient.RequestOpts{
 		OkCodes:   []int{204},
 		JSONError: errResp,
-	})
-
-	if err != nil {
+	}); err != nil {
 		return lserror.ErrorHandler(err,
 			lserror.WithErrorSecgroupInUse(errResp, err),
 			lserror.WithErrorSecgroupNotFound(errResp, err))
@@ -46,13 +44,12 @@ func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) *lserrors.Sdk
 func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.Secgroup, *lserrors.SdkError) {
 	response := NewGetResponse()
 	errResp := lserrors.NewErrorResponse()
-	_, err := pSc.Get(getURL(pSc, pOpts), &lsclient.RequestOpts{
+
+	if _, err := pSc.Get(getURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		JSONError:    errResp,
 		OkCodes:      []int{200},
-	})
-
-	if err != nil {
+	}); err != nil {
 		return nil, lserror.ErrorHandler(err,
 			lserror.WithErrorSecgroupNotFound(errResp, err))
 	}
@@ -62,12 +59,10 @@ func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.Secgroup, *
 
 func List(pSc *lsclient.ServiceClient, pOpts IListOptsBuilder) ([]*lsobj.Secgroup, error) {
 	response := NewListResponse()
-	_, err := pSc.Get(listURL(pSc, pOpts), &lsclient.RequestOpts{
+	if _, err := pSc.Get(listURL(pSc, pOpts), &lsclient.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
-	})
-
-	if err != nil {
+	}); err != nil {
 		return nil, err
 	}
 
