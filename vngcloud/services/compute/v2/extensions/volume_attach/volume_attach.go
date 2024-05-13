@@ -49,7 +49,8 @@ func Attach(sc *client.ServiceClient, opts ICreateOptsBuilder) (*objects.VolumeA
 		sdkErr := errors.ErrorHandler(err,
 			errors.WithErrorVolumeAvailable(errResp, err),
 			errors.WithErrorVolumeNotFound(errResp, err),
-			errors.WithErrorVolumeAlreadyAttached(errResp, opts.GetVolumeID(), opts.GetInstanceID(), err))
+			errors.WithErrorVolumeAlreadyAttached(errResp, opts.GetVolumeID(), opts.GetInstanceID(), err),
+			errors.WithErrorServerAttachVolumeQuotaExceeded(errResp, err))
 
 		return nil, sdkErr
 	}
