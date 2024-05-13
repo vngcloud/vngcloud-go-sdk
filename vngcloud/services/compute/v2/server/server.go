@@ -81,7 +81,8 @@ func Create(psc *client.ServiceClient, popts ICreateOptsBuilder) (*objects.Serve
 	}); err != nil {
 		return nil, lserr.ErrorHandler(err,
 			lserr.WithErrorOutOfPoc(errResp, err),
-			lserr.WithErrorSubnetNotFound(errResp, err))
+			lserr.WithErrorSubnetNotFound(errResp, err),
+			lserr.WithErrorVolumeTypeNotFound(errResp, err))
 	}
 
 	return response.ToServerObject(), nil
