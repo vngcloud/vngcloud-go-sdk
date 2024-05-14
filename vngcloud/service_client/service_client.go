@@ -1,11 +1,16 @@
-package client
+package service_client
+
+import (
+	lstr "strings"
+
+	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+)
 
 type serviceClient struct {
 	name        string
 	endpoint    string
 	moreHeaders map[string]string
-
-	IHttpClient
+	client      lshttp.IHttpClient
 }
 
 func NewServiceClient() IServiceClient {
@@ -27,7 +32,16 @@ func (s *serviceClient) WithMoreHeaders(pmoreHeaders map[string]string) IService
 	return s
 }
 
-func (s *serviceClient) WithKVheaders(pkey string, pvalue string) IServiceClient {
+func (s *serviceClient) WithKVheader(pkey string, pvalue string) IServiceClient {
 	s.moreHeaders[pkey] = pvalue
 	return s
+}
+
+func (s *serviceClient) WithClient(pclient lshttp.IHttpClient) IServiceClient {
+	s.client = pclient
+	return s
+}
+
+func (s *serviceClient) ServiceURL(pparts ...string) string {
+	return s.endpoint + lstr.Join(pparts, "/")
 }
