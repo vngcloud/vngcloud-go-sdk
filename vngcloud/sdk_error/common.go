@@ -1,6 +1,6 @@
 package sdk_error
 
-var (
+const (
 	EcUnknownError = ErrorCode("UnknownError")
 	EmUnknownError = "Unknown error"
 )
