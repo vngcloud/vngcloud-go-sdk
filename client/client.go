@@ -13,8 +13,8 @@ var (
 
 type (
 	client struct {
-		Context     lctx.Context
-		AccessToken string
+		context     lctx.Context
+		accessToken string
 		httpClient  IHttpClient
 
 		mut       *lsync.RWMutex

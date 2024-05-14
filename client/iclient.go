@@ -11,3 +11,6 @@ type IHttpClient interface {
 	WithDelay(pdelay ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
 }
+
+type IServiceClient interface {
+}
