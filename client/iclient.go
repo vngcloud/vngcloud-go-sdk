@@ -1,9 +1,13 @@
 package client
 
-import ltime "time"
+import (
+	lctx "context"
+	ltime "time"
+)
 
 type IClient interface {
-	WithHttpClient(httpClient IHttpClient) IClient
+	WithHttpClient(phttpClient IHttpClient) IClient
+	WithContext(pctx lctx.Context) IClient
 }
 
 type IHttpClient interface {

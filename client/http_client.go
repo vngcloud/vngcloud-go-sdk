@@ -10,6 +10,8 @@ type httpClient struct {
 	delay      ltime.Duration
 	sleep      ltime.Duration
 	client     *lhttp.Client
+
+	accessToken string
 }
 
 func NewHttpClient() IHttpClient {
