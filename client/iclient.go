@@ -13,4 +13,8 @@ type IHttpClient interface {
 }
 
 type IServiceClient interface {
+	WithEndpoint(pendpoint string) IServiceClient
+	WithName(pname string) IServiceClient
+	WithMoreHeaders(pmoreHeaders map[string]string) IServiceClient
+	WithKVheaders(pkey string, pvalue string) IServiceClient
 }
