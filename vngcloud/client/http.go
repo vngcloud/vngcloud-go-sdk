@@ -3,6 +3,7 @@ package client
 import (
 	lbytes "bytes"
 	ljson "encoding/json"
+	lfmt "fmt"
 	lio "io"
 	lhttp "net/http"
 	lsync "sync"
@@ -118,6 +119,8 @@ func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, boo
 		respBody   []byte
 	)
 
+	lfmt.Println("[DEBUG] Request URL: ", purl)
+
 	if marshalled, err = ljson.Marshal(preq.GetRequestBody()); err != nil {
 		return lserr.ErrorHandler(err, lserr.WithErrorCanNotMarshalRequestBody(err)), false
 	}
@@ -128,6 +131,7 @@ func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, boo
 
 	// So I need to reauth here
 	if s.needReauth(preq) {
+		lfmt.Println("[DEBUG] - Need to reauth.")
 		auth, sdkErr := s.reauthenticate()
 		if sdkErr != nil {
 			return sdkErr, true
@@ -211,6 +215,9 @@ func (s *httpClient) reauthenticate() (ISdkAuthentication, lserr.ISdkError) {
 	s.mut.Lock()
 	defer s.mut.Unlock()
 	auth, sdkerr := s.reauthFunc()
+
+	lfmt.Println("[DEBUG] - Auth: ", auth.GetAccessToken())
+
 	return auth, sdkerr
 }
 

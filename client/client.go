@@ -2,6 +2,7 @@ package client
 
 import (
 	lctx "context"
+	lfmt "fmt"
 	ltime "time"
 
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
@@ -105,7 +106,8 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 		s.httpClient = lsclient.NewHttpClient()
 	}
 
-	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
+	lfmt.Println("[DEBUG] Configure SDK with IAM Oauth2 as authentication option.")
+
 	if s.iamGateway == nil {
 		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.httpClient)
 	}
@@ -113,6 +115,8 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	if s.vserverGateway == nil {
 		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.httpClient)
 	}
+
+	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
 
 	return s
 }

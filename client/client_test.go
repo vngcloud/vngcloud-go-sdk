@@ -19,7 +19,7 @@ func TestNewClient(t *testing.T) {
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
 
 	vngcloud := NewClient(lctx.TODO()).WithRetryCount(3).WithSleep(10).Configure(sdkConfig)
-	opt := v2.NewGetAccessTokenRequest("c3f65a5fc29", "8637fea6bf82")
+	opt := v2.NewGetAccessTokenRequest("c3f65a3d-f134-4216-9314-abb16f95fc29", "8637fea6-9c19-4e46-bd74-645ad396bf82")
 	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
 	t.Log(token, err)
 }
@@ -51,4 +51,6 @@ func TestGetPortalInfo(t *testing.T) {
 	opt := v1.NewGetPortalInfoRequest("ca984cf19c0c48a0838ba9f06d259ffa")
 	portal, err := vngcloud.VServerGateway().V1().PortalService().GetPortalInfo(opt)
 	t.Log(portal, err)
+
+	ltime.Sleep(10 * ltime.Second)
 }
