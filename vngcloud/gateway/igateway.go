@@ -14,3 +14,5 @@ type IVServerGateway interface {
 }
 
 type IVLBGateway interface{}
+
+type VBackUpGateway interface{}

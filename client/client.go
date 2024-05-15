@@ -27,6 +27,7 @@ type (
 		iamGateway     lsgateway.IIamGateway
 		vserverGateway lsgateway.IVServerGateway
 		vlbGateway     lsgateway.IVLBGateway
+		vbackupGateway lsgateway.VBackUpGateway
 
 		mut       *lsync.RWMutex
 		reauthMut *reauthLock
@@ -133,6 +134,10 @@ func (s *client) VServerGateway() lsgateway.IVServerGateway {
 
 func (s *client) VLBGateway() lsgateway.IVLBGateway {
 	return s.vlbGateway
+}
+
+func (s *client) VBackUpGateway() lsgateway.VBackUpGateway {
+	return s.vbackupGateway
 }
 
 func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lshttp.ISdkAuthentication, lserr.ISdkError) {
