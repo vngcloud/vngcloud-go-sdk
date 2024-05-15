@@ -92,6 +92,15 @@ func (s *client) WithRetryCount(pretry int) IClient {
 	return s
 }
 
+func (s *client) WithKvDefaultHeaders(pargs ...string) IClient {
+	if s.httpClient == nil {
+		s.httpClient = lshttp.NewHttpClient()
+	}
+
+	s.httpClient.WithKvDefaultHeaders(pargs...)
+	return s
+}
+
 func (s *client) WithDelay(pdelay ltime.Duration) IClient {
 	if s.httpClient == nil {
 		s.httpClient = lshttp.NewHttpClient()

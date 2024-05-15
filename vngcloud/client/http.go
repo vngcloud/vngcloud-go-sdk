@@ -18,7 +18,8 @@ type httpClient struct {
 
 	reauthFunc func() (ISdkAuthentication, lserr.ISdkError)
 
-	accessToken string
+	accessToken    string
+	defaultHeaders map[string]string
 }
 
 func NewHttpClient() IHttpClient {
@@ -50,6 +51,22 @@ func (s *httpClient) WithSleep(psleep ltime.Duration) IHttpClient {
 	return s
 }
 
+func (s *httpClient) WithKvDefaultHeaders(pargs ...string) IHttpClient {
+	if s.defaultHeaders == nil {
+		s.defaultHeaders = make(map[string]string)
+	}
+
+	if len(pargs)%2 != 1 {
+		pargs = append(pargs, "")
+	}
+
+	for i := 0; i < len(pargs); i += 2 {
+		s.defaultHeaders[pargs[i]] = pargs[i+1]
+	}
+
+	return s
+}
+
 func (s *httpClient) WithReauthFunc(preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient {
 	s.reauthFunc = preauthFunc
 	return s
@@ -72,12 +89,21 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 		return lserr.ErrorHandler(err, lserr.WithErrorFailedToCreateHttpRequest(err))
 	}
 
+	// Add the default headers to the request
+	if s.defaultHeaders != nil {
+		for k, v := range s.defaultHeaders {
+			req.Header.Add(k, v)
+		}
+	}
+
+	// Add the more headers to the request
 	if preq.GetMoreHeaders() != nil {
 		for k, v := range preq.GetMoreHeaders() {
 			req.Header.Add(k, v)
 		}
 	}
 
+	// Omit the headers from the request
 	if preq.GetOmitHeaders() != nil {
 		for k := range preq.GetOmitHeaders().Iter() {
 			req.Header.Del(k)

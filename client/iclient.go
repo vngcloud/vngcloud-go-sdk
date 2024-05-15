@@ -13,6 +13,7 @@ type IClient interface {
 	WithHttpClient(phttpClient lsclient.IHttpClient) IClient
 	WithContext(pctx lctx.Context) IClient
 	WithAuthOption(pauthOption authOpts, pauthConfig ISdkConfigure) IClient
+	WithKvDefaultHeaders(pargs ...string) IClient
 	WithRetryCount(pretry int) IClient
 	WithDelay(pdelay ltime.Duration) IClient
 	WithSleep(psleep ltime.Duration) IClient

@@ -13,6 +13,7 @@ type IHttpClient interface {
 	WithDelay(pdelay ltime.Duration) IHttpClient
 	WithTimeout(ptimeout ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
+	WithKvDefaultHeaders(pargs ...string) IHttpClient
 	WithReauthFunc(preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
 
 	DoRequest(purl string, preq IRequest) lserr.ISdkError
