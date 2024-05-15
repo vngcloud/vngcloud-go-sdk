@@ -40,13 +40,11 @@ func (s *getAccessTokenRequest) GetClientId() string {
 }
 
 func (s *getAccessTokenRequest) ToRequest() lshttp.IRequest {
-	req := lshttp.NewRequest().
+	return lshttp.NewRequest().
 		WithJsonBody(map[string]string{
 			"grant_type": "client_credentials",
 		}).
 		WithOkCodes(200).
 		WithHeader("Content-Type", "application/json").
 		WithHeader("Authorization", "Basic "+lbase64.StdEncoding.EncodeToString([]byte(s.ClientId+":"+s.ClientSecret)))
-
-	return req
 }
