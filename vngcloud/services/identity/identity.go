@@ -7,6 +7,6 @@ import (
 
 func NewIdentityService(psvcClient lssc.IServiceClient) IIdentityServiceV2 {
 	return &lsidentitySvcV2.IdentityServiceV2{
-		ServiceClient: psvcClient,
+		IamClient: psvcClient,
 	}
 }

@@ -4,6 +4,7 @@ import (
 	lstr "strings"
 
 	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
 type serviceClient struct {
@@ -44,4 +45,8 @@ func (s *serviceClient) WithClient(pclient lshttp.IHttpClient) IServiceClient {
 
 func (s *serviceClient) ServiceURL(pparts ...string) string {
 	return s.endpoint + lstr.Join(pparts, "/")
+}
+
+func (s *serviceClient) Post(purl string, preq lshttp.IRequest) lsdkErr.ISdkError {
+	return s.client.DoRequest(purl, preq.WithRequestMethod(lshttp.MethodPost))
 }

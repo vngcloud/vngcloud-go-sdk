@@ -7,9 +7,14 @@ import (
 )
 
 type IdentityServiceV2 struct {
-	ServiceClient lssc.IServiceClient
+	IamClient lssc.IServiceClient
 }
 
 func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsentity.AccessToken, lsdkErr.ISdkError) {
+	sdkErr := s.IamClient.Post(getAccessTokenUrl(s.IamClient), popts.ToRequest())
+	if sdkErr != nil {
+		return nil, sdkErr
+	}
+
 	return nil, nil
 }

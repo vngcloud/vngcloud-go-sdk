@@ -10,9 +10,9 @@ type iamGateway struct {
 }
 
 func NewIamGateway(pendpoint string, phc lshttp.IHttpClient) IIamGateway {
-	svc := lssc.NewServiceClient().WithEndpoint(pendpoint).WithClient(phc)
+	iamSvcV2 := lssc.NewServiceClient().WithEndpoint(pendpoint + "v2").WithClient(phc)
 	return &iamGateway{
-		iamGatewayV2: NewIamGatewayV2(svc),
+		iamGatewayV2: NewIamGatewayV2(iamSvcV2),
 	}
 }
 

@@ -1,8 +1,15 @@
 package v2
 
+import (
+	lbase64 "encoding/base64"
+
+	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+)
+
 type IGetAccessTokenRequest interface {
 	WithClientId(pclientId string) IGetAccessTokenRequest
 	WithClientSecret(pclientSecret string) IGetAccessTokenRequest
+	ToRequest() lshttp.IRequest
 }
 
 type getAccessTokenRequest struct {
@@ -25,4 +32,16 @@ func (s *getAccessTokenRequest) WithClientId(pclientId string) IGetAccessTokenRe
 func (s *getAccessTokenRequest) WithClientSecret(pclientSecret string) IGetAccessTokenRequest {
 	s.ClientSecret = pclientSecret
 	return s
+}
+
+func (s *getAccessTokenRequest) ToRequest() lshttp.IRequest {
+	req := lshttp.NewRequest().
+		WithJsonBody(map[string]string{
+			"grant_type": "client_credentials",
+		}).
+		WithOkCodes(200).
+		WithHeader("Content-Type", "application/json").
+		WithHeader("Authorization", "Basic "+lbase64.StdEncoding.EncodeToString([]byte(s.ClientId+":"+s.ClientSecret)))
+
+	return req
 }

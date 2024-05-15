@@ -1,6 +1,9 @@
 package service_client
 
-import lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+import (
+	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
+)
 
 type IServiceClient interface {
 	WithEndpoint(pendpoint string) IServiceClient
@@ -9,4 +12,6 @@ type IServiceClient interface {
 	WithKVheader(pkey string, pvalue string) IServiceClient
 	WithClient(pclient lshttp.IHttpClient) IServiceClient
 	ServiceURL(pparts ...string) string
+
+	Post(purl string, preq lshttp.IRequest) lsdkErr.ISdkError
 }
