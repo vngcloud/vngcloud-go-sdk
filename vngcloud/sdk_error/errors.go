@@ -1,5 +1,7 @@
 package sdk_error
 
+import lfmt "fmt"
+
 type (
 	ErrorResponse struct {
 		Errors []ErrorResponseDTO `json:"errors,omitempty"`
@@ -17,4 +19,20 @@ func NewErrorResponse() IErrorRespone {
 
 func (s *ErrorResponse) GetErrors() []ErrorResponseDTO {
 	return s.Errors
+}
+
+func (s *ErrorResponse) GetMessage() string {
+	if len(s.Errors) < 1 {
+		return ""
+	}
+
+	return s.Errors[0].Message
+}
+
+func (s *ErrorResponse) GetError() error {
+	if len(s.Errors) < 1 {
+		return nil
+	}
+
+	return lfmt.Errorf("%s: %s", s.Errors[0].Code, s.Errors[0].Message)
 }

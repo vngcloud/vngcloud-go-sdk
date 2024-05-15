@@ -52,6 +52,10 @@ func (s *serviceClient) Post(purl string, preq IRequest) lsdkErr.ISdkError {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPost))
 }
 
+func (s *serviceClient) Get(purl string, preq IRequest) lsdkErr.ISdkError {
+	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodGet))
+}
+
 type SdkAuthentication struct {
 	accessToken string
 	expiresAt   int64

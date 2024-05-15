@@ -7,6 +7,7 @@ type (
 		GetClientId() string
 		GetClientSecret() string
 		GetIamEndpoint() string
+		GetVServerEndpoint() string
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
 		WithIamEndpoint(piamEndpoint string) ISdkConfigure
@@ -35,6 +36,10 @@ func (s *sdkConfigure) GetIamEndpoint() string {
 	return s.iamEndpoint
 }
 
+func (s *sdkConfigure) GetVServerEndpoint() string {
+	return s.vserverEndpoint
+}
+
 func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 	s.clientId = pclientId
 	return s
@@ -51,7 +56,7 @@ func (s *sdkConfigure) WithIamEndpoint(piamEndpoint string) ISdkConfigure {
 }
 
 func (s *sdkConfigure) WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure {
-	s.vserverEndpoint = pvserverEndpoint
+	s.vserverEndpoint = ljutils.NormalizeURL(pvserverEndpoint)
 	return s
 }
 

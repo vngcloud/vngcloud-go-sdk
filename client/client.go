@@ -110,6 +110,10 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.httpClient)
 	}
 
+	if s.vserverGateway == nil {
+		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.httpClient)
+	}
+
 	return s
 }
 

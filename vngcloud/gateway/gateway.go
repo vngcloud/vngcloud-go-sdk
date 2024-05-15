@@ -8,6 +8,10 @@ type iamGateway struct {
 	iamGatewayV2 IIamGatewayV2
 }
 
+type vserverGateway struct {
+	vserverGatewayV1 IVServerGatewayV1
+}
+
 func NewIamGateway(pendpoint string, phc lsclient.IHttpClient) IIamGateway {
 	iamSvcV2 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v2").WithClient(phc)
 	return &iamGateway{
@@ -15,6 +19,17 @@ func NewIamGateway(pendpoint string, phc lsclient.IHttpClient) IIamGateway {
 	}
 }
 
+func NewVServerGateway(pendpoint string, phc lsclient.IHttpClient) IVServerGateway {
+	vserverSvcV1 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v1").WithClient(phc)
+	return &vserverGateway{
+		vserverGatewayV1: NewVServerGatewayV1(vserverSvcV1),
+	}
+}
+
 func (s *iamGateway) V2() IIamGatewayV2 {
 	return s.iamGatewayV2
+}
+
+func (s *vserverGateway) V1() IVServerGatewayV1 {
+	return s.vserverGatewayV1
 }

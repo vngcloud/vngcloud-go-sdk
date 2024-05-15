@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"fmt"
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
@@ -15,6 +16,8 @@ func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsent
 	errResp := lsdkErr.NewErrorResponse()
 	req := popts.ToRequest().WithJsonResponse(resp).WithJsonError(errResp)
 	sdkErr := s.IamClient.Post(getAccessTokenUrl(s.IamClient), req)
+
+	fmt.Println("req: ", req)
 
 	if sdkErr != nil {
 		return nil, lsdkErr.ErrorHandler(sdkErr.GetError(),

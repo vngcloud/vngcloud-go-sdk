@@ -28,20 +28,7 @@ type (
 		accessToken    ISdkAuthentication
 		defaultHeaders map[string]string
 
-		mut       *lsync.RWMutex
-		reauthMut *reauthLock
-		throwAway bool
-	}
-
-	reauthLock struct {
-		ongoing *reauthFuture
-
-		lsync.RWMutex
-	}
-
-	reauthFuture struct {
-		done   chan struct{}
-		sdkErr lserr.ISdkError
+		mut lsync.Mutex
 	}
 
 	AuthOpts string
@@ -146,8 +133,7 @@ func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, boo
 			return sdkErr, true
 		}
 
-		s.accessToken = auth
-		s.WithKvDefaultHeaders("Authorization", "Bearer "+s.accessToken.GetAccessToken())
+		s.setAccessToken(auth)
 	}
 
 	// Add the default headers to the request
@@ -191,7 +177,8 @@ func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, boo
 	} else {
 		switch resp.StatusCode {
 		case lhttp.StatusUnauthorized:
-
+			s.setAccessToken(nil)
+			return s.doRequest(purl, preq)
 		}
 	}
 
@@ -209,58 +196,30 @@ func (s *httpClient) needReauth(preq IRequest) bool {
 		return false
 	}
 
+	if s.accessToken == nil {
+		return true
+	}
+
 	return s.accessToken.NeedReauth()
 }
 
 func (s *httpClient) reauthenticate() (ISdkAuthentication, lserr.ISdkError) {
-	s.setThrowaway(true)
-	defer s.setThrowaway(false)
-
 	if s.reauthFunc == nil {
 		return nil, lserr.ErrorHandler(nil, lserr.WithErrorReauthFuncNotSet())
 	}
 
-	s.reauthMut.Lock()
-	ongoing := s.reauthMut.ongoing
-	if ongoing == nil {
-		s.reauthMut.ongoing = newReauthFuture()
-	}
-	s.reauthMut.Unlock()
-
-	if ongoing != nil {
-		return nil, ongoing.Get()
-	}
-
+	s.mut.Lock()
+	defer s.mut.Unlock()
 	auth, sdkerr := s.reauthFunc()
-	s.reauthMut.Lock()
-	s.reauthMut.ongoing.Set(sdkerr)
-	s.reauthMut.ongoing = nil
-	s.reauthMut.Unlock()
-
 	return auth, sdkerr
 }
 
-func (s *httpClient) setThrowaway(pisThrowAway bool) {
-	if s.reauthMut != nil {
-		s.reauthMut.Lock()
-		defer s.reauthMut.Unlock()
-	}
-	s.throwAway = pisThrowAway
-}
+func (s *httpClient) setAccessToken(pnewToken ISdkAuthentication) IHttpClient {
+	s.mut.Lock()
+	defer s.mut.Unlock()
 
-func newReauthFuture() *reauthFuture {
-	return &reauthFuture{
-		done:   make(chan struct{}),
-		sdkErr: nil,
-	}
-}
+	s.accessToken = pnewToken
+	s.WithKvDefaultHeaders("Authorization", "Bearer "+s.accessToken.GetAccessToken())
 
-func (s *reauthFuture) Get() lserr.ISdkError {
-	<-s.done
-	return s.sdkErr
-}
-
-func (s *reauthFuture) Set(perr lserr.ISdkError) {
-	s.sdkErr = perr
-	close(s.done)
+	return s
 }

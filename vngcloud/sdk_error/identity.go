@@ -30,8 +30,8 @@ func WithErrorAuthenticationFailed(perr error, perrResp IErrorRespone) func(ISdk
 		}
 
 		sdkErr.WithErrorCode(EcUnknownAuthenticationFailed).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
+			WithMessage(perrResp.GetMessage()).
+			WithErrors(perr, perrResp.GetError())
 	}
 }
 

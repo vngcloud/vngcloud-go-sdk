@@ -44,6 +44,7 @@ func (s *getAccessTokenRequest) ToRequest() lshttp.IRequest {
 		WithJsonBody(map[string]string{
 			"grant_type": "client_credentials",
 		}).
+		WithSkipAuth(true).
 		WithOkCodes(200).
 		WithHeader("Authorization", "Basic "+lbase64.StdEncoding.EncodeToString([]byte(s.ClientId+":"+s.ClientSecret)))
 }

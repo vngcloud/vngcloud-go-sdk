@@ -13,6 +13,7 @@ type IServiceClient interface {
 	ServiceURL(pparts ...string) string
 
 	Post(purl string, preq IRequest) lsdkErr.ISdkError
+	Get(purl string, preq IRequest) lsdkErr.ISdkError
 }
 
 type ISdkAuthentication interface {
