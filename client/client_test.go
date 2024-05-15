@@ -12,7 +12,7 @@ func TestNewClient(t *testing.T) {
 		WithClientSecret("8637f6bf82").
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api")
 
-	vngcloud := NewClient().Configure(sdkConfig)
+	vngcloud := NewClient().WithRetryCount(3).WithSleep(10).Configure(sdkConfig)
 	opt := v2.NewGetAccessTokenRequest("c3f65a5fc29", "8637fea6bf82")
 	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
 	t.Log(token, err)

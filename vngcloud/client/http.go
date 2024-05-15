@@ -74,6 +74,30 @@ func (s *httpClient) WithReauthFunc(preauthFunc func() (ISdkAuthentication, lser
 
 func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 	var (
+		sdkerr lserr.ISdkError
+		retry  = true
+	)
+
+	if s.delay > 0 {
+		ltime.Sleep(s.delay * ltime.Second)
+	}
+
+	for i := 0; i <= s.retryCount; i++ {
+		sdkerr, retry = s.doRequest(purl, preq)
+		if sdkerr == nil || !retry {
+			break
+		}
+
+		if s.sleep > 0 {
+			ltime.Sleep(s.sleep * ltime.Second)
+		}
+	}
+
+	return sdkerr
+}
+
+func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, bool) {
+	var (
 		err        error
 		req        *lhttp.Request
 		resp       *lhttp.Response
@@ -82,11 +106,11 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 	)
 
 	if marshalled, err = ljson.Marshal(preq.GetRequestBody()); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorCanNotMarshalRequestBody(err))
+		return lserr.ErrorHandler(err, lserr.WithErrorCanNotMarshalRequestBody(err)), false
 	}
 
 	if req, err = lhttp.NewRequest(preq.GetRequestMethod(), purl, lbytes.NewReader(marshalled)); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToCreateHttpRequest(err))
+		return lserr.ErrorHandler(err, lserr.WithErrorFailedToCreateHttpRequest(err)), false
 	}
 
 	// Add the default headers to the request
@@ -111,29 +135,29 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 	}
 
 	if resp, err = s.client.Do(req); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToMakeHttpRequest(err))
+		return lserr.ErrorHandler(err, lserr.WithErrorFailedToMakeHttpRequest(err)), true
 	}
 	defer resp.Body.Close()
 
 	if respBody, err = lio.ReadAll(resp.Body); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToReadResponseBody(err))
+		return lserr.ErrorHandler(err, lserr.WithErrorFailedToReadResponseBody(err)), true
 	}
 
 	if preq.ContainsOkCode(resp.StatusCode) {
 		rr := preq.GetJsonResponse()
 		if err = ljson.Unmarshal(respBody, rr); err != nil {
-			return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err))
+			return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err)), true
 		}
 
 		preq.SetJsonResponse(rr)
-		return nil
+		return nil, false
 	}
 
 	re := preq.GetJsonError()
 	if err = ljson.Unmarshal(respBody, re); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err))
+		return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err)), true
 	}
-	preq.SetJsonError(re)
 
-	return lserr.ErrorHandler(err, lserr.WithErrorOkCodeNotMatch(resp.StatusCode))
+	preq.SetJsonError(re)
+	return lserr.ErrorHandler(err, lserr.WithErrorOkCodeNotMatch(resp.StatusCode)), true
 }
