@@ -5,8 +5,8 @@ import (
 	lsync "sync"
 	ltime "time"
 
+	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsgateway "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/gateway"
-	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 	lssvcIdentityV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity/v2"
 )
@@ -53,11 +53,8 @@ func NewClient() IClient {
 	return c
 }
 
-func NewAuthConfigure(pclientId, pclientSecret string) ISdkConfigure {
-	return &authConfigure{
-		clientId:     pclientId,
-		clientSecret: pclientSecret,
-	}
+func NewSdkConfigure() ISdkConfigure {
+	return &sdkConfigure{}
 }
 
 func (s *client) WithHttpClient(pclient lshttp.IHttpClient) IClient {
@@ -138,8 +135,8 @@ func (s *client) VLBGateway() lsgateway.IVLBGateway {
 	return s.vlbGateway
 }
 
-func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (ISdkAuthentication, lserr.ISdkError) {
-	authFunc := func() (ISdkAuthentication, lserr.ISdkError) {
+func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lshttp.ISdkAuthentication, lserr.ISdkError) {
+	authFunc := func() (lshttp.ISdkAuthentication, lserr.ISdkError) {
 		token, err := s.iamGateway.V2().IdentityService().GetAccessToken(
 			lssvcIdentityV2.NewGetAccessTokenRequest(pauthConfig.GetClientId(), pauthConfig.GetClientSecret()))
 		if err != nil {

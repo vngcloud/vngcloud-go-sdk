@@ -3,12 +3,13 @@ package v2
 import (
 	lbase64 "encoding/base64"
 
-	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 )
 
 type IGetAccessTokenRequest interface {
 	WithClientId(pclientId string) IGetAccessTokenRequest
 	WithClientSecret(pclientSecret string) IGetAccessTokenRequest
+	GetClientId() string
 	ToRequest() lshttp.IRequest
 }
 
@@ -32,6 +33,10 @@ func (s *getAccessTokenRequest) WithClientId(pclientId string) IGetAccessTokenRe
 func (s *getAccessTokenRequest) WithClientSecret(pclientSecret string) IGetAccessTokenRequest {
 	s.ClientSecret = pclientSecret
 	return s
+}
+
+func (s *getAccessTokenRequest) GetClientId() string {
+	return s.ClientId
 }
 
 func (s *getAccessTokenRequest) ToRequest() lshttp.IRequest {

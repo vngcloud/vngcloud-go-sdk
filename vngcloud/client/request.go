@@ -1,4 +1,4 @@
-package http
+package client
 
 import ljset "github.com/cuongpiger/joat/data-structure/set"
 
@@ -56,6 +56,10 @@ func (s *request) GetRequestBody() interface{} {
 	return s.JsonBody
 }
 
+func (s *request) GetJsonError() interface{} {
+	return s.JsonError
+}
+
 func (s *request) GetRequestMethod() string {
 	return string(s.Method)
 }
@@ -74,6 +78,10 @@ func (s *request) GetJsonResponse() interface{} {
 
 func (s *request) SetJsonResponse(pjsonResponse interface{}) {
 	s.JsonResponse = pjsonResponse
+}
+
+func (s *request) SetJsonError(pjsonError interface{}) {
+	s.JsonError = pjsonError
 }
 
 func (s *request) ContainsOkCode(pcode ...int) bool {

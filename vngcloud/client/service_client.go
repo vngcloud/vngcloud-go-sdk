@@ -1,9 +1,9 @@
-package service_client
+package client
 
 import (
 	lstr "strings"
 
-	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
+	ljutils "github.com/cuongpiger/joat/utils"
 	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -11,7 +11,7 @@ type serviceClient struct {
 	name        string
 	endpoint    string
 	moreHeaders map[string]string
-	client      lshttp.IHttpClient
+	client      IHttpClient
 }
 
 func NewServiceClient() IServiceClient {
@@ -19,7 +19,7 @@ func NewServiceClient() IServiceClient {
 }
 
 func (s *serviceClient) WithEndpoint(pendpoint string) IServiceClient {
-	s.endpoint = pendpoint
+	s.endpoint = ljutils.NormalizeURL(pendpoint)
 	return s
 }
 
@@ -38,7 +38,7 @@ func (s *serviceClient) WithKVheader(pkey string, pvalue string) IServiceClient 
 	return s
 }
 
-func (s *serviceClient) WithClient(pclient lshttp.IHttpClient) IServiceClient {
+func (s *serviceClient) WithClient(pclient IHttpClient) IServiceClient {
 	s.client = pclient
 	return s
 }
@@ -47,6 +47,15 @@ func (s *serviceClient) ServiceURL(pparts ...string) string {
 	return s.endpoint + lstr.Join(pparts, "/")
 }
 
-func (s *serviceClient) Post(purl string, preq lshttp.IRequest) lsdkErr.ISdkError {
-	return s.client.DoRequest(purl, preq.WithRequestMethod(lshttp.MethodPost))
+func (s *serviceClient) Post(purl string, preq IRequest) lsdkErr.ISdkError {
+	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPost))
+}
+
+type SdkAuthentication struct {
+	accessToken string
+}
+
+func (s *SdkAuthentication) WithAccessToken(paccessToken string) ISdkAuthentication {
+	s.accessToken = paccessToken
+	return s
 }

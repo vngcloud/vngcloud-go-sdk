@@ -1,7 +1,9 @@
 package v2
 
-import lssc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/service_client"
+import (
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
+)
 
-func getAccessTokenUrl(psc lssc.IServiceClient) string {
+func getAccessTokenUrl(psc lsclient.IServiceClient) string {
 	return psc.ServiceURL("auth", "token")
 }

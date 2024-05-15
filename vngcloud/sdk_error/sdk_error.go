@@ -67,6 +67,10 @@ func (s *SdkError) WithParameters(pparams map[string]interface{}) ISdkError {
 }
 
 func (s *SdkError) WithKVparameters(pparams ...interface{}) ISdkError {
+	if s.parameters == nil {
+		s.parameters = make(map[string]interface{})
+	}
+
 	// Always make sure that the length of pparams is even
 	if len(pparams)%2 != 0 {
 		pparams = append(pparams, nil)

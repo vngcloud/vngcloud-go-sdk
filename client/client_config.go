@@ -1,10 +1,8 @@
 package client
 
-type (
-	ISdkAuthentication interface {
-		WithAccessToken(paccessToken string) ISdkAuthentication
-	}
+import ljutils "github.com/cuongpiger/joat/utils"
 
+type (
 	ISdkConfigure interface {
 		GetClientId() string
 		GetClientSecret() string
@@ -17,16 +15,7 @@ type (
 	}
 )
 
-type SdkAuthentication struct {
-	accessToken string
-}
-
-func (s *SdkAuthentication) WithAccessToken(paccessToken string) ISdkAuthentication {
-	s.accessToken = paccessToken
-	return s
-}
-
-type authConfigure struct {
+type sdkConfigure struct {
 	clientId        string
 	clientSecret    string
 	iamEndpoint     string
@@ -34,39 +23,39 @@ type authConfigure struct {
 	vlbEndpoint     string
 }
 
-func (s *authConfigure) GetClientId() string {
+func (s *sdkConfigure) GetClientId() string {
 	return s.clientId
 }
 
-func (s *authConfigure) GetClientSecret() string {
+func (s *sdkConfigure) GetClientSecret() string {
 	return s.clientSecret
 }
 
-func (s *authConfigure) GetIamEndpoint() string {
+func (s *sdkConfigure) GetIamEndpoint() string {
 	return s.iamEndpoint
 }
 
-func (s *authConfigure) WithClientId(pclientId string) ISdkConfigure {
+func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 	s.clientId = pclientId
 	return s
 }
 
-func (s *authConfigure) WithClientSecret(pclientSecret string) ISdkConfigure {
+func (s *sdkConfigure) WithClientSecret(pclientSecret string) ISdkConfigure {
 	s.clientSecret = pclientSecret
 	return s
 }
 
-func (s *authConfigure) WithIamEndpoint(piamEndpoint string) ISdkConfigure {
-	s.iamEndpoint = piamEndpoint
+func (s *sdkConfigure) WithIamEndpoint(piamEndpoint string) ISdkConfigure {
+	s.iamEndpoint = ljutils.NormalizeURL(piamEndpoint)
 	return s
 }
 
-func (s *authConfigure) WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure {
+func (s *sdkConfigure) WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure {
 	s.vserverEndpoint = pvserverEndpoint
 	return s
 }
 
-func (s *authConfigure) WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure {
+func (s *sdkConfigure) WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure {
 	s.vlbEndpoint = pvlbEndpoint
 	return s
 }

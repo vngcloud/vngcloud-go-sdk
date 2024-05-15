@@ -1,10 +1,10 @@
-package http
+package client
 
 import (
-	ljset "github.com/cuongpiger/joat/data-structure/set"
 	ltime "time"
 
-	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
+	ljset "github.com/cuongpiger/joat/data-structure/set"
+
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -13,7 +13,7 @@ type IHttpClient interface {
 	WithDelay(pdelay ltime.Duration) IHttpClient
 	WithTimeout(ptimeout ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
-	WithReauthFunc(preauthFunc func() (lsclient.ISdkAuthentication, lserr.ISdkError)) IHttpClient
+	WithReauthFunc(preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
 
 	DoRequest(purl string, preq IRequest) lserr.ISdkError
 }
@@ -31,8 +31,10 @@ type IRequest interface {
 	GetMoreHeaders() map[string]string
 	GetOmitHeaders() ljset.Set[string]
 	GetJsonResponse() interface{}
+	GetJsonError() interface{}
 
 	SetJsonResponse(pjsonResponse interface{})
+	SetJsonError(pjsonError interface{})
 
 	ContainsOkCode(pcode ...int) bool
 }

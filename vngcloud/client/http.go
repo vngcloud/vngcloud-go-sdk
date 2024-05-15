@@ -1,13 +1,12 @@
-package http
+package client
 
 import (
 	lbytes "bytes"
 	ljson "encoding/json"
-	"io"
+	lio "io"
 	lhttp "net/http"
 	ltime "time"
 
-	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -17,7 +16,7 @@ type httpClient struct {
 	sleep      ltime.Duration
 	client     *lhttp.Client
 
-	reauthFunc func() (lsclient.ISdkAuthentication, lserr.ISdkError)
+	reauthFunc func() (ISdkAuthentication, lserr.ISdkError)
 
 	accessToken string
 }
@@ -51,7 +50,7 @@ func (s *httpClient) WithSleep(psleep ltime.Duration) IHttpClient {
 	return s
 }
 
-func (s *httpClient) WithReauthFunc(preauthFunc func() (lsclient.ISdkAuthentication, lserr.ISdkError)) IHttpClient {
+func (s *httpClient) WithReauthFunc(preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient {
 	s.reauthFunc = preauthFunc
 	return s
 }
@@ -73,21 +72,24 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 		return lserr.ErrorHandler(err, lserr.WithErrorFailedToCreateHttpRequest(err))
 	}
 
-	for k, v := range preq.GetMoreHeaders() {
-		req.Header.Add(k, v)
+	if preq.GetMoreHeaders() != nil {
+		for k, v := range preq.GetMoreHeaders() {
+			req.Header.Add(k, v)
+		}
 	}
 
-	for k := range preq.GetOmitHeaders().Iter() {
-		req.Header.Del(k)
+	if preq.GetOmitHeaders() != nil {
+		for k := range preq.GetOmitHeaders().Iter() {
+			req.Header.Del(k)
+		}
 	}
 
 	if resp, err = s.client.Do(req); err != nil {
 		return lserr.ErrorHandler(err, lserr.WithErrorFailedToMakeHttpRequest(err))
 	}
-
 	defer resp.Body.Close()
 
-	if respBody, err = io.ReadAll(resp.Body); err != nil {
+	if respBody, err = lio.ReadAll(resp.Body); err != nil {
 		return lserr.ErrorHandler(err, lserr.WithErrorFailedToReadResponseBody(err))
 	}
 
@@ -100,6 +102,12 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
 		preq.SetJsonResponse(rr)
 		return nil
 	}
+
+	re := preq.GetJsonError()
+	if err = ljson.Unmarshal(respBody, re); err != nil {
+		return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err))
+	}
+	preq.SetJsonError(re)
 
 	return lserr.ErrorHandler(err, lserr.WithErrorOkCodeNotMatch(resp.StatusCode))
 }

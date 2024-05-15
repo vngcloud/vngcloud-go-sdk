@@ -1,11 +1,11 @@
 package identity
 
 import (
-	lssc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/service_client"
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsidentitySvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity/v2"
 )
 
-func NewIdentityService(psvcClient lssc.IServiceClient) IIdentityServiceV2 {
+func NewIdentityService(psvcClient lsclient.IServiceClient) IIdentityServiceV2 {
 	return &lsidentitySvcV2.IdentityServiceV2{
 		IamClient: psvcClient,
 	}

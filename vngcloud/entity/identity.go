@@ -1,11 +1,14 @@
 package entity
 
-import lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
+import (
+	lsvcClient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
+)
 
 type AccessToken struct {
-	token string
+	Token     string
+	ExpiresAt int64
 }
 
-func (s *AccessToken) ToSdkAuthentication() lsclient.ISdkAuthentication {
-	return new(lsclient.SdkAuthentication).WithAccessToken(s.token)
+func (s *AccessToken) ToSdkAuthentication() lsvcClient.ISdkAuthentication {
+	return new(lsvcClient.SdkAuthentication).WithAccessToken(s.Token)
 }

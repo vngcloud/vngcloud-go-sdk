@@ -1,16 +1,15 @@
 package gateway
 
 import (
-	lshttp "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/http"
-	lssc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/service_client"
+	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 )
 
 type iamGateway struct {
 	iamGatewayV2 IIamGatewayV2
 }
 
-func NewIamGateway(pendpoint string, phc lshttp.IHttpClient) IIamGateway {
-	iamSvcV2 := lssc.NewServiceClient().WithEndpoint(pendpoint + "v2").WithClient(phc)
+func NewIamGateway(pendpoint string, phc lsclient.IHttpClient) IIamGateway {
+	iamSvcV2 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v2").WithClient(phc)
 	return &iamGateway{
 		iamGatewayV2: NewIamGatewayV2(iamSvcV2),
 	}
