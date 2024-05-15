@@ -29,7 +29,18 @@ type (
 		accessToken    ISdkAuthentication
 		defaultHeaders map[string]string
 
-		mut lsync.Mutex
+		mut       *lsync.RWMutex
+		reauthmut *reauthlock
+	}
+
+	reauthlock struct {
+		lsync.RWMutex
+		ongoing *reauthFuture
+	}
+
+	reauthFuture struct {
+		done chan struct{}
+		err  error
 	}
 
 	AuthOpts string
@@ -41,6 +52,8 @@ func NewHttpClient() IHttpClient {
 		client: &lhttp.Client{
 			Timeout: ltime.Second * 30,
 		},
+		mut:       new(lsync.RWMutex),
+		reauthmut: new(reauthlock),
 	}
 }
 
