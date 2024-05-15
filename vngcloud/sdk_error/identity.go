@@ -7,6 +7,7 @@ import (
 const (
 	EcAuthenticationFailed        = ErrorCode("AuthenticationFailed")
 	EcUnknownAuthenticationFailed = ErrorCode("UnknownAuthenticationFailed")
+	EcReauthFuncNotSet            = ErrorCode("ReauthFuncNotSet")
 )
 
 func WithErrorAuthenticationFailed(perr error, perrResp IErrorRespone) func(ISdkError) {
@@ -31,5 +32,13 @@ func WithErrorAuthenticationFailed(perr error, perrResp IErrorRespone) func(ISdk
 		sdkErr.WithErrorCode(EcUnknownAuthenticationFailed).
 			WithMessage(perr.Error()).
 			WithErrors(perr)
+	}
+}
+
+func WithErrorReauthFuncNotSet() func(ISdkError) {
+	return func(sdkErr ISdkError) {
+		sdkErr.WithErrorCode(EcReauthFuncNotSet).
+			WithMessage("Reauthentication function is not configured").
+			WithErrors(lfmt.Errorf("Reauthentication function is not configured"))
 	}
 }

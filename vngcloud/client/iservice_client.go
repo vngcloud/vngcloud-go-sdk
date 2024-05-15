@@ -17,4 +17,9 @@ type IServiceClient interface {
 
 type ISdkAuthentication interface {
 	WithAccessToken(paccessToken string) ISdkAuthentication
+	WithExpiresAt(pexpiresAt int64) ISdkAuthentication
+	UpdateAuth(pauth ISdkAuthentication)
+	NeedReauth() bool
+	GetAccessToken() string
+	GetExpiresAt() int64
 }

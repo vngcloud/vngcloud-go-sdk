@@ -10,6 +10,7 @@ type request struct {
 	OmitHeaders  ljset.Set[string]
 	OkCodes      ljset.Set[int]
 	Method       requestMethod
+	SkipAuth     bool
 }
 
 type requestMethod string
@@ -49,6 +50,11 @@ func (s *request) WithJsonError(pjsonError interface{}) IRequest {
 
 func (s *request) WithRequestMethod(pmethod requestMethod) IRequest {
 	s.Method = pmethod
+	return s
+}
+
+func (s *request) WithSkipAuth(pskipAuth bool) IRequest {
+	s.SkipAuth = pskipAuth
 	return s
 }
 
@@ -94,4 +100,8 @@ func (s *request) WithHeader(pkey, pvalue string) IRequest {
 	}
 	s.MoreHeaders[pkey] = pvalue
 	return s
+}
+
+func (s *request) SkipAuthentication() bool {
+	return s.SkipAuth
 }

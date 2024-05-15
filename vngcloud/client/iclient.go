@@ -14,7 +14,7 @@ type IHttpClient interface {
 	WithTimeout(ptimeout ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
 	WithKvDefaultHeaders(pargs ...string) IHttpClient
-	WithReauthFunc(preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
+	WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
 
 	DoRequest(purl string, preq IRequest) lserr.ISdkError
 }
@@ -25,6 +25,7 @@ type IRequest interface {
 	WithJsonResponse(pjsonResponse interface{}) IRequest
 	WithJsonError(pjsonError interface{}) IRequest
 	WithRequestMethod(pmethod requestMethod) IRequest
+	WithSkipAuth(pskipAuth bool) IRequest
 	WithHeader(pkey, pvalue string) IRequest
 
 	GetRequestBody() interface{}
@@ -38,4 +39,5 @@ type IRequest interface {
 	SetJsonError(pjsonError interface{})
 
 	ContainsOkCode(pcode ...int) bool
+	SkipAuthentication() bool
 }

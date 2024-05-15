@@ -2,6 +2,7 @@ package client
 
 import (
 	lstr "strings"
+	ltime "time"
 
 	ljutils "github.com/cuongpiger/joat/utils"
 	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
@@ -53,9 +54,37 @@ func (s *serviceClient) Post(purl string, preq IRequest) lsdkErr.ISdkError {
 
 type SdkAuthentication struct {
 	accessToken string
+	expiresAt   int64
 }
 
 func (s *SdkAuthentication) WithAccessToken(paccessToken string) ISdkAuthentication {
 	s.accessToken = paccessToken
 	return s
+}
+
+func (s *SdkAuthentication) WithExpiresAt(pexpiresAt int64) ISdkAuthentication {
+	s.expiresAt = pexpiresAt
+	return s
+}
+
+func (s *SdkAuthentication) NeedReauth() bool {
+	if s.accessToken == "" {
+		return true
+	}
+
+	ea := ltime.Unix(0, s.expiresAt)
+	return !(ea.Sub(ltime.Now()) >= 5*ltime.Minute)
+}
+
+func (s *SdkAuthentication) UpdateAuth(pauth ISdkAuthentication) {
+	s.accessToken = pauth.GetAccessToken()
+	s.expiresAt = pauth.GetExpiresAt()
+}
+
+func (s *SdkAuthentication) GetAccessToken() string {
+	return s.accessToken
+}
+
+func (s *SdkAuthentication) GetExpiresAt() int64 {
+	return s.expiresAt
 }

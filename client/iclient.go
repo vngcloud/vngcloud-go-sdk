@@ -12,7 +12,7 @@ type IClient interface {
 	// List of builder methods
 	WithHttpClient(phttpClient lsclient.IHttpClient) IClient
 	WithContext(pctx lctx.Context) IClient
-	WithAuthOption(pauthOption authOpts, pauthConfig ISdkConfigure) IClient
+	WithAuthOption(pauthOption lsclient.AuthOpts, pauthConfig ISdkConfigure) IClient
 	WithKvDefaultHeaders(pargs ...string) IClient
 	WithRetryCount(pretry int) IClient
 	WithDelay(pdelay ltime.Duration) IClient
