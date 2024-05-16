@@ -27,7 +27,7 @@ func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	}
 
 	sdkErr.error = perr
-	sdkErr.message = perr.Error()
+	sdkErr.message = ""
 
 	return sdkErr
 }

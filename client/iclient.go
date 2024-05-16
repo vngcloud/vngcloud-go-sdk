@@ -15,7 +15,6 @@ type IClient interface {
 	WithAuthOption(pauthOption lsclient.AuthOpts, pauthConfig ISdkConfigure) IClient
 	WithKvDefaultHeaders(pargs ...string) IClient
 	WithRetryCount(pretry int) IClient
-	WithDelay(pdelay ltime.Duration) IClient
 	WithSleep(psleep ltime.Duration) IClient
 
 	// List of functional methods

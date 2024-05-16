@@ -50,7 +50,7 @@ func (s *client) WithContext(pctx lctx.Context) IClient {
 
 func (s *client) WithAuthOption(pauthOpts lsclient.AuthOpts, pauthConfig ISdkConfigure) IClient {
 	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
+		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	switch pauthOpts {
@@ -67,7 +67,7 @@ func (s *client) WithAuthOption(pauthOpts lsclient.AuthOpts, pauthConfig ISdkCon
 
 func (s *client) WithRetryCount(pretry int) IClient {
 	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
+		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	s.httpClient.WithRetryCount(pretry)
@@ -76,25 +76,16 @@ func (s *client) WithRetryCount(pretry int) IClient {
 
 func (s *client) WithKvDefaultHeaders(pargs ...string) IClient {
 	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
+		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	s.httpClient.WithKvDefaultHeaders(pargs...)
 	return s
 }
 
-func (s *client) WithDelay(pdelay ltime.Duration) IClient {
-	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
-	}
-
-	s.httpClient.WithDelay(pdelay)
-	return s
-}
-
 func (s *client) WithSleep(psleep ltime.Duration) IClient {
 	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
+		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	s.httpClient.WithSleep(psleep)
@@ -103,7 +94,7 @@ func (s *client) WithSleep(psleep ltime.Duration) IClient {
 
 func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	if s.httpClient == nil {
-		s.httpClient = lsclient.NewHttpClient()
+		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	lfmt.Println("[DEBUG] Configure SDK with IAM Oauth2 as authentication option.")

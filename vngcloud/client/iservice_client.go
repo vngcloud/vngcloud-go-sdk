@@ -1,6 +1,8 @@
 package client
 
 import (
+	lreq "github.com/imroc/req/v3"
+
 	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -12,8 +14,8 @@ type IServiceClient interface {
 	WithClient(pclient IHttpClient) IServiceClient
 	ServiceURL(pparts ...string) string
 
-	Post(purl string, preq IRequest) lsdkErr.ISdkError
-	Get(purl string, preq IRequest) lsdkErr.ISdkError
+	Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
+	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
 }
 
 type ISdkAuthentication interface {

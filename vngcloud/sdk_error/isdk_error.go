@@ -17,7 +17,6 @@ type ISdkError interface {
 }
 
 type IErrorRespone interface {
-	GetErrors() []ErrorResponseDTO
 	GetMessage() string
 	GetError() error
 }

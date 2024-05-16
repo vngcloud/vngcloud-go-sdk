@@ -3,25 +3,19 @@ package sdk_error
 import lfmt "fmt"
 
 type (
-	ErrorResponse struct {
-		Errors []ErrorResponseDTO `json:"errors,omitempty"`
-	}
-
-	ErrorResponseDTO struct {
-		Code    string `json:"code,omitempty"`
-		Message string `json:"message,omitempty"`
+	IamErrorResponse struct {
+		Errors []struct {
+			Code    string `json:"code,omitempty"`
+			Message string `json:"message,omitempty"`
+		} `json:"errors,omitempty"`
 	}
 )
 
 func NewErrorResponse() IErrorRespone {
-	return &ErrorResponse{}
+	return &IamErrorResponse{}
 }
 
-func (s *ErrorResponse) GetErrors() []ErrorResponseDTO {
-	return s.Errors
-}
-
-func (s *ErrorResponse) GetMessage() string {
+func (s *IamErrorResponse) GetMessage() string {
 	if len(s.Errors) < 1 {
 		return ""
 	}
@@ -29,7 +23,7 @@ func (s *ErrorResponse) GetMessage() string {
 	return s.Errors[0].Message
 }
 
-func (s *ErrorResponse) GetError() error {
+func (s *IamErrorResponse) GetError() error {
 	if len(s.Errors) < 1 {
 		return nil
 	}

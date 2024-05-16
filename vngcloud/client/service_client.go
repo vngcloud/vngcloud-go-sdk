@@ -5,6 +5,7 @@ import (
 	ltime "time"
 
 	ljutils "github.com/cuongpiger/joat/utils"
+	lreq "github.com/imroc/req/v3"
 	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -48,11 +49,11 @@ func (s *serviceClient) ServiceURL(pparts ...string) string {
 	return s.endpoint + lstr.Join(pparts, "/")
 }
 
-func (s *serviceClient) Post(purl string, preq IRequest) lsdkErr.ISdkError {
+func (s *serviceClient) Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPost))
 }
 
-func (s *serviceClient) Get(purl string, preq IRequest) lsdkErr.ISdkError {
+func (s *serviceClient) Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodGet))
 }
 

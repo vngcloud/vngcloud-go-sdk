@@ -1,14 +1,14 @@
 package client
 
 import (
-	lbytes "bytes"
-	ljson "encoding/json"
-	lfmt "fmt"
-	lio "io"
+	lctx "context"
 	lhttp "net/http"
+	"strings"
 	lsync "sync"
 	ltime "time"
 
+	ljtime "github.com/cuongpiger/joat/timer"
+	lreq "github.com/imroc/req/v3"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -18,10 +18,9 @@ const (
 
 type (
 	httpClient struct {
+		context    lctx.Context
 		retryCount int
-		delay      ltime.Duration
-		sleep      ltime.Duration
-		client     *lhttp.Client
+		client     *lreq.Client
 
 		reauthFunc   func() (ISdkAuthentication, lserr.ISdkError)
 		reauthOption AuthOpts
@@ -40,40 +39,37 @@ type (
 
 	reauthFuture struct {
 		done chan struct{}
-		err  error
+		err  lserr.ISdkError
 	}
 
 	AuthOpts string
 )
 
-func NewHttpClient() IHttpClient {
+func NewHttpClient(pctx lctx.Context) IHttpClient {
 	return &httpClient{
+		context:    pctx,
 		retryCount: 0,
-		client: &lhttp.Client{
-			Timeout: ltime.Second * 30,
-		},
+		client: lreq.NewClient().
+			SetCommonRetryCount(3).
+			SetCommonRetryFixedInterval(10).
+			SetTimeout(ljtime.Second(30)),
 		mut:       new(lsync.RWMutex),
 		reauthmut: new(reauthlock),
 	}
 }
 
 func (s *httpClient) WithRetryCount(pretryCount int) IHttpClient {
-	s.retryCount = pretryCount
-	return s
-}
-
-func (s *httpClient) WithDelay(pdelay ltime.Duration) IHttpClient {
-	s.delay = pdelay
+	s.client.SetCommonRetryCount(pretryCount)
 	return s
 }
 
 func (s *httpClient) WithTimeout(ptimeout ltime.Duration) IHttpClient {
-	s.client.Timeout = ptimeout
+	s.client.SetTimeout(ptimeout)
 	return s
 }
 
 func (s *httpClient) WithSleep(psleep ltime.Duration) IHttpClient {
-	s.sleep = psleep
+	s.client.SetCommonRetryFixedInterval(psleep)
 	return s
 }
 
@@ -99,113 +95,55 @@ func (s *httpClient) WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkA
 	return s
 }
 
-func (s *httpClient) DoRequest(purl string, preq IRequest) lserr.ISdkError {
-	var (
-		sdkerr lserr.ISdkError
-		retry  = true
-	)
-
-	if s.delay > 0 {
-		ltime.Sleep(s.delay * ltime.Second)
+func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.ISdkError) {
+	req := s.client.R().SetContext(s.context).SetHeaders(s.defaultHeaders).SetHeaders(preq.GetMoreHeaders())
+	if opt := preq.GetRequestBody(); opt != nil {
+		req.SetBodyJsonMarshal(opt)
 	}
 
-	for i := 0; i <= s.retryCount; i++ {
-		sdkerr, retry = s.doRequest(purl, preq)
-		if sdkerr == nil || !retry {
-			break
+	if opt := preq.GetJsonResponse(); opt != nil {
+		req.SetSuccessResult(opt)
+	}
+
+	if opt := preq.GetJsonError(); opt != nil {
+		req.SetErrorResult(opt)
+	}
+
+	var resp *lreq.Response
+	var err error
+	switch strings.ToUpper(preq.GetRequestMethod()) {
+	case "POST":
+		resp, err = req.Post(purl)
+	case "GET":
+		resp, err = req.Get(purl)
+	case "DELETE":
+		resp, err = req.Delete(purl)
+	case "PUT":
+		resp, err = req.Put(purl)
+	}
+
+	if err != nil {
+		return resp, lserr.ErrorHandler(err)
+	}
+
+	switch resp.StatusCode {
+	case lhttp.StatusUnauthorized:
+		if s.reauthFunc != nil {
+			if sdkErr := s.reauthenticate(); sdkErr != nil {
+				return nil, sdkErr
+			}
+
+			return s.DoRequest(purl, preq)
 		}
-
-		if s.sleep > 0 {
-			ltime.Sleep(s.sleep * ltime.Second)
-		}
-	}
-
-	return sdkerr
-}
-
-func (s *httpClient) doRequest(purl string, preq IRequest) (lserr.ISdkError, bool) {
-	var (
-		err        error
-		req        *lhttp.Request
-		resp       *lhttp.Response
-		marshalled []byte
-		respBody   []byte
-	)
-
-	lfmt.Println("[DEBUG] Request URL: ", purl)
-
-	if marshalled, err = ljson.Marshal(preq.GetRequestBody()); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorCanNotMarshalRequestBody(err)), false
-	}
-
-	if req, err = lhttp.NewRequest(preq.GetRequestMethod(), purl, lbytes.NewReader(marshalled)); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToCreateHttpRequest(err)), false
-	}
-
-	// So I need to reauth here
-	if s.needReauth(preq) {
-		lfmt.Println("[DEBUG] - Need to reauth.")
-		auth, sdkErr := s.reauthenticate()
-		if sdkErr != nil {
-			return sdkErr, true
-		}
-
-		s.setAccessToken(auth)
-	}
-
-	// Add the default headers to the request
-	if s.defaultHeaders != nil {
-		for k, v := range s.defaultHeaders {
-			req.Header.Add(k, v)
-		}
-	}
-
-	// Add the more headers to the request
-	if preq.GetMoreHeaders() != nil {
-		for k, v := range preq.GetMoreHeaders() {
-			req.Header.Add(k, v)
-		}
-	}
-
-	// Omit the headers from the request
-	if preq.GetOmitHeaders() != nil {
-		for k := range preq.GetOmitHeaders().Iter() {
-			req.Header.Del(k)
-		}
-	}
-
-	if resp, err = s.client.Do(req); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToMakeHttpRequest(err)), true
-	}
-	defer resp.Body.Close()
-
-	if respBody, err = lio.ReadAll(resp.Body); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorFailedToReadResponseBody(err)), true
+	case lhttp.StatusTooManyRequests:
+		return nil, lserr.ErrorHandler(resp.Err)
 	}
 
 	if preq.ContainsOkCode(resp.StatusCode) {
-		rr := preq.GetJsonResponse()
-		if err = ljson.Unmarshal(respBody, rr); err != nil {
-			return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err)), true
-		}
-
-		preq.SetJsonResponse(rr)
-		return nil, false
-	} else {
-		switch resp.StatusCode {
-		case lhttp.StatusUnauthorized:
-			s.setAccessToken(nil)
-			return s.doRequest(purl, preq)
-		}
+		return resp, nil
 	}
 
-	re := preq.GetJsonError()
-	if err = ljson.Unmarshal(respBody, re); err != nil {
-		return lserr.ErrorHandler(err, lserr.WithErrorCanNotUnmarshalResponseBody(err)), true
-	}
-
-	preq.SetJsonError(re)
-	return lserr.ErrorHandler(err, lserr.WithErrorOkCodeNotMatch(resp.StatusCode)), true
+	return resp, lserr.ErrorHandler(nil, lserr.WithErrorOkCodeNotMatch(resp.StatusCode))
 }
 
 func (s *httpClient) needReauth(preq IRequest) bool {
@@ -220,18 +158,29 @@ func (s *httpClient) needReauth(preq IRequest) bool {
 	return s.accessToken.NeedReauth()
 }
 
-func (s *httpClient) reauthenticate() (ISdkAuthentication, lserr.ISdkError) {
+func (s *httpClient) reauthenticate() lserr.ISdkError {
 	if s.reauthFunc == nil {
-		return nil, lserr.ErrorHandler(nil, lserr.WithErrorReauthFuncNotSet())
+		return lserr.ErrorHandler(nil, lserr.WithErrorReauthFuncNotSet())
 	}
 
-	s.mut.Lock()
-	defer s.mut.Unlock()
-	auth, sdkerr := s.reauthFunc()
+	s.reauthmut.Lock()
+	ongoing := s.reauthmut.ongoing
+	if ongoing == nil {
+		s.reauthmut.ongoing = newReauthFuture()
+	}
+	s.reauthmut.Unlock()
 
-	lfmt.Println("[DEBUG] - Auth: ", auth.GetAccessToken())
+	if ongoing != nil {
+		return ongoing.get()
+	}
 
-	return auth, sdkerr
+	_, sdkerr := s.reauthFunc()
+	s.reauthmut.Lock()
+	s.reauthmut.ongoing.set(sdkerr)
+	s.reauthmut.ongoing = nil
+	s.reauthmut.Unlock()
+
+	return sdkerr
 }
 
 func (s *httpClient) setAccessToken(pnewToken ISdkAuthentication) IHttpClient {
@@ -242,4 +191,21 @@ func (s *httpClient) setAccessToken(pnewToken ISdkAuthentication) IHttpClient {
 	s.WithKvDefaultHeaders("Authorization", "Bearer "+s.accessToken.GetAccessToken())
 
 	return s
+}
+
+func newReauthFuture() *reauthFuture {
+	return &reauthFuture{
+		done: make(chan struct{}),
+		err:  nil,
+	}
+}
+
+func (f *reauthFuture) get() lserr.ISdkError {
+	<-f.done
+	return f.err
+}
+
+func (f *reauthFuture) set(err lserr.ISdkError) {
+	f.err = err
+	close(f.done)
 }

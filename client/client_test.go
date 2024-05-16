@@ -13,13 +13,13 @@ import (
 
 func TestNewClient(t *testing.T) {
 	sdkConfig := NewSdkConfigure().
-		WithClientId("c3f65a3d-f134-4216-9314-abb16f95fc29").
-		WithClientSecret("8637fea6-9c19-4e46-bd74-645ad396bf82").
+		WithClientId("___").
+		WithClientSecret("___").
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
 
-	vngcloud := NewClient(lctx.TODO()).WithRetryCount(3).WithSleep(10).Configure(sdkConfig)
-	opt := v2.NewGetAccessTokenRequest("c3f65a3d-f134-4216-9314-abb16f95fc29", "8637fea6-9c19-4e46-bd74-645ad396bf82")
+	vngcloud := NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+	opt := v2.NewGetAccessTokenRequest("___", "___")
 	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
 	t.Log(token, err)
 }
@@ -42,8 +42,8 @@ func TestUnixNano(t *testing.T) {
 
 func TestGetPortalInfo(t *testing.T) {
 	sdkConfig := NewSdkConfigure().
-		WithClientId("c3f65a3d-f134-4216-9314-abb16f95fc29").
-		WithClientSecret("8637fea6-9c19-4e46-bd74-645ad396bf82").
+		WithClientId("___").
+		WithClientSecret("___").
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
 

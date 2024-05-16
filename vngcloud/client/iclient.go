@@ -1,6 +1,7 @@
 package client
 
 import (
+	lreq "github.com/imroc/req/v3"
 	ltime "time"
 
 	ljset "github.com/cuongpiger/joat/data-structure/set"
@@ -10,13 +11,12 @@ import (
 
 type IHttpClient interface {
 	WithRetryCount(pretryCount int) IHttpClient
-	WithDelay(pdelay ltime.Duration) IHttpClient
 	WithTimeout(ptimeout ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
 	WithKvDefaultHeaders(pargs ...string) IHttpClient
 	WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
 
-	DoRequest(purl string, preq IRequest) lserr.ISdkError
+	DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.ISdkError)
 }
 
 type IRequest interface {
