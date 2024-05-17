@@ -1,6 +1,5 @@
 # .goreleaser.yaml
 builds:
   - skip: true
-
-  ldflags:
-    - -s -w -X 'github.com/vngcloud/vngcloud-go-sdk/vngcloud/version.Version={{.Tag}}'
+    ldflags:
+      - -s -w -X 'github.com/vngcloud/vngcloud-go-sdk/vngcloud/version.Version={{.Tag}}'
