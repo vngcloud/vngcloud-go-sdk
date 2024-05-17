@@ -25,10 +25,6 @@ jobs:
             *Repository*: `${{ github.repository }}`
             *Author*: `${{ github.actor }}`
             *Action*: Building `vngcloud-go-sdk:${{ github.ref_name }}` package
-            *Commit message*:
-            ```
-            ${{ github.event.commits[0].message }}
-            ```
             *See changes*: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             *See workflow*: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Check out code into the Go module directory
@@ -61,10 +57,6 @@ jobs:
             *Repository*: `${{ github.repository }}`
             *Author*: `${{ github.actor }}`
             *Action*: Failed to build `vngcloud-go-sdk:${{ github.ref_name }}` package
-            *Commit message*:
-            ```
-            ${{ github.event.commits[0].message }}
-            ```
             *See changes*: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             *See workflow*: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Send alert that the image has been built success
@@ -79,9 +71,5 @@ jobs:
             *Repository*: `${{ github.repository }}`
             *Author*: `${{ github.actor }}`
             *Action*: The `vngcloud-go-sdk:${{ github.ref_name }}` package is built successfully
-            *Commit message*:
-            ```
-            ${{ github.event.commits[0].message }}
-            ```
             *See changes*: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             *See workflow*: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
