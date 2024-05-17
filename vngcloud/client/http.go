@@ -141,7 +141,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		return nil, lserr.ErrorHandler(resp.Err)
 	case lhttp.StatusInternalServerError:
 		return nil, lserr.SdkErrorHandler(
-			defaultErrorResponse(resp.Err, purl, preq, resp),
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
 			lserr.WithErrorInternalServerError())
 	}
 

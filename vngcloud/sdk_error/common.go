@@ -22,9 +22,14 @@ func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	return sdkErr
 }
 
-func SdkErrorHandler(psdkErr ISdkError, popts ...func(psdkErr ISdkError)) ISdkError {
+func SdkErrorHandler(psdkErr ISdkError, perrResp IErrorRespone, popts ...func(psdkErr ISdkError)) ISdkError {
 	if psdkErr == nil {
 		return nil
+	}
+
+	// Fill the default error
+	if perrResp != nil {
+		psdkErr.WithErrorCode(EcUnknownError).WithMessage(perrResp.GetMessage()).WithErrors(perrResp.GetError())
 	}
 
 	for _, opt := range popts {

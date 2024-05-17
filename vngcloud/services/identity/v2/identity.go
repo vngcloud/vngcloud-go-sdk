@@ -26,7 +26,7 @@ func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsent
 		WithHeader("Authorization", "Basic "+lbase64.StdEncoding.EncodeToString([]byte(popts.GetClientId()+":"+popts.GetClientSecret())))
 
 	if _, sdkErr := s.IamClient.Post(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr,
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorTooManyFailedLogin(errResp),
 			lserr.WithErrorAuthenticationFailed(errResp)).WithKVparameters("clientId", popts.GetClientId())
 	}

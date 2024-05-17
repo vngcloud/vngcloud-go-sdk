@@ -20,7 +20,7 @@ func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.PortalClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters("backendProjectId", popts.GetBackEndProjectId())
 	}
 

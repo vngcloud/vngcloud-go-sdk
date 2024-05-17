@@ -21,6 +21,10 @@ const (
 	EcTooManyFailedLogins  = ErrorCode("VngCloudIamTooManyFailedLogins")
 )
 
+// VServer secgroup
+
 const (
-	EcVServerSecgroupNotFound = ErrorCode("VngCloudVServerSecgroupNotFound")
+	EcVServerSecgroupNotFound          = ErrorCode("VngCloudVServerSecgroupNotFound")
+	EcVServerSecgroupNameAlreadyExists = ErrorCode("VngCloudVServerSecgroupNameAlreadyExists")
+	EcVServerSecgroupExceedQuota       = ErrorCode("VngCloudVServerSecgroupExceedQuota")
 )
