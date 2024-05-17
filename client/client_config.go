@@ -6,6 +6,7 @@ type (
 	ISdkConfigure interface {
 		GetClientId() string
 		GetClientSecret() string
+		GetProjectId() string
 		GetIamEndpoint() string
 		GetVServerEndpoint() string
 		WithClientId(pclientId string) ISdkConfigure
@@ -32,6 +33,10 @@ func (s *sdkConfigure) GetClientId() string {
 
 func (s *sdkConfigure) GetClientSecret() string {
 	return s.clientSecret
+}
+
+func (s *sdkConfigure) GetProjectId() string {
+	return s.projectId
 }
 
 func (s *sdkConfigure) GetIamEndpoint() string {

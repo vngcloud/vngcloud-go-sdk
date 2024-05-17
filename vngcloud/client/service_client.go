@@ -63,6 +63,10 @@ func (s *serviceClient) Get(purl string, preq IRequest) (*lreq.Response, lsdkErr
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodGet))
 }
 
+func (s *serviceClient) GetProjectId() string {
+	return s.projectId
+}
+
 type SdkAuthentication struct {
 	accessToken string
 	expiresAt   int64

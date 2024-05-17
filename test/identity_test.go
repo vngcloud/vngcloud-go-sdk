@@ -30,6 +30,7 @@ func validSdkConfig() lsclient.IClient {
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
 

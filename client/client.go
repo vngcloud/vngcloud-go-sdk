@@ -103,11 +103,11 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	if s.iamGateway == nil {
-		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.projectId, s.httpClient)
+		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), psdkCfg.GetProjectId(), s.httpClient)
 	}
 
 	if s.vserverGateway == nil {
-		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
+		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), psdkCfg.GetProjectId(), s.httpClient)
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))

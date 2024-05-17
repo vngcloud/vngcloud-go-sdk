@@ -14,6 +14,7 @@ type IServiceClient interface {
 	WithKVheader(pkey string, pvalue string) IServiceClient
 	WithClient(pclient IHttpClient) IServiceClient
 	ServiceURL(pparts ...string) string
+	GetProjectId() string
 
 	Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
 	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
