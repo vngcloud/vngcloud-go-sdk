@@ -96,6 +96,10 @@ func (s *SdkError) GetMessage() string {
 	return s.message
 }
 
+func (s *SdkError) GetErrorCode() ErrorCode {
+	return s.errorCode
+}
+
 func (s *SdkError) GetParameters() map[string]interface{} {
 	return s.parameters
 }

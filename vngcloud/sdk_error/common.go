@@ -3,13 +3,6 @@ package sdk_error
 const (
 	EcUnknownError = ErrorCode("UnknownError")
 	EmUnknownError = "Unknown error"
-
-	EcCanNotMarshalRequestBody    = ErrorCode("CanNotMarshalRequestBody")
-	EcFailedToCreateHttpRequest   = ErrorCode("FailedToCreateHttpRequest")
-	EcFailedToMakeHttpRequest     = ErrorCode("FailedToMakeHttpRequest")
-	EcFailedToReadResponseBody    = ErrorCode("FailedToReadResponseBody")
-	EcCanNotUnmarshalResponseBody = ErrorCode("CanNotUnmarshalResponseBody")
-	EcOkCodeNotMatch              = ErrorCode("OkCodeNotMatch")
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
@@ -32,51 +25,17 @@ func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	return sdkErr
 }
 
-func WithErrorCanNotMarshalRequestBody(perr error) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcCanNotMarshalRequestBody).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
+func SdkErrorHandler(psdkErr ISdkError, popts ...func(psdkErr ISdkError)) ISdkError {
+	if psdkErr == nil {
+		return nil
 	}
-}
-func WithErrorFailedToCreateHttpRequest(perr error) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcFailedToCreateHttpRequest).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
-	}
-}
 
-func WithErrorFailedToMakeHttpRequest(perr error) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcFailedToMakeHttpRequest).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
+	for _, opt := range popts {
+		opt(psdkErr)
+		if psdkErr.GetErrorCode() != EcUnknownError {
+			return psdkErr
+		}
 	}
-}
 
-func WithErrorFailedToReadResponseBody(perr error) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcFailedToReadResponseBody).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
-	}
-}
-
-func WithErrorCanNotUnmarshalResponseBody(perr error) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcCanNotUnmarshalResponseBody).
-			WithMessage(perr.Error()).
-			WithErrors(perr)
-	}
-}
-
-func WithErrorOkCodeNotMatch(pcode int) func(ISdkError) {
-	return func(sdkErr ISdkError) {
-		sdkErr.WithErrorCode(EcOkCodeNotMatch).
-			WithMessage("Ok code not match").
-			WithParameters(map[string]interface{}{
-				"code": pcode,
-			})
-	}
+	return psdkErr
 }

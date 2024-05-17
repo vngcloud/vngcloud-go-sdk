@@ -128,12 +128,21 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 
 	switch resp.StatusCode {
 	case lhttp.StatusUnauthorized:
-		if s.reauthFunc != nil {
+		if !preq.SkipAuthentication() && s.reauthFunc != nil {
 			if sdkErr := s.reauthenticate(); sdkErr != nil {
 				return nil, sdkErr
 			}
 
 			return s.DoRequest(purl, preq)
+		} else {
+			// Fall in the scope of unauthorized
+			return nil, lserr.ErrorHandler(resp.Err).WithKVparameters(
+				"statusCode", resp.StatusCode,
+				"url", purl,
+				"method", preq.GetRequestMethod(),
+				"requestHeaders", preq.GetMoreHeaders(),
+				"responseHeaders", resp.Header,
+			)
 		}
 	case lhttp.StatusTooManyRequests:
 		return nil, lserr.ErrorHandler(resp.Err)
@@ -143,7 +152,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		return resp, nil
 	}
 
-	return resp, lserr.ErrorHandler(nil, lserr.WithErrorOkCodeNotMatch(resp.StatusCode))
+	return resp, lserr.ErrorHandler(resp.Err)
 }
 
 func (s *httpClient) needReauth(preq IRequest) bool {

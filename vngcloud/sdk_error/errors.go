@@ -28,5 +28,5 @@ func (s *IamErrorResponse) GetError() error {
 		return nil
 	}
 
-	return lfmt.Errorf("%s: %s", s.Errors[0].Code, s.Errors[0].Message)
+	return lfmt.Errorf("%s", s.Errors[0].Code)
 }
