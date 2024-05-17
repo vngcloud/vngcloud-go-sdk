@@ -12,6 +12,7 @@ import (
 type serviceClient struct {
 	name        string
 	endpoint    string
+	projectId   string
 	moreHeaders map[string]string
 	client      IHttpClient
 }
@@ -27,6 +28,11 @@ func (s *serviceClient) WithEndpoint(pendpoint string) IServiceClient {
 
 func (s *serviceClient) WithName(pname string) IServiceClient {
 	s.name = pname
+	return s
+}
+
+func (s *serviceClient) WithProjectId(pprojectId string) IServiceClient {
+	s.projectId = pprojectId
 	return s
 }
 

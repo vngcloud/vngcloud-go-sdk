@@ -10,6 +10,7 @@ type (
 		GetVServerEndpoint() string
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
+		WithProjectId(pprojectId string) ISdkConfigure
 		WithIamEndpoint(piamEndpoint string) ISdkConfigure
 		WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure
 		WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure
@@ -19,6 +20,7 @@ type (
 type sdkConfigure struct {
 	clientId        string
 	clientSecret    string
+	projectId       string
 	iamEndpoint     string
 	vserverEndpoint string
 	vlbEndpoint     string
@@ -47,6 +49,11 @@ func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 
 func (s *sdkConfigure) WithClientSecret(pclientSecret string) ISdkConfigure {
 	s.clientSecret = pclientSecret
+	return s
+}
+
+func (s *sdkConfigure) WithProjectId(pprojectId string) ISdkConfigure {
+	s.projectId = pprojectId
 	return s
 }
 

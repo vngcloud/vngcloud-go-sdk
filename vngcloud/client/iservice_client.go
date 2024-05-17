@@ -9,6 +9,7 @@ import (
 type IServiceClient interface {
 	WithEndpoint(pendpoint string) IServiceClient
 	WithName(pname string) IServiceClient
+	WithProjectId(pprojectId string) IServiceClient
 	WithMoreHeaders(pmoreHeaders map[string]string) IServiceClient
 	WithKVheader(pkey string, pvalue string) IServiceClient
 	WithClient(pclient IHttpClient) IServiceClient

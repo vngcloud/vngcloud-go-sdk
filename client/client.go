@@ -17,12 +17,13 @@ var (
 type (
 	client struct {
 		context    lctx.Context
+		projectId  string
 		httpClient lsclient.IHttpClient
 
 		iamGateway     lsgateway.IIamGateway
 		vserverGateway lsgateway.IVServerGateway
 		vlbGateway     lsgateway.IVLBGateway
-		vbackupGateway lsgateway.VBackUpGateway
+		vbackupGateway lsgateway.IVBackUpGateway
 	}
 )
 
@@ -44,6 +45,11 @@ func (s *client) WithHttpClient(pclient lsclient.IHttpClient) IClient {
 
 func (s *client) WithContext(pctx lctx.Context) IClient {
 	s.context = pctx
+	return s
+}
+
+func (s *client) WithProjectId(pprojectId string) IClient {
+	s.projectId = pprojectId
 	return s
 }
 
@@ -97,11 +103,11 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	if s.iamGateway == nil {
-		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.httpClient)
+		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.projectId, s.httpClient)
 	}
 
 	if s.vserverGateway == nil {
-		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.httpClient)
+		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
@@ -121,7 +127,7 @@ func (s *client) VLBGateway() lsgateway.IVLBGateway {
 	return s.vlbGateway
 }
 
-func (s *client) VBackUpGateway() lsgateway.VBackUpGateway {
+func (s *client) VBackUpGateway() lsgateway.IVBackUpGateway {
 	return s.vbackupGateway
 }
 
