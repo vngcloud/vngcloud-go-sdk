@@ -19,6 +19,17 @@ func getEnv() (string, string) {
 	return clientId, clientSecret
 }
 
+func validSdkConfig() lsclient.IClient {
+	clientId, clientSecret := getEnv()
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
 func TestAuthenFailed(t *ltesting.T) {
 	clientId := "cc136360-709c-4248-9358-e8e96c74480a"
 	clientSecret := "___"
@@ -51,14 +62,7 @@ func TestAuthenFailed(t *ltesting.T) {
 
 func TestAuthenPass(t *ltesting.T) {
 	clientId, clientSecret := getEnv()
-
-	sdkConfig := lsclient.NewSdkConfigure().
-		WithClientId(clientId).
-		WithClientSecret(clientSecret).
-		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
-		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
-
-	vngcloud := lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+	vngcloud := validSdkConfig()
 	opt := lsidentityV2.NewGetAccessTokenRequest(clientId, clientSecret)
 	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
 
