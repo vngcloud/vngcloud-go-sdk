@@ -1,27 +1,65 @@
 package test
 
 import (
-	lctx "context"
-	ltesting "testing"
-	ltime "time"
-
-	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
+	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 	lsportalV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal/v1"
+	ltesting "testing"
 )
 
-// ca984cf19c0c48a0838ba9f06d259ffa
-
-func TestGetPortalInfo(t *ltesting.T) {
-	sdkConfig := lsclient.NewSdkConfigure().
-		WithClientId("___").
-		WithClientSecret("___").
-		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
-		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
-
-	vngcloud := lsclient.NewClient(lctx.TODO()).Configure(sdkConfig)
-	opt := lsportalV1.NewGetPortalInfoRequest("ca984cf19c0c48a0838ba9f06d259ffa")
+func TestGetPortalInfoFailed(t *ltesting.T) {
+	backendProjectId := getValueOfEnv("BACKEND_PROJECT_ID")
+	vngcloud := invalidSdkConfig()
+	opt := lsportalV1.NewGetPortalInfoRequest(backendProjectId)
 	portal, err := vngcloud.VServerGateway().V1().PortalService().GetPortalInfo(opt)
-	t.Log(portal, err)
 
-	ltime.Sleep(10 * ltime.Second)
+	if err == nil {
+		t.Errorf("Expect error but got nil")
+	}
+
+	if portal != nil {
+		t.Errorf("Expect portal to be nil but got %+v", portal)
+	}
+
+	if !err.IsError(lserr.EcAuthenticationFailed) {
+		t.Errorf("Expect error code to be %s but got %s", lserr.EcAuthenticationFailed, err.GetErrorCode())
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}
+
+func TestGetPortalInfoSuccess(t *ltesting.T) {
+	backendProjectId := getValueOfEnv("BACKEND_PROJECT_ID")
+	vngcloud := validSdkConfig()
+	opt := lsportalV1.NewGetPortalInfoRequest(backendProjectId)
+	portal, err := vngcloud.VServerGateway().V1().PortalService().GetPortalInfo(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if portal == nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", portal)
+	t.Log("PASS")
+}
+
+func TestGetPortalInfoFailure(t *ltesting.T) {
+	backendProjectId := getValueOfEnv("FAKE_BACKEND_PROJECT_ID")
+	vngcloud := validSdkConfig()
+	opt := lsportalV1.NewGetPortalInfoRequest(backendProjectId)
+	portal, err := vngcloud.VServerGateway().V1().PortalService().GetPortalInfo(opt)
+
+	if err == nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if portal != nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
 }

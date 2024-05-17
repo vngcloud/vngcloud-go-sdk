@@ -1,8 +1,12 @@
 package sdk_error
 
+import lfmt "fmt"
+
 const (
 	EcUnknownError = ErrorCode("UnknownError")
 	EmUnknownError = "Unknown error"
+
+	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
@@ -38,4 +42,12 @@ func SdkErrorHandler(psdkErr ISdkError, popts ...func(psdkErr ISdkError)) ISdkEr
 	}
 
 	return psdkErr
+}
+
+func WithErrorInternalServerError() func(ISdkError) {
+	return func(sdkErr ISdkError) {
+		sdkErr.WithErrorCode(EcInternalServerError).
+			WithMessage("Internal Server Error").
+			WithErrors(lfmt.Errorf("internal server error from making request to external service"))
+	}
 }

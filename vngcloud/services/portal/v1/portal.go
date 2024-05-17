@@ -3,25 +3,26 @@ package v1
 import (
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
-	lsdkErr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
+	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
 type PortalServiceV1 struct {
 	PortalClient lsclient.IServiceClient
 }
 
-func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.Portal, lsdkErr.ISdkError) {
-	//resp := new(GetPortalInfoResponse)
-	//errResp := lsdkErr.NewErrorResponse()
-	//req := popts.ToRequest().WithJsonResponse(resp).WithJsonError(errResp)
-	//sdkErr := s.PortalClient.Get(getPortalInfoUrl(s.PortalClient, popts), req)
-	//
-	//fmt.Println("resp: ", req)
-	//
-	//if sdkErr != nil {
-	//	return nil, lsdkErr.ErrorHandler(sdkErr.GetError())
-	//}
-	//
-	//return resp.ToEntityPortal(), nil
-	return nil, nil
+func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.Portal, lserr.ISdkError) {
+	url := getPortalInfoUrl(s.PortalClient, popts)
+	resp := new(GetPortalInfoResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.PortalClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr).
+			WithKVparameters("backendProjectId", popts.GetBackEndProjectId())
+	}
+
+	return resp.ToEntityPortal(), nil
 }

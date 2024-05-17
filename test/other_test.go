@@ -5,10 +5,6 @@ import (
 	ltime "time"
 )
 
-func TestGetEnv(t *ltesting.T) {
-	t.Log(getEnv())
-}
-
 func TestUnixNano(t *ltesting.T) {
 	now := ltime.Now()
 

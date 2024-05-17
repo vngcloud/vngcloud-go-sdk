@@ -78,7 +78,7 @@ func (s *httpClient) WithKvDefaultHeaders(pargs ...string) IHttpClient {
 		s.defaultHeaders = make(map[string]string)
 	}
 
-	if len(pargs)%2 != 1 {
+	if len(pargs)%2 != 0 {
 		pargs = append(pargs, "")
 	}
 
@@ -135,17 +135,14 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 
 			return s.DoRequest(purl, preq)
 		} else {
-			// Fall in the scope of unauthorized
-			return nil, lserr.ErrorHandler(resp.Err).WithKVparameters(
-				"statusCode", resp.StatusCode,
-				"url", purl,
-				"method", preq.GetRequestMethod(),
-				"requestHeaders", preq.GetMoreHeaders(),
-				"responseHeaders", resp.Header,
-			)
+			return nil, defaultErrorResponse(resp.Err, purl, preq, resp)
 		}
 	case lhttp.StatusTooManyRequests:
 		return nil, lserr.ErrorHandler(resp.Err)
+	case lhttp.StatusInternalServerError:
+		return nil, lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp),
+			lserr.WithErrorInternalServerError())
 	}
 
 	if preq.ContainsOkCode(resp.StatusCode) {
@@ -183,11 +180,13 @@ func (s *httpClient) reauthenticate() lserr.ISdkError {
 		return ongoing.get()
 	}
 
-	_, sdkerr := s.reauthFunc()
+	auth, sdkerr := s.reauthFunc()
 	s.reauthmut.Lock()
 	s.reauthmut.ongoing.set(sdkerr)
 	s.reauthmut.ongoing = nil
 	s.reauthmut.Unlock()
+
+	s.setAccessToken(auth)
 
 	return sdkerr
 }
@@ -195,9 +194,10 @@ func (s *httpClient) reauthenticate() lserr.ISdkError {
 func (s *httpClient) setAccessToken(pnewToken ISdkAuthentication) IHttpClient {
 	s.mut.Lock()
 	defer s.mut.Unlock()
-
-	s.accessToken = pnewToken
-	s.WithKvDefaultHeaders("Authorization", "Bearer "+s.accessToken.GetAccessToken())
+	if pnewToken != nil {
+		s.accessToken = pnewToken
+		s.WithKvDefaultHeaders("Authorization", "Bearer "+s.accessToken.GetAccessToken())
+	}
 
 	return s
 }
@@ -209,12 +209,22 @@ func newReauthFuture() *reauthFuture {
 	}
 }
 
-func (f *reauthFuture) get() lserr.ISdkError {
-	<-f.done
-	return f.err
+func (s *reauthFuture) get() lserr.ISdkError {
+	<-s.done
+	return s.err
 }
 
-func (f *reauthFuture) set(err lserr.ISdkError) {
-	f.err = err
-	close(f.done)
+func (s *reauthFuture) set(err lserr.ISdkError) {
+	s.err = err
+	close(s.done)
+}
+
+func defaultErrorResponse(perr error, purl string, preq IRequest, resp *lreq.Response) lserr.ISdkError {
+	return lserr.ErrorHandler(perr).WithKVparameters(
+		"statusCode", resp.StatusCode,
+		"url", purl,
+		"method", preq.GetRequestMethod(),
+		"requestHeaders", preq.GetMoreHeaders(),
+		"responseHeaders", resp.Header,
+	)
 }

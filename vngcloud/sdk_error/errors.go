@@ -9,10 +9,24 @@ type (
 			Message string `json:"message,omitempty"`
 		} `json:"errors,omitempty"`
 	}
+
+	NormalErrorResponse struct {
+		Message string `json:"message,omitempty"`
+	}
 )
 
-func NewErrorResponse() IErrorRespone {
-	return &IamErrorResponse{}
+const (
+	IamErrorType = iota
+	NormalErrorType
+)
+
+func NewErrorResponse(ptype int) IErrorRespone {
+	switch {
+	case ptype == IamErrorType:
+		return new(IamErrorResponse)
+	default:
+		return new(NormalErrorResponse)
+	}
 }
 
 func (s *IamErrorResponse) GetMessage() string {
@@ -29,4 +43,12 @@ func (s *IamErrorResponse) GetError() error {
 	}
 
 	return lfmt.Errorf("%s", s.Errors[0].Code)
+}
+
+func (s *NormalErrorResponse) GetMessage() string {
+	return s.Message
+}
+
+func (s *NormalErrorResponse) GetError() error {
+	return lfmt.Errorf("%s", s.Message)
 }

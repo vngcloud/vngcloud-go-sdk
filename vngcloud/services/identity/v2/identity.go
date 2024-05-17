@@ -15,7 +15,7 @@ type IdentityServiceV2 struct {
 func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsentity.AccessToken, lserr.ISdkError) {
 	url := getAccessTokenUrl(s.IamClient)
 	resp := new(GetAccessTokenResponse)
-	errResp := lserr.NewErrorResponse()
+	errResp := lserr.NewErrorResponse(lserr.IamErrorType)
 	req := lsclient.NewRequest().
 		WithOkCodes(200).
 		WithJsonResponse(resp).
