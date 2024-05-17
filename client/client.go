@@ -98,16 +98,17 @@ func (s *client) WithSleep(psleep ltime.Duration) IClient {
 }
 
 func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
+	s.projectId = psdkCfg.GetProjectId()
 	if s.httpClient == nil {
 		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
 	if s.iamGateway == nil {
-		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), psdkCfg.GetProjectId(), s.httpClient)
+		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.projectId, s.httpClient)
 	}
 
 	if s.vserverGateway == nil {
-		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), psdkCfg.GetProjectId(), s.httpClient)
+		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
