@@ -8,7 +8,7 @@ import (
 )
 
 func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError) {
-	url := getSecgroupUrl(s.VserverClient, popts)
+	url := getSecgroupByIdUrl(s.VserverClient, popts)
 	resp := new(GetSecgroupByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -19,7 +19,9 @@ func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsen
 	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorSecgroupNotFound(errResp)).
-			WithKVparameters("secgroupId", popts.GetSecgroupId())
+			WithKVparameters(
+				"secgroupId", popts.GetSecgroupId(),
+				"projectId", s.getProjectId())
 	}
 
 	return resp.ToEntitySecgroup(), nil
@@ -40,8 +42,33 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorSecgroupNameAlreadyExists(errResp),
 			lserr.WithErrorSecgroupExceedQuota(errResp)).
-			WithKVparameters("secgroupName", popts.GetSecgroupName())
+			WithKVparameters(
+				"secgroupName", popts.GetSecgroupName(),
+				"projectId", s.getProjectId())
 	}
 
 	return resp.ToEntitySecgroup(), nil
+}
+
+func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupRequest) lserr.ISdkError {
+	url := deleteSecgroupByIdUrl(s.VserverClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorSecgroupInUse(errResp),
+			lserr.WithErrorSecgroupNotFound(errResp)).
+			WithKVparameters(
+				"secgroupId", popts.GetSecgroupId(),
+				"projectId", s.getProjectId())
+	}
+
+	return nil
+}
+
+func (s *NetworkServiceV2) getProjectId() string {
+	return s.VserverClient.GetProjectId()
 }

@@ -18,6 +18,7 @@ type IServiceClient interface {
 
 	Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
 	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
+	Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
 }
 
 type ISdkAuthentication interface {

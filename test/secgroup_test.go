@@ -76,3 +76,31 @@ func TestCreateSecgroupSuccess(t *ltesting.T) {
 	t.Log("RESULT:", secgroup)
 	t.Log("PASS")
 }
+
+func TestDeleteSecgroupByIdFailure(t *ltesting.T) {
+	secgroupId := "secg-90d617b4-b893-407b-a9a8-3bd80c177920"
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewDeleteSecgroupRequest(secgroupId)
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupById(opt)
+
+	if err == nil {
+		t.Errorf("Expect error not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}
+
+func TestDeleteSecgroupByIdSuccess(t *ltesting.T) {
+	secgroupId := "secg-3787f73d-d62b-49ca-96cd-226b7dc8ead4"
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewDeleteSecgroupRequest(secgroupId)
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupById(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}

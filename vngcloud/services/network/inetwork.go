@@ -7,6 +7,9 @@ import (
 )
 
 type INetworkServiceV2 interface {
+	// The group of Secgroup APIs
+
 	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError)
 	CreateSecgroup(popts lsnetworkSvcV2.ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.ISdkError)
+	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupRequest) lserr.ISdkError
 }

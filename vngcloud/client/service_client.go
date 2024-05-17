@@ -63,6 +63,10 @@ func (s *serviceClient) Get(purl string, preq IRequest) (*lreq.Response, lsdkErr
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodGet))
 }
 
+func (s *serviceClient) Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
+	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodDelete))
+}
+
 func (s *serviceClient) GetProjectId() string {
 	return s.projectId
 }

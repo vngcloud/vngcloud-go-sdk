@@ -27,4 +27,5 @@ const (
 	EcVServerSecgroupNotFound          = ErrorCode("VngCloudVServerSecgroupNotFound")
 	EcVServerSecgroupNameAlreadyExists = ErrorCode("VngCloudVServerSecgroupNameAlreadyExists")
 	EcVServerSecgroupExceedQuota       = ErrorCode("VngCloudVServerSecgroupExceedQuota")
+	EcVServerSecgroupInUse             = ErrorCode("VngCloudVServerSecgroupInUse")
 )
