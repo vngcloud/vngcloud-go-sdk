@@ -2,4 +2,4 @@
 builds:
   - skip: false
     ldflags:
-      - -s -w -X 'github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/version.Version={{.Tag}}'
+      - -s -w -X 'github.com/vngcloud/vngcloud-go-sdk/vngcloud/version.Version={{.Tag}}'
