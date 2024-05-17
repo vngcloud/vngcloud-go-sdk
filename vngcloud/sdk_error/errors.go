@@ -16,8 +16,8 @@ type (
 )
 
 const (
-	IamErrorType = iota
-	NormalErrorType
+	NormalErrorType = iota
+	IamErrorType
 )
 
 func NewErrorResponse(ptype int) IErrorRespone {

@@ -4,15 +4,6 @@ import (
 	lfmt "fmt"
 )
 
-const (
-	// Internal SDK error
-	EcReauthFuncNotSet = ErrorCode("SdkReauthFunctionNotSet")
-
-	// Error from VngCloudApi
-	EcAuthenticationFailed = ErrorCode("VngCloudIamAuthenticationFailed")
-	EcTooManyFailedLogins  = ErrorCode("VngCloudIamTooManyFailedLogins")
-)
-
 func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(ISdkError) {
 	return func(sdkErr ISdkError) {
 		if perrResp == nil {

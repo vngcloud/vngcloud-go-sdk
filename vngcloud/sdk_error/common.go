@@ -2,18 +2,11 @@ package sdk_error
 
 import lfmt "fmt"
 
-const (
-	EcUnknownError = ErrorCode("UnknownError")
-	EmUnknownError = "Unknown error"
-
-	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
-)
-
 func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	sdkErr := &SdkError{
 		error:     perr,
 		errorCode: EcUnknownError,
-		message:   EmUnknownError,
+		message:   "Unknown error",
 	}
 
 	for _, opt := range popts {
