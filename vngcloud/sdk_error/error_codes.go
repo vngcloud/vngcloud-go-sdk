@@ -33,7 +33,8 @@ const (
 // VServer secgroup rule
 
 const (
-	EcVServerSecgroupRuleNotFound = ErrorCode("VngCloudVServerSecgroupRuleNotFound")
+	EcVServerSecgroupRuleNotFound      = ErrorCode("VngCloudVServerSecgroupRuleNotFound")
+	EcVServerSecgroupRuleAlreadyExists = ErrorCode("VngCloudVServerSecgroupRuleAlreadyExists")
 )
 
 // VServer network

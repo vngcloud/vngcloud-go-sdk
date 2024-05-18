@@ -20,7 +20,8 @@ func (s *NetworkServiceV2) CreateSecgroupRule(popts ICreateSecgroupRuleRequest) 
 	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
 		fmt.Println("sdkErr: ", sdkErr)
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorSecgroupNotFound(errResp)).
+			lserr.WithErrorSecgroupNotFound(errResp),
+			lserr.WithErrorSecgroupAlreadyExists(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
 	}
 
