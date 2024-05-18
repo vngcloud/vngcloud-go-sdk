@@ -14,7 +14,8 @@ type vserverGateway struct {
 }
 
 func NewIamGateway(pendpoint, projectId string, phc lsclient.IHttpClient) IIamGateway {
-	iamSvcV2 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v2").
+	iamSvcV2 := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "v2").
 		WithClient(phc).
 		WithProjectId(projectId)
 
@@ -24,11 +25,13 @@ func NewIamGateway(pendpoint, projectId string, phc lsclient.IHttpClient) IIamGa
 }
 
 func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) IVServerGateway {
-	vserverSvcV1 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v1").
+	vserverSvcV1 := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "v1").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
-	vserverSvcV2 := lsclient.NewServiceClient().WithEndpoint(pendpoint + "v2").
+	vserverSvcV2 := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "v2").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
