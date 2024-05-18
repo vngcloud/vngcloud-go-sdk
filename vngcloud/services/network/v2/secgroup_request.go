@@ -7,8 +7,8 @@ func NewCreateSecgroupRequest(pname, pdescription string) ICreateSecgroupRequest
 	}
 }
 
-func NewDeleteSecgroupRequest(psecgroupId string) IDeleteSecgroupRequest {
-	return &DeleteSecgroupRequest{
+func NewDeleteSecgroupByIdRequest(psecgroupId string) IDeleteSecgroupByIdRequest {
+	return &DeleteSecgroupByIdRequest{
 		SecgroupId: psecgroupId,
 	}
 }
@@ -19,11 +19,11 @@ func NewGetSecgroupByIdRequest(psecgroupId string) IGetSecgroupByIdRequest {
 	return opt
 }
 
-type DeleteSecgroupRequest struct { //__________________________________________________________________________________
+type DeleteSecgroupByIdRequest struct { //__________________________________________________________________________________
 	SecgroupId string
 }
 
-func (s *DeleteSecgroupRequest) GetSecgroupId() string {
+func (s *DeleteSecgroupByIdRequest) GetSecgroupId() string {
 	return s.SecgroupId
 }
 

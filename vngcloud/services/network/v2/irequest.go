@@ -9,6 +9,6 @@ type ICreateSecgroupRequest interface {
 	GetSecgroupName() string
 }
 
-type IDeleteSecgroupRequest interface {
+type IDeleteSecgroupByIdRequest interface {
 	GetSecgroupId() string
 }

@@ -11,5 +11,5 @@ type INetworkServiceV2 interface {
 
 	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError)
 	CreateSecgroup(popts lsnetworkSvcV2.ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.ISdkError)
-	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupRequest) lserr.ISdkError
+	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupByIdRequest) lserr.ISdkError
 }

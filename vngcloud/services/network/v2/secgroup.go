@@ -50,7 +50,7 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 	return resp.ToEntitySecgroup(), nil
 }
 
-func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupRequest) lserr.ISdkError {
+func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) lserr.ISdkError {
 	url := deleteSecgroupByIdUrl(s.VserverClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -67,10 +67,6 @@ func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupRequest) lser
 	}
 
 	return nil
-}
-
-func (s *NetworkServiceV2) ListSecgroupByName() {
-
 }
 
 func (s *NetworkServiceV2) getProjectId() string {

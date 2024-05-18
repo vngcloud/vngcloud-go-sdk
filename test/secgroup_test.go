@@ -80,7 +80,7 @@ func TestCreateSecgroupSuccess(t *ltesting.T) {
 func TestDeleteSecgroupByIdFailure(t *ltesting.T) {
 	secgroupId := "secg-90d617b4-b893-407b-a9a8-3bd80c177920"
 	vngcloud := validSdkConfig()
-	opt := lsnetworkSvcV2.NewDeleteSecgroupRequest(secgroupId)
+	opt := lsnetworkSvcV2.NewDeleteSecgroupByIdRequest(secgroupId)
 	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupById(opt)
 
 	if err == nil {
@@ -94,7 +94,7 @@ func TestDeleteSecgroupByIdFailure(t *ltesting.T) {
 func TestDeleteSecgroupByIdSuccess(t *ltesting.T) {
 	secgroupId := "secg-3787f73d-d62b-49ca-96cd-226b7dc8ead4"
 	vngcloud := validSdkConfig()
-	opt := lsnetworkSvcV2.NewDeleteSecgroupRequest(secgroupId)
+	opt := lsnetworkSvcV2.NewDeleteSecgroupByIdRequest(secgroupId)
 	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupById(opt)
 
 	if err != nil {

@@ -10,6 +10,6 @@ func createSecgroupUrl(psc lsclient.IServiceClient) string {
 	return psc.ServiceURL(psc.GetProjectId(), "secgroups")
 }
 
-func deleteSecgroupByIdUrl(psc lsclient.IServiceClient, popts IDeleteSecgroupRequest) string {
+func deleteSecgroupByIdUrl(psc lsclient.IServiceClient, popts IDeleteSecgroupByIdRequest) string {
 	return psc.ServiceURL(psc.GetProjectId(), "secgroups", popts.GetSecgroupId())
 }
