@@ -46,3 +46,21 @@ func (s *NetworkServiceV2) DeleteSecgroupRuleById(popts IDeleteSecgroupRuleByIdR
 
 	return nil
 }
+
+func (s *NetworkServiceV2) ListSecgroupRulesBySecgroupId(popts IListSecgroupRulesBySecgroupIdRequest) (*lsentity.ListSecgroupRules, lserr.ISdkError) {
+	url := listSecgroupRulesBySecgroupIdUrl(s.VserverClient, popts)
+	resp := new(ListSecgroupRulesBySecgroupIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorSecgroupNotFound(errResp)).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityListSecgroupRules(), nil
+}

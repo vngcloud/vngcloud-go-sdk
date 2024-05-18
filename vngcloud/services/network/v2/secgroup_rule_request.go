@@ -28,6 +28,12 @@ func NewDeleteSecgroupRuleByIdRequest(psecgroupRuleId string) IDeleteSecgroupRul
 	return opt
 }
 
+func NewListSecgroupRulesBySecgroupIdRequest(psecurityGroupId string) IListSecgroupRulesBySecgroupIdRequest {
+	opt := new(ListSecgroupRulesBySecgroupIdRequest)
+	opt.SecgroupId = psecurityGroupId
+	return opt
+}
+
 const (
 	SecgroupRuleProtocolTCP    SecgroupRuleProtocol = "tcp"
 	SecgroupRuleProtocolUDP    SecgroupRuleProtocol = "udp"
@@ -76,4 +82,8 @@ type DeleteSecgroupRuleByIdRequest struct { //__________________________________
 
 func (s *DeleteSecgroupRuleByIdRequest) GetSecgroupRuleId() string {
 	return s.SecgroupRuleId
+}
+
+type ListSecgroupRulesBySecgroupIdRequest struct { //___________________________________________________________________
+	SecgroupCommon
 }

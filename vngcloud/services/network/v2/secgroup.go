@@ -68,7 +68,3 @@ func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) 
 
 	return nil
 }
-
-func (s *NetworkServiceV2) getProjectId() string {
-	return s.VserverClient.GetProjectId()
-}

@@ -38,3 +38,11 @@ func deleteSecgroupRuleByIdUrl(psc lsclient.IServiceClient, popts IDeleteSecgrou
 		"secgroupRules",
 		popts.GetSecgroupRuleId())
 }
+
+func listSecgroupRulesBySecgroupIdUrl(psc lsclient.IServiceClient, popts IListSecgroupRulesBySecgroupIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"secgroups",
+		popts.GetSecgroupId(),
+		"secGroupRules")
+}

@@ -17,3 +17,7 @@ type ICreateSecgroupResponse interface {
 type ICreateSecgroupRuleResponse interface {
 	ToEntitySecgroupRule() *lsentity.SecgroupRule
 }
+
+type IListSecgroupRulesBySecgroupIdResponse interface {
+	ToEntityListSecgroupRules() *lsentity.ListSecgroupRules
+}

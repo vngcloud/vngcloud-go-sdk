@@ -25,3 +25,7 @@ type IDeleteSecgroupRuleByIdRequest interface {
 	GetSecgroupId() string
 	GetSecgroupRuleId() string
 }
+
+type IListSecgroupRulesBySecgroupIdRequest interface {
+	GetSecgroupId() string
+}
