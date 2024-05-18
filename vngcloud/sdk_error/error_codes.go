@@ -29,3 +29,9 @@ const (
 	EcVServerSecgroupExceedQuota       = ErrorCode("VngCloudVServerSecgroupExceedQuota")
 	EcVServerSecgroupInUse             = ErrorCode("VngCloudVServerSecgroupInUse")
 )
+
+// VServer secgroup rule
+
+const (
+	EcVServerSecgroupRuleNotFound = ErrorCode("VngCloudVServerSecgroupRuleNotFound")
+)

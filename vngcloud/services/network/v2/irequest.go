@@ -20,3 +20,8 @@ type ICreateSecgroupRuleRequest interface {
 	GetSecgroupId() string
 	ToRequestBody() interface{}
 }
+
+type IDeleteSecgroupRuleByIdRequest interface {
+	GetSecgroupId() string
+	GetSecgroupRuleId() string
+}

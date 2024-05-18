@@ -54,3 +54,29 @@ func TestCreateSecgroupRuleFailure(t *ltesting.T) {
 	t.Log("RESULT:", err)
 	t.Log("PASS")
 }
+
+func TestDeleteSecgroupRuleFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewDeleteSecgroupRuleByIdRequest("secr-8c44dc7f-3916-4952-8a01-884ad9360f00")
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupRuleById(opt)
+
+	if err == nil {
+		t.Errorf("Expect error not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}
+
+func TestDeleteSecgroupRuleSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewDeleteSecgroupRuleByIdRequest("secr-d8c83235-93ae-4de1-85c2-365a32494121")
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteSecgroupRuleById(opt)
+
+	if err != nil {
+		t.Fatalf("Expect error to be nil but got %+v", err)
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}

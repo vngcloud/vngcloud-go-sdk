@@ -16,4 +16,5 @@ type INetworkServiceV2 interface {
 	// The group of SecgroupRule APIs
 
 	CreateSecgroupRule(popts lsnetworkSvcV2.ICreateSecgroupRuleRequest) (*lsentity.SecgroupRule, lserr.ISdkError)
+	DeleteSecgroupRuleById(popts lsnetworkSvcV2.IDeleteSecgroupRuleByIdRequest) lserr.ISdkError
 }
