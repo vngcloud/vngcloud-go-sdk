@@ -46,3 +46,10 @@ func listSecgroupRulesBySecgroupIdUrl(psc lsclient.IServiceClient, popts IListSe
 		popts.GetSecgroupId(),
 		"secGroupRules")
 }
+
+func getNetworkByIdUrl(psc lsclient.IServiceClient, popts IGetNetworkByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"networks",
+		popts.GetNetworkId())
+}

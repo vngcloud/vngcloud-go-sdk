@@ -21,3 +21,7 @@ type ICreateSecgroupRuleResponse interface {
 type IListSecgroupRulesBySecgroupIdResponse interface {
 	ToEntityListSecgroupRules() *lsentity.ListSecgroupRules
 }
+
+type IGetNetworkByIdResponse interface {
+	ToEntityNetwork() *lsentity.Network
+}

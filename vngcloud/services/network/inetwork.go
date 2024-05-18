@@ -7,6 +7,10 @@ import (
 )
 
 type INetworkServiceV2 interface {
+	// The group of Network APIs
+
+	GetNetworkById(popts lsnetworkSvcV2.IGetNetworkByIdRequest) (*lsentity.Network, lserr.ISdkError)
+
 	// The group of Secgroup APIs
 
 	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError)

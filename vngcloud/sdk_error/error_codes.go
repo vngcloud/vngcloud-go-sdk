@@ -35,3 +35,9 @@ const (
 const (
 	EcVServerSecgroupRuleNotFound = ErrorCode("VngCloudVServerSecgroupRuleNotFound")
 )
+
+// VServer network
+
+const (
+	EcVServerNetworkNotFound = ErrorCode("VngCloudVServerNetworkNotFound")
+)

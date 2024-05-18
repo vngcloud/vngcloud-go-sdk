@@ -29,3 +29,9 @@ type IDeleteSecgroupRuleByIdRequest interface {
 type IListSecgroupRulesBySecgroupIdRequest interface {
 	GetSecgroupId() string
 }
+
+// Network
+
+type IGetNetworkByIdRequest interface {
+	GetNetworkId() string
+}
