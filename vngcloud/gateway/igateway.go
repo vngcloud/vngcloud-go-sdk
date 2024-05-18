@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	lscomputeSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
 	lsidentitySvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
 	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
 	lsportalSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
@@ -25,6 +26,7 @@ type IVServerGatewayV1 interface {
 
 type IVServerGatewayV2 interface {
 	NetworkService() lsnetworkSvcV2.INetworkServiceV2
+	ComputeService() lscomputeSvcV2.IComputeServiceV2
 }
 
 type IVLBGateway interface{}
