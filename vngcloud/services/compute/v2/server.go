@@ -27,3 +27,41 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 
 	return resp.ToEntityServer(), nil
 }
+
+func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity.Server, lserr.ISdkError) {
+	url := getServerByIdUrl(s.VserverClient, popts)
+	resp := new(GetServerByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerNotFound(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"serverId", popts.GetServerId())
+	}
+
+	return resp.ToEntityServer(), nil
+}
+
+func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lserr.ISdkError {
+	url := deleteServerByIdUrl(s.VserverClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerNotFound(errResp),
+			lserr.WithErrorServerDeleteCreatingServer(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"serverId", popts.GetServerId())
+	}
+
+	return nil
+}

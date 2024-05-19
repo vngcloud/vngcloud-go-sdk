@@ -12,6 +12,19 @@ func NewCreateServerRequest(pname, pimageId, pflavorId, pnetworkId, psubnetId, p
 	return opt
 }
 
+func NewGetServerByIdRequest(pserverId string) IGetServerByIdRequest {
+	opt := new(GetServerByIdRequest)
+	opt.ServerId = pserverId
+	return opt
+}
+
+func NewDeleteServerByIdRequest(pserverId string) IDeleteServerByIdRequest {
+	opt := new(DeleteServerByIdRequest)
+	opt.ServerId = pserverId
+	opt.DeleteAllVolume = false
+	return opt
+}
+
 const (
 	DataDiskEncryptionAesXtsType DataDiskEncryptionType = "aes-xts-plain64_256"
 )
@@ -87,5 +100,23 @@ func (s *CreateServerRequest) WithType(ptype string) ICreateServerRequest {
 
 func (s *CreateServerRequest) WithProduct(pproduct string) ICreateServerRequest {
 	s.Product = pproduct
+	return s
+}
+
+type GetServerByIdRequest struct {
+	ServerCommon
+}
+
+type DeleteServerByIdRequest struct {
+	DeleteAllVolume bool `json:"deleteAllVolume"`
+	ServerCommon
+}
+
+func (s *DeleteServerByIdRequest) WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest {
+	s.DeleteAllVolume = pok
+	return s
+}
+
+func (s *DeleteServerByIdRequest) ToRequestBody() interface{} {
 	return s
 }

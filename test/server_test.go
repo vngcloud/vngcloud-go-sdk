@@ -52,3 +52,60 @@ func TestCreateServerSuccess(t *ltesting.T) {
 	t.Log("Result: ", server)
 	t.Log("PASS")
 }
+
+func TestGetServerByIdFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewGetServerByIdRequest("server-1")
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().GetServerById(opt)
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if server != nil {
+		t.Fatalf("Expect nil but got %v", server)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestGetServerByIdSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewGetServerByIdRequest(getValueOfEnv("SERVER_ID"))
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().GetServerById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if server == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", server)
+	t.Log("PASS")
+}
+
+func TestDeleteServerByIdFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewDeleteServerByIdRequest("this-is-fake-id")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DeleteServerById(opt)
+
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestDeleteServerByIdSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewDeleteServerByIdRequest(getValueOfEnv("DELETE_SERVER_ID"))
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DeleteServerById(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Log("PASS")
+}

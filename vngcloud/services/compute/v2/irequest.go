@@ -10,3 +10,13 @@ type ICreateServerRequest interface {
 	WithType(ptype string) ICreateServerRequest
 	WithProduct(pproduct string) ICreateServerRequest
 }
+
+type IGetServerByIdRequest interface {
+	GetServerId() string
+}
+
+type IDeleteServerByIdRequest interface {
+	GetServerId() string
+	WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest
+	ToRequestBody() interface{}
+}

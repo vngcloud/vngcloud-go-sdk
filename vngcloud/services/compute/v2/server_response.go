@@ -183,3 +183,11 @@ type CreateServerResponse struct {
 func (s *CreateServerResponse) ToEntityServer() *lsentity.Server {
 	return s.Data.toEntityServer()
 }
+
+type GetServerByIdResponse struct {
+	Data Server `json:"data"`
+}
+
+func (s *GetServerByIdResponse) ToEntityServer() *lsentity.Server {
+	return s.Data.toEntityServer()
+}

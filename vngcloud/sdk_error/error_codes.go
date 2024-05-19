@@ -55,3 +55,9 @@ const (
 const (
 	EcBillingOutOfPoc = ErrorCode("BillingOutOfPoc")
 )
+
+// vServer server
+const (
+	EcVServerServerNotFound             = ErrorCode("VngCloudVServerServerNotFound")
+	EcVServerServerDeleteCreatingServer = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
+)

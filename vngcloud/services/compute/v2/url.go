@@ -7,3 +7,17 @@ func createServerUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"servers")
 }
+
+func getServerByIdUrl(psc lsclient.IServiceClient, popts IGetServerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"servers",
+		popts.GetServerId())
+}
+
+func deleteServerByIdUrl(psc lsclient.IServiceClient, popts IDeleteServerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"servers",
+		popts.GetServerId())
+}
