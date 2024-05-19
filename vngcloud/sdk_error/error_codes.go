@@ -41,4 +41,17 @@ const (
 
 const (
 	EcVServerNetworkNotFound = ErrorCode("VngCloudVServerNetworkNotFound")
+	EcVServerSubnetNotFound  = ErrorCode("VngCloudVServerSubnetNotFound")
+)
+
+// vServer volume
+
+const (
+	EcVServerVolumeTypeNotFound = ErrorCode("VngCloudVServerVolumeTypeNotFound")
+)
+
+// Billing
+
+const (
+	EcBillingOutOfPoc = ErrorCode("BillingOutOfPoc")
 )

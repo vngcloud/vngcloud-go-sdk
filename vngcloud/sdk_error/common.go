@@ -1,6 +1,13 @@
 package sdk_error
 
-import lfmt "fmt"
+import (
+	lfmt "fmt"
+	lstr "strings"
+)
+
+const (
+	patternOutOfPoc = "you do not have sufficient credits to complete the purchase"
+)
 
 func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	sdkErr := &SdkError{
@@ -47,5 +54,20 @@ func WithErrorInternalServerError() func(ISdkError) {
 		sdkErr.WithErrorCode(EcInternalServerError).
 			WithMessage("Internal Server Error").
 			WithErrors(lfmt.Errorf("internal server error from making request to external service"))
+	}
+}
+
+func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternOutOfPoc) {
+			sdkError.WithErrorCode(EcBillingOutOfPoc).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
 	}
 }
