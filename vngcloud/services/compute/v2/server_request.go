@@ -25,6 +25,13 @@ func NewDeleteServerByIdRequest(pserverId string) IDeleteServerByIdRequest {
 	return opt
 }
 
+func NewUpdateServerSecgroupsRequest(pserverId string, psecgroups ...string) IUpdateServerSecgroupsByServerIdRequest {
+	opt := new(UpdateServerSecgroupsByServerIdRequest)
+	opt.ServerId = pserverId
+	opt.Secgroups = psecgroups
+	return opt
+}
+
 const (
 	DataDiskEncryptionAesXtsType DataDiskEncryptionType = "aes-xts-plain64_256"
 )
@@ -140,4 +147,18 @@ func (s *DeleteServerByIdRequest) WithDeleteAllVolume(pok bool) IDeleteServerByI
 
 func (s *DeleteServerByIdRequest) ToRequestBody() interface{} {
 	return s
+}
+
+type UpdateServerSecgroupsByServerIdRequest struct {
+	Secgroups []string `json:"securityGroup"`
+
+	ServerCommon
+}
+
+func (s *UpdateServerSecgroupsByServerIdRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *UpdateServerSecgroupsByServerIdRequest) GetListSecgroupsIds() []string {
+	return s.Secgroups
 }

@@ -109,3 +109,57 @@ func TestDeleteServerByIdSuccess(t *ltesting.T) {
 
 	t.Log("PASS")
 }
+
+func TestUpdateServerSecgroupsByServerIdFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewUpdateServerSecgroupsRequest("this-is-fake-id")
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().UpdateServerSecgroupsByServerId(opt)
+
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if server != nil {
+		t.Fatalf("Expect nil but got %v", server)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestUpdateServerSecgroupsByServerIdFailure2(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewUpdateServerSecgroupsRequest(getValueOfEnv("SERVER_ID"),
+		"secg-93c6c259-0ec7-4905-a232-fe5dccb6674c",
+		"this-is-fake-secgroup-id")
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().UpdateServerSecgroupsByServerId(opt)
+
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if server != nil {
+		t.Fatalf("Expect nil but got %v", server)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestUpdateServerSecgroupsByServerIdSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewUpdateServerSecgroupsRequest(getValueOfEnv("SERVER_ID"),
+		"secg-93c6c259-0ec7-4905-a232-fe5dccb6674c")
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().UpdateServerSecgroupsByServerId(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if server == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", server)
+	t.Log("PASS")
+}

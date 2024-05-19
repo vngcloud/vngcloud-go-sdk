@@ -65,3 +65,25 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 
 	return nil
 }
+
+func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.ISdkError) {
+	url := updateServerSecgroupsByServerIdUrl(s.VserverClient, popts)
+	resp := new(UpdateServerSecgroupsByServerIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Put(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerNotFound(errResp),
+			lserr.WithErrorSecgroupNotFound(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"serverId", popts.GetServerId(),
+				"secgroupIds", popts.GetListSecgroupsIds())
+	}
+
+	return resp.ToEntityServer(), nil
+}

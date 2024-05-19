@@ -21,3 +21,11 @@ func deleteServerByIdUrl(psc lsclient.IServiceClient, popts IDeleteServerByIdReq
 		"servers",
 		popts.GetServerId())
 }
+
+func updateServerSecgroupsByServerIdUrl(psc lsclient.IServiceClient, popts IUpdateServerSecgroupsByServerIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"servers",
+		popts.GetServerId(),
+		"update-sec-group")
+}

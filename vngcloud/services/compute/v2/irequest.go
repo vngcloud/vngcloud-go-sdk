@@ -21,3 +21,9 @@ type IDeleteServerByIdRequest interface {
 	WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest
 	ToRequestBody() interface{}
 }
+
+type IUpdateServerSecgroupsByServerIdRequest interface {
+	GetServerId() string
+	ToRequestBody() interface{}
+	GetListSecgroupsIds() []string
+}
