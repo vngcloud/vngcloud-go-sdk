@@ -59,9 +59,15 @@ type CreateServerRequest struct {
 	IsPoc                  bool                   `json:"isPoc,omitempty"`
 	Product                string                 `json:"product,omitempty"`
 	Type                   string                 `json:"type,omitempty"`
+	Tags                   []ServerTag            `json:"tags,omitempty"`
 }
 
 type DataDiskEncryptionType string
+
+type ServerTag struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
 
 func (s *CreateServerRequest) ToRequestBody() interface{} {
 	return s
@@ -75,6 +81,21 @@ func (s *CreateServerRequest) WithEncryptionVolume(pencryptionVolume bool) ICrea
 func (s *CreateServerRequest) WithUserData(puserData string, pbase64Encode bool) ICreateServerRequest {
 	s.UserData = puserData
 	s.UserDataBase64Encoded = pbase64Encode
+	return s
+}
+
+func (s *CreateServerRequest) WithTags(ptags ...string) ICreateServerRequest {
+	if s.Tags == nil {
+		s.Tags = make([]ServerTag, 0)
+	}
+
+	if len(ptags)%2 != 0 {
+		ptags = append(ptags, "none")
+	}
+
+	for i := 0; i < len(ptags); i += 2 {
+		s.Tags = append(s.Tags, ServerTag{Key: ptags[i], Value: ptags[i+1]})
+	}
 	return s
 }
 

@@ -4,6 +4,7 @@ type ICreateServerRequest interface {
 	ToRequestBody() interface{}
 	WithEncryptionVolume(pencryptionVolume bool) ICreateServerRequest
 	WithUserData(puserData string, pbase64Encode bool) ICreateServerRequest
+	WithTags(ptags ...string) ICreateServerRequest
 	WithAttachFloating(pattachFloating bool) ICreateServerRequest
 	WithSecgroups(psecgroups ...string) ICreateServerRequest
 	WithPoct(pisPoc bool) ICreateServerRequest

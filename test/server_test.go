@@ -32,14 +32,14 @@ func TestCreateServerFailed(t *ltesting.T) {
 func TestCreateServerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lscomputeSvcV2.NewCreateServerRequest(
-		"cuongdm3-test",
+		"cuongdm3-test-tags",
 		"img-b5bf635e-0456-4765-b493-31d5fcfc05aa",
 		"flav-3929c073-9da9-486f-a96f-9282dbb8d83f",
 		"net-4f35f173-e0fe-4202-9c2b-5121b558bcd3",
 		"sub-1f98ff1e-2e36-4a40-a0f4-4eadfeb1ea63",
 		"vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018",
 		30,
-	)
+	).WithTags("cuongdm3", "deptrai", "wife", "unknown")
 	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().CreateServer(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %v", sdkerr)
