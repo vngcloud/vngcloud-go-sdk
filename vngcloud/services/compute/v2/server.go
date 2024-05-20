@@ -20,6 +20,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorOutOfPoc(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
+			lserr.WithErrorServerExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId())

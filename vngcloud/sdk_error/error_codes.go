@@ -60,4 +60,5 @@ const (
 const (
 	EcVServerServerNotFound             = ErrorCode("VngCloudVServerServerNotFound")
 	EcVServerServerDeleteCreatingServer = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
+	EcVServerServerExceedQuota          = ErrorCode("VngCloudVServerServerExceedQuota")
 )
