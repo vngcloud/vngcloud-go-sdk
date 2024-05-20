@@ -42,13 +42,16 @@ func Get(pSc *lsclient.ServiceClient, pOpts IGetOptsBuilder) (*lsobj.LoadBalance
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) error {
+func Delete(pSc *lsclient.ServiceClient, pOpts IDeleteOptsBuilder) *lserr.SdkError {
+	errResp := lserr.NewErrorResponse()
 	_, err := pSc.Delete(deleteURL(pSc, pOpts), &lsclient.RequestOpts{
-		OkCodes: []int{202},
+		OkCodes:   []int{202},
+		JSONError: errResp,
 	})
 
 	if err != nil {
-		return err
+		return lserrHandler.ErrorHandler(err,
+			lserrHandler.WithErrorLoadBalancerIsDeleting(errResp, err))
 	}
 
 	return nil
