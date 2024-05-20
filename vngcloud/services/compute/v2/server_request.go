@@ -67,6 +67,7 @@ type CreateServerRequest struct {
 	Product                string                 `json:"product,omitempty"`
 	Type                   string                 `json:"type,omitempty"`
 	Tags                   []ServerTag            `json:"tags,omitempty"`
+	AutoRenew              bool                   `json:"isEnableAutoRenew,omitempty"`
 }
 
 type DataDiskEncryptionType string
@@ -88,6 +89,11 @@ func (s *CreateServerRequest) WithEncryptionVolume(pencryptionVolume bool) ICrea
 func (s *CreateServerRequest) WithUserData(puserData string, pbase64Encode bool) ICreateServerRequest {
 	s.UserData = puserData
 	s.UserDataBase64Encoded = pbase64Encode
+	return s
+}
+
+func (s *CreateServerRequest) WithAutoRenew(pval bool) ICreateServerRequest {
+	s.AutoRenew = pval
 	return s
 }
 
