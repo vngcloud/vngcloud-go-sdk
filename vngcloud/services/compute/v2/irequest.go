@@ -8,7 +8,7 @@ type ICreateServerRequest interface {
 	WithTags(ptags ...string) ICreateServerRequest
 	WithAttachFloating(pattachFloating bool) ICreateServerRequest
 	WithSecgroups(psecgroups ...string) ICreateServerRequest
-	WithPoct(pisPoc bool) ICreateServerRequest
+	WithPoc(pisPoc bool) ICreateServerRequest
 	WithType(ptype string) ICreateServerRequest
 	WithProduct(pproduct string) ICreateServerRequest
 }
