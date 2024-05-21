@@ -19,6 +19,14 @@ func getEnv() (string, string) {
 	return clientId, clientSecret
 }
 
+func getEnvDevOps() (string, string) {
+	envFile, _ := lgodotenv.Read("/mnt/vayne/git-vngcloud/vngcloud-go-sdk/secret/env")
+	clientId := envFile["CLIENT_ID_DEVOPS"]
+	clientSecret := envFile["CLIENT_SECRET_DEVOPS"]
+
+	return clientId, clientSecret
+}
+
 func getValueOfEnv(pkey string) string {
 	envFile, _ := lgodotenv.Read("/mnt/vayne/git-vngcloud/vngcloud-go-sdk/secret/env")
 	value := envFile[pkey]
@@ -31,6 +39,18 @@ func validSdkConfig() lsclient.IClient {
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func validSdkConfigDevops() lsclient.IClient {
+	clientId, clientSecret := getEnvDevOps()
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("PROJECT_ID_DEVOPS")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway")
 

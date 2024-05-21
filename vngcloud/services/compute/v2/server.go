@@ -59,8 +59,7 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp),
-			lserr.WithErrorServerDeleteDeletingServer(errResp),
-			lserr.WithErrorServerDeleteCreatingServer(errResp)).
+			lserr.WithErrorServerNotAllowDeleteServer(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),
 				"serverId", popts.GetServerId())
 	}

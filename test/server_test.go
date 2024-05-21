@@ -163,3 +163,31 @@ func TestUpdateServerSecgroupsByServerIdSuccess(t *ltesting.T) {
 	t.Log("Result: ", server)
 	t.Log("PASS")
 }
+
+func TestCreateServerWithAutoRenew(t *ltesting.T) {
+	vngcloud := validSdkConfigDevops()
+	opt := lscomputeSvcV2.NewCreateServerRequest(
+		"cuongdm3-dep-trai-vo-dich-sieu-cap-vu-tru-4",
+		"img-108b3a77-ab58-4000-9b3e-190d0b4b07fc",
+		"flav-3929c073-9da9-486f-a96f-9282dbb8d83f",
+		"net-dae83c7a-f837-4227-bcfa-ec0755549724",
+		"sub-f7770744-6aa4-4292-9ff9-b43b44716ede",
+		"vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018",
+		30).
+		WithTags("cuongdm3", "deptrai", "wife", "unknown").
+		WithAutoRenew(false).
+		WithType("VKS").WithProduct("VKS").
+		WithPoc(false)
+
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().CreateServer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if server == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", server)
+	t.Log("PASS")
+}
