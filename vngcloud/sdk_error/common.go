@@ -30,8 +30,12 @@ func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 }
 
 func SdkErrorHandler(psdkErr ISdkError, perrResp IErrorRespone, popts ...func(psdkErr ISdkError)) ISdkError {
-	if psdkErr == nil {
+	if psdkErr == nil && perrResp == nil {
 		return nil
+	}
+
+	if psdkErr != nil && psdkErr.GetErrorCode() != EcUnknownError {
+		return psdkErr
 	}
 
 	// Fill the default error
