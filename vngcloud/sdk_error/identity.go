@@ -47,3 +47,21 @@ func WithErrorTooManyFailedLogin(perrResp IErrorRespone) func(ISdkError) {
 		}
 	}
 }
+
+func WithErrorUnknownAuthFailure(perrResp IErrorRespone) func(ISdkError) {
+	return func(sdkErr ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		if perrResp.GetError() == nil {
+			return
+		}
+
+		if sdkErr.GetErrorCode() == EcUnknownError {
+			sdkErr.WithErrorCode(EcUnknownAuthFailure).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}

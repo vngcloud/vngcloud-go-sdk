@@ -19,6 +19,7 @@ const (
 const (
 	EcAuthenticationFailed = ErrorCode("VngCloudIamAuthenticationFailed")
 	EcTooManyFailedLogins  = ErrorCode("VngCloudIamTooManyFailedLogins")
+	EcUnknownAuthFailure   = ErrorCode("VngCloudIamUnknownAuthFailure")
 )
 
 // VServer secgroup
