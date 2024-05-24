@@ -66,3 +66,9 @@ const (
 	EcVServerServerDeleteDeletingServer = ErrorCode("VngCloudVServerServerDeleteDeletingServer")
 	EcVServerServerDeleteBillingServer  = ErrorCode("VngCloudVServerServerDeleteBillingServer")
 )
+
+// vServer quota
+
+const (
+	EcVServerQuotaNotFound = ErrorCode("VngCloudVServerQuotaNotFound")
+)

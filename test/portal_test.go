@@ -3,6 +3,7 @@ package test
 import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 	lsportalV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal/v1"
+	lsportalV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal/v2"
 	ltesting "testing"
 )
 
@@ -61,5 +62,55 @@ func TestGetPortalInfoFailure(t *ltesting.T) {
 	}
 
 	t.Log("RESULT:", err)
+	t.Log("PASS")
+}
+
+func TestListAllQuotaSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	quotas, err := vngcloud.VServerGateway().V2().PortalService().ListAllQuotaUsed()
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if quotas == nil {
+		t.Errorf("Expect quotas not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", quotas)
+	t.Log("PASS")
+}
+
+func TestGetQuotaByNameFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsportalV2.NewGetQuotaByNameRequest("fake-quota-name")
+	quota, err := vngcloud.VServerGateway().V2().PortalService().GetQuotaByName(opt)
+
+	if err == nil {
+		t.Errorf("Expect error but got nil")
+	}
+
+	if quota != nil {
+		t.Errorf("Expect quota to be nil but got %+v", quota)
+	}
+
+	t.Log("RESULT:", err)
+	t.Log("PASS")
+}
+
+func TestGetQuotaByNamePass(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsportalV2.NewGetQuotaByNameRequest(lsportalV2.QtVolumeAttachLimit)
+	quota, err := vngcloud.VServerGateway().V2().PortalService().GetQuotaByName(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if quota == nil {
+		t.Errorf("Expect quota not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", quota)
 	t.Log("PASS")
 }
