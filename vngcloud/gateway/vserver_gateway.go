@@ -2,41 +2,47 @@ package gateway
 
 import (
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
-	lscomputeSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
-	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
-	lsportalSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
+	lscomputeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
+	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
+	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
 )
 
 type vserverGatewayV1 struct {
-	portalService lsportalSvcV1.IPortalServiceV1
+	portalService lsportalSvc.IPortalServiceV1
 }
 
 type vserverGatewayV2 struct {
-	networkService lsnetworkSvcV2.INetworkServiceV2
-	computeService lscomputeSvcV2.IComputeServiceV2
+	networkService lsnetworkSvc.INetworkServiceV2
+	computeService lscomputeSvc.IComputeServiceV2
+	portalService  lsportalSvc.IPortalServiceV2
 }
 
 func NewVServerGatewayV1(psvcClient lsclient.IServiceClient) IVServerGatewayV1 {
 	return &vserverGatewayV1{
-		portalService: lsportalSvcV1.NewPortalService(psvcClient),
+		portalService: lsportalSvc.NewPortalServiceV1(psvcClient),
 	}
 }
 
 func NewVServerGatewayV2(psvcClient lsclient.IServiceClient) IVServerGatewayV2 {
 	return &vserverGatewayV2{
-		networkService: lsnetworkSvcV2.NewNetworkService(psvcClient),
-		computeService: lscomputeSvcV2.NewComputeService(psvcClient),
+		networkService: lsnetworkSvc.NewNetworkServiceV2(psvcClient),
+		computeService: lscomputeSvc.NewComputeServiceV2(psvcClient),
+		portalService:  lsportalSvc.NewPortalServiceV2(psvcClient),
 	}
 }
 
-func (s *vserverGatewayV1) PortalService() lsportalSvcV1.IPortalServiceV1 {
+func (s *vserverGatewayV1) PortalService() lsportalSvc.IPortalServiceV1 {
 	return s.portalService
 }
 
-func (s *vserverGatewayV2) NetworkService() lsnetworkSvcV2.INetworkServiceV2 {
+func (s *vserverGatewayV2) NetworkService() lsnetworkSvc.INetworkServiceV2 {
 	return s.networkService
 }
 
-func (s *vserverGatewayV2) ComputeService() lscomputeSvcV2.IComputeServiceV2 {
+func (s *vserverGatewayV2) ComputeService() lscomputeSvc.IComputeServiceV2 {
 	return s.computeService
+}
+
+func (s *vserverGatewayV2) PortalService() lsportalSvc.IPortalServiceV2 {
+	return s.portalService
 }
