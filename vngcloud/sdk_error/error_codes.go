@@ -60,11 +60,12 @@ const (
 
 // vServer server
 const (
-	EcVServerServerNotFound             = ErrorCode("VngCloudVServerServerNotFound")
-	EcVServerServerDeleteCreatingServer = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
-	EcVServerServerExceedQuota          = ErrorCode("VngCloudVServerServerExceedQuota")
-	EcVServerServerDeleteDeletingServer = ErrorCode("VngCloudVServerServerDeleteDeletingServer")
-	EcVServerServerDeleteBillingServer  = ErrorCode("VngCloudVServerServerDeleteBillingServer")
+	EcVServerServerNotFound                       = ErrorCode("VngCloudVServerServerNotFound")
+	EcVServerServerDeleteCreatingServer           = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
+	EcVServerServerExceedQuota                    = ErrorCode("VngCloudVServerServerExceedQuota")
+	EcVServerServerDeleteDeletingServer           = ErrorCode("VngCloudVServerServerDeleteDeletingServer")
+	EcVServerServerDeleteBillingServer            = ErrorCode("VngCloudVServerServerDeleteBillingServer")
+	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 )
 
 // vServer quota

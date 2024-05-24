@@ -22,7 +22,8 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
-			lserr.WithErrorNetworkNotFound(errResp)).
+			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
 	}
 
