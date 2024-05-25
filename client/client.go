@@ -48,11 +48,6 @@ func (s *client) WithContext(pctx lctx.Context) IClient {
 	return s
 }
 
-func (s *client) WithProjectId(pprojectId string) IClient {
-	s.projectId = pprojectId
-	return s
-}
-
 func (s *client) WithAuthOption(pauthOpts lsclient.AuthOpts, pauthConfig ISdkConfigure) IClient {
 	if s.httpClient == nil {
 		s.httpClient = lsclient.NewHttpClient(s.context)
@@ -94,6 +89,20 @@ func (s *client) WithSleep(psleep ltime.Duration) IClient {
 	}
 
 	s.httpClient.WithSleep(psleep)
+	return s
+}
+
+func (s *client) WithProjectId(pprojectId string) IClient {
+	s.projectId = pprojectId
+	if s.httpClient == nil {
+		return s
+	}
+
+	// So it needs to reconfigure the gateway project Id
+	if s.vserverGateway != nil {
+		s.vserverGateway = lsgateway.NewVServerGateway(s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
+	}
+
 	return s
 }
 

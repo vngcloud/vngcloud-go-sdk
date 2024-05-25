@@ -18,6 +18,9 @@ type IIamGatewayV2 interface {
 type IVServerGateway interface {
 	V1() IVServerGatewayV1
 	V2() IVServerGatewayV2
+
+	// GetEndpoint returns the endpoint of the vServer service
+	GetEndpoint() string
 }
 
 type IVServerGatewayV1 interface {

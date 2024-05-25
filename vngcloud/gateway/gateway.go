@@ -9,6 +9,7 @@ type iamGateway struct {
 }
 
 type vserverGateway struct {
+	endpoint         string // Hold the endpoint of the vServer service
 	vserverGatewayV1 IVServerGatewayV1
 	vserverGatewayV2 IVServerGatewayV2
 }
@@ -36,6 +37,7 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 		WithProjectId(pprojectId)
 
 	return &vserverGateway{
+		endpoint:         pendpoint,
 		vserverGatewayV1: NewVServerGatewayV1(vserverSvcV1),
 		vserverGatewayV2: NewVServerGatewayV2(vserverSvcV2),
 	}
@@ -51,4 +53,8 @@ func (s *vserverGateway) V1() IVServerGatewayV1 {
 
 func (s *vserverGateway) V2() IVServerGatewayV2 {
 	return s.vserverGatewayV2
+}
+
+func (s *vserverGateway) GetEndpoint() string {
+	return s.endpoint
 }

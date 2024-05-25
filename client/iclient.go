@@ -16,6 +16,7 @@ type IClient interface {
 	WithKvDefaultHeaders(pargs ...string) IClient
 	WithRetryCount(pretry int) IClient
 	WithSleep(psleep ltime.Duration) IClient
+	WithProjectId(pprojectId string) IClient
 
 	// List of functional methods
 	Configure(psdkCfg ISdkConfigure) IClient
