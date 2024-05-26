@@ -7,6 +7,6 @@ import (
 
 func NewComputeServiceV2(psvcClient lsclient.IServiceClient) IComputeServiceV2 {
 	return &lscomputeSvcV2.ComputeServiceV2{
-		VserverClient: psvcClient,
+		VServerClient: psvcClient,
 	}
 }

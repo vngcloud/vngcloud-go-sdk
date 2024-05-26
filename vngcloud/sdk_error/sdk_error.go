@@ -62,7 +62,15 @@ func (s *SdkError) WithErrors(perrs ...error) ISdkError {
 }
 
 func (s *SdkError) WithParameters(pparams map[string]interface{}) ISdkError {
-	s.parameters = pparams
+	if s.parameters == nil {
+		s.parameters = pparams
+		return s
+	}
+
+	for key, val := range pparams {
+		s.parameters[key] = val
+	}
+
 	return s
 }
 

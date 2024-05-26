@@ -5,6 +5,7 @@ import (
 	lsidentitySvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
+	lsvolumeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume"
 )
 
 type IIamGateway interface {
@@ -31,6 +32,7 @@ type IVServerGatewayV2 interface {
 	NetworkService() lsnetworkSvc.INetworkServiceV2
 	ComputeService() lscomputeSvc.IComputeServiceV2
 	PortalService() lsportalSvc.IPortalServiceV2
+	VolumeService() lsvolumeSvc.IVolumeServiceV2
 }
 
 type IVLBGateway interface{}
