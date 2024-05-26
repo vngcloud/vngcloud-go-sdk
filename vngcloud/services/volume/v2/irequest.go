@@ -11,3 +11,7 @@ type ICreateBlockVolumeRequest interface {
 	WithVolumeRestoreFromSnapshot(psnapshotID, pvolumeTypeID string) ICreateBlockVolumeRequest
 	WithTags(ptags ...string) ICreateBlockVolumeRequest
 }
+
+type IDeleteBlockVolumeByIdRequest interface {
+	GetBlockVolumeId() string
+}

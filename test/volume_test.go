@@ -44,3 +44,27 @@ func TestCreateVolumeSuccess(t *ltesting.T) {
 	t.Log("Result: ", volume)
 	t.Log("PASS")
 }
+
+func TestDeleteVolumeByIdFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewDeleteBlockVolumeByIdRequest("this-is-fake")
+	sdkerr := vngcloud.VServerGateway().V2().VolumeService().DeleteBlockVolumeById(opt)
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestDeleteVolumeByIdSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewDeleteBlockVolumeByIdRequest("vol-51f71146-9c20-4615-a73e-a43a39bf03ea")
+	sdkerr := vngcloud.VServerGateway().V2().VolumeService().DeleteBlockVolumeById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

@@ -10,6 +10,12 @@ func NewCreateBlockVolumeRequest(pvolumeName, pvolumeType string, psize int64) I
 	return opt
 }
 
+func NewDeleteBlockVolumeByIdRequest(pvolumeId string) IDeleteBlockVolumeByIdRequest {
+	opt := new(DeleteBlockVolumeByIdRequest)
+	opt.BlockVolumeId = pvolumeId
+	return opt
+}
+
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
@@ -27,6 +33,10 @@ type CreateBlockVolumeRequest struct {
 	IsPoc                  bool                    `json:"isPoc,omitempty"`
 	IsEnableAutoRenew      bool                    `json:"isEnableAutoRenew,omitempty"`
 	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configVolumeRestore,omitempty"`
+}
+
+type DeleteBlockVolumeByIdRequest struct {
+	BlockVolumeCommon
 }
 
 type (

@@ -27,3 +27,21 @@ func (s *VolumeServiceV2) CreateBlockVolume(popts ICreateBlockVolumeRequest) (*l
 
 	return resp.ToEntityVolume(), nil
 }
+
+func (s *VolumeServiceV2) DeleteBlockVolumeById(popts IDeleteBlockVolumeByIdRequest) lserr.ISdkError {
+	url := deleteBlockVolumeByIdUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeNotFound(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId())
+	}
+
+	return nil
+}

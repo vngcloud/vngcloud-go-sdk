@@ -52,6 +52,7 @@ const (
 	EcVServerVolumeTypeNotFound   = ErrorCode("VngCloudVServerVolumeTypeNotFound")
 	EcVServerVolumeNameNotValid   = ErrorCode("VngCloudVServerVolumeNameNotValid")
 	EcVServerVolumeSizeOutOfRange = ErrorCode("VngCloudVServerVolumeSizeOutOfRange")
+	EcVServerVolumeNotFound       = ErrorCode("VngCloudVServerVolumeNotFound")
 )
 
 // Billing

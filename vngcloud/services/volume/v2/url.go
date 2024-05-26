@@ -7,3 +7,10 @@ func createBlockVolumeUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"volumes")
 }
+
+func deleteBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IDeleteBlockVolumeByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId())
+}
