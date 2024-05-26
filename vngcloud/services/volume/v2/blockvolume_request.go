@@ -28,6 +28,12 @@ func NewListBlockVolumesRequest(ppage, psize int) IListBlockVolumesRequest {
 	return opt
 }
 
+func NewGetBlockVolumeByIdRequest(pvolumeId string) IGetBlockVolumeByIdRequest {
+	opt := new(GetBlockVolumeByIdRequest)
+	opt.BlockVolumeId = pvolumeId
+	return opt
+}
+
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
@@ -55,6 +61,10 @@ type ListBlockVolumesRequest struct {
 	Name string `q:"name,beempty"`
 	Page int    `q:"page"`
 	Size int    `q:"size"`
+}
+
+type GetBlockVolumeByIdRequest struct {
+	BlockVolumeCommon
 }
 
 type (

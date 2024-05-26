@@ -25,3 +25,10 @@ func listBlockVolumesUrl(psc lsclient.IServiceClient, popts IListBlockVolumesReq
 		psc.GetProjectId(),
 		"volumes") + query
 }
+
+func getBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IGetBlockVolumeByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId())
+}

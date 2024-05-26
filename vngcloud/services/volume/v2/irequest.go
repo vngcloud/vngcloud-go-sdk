@@ -22,3 +22,7 @@ type IListBlockVolumesRequest interface {
 	GetDefaultQuery() string
 	ToMap() map[string]interface{}
 }
+
+type IGetBlockVolumeByIdRequest interface {
+	GetBlockVolumeId() string
+}

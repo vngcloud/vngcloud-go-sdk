@@ -64,3 +64,23 @@ func (s *VolumeServiceV2) ListBlockVolumes(popts IListBlockVolumesRequest) (*lse
 
 	return resp.ToEntityListVolumes(), nil
 }
+
+func (s *VolumeServiceV2) GetBlockVolumeById(popts IGetBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError) {
+	url := getBlockVolumeByIdUrl(s.VServerClient, popts)
+	resp := new(GetBlockVolumeByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeNotFound(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId())
+	}
+
+	return resp.ToEntityVolume(), nil
+}
