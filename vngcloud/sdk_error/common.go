@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	patternOutOfPoc = "you do not have sufficient credits to complete the purchase"
+	patternOutOfPoc      = "you do not have sufficient credits to complete the purchase"
+	patternPagingInvalid = "page or size invalid"
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
@@ -70,6 +71,21 @@ func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError ISdkError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternOutOfPoc) {
 			sdkError.WithErrorCode(EcBillingOutOfPoc).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternPagingInvalid) {
+			sdkError.WithErrorCode(EcPagingInvalid).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

@@ -6,6 +6,7 @@ const (
 	EcUnknownError = ErrorCode("UnknownError")
 
 	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
+	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
 )
 
 // Internal SDK error

@@ -14,3 +14,14 @@ func deleteBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IDeleteBlockVol
 		"volumes",
 		popts.GetBlockVolumeId())
 }
+
+func listBlockVolumesUrl(psc lsclient.IServiceClient, popts IListBlockVolumesRequest) string {
+	query, err := popts.ToQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes") + query
+}

@@ -9,3 +9,8 @@ type VolumeServiceV2 struct {
 func (s *VolumeServiceV2) getProjectId() string {
 	return s.VServerClient.GetProjectId()
 }
+
+const (
+	defaultPageListBlockVolumesRequest = 1
+	defaultSizeListBlockVolumesRequest = 10000
+)

@@ -45,3 +45,22 @@ func (s *VolumeServiceV2) DeleteBlockVolumeById(popts IDeleteBlockVolumeByIdRequ
 
 	return nil
 }
+
+func (s *VolumeServiceV2) ListBlockVolumes(popts IListBlockVolumesRequest) (*lsentity.ListVolumes, lserr.ISdkError) {
+	url := listBlockVolumesUrl(s.VServerClient, popts)
+	resp := new(ListBlockVolumesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorPagingInvalid(errResp)).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.ToMap())
+	}
+
+	return resp.ToEntityListVolumes(), nil
+}

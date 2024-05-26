@@ -68,3 +68,55 @@ func TestDeleteVolumeByIdSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestListBlockVolumeSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewListBlockVolumesRequest(1, 10)
+	volumes, sdkerr := vngcloud.VServerGateway().V2().VolumeService().ListBlockVolumes(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if volumes == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", volumes)
+	t.Log("PASS")
+}
+
+func TestListBlockVolumeWithNameSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewListBlockVolumesRequest(1, 10).WithName("pvc-24182151-aa4a-4a55-9572-f551c3d003aa")
+	volumes, sdkerr := vngcloud.VServerGateway().V2().VolumeService().ListBlockVolumes(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if volumes == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	if volumes.Len() != 1 {
+		t.Fatalf("Expect 1 but got %d", volumes.Len())
+	}
+
+	t.Log("Result: ", volumes)
+	t.Log("PASS")
+}
+
+func TestListBlockVolumeWithFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewListBlockVolumesRequest(1, -10)
+	volumes, sdkerr := vngcloud.VServerGateway().V2().VolumeService().ListBlockVolumes(opt)
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if volumes != nil {
+		t.Fatalf("Expect nil but got %v", volumes)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

@@ -1,5 +1,10 @@
 package v2
 
+import (
+	lfmt "fmt"
+	ljparser "github.com/cuongpiger/joat/parser"
+)
+
 func NewCreateBlockVolumeRequest(pvolumeName, pvolumeType string, psize int64) ICreateBlockVolumeRequest {
 	opt := new(CreateBlockVolumeRequest)
 	opt.VolumeTypeId = pvolumeType
@@ -13,6 +18,13 @@ func NewCreateBlockVolumeRequest(pvolumeName, pvolumeType string, psize int64) I
 func NewDeleteBlockVolumeByIdRequest(pvolumeId string) IDeleteBlockVolumeByIdRequest {
 	opt := new(DeleteBlockVolumeByIdRequest)
 	opt.BlockVolumeId = pvolumeId
+	return opt
+}
+
+func NewListBlockVolumesRequest(ppage, psize int) IListBlockVolumesRequest {
+	opt := new(ListBlockVolumesRequest)
+	opt.Page = ppage
+	opt.Size = psize
 	return opt
 }
 
@@ -37,6 +49,12 @@ type CreateBlockVolumeRequest struct {
 
 type DeleteBlockVolumeByIdRequest struct {
 	BlockVolumeCommon
+}
+
+type ListBlockVolumesRequest struct {
+	Name string `q:"name,beempty"`
+	Page int    `q:"page"`
+	Size int    `q:"size"`
 }
 
 type (
@@ -121,5 +139,33 @@ func (s *CreateBlockVolumeRequest) WithTags(ptags ...string) ICreateBlockVolumeR
 		s.Tags = append(s.Tags, VolumeTag{Key: ptags[i], Value: ptags[i+1]})
 	}
 
+	return s
+}
+
+func (s *ListBlockVolumesRequest) ToQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
+}
+
+func (s *ListBlockVolumesRequest) GetDefaultQuery() string {
+	return lfmt.Sprintf("page=%d&size=%d&name=", defaultPageListBlockVolumesRequest, defaultSizeListBlockVolumesRequest)
+}
+
+func (s *ListBlockVolumesRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"name": s.Name,
+		"page": s.Page,
+		"size": s.Size,
+	}
+}
+
+func (s *ListBlockVolumesRequest) WithName(pname string) IListBlockVolumesRequest {
+	s.Name = pname
 	return s
 }

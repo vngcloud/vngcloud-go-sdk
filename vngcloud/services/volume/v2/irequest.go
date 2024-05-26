@@ -15,3 +15,10 @@ type ICreateBlockVolumeRequest interface {
 type IDeleteBlockVolumeByIdRequest interface {
 	GetBlockVolumeId() string
 }
+
+type IListBlockVolumesRequest interface {
+	WithName(pname string) IListBlockVolumesRequest
+	ToQuery() (string, error)
+	GetDefaultQuery() string
+	ToMap() map[string]interface{}
+}

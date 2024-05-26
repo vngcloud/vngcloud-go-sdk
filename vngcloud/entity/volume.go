@@ -14,3 +14,11 @@ type Volume struct {
 	PersistentVolume bool
 	AttachedMachine  []string
 }
+
+type ListVolumes struct {
+	Items []*Volume
+}
+
+func (s *ListVolumes) Len() int {
+	return len(s.Items)
+}

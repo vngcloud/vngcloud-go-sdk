@@ -9,4 +9,5 @@ import (
 type IVolumeServiceV2 interface {
 	CreateBlockVolume(popts lsvolumeSvcV2.ICreateBlockVolumeRequest) (*lsentity.Volume, lserr.ISdkError)
 	DeleteBlockVolumeById(popts lsvolumeSvcV2.IDeleteBlockVolumeByIdRequest) lserr.ISdkError
+	ListBlockVolumes(popts lsvolumeSvcV2.IListBlockVolumesRequest) (*lsentity.ListVolumes, lserr.ISdkError)
 }

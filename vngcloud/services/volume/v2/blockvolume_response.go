@@ -6,6 +6,14 @@ type CreateBlockVolumeResponse struct {
 	Data BlockVolume `json:"data"`
 }
 
+type ListBlockVolumesResponse struct {
+	Page      int64         `json:"page"`
+	PageSize  int64         `json:"pageSize"`
+	TotalPage int64         `json:"totalPage"`
+	TotalItem int64         `json:"totalItem"`
+	ListData  []BlockVolume `json:"listData"`
+}
+
 type (
 	BlockVolume struct {
 		UUID               string   `json:"uuid"`
@@ -31,17 +39,47 @@ type (
 )
 
 func (s *CreateBlockVolumeResponse) ToEntityVolume() *lsentity.Volume {
+	return s.Data.toEntityVolume()
+}
+
+func (s *ListBlockVolumesResponse) ToEntityListVolumes() *lsentity.ListVolumes {
+	lstVolumes := new(lsentity.ListVolumes)
+	for _, vol := range s.ListData {
+		lstVolumes.Items = append(lstVolumes.Items, vol.toEntityVolume())
+	}
+
+	return lstVolumes
+}
+
+func (s *ListBlockVolumesResponse) toEntityVolume(pIdx int) *lsentity.Volume {
 	if s == nil {
 		return nil
 	}
 
+	if pIdx >= 0 && pIdx < len(s.ListData) {
+		vol := s.ListData[pIdx]
+		return &lsentity.Volume{
+			Id:        vol.UUID,
+			Name:      vol.Name,
+			Size:      vol.Size,
+			Status:    vol.Status,
+			CreatedAt: vol.CreatedAt,
+			UpdatedAt: vol.UpdatedAt,
+			VmId:      vol.ServerID,
+		}
+	}
+
+	return nil
+}
+
+func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 	return &lsentity.Volume{
-		Id:        s.Data.UUID,
-		Name:      s.Data.Name,
-		Size:      s.Data.Size,
-		Status:    s.Data.Status,
-		CreatedAt: s.Data.CreatedAt,
-		UpdatedAt: s.Data.UpdatedAt,
-		VmId:      s.Data.ServerID,
+		Id:        s.UUID,
+		Name:      s.Name,
+		Size:      s.Size,
+		Status:    s.Status,
+		CreatedAt: s.CreatedAt,
+		UpdatedAt: s.UpdatedAt,
+		VmId:      s.ServerID,
 	}
 }
