@@ -1,4 +1,4 @@
-package v2
+package common
 
 type ServerCommon struct {
 	ServerId string

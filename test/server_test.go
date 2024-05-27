@@ -191,3 +191,54 @@ func TestCreateServerWithAutoRenew(t *ltesting.T) {
 	t.Log("Result: ", server)
 	t.Log("PASS")
 }
+
+func TestAttachVolumeFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("this-is-fake-server-id", "vol-a9484a51-243b-4217-81d4-9f55a7ad426d")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachBlockVolume(opt)
+
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestAttachVolumeSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-6f6b7238-1d57-4c4b-a683-225454a2e168", "vol-a9484a51-243b-4217-81d4-9f55a7ad426d")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachBlockVolume(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Log("PASS")
+}
+
+func TestDetachVolumeSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("undefined", "vol-a9484a51-243b-4217-81d4-9f55a7ad426d")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachBlockVolume(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestDetachVolumeFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("ins-6f6b7238-1d57-4c4b-a683-225454a2e168", "this-is-fake-volume-id")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachBlockVolume(opt)
+
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

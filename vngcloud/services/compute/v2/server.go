@@ -91,3 +91,48 @@ func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSe
 
 	return resp.ToEntityServer(), nil
 }
+
+func (s *ComputeServiceV2) AttachBlockVolume(popts IAttachBlockVolumeRequest) lserr.ISdkError {
+	url := attachBlockVolumeUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonBody(map[string]interface{}{}).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeNotFound(errResp),
+			lserr.WithErrorServerNotFound(errResp),
+			lserr.WithErrorVolumeAvailable(errResp),
+			lserr.WithErrorVolumeInProcess(errResp),
+			lserr.WithErrorVolumeAlreadyAttached(errResp),
+			lserr.WithErrorVolumeAlreadyAttachedThisServer(errResp),
+			lserr.WithErrorServerAttachVolumeQuotaExceeded(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId(),
+				"serverId", popts.GetServerId())
+	}
+
+	return nil
+}
+
+func (s *ComputeServiceV2) DetachBlockVolume(popts IDetachBlockVolumeRequest) lserr.ISdkError {
+	url := detachBlockVolumeUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonBody(map[string]interface{}{}).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeNotFound(errResp),
+			lserr.WithErrorVolumeAvailable(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId(),
+				"serverId", popts.GetServerId())
+	}
+
+	return nil
+}

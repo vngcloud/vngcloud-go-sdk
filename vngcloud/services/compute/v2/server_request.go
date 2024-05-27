@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 func NewCreateServerRequest(pname, pimageId, pflavorId, pnetworkId, psubnetId, prootDiskType string, prootDiskSize int) ICreateServerRequest {
 	opt := new(CreateServerRequest)
 	opt.Name = pname
@@ -29,6 +31,20 @@ func NewUpdateServerSecgroupsRequest(pserverId string, psecgroups ...string) IUp
 	opt := new(UpdateServerSecgroupsByServerIdRequest)
 	opt.ServerId = pserverId
 	opt.Secgroups = psecgroups
+	return opt
+}
+
+func NewAttachBlockVolumeRequest(pserverId, pvolumeId string) IAttachBlockVolumeRequest {
+	opt := new(AttachBlockVolumeRequest)
+	opt.ServerId = pserverId
+	opt.BlockVolumeId = pvolumeId
+	return opt
+}
+
+func NewDetachBlockVolumeRequest(pserverId, pvolumeId string) IDetachBlockVolumeRequest {
+	opt := new(DetachBlockVolumeRequest)
+	opt.ServerId = pserverId
+	opt.BlockVolumeId = pvolumeId
 	return opt
 }
 
@@ -68,6 +84,16 @@ type CreateServerRequest struct {
 	Type                   string                 `json:"type,omitempty"`
 	Tags                   []ServerTag            `json:"tags,omitempty"`
 	AutoRenew              bool                   `json:"isEnableAutoRenew,omitempty"`
+}
+
+type AttachBlockVolumeRequest struct {
+	lscommon.BlockVolumeCommon
+	lscommon.ServerCommon
+}
+
+type DetachBlockVolumeRequest struct {
+	lscommon.BlockVolumeCommon
+	lscommon.ServerCommon
 }
 
 type DataDiskEncryptionType string
@@ -138,12 +164,12 @@ func (s *CreateServerRequest) WithProduct(pproduct string) ICreateServerRequest 
 }
 
 type GetServerByIdRequest struct {
-	ServerCommon
+	lscommon.ServerCommon
 }
 
 type DeleteServerByIdRequest struct {
 	DeleteAllVolume bool `json:"deleteAllVolume"`
-	ServerCommon
+	lscommon.ServerCommon
 }
 
 func (s *DeleteServerByIdRequest) WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest {
@@ -158,7 +184,7 @@ func (s *DeleteServerByIdRequest) ToRequestBody() interface{} {
 type UpdateServerSecgroupsByServerIdRequest struct {
 	Secgroups []string `json:"securityGroup"`
 
-	ServerCommon
+	lscommon.ServerCommon
 }
 
 func (s *UpdateServerSecgroupsByServerIdRequest) ToRequestBody() interface{} {

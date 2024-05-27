@@ -11,4 +11,6 @@ type IComputeServiceV2 interface {
 	GetServerById(popts lscomputeSvcV2.IGetServerByIdRequest) (*lsentity.Server, lserr.ISdkError)
 	DeleteServerById(popts lscomputeSvcV2.IDeleteServerByIdRequest) lserr.ISdkError
 	UpdateServerSecgroupsByServerId(popts lscomputeSvcV2.IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.ISdkError)
+	AttachBlockVolume(popts lscomputeSvcV2.IAttachBlockVolumeRequest) lserr.ISdkError
+	DetachBlockVolume(popts lscomputeSvcV2.IDetachBlockVolumeRequest) lserr.ISdkError
 }

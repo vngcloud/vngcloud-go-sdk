@@ -3,6 +3,7 @@ package v2
 import (
 	lfmt "fmt"
 	ljparser "github.com/cuongpiger/joat/parser"
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
 
 func NewCreateBlockVolumeRequest(pvolumeName, pvolumeType string, psize int64) ICreateBlockVolumeRequest {
@@ -54,7 +55,7 @@ type CreateBlockVolumeRequest struct {
 }
 
 type DeleteBlockVolumeByIdRequest struct {
-	BlockVolumeCommon
+	lscommon.BlockVolumeCommon
 }
 
 type ListBlockVolumesRequest struct {
@@ -63,8 +64,13 @@ type ListBlockVolumesRequest struct {
 	Size int    `q:"size"`
 }
 
+type AttachBlockVolumeRequest struct {
+	lscommon.BlockVolumeCommon
+	lscommon.ServerCommon
+}
+
 type GetBlockVolumeByIdRequest struct {
-	BlockVolumeCommon
+	lscommon.BlockVolumeCommon
 }
 
 type (

@@ -28,3 +28,13 @@ type IUpdateServerSecgroupsByServerIdRequest interface {
 	ToRequestBody() interface{}
 	GetListSecgroupsIds() []string
 }
+
+type IAttachBlockVolumeRequest interface {
+	GetServerId() string
+	GetBlockVolumeId() string
+}
+
+type IDetachBlockVolumeRequest interface {
+	GetServerId() string
+	GetBlockVolumeId() string
+}

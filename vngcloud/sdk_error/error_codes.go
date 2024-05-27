@@ -50,10 +50,14 @@ const (
 // vServer volume
 
 const (
-	EcVServerVolumeTypeNotFound   = ErrorCode("VngCloudVServerVolumeTypeNotFound")
-	EcVServerVolumeNameNotValid   = ErrorCode("VngCloudVServerVolumeNameNotValid")
-	EcVServerVolumeSizeOutOfRange = ErrorCode("VngCloudVServerVolumeSizeOutOfRange")
-	EcVServerVolumeNotFound       = ErrorCode("VngCloudVServerVolumeNotFound")
+	EcVServerVolumeTypeNotFound              = ErrorCode("VngCloudVServerVolumeTypeNotFound")
+	EcVServerVolumeNameNotValid              = ErrorCode("VngCloudVServerVolumeNameNotValid")
+	EcVServerVolumeSizeOutOfRange            = ErrorCode("VngCloudVServerVolumeSizeOutOfRange")
+	EcVServerVolumeNotFound                  = ErrorCode("VngCloudVServerVolumeNotFound")
+	EcVServerVolumeAvailable                 = ErrorCode("VngCloudVServerVolumeAvailable")
+	EcVServerVolumeAlreadyAttached           = ErrorCode("VngCloudVServerVolumeAlreadyAttached")
+	EcVServerVolumeAlreadyAttachedThisServer = ErrorCode("VngCloudVServerVolumeAlreadyAttachedThisServer")
+	EcVServerVolumeInProcess                 = ErrorCode("VngCloudVServerVolumeInProcess")
 )
 
 // Billing
@@ -69,6 +73,7 @@ const (
 	EcVServerServerExceedQuota                    = ErrorCode("VngCloudVServerServerExceedQuota")
 	EcVServerServerDeleteDeletingServer           = ErrorCode("VngCloudVServerServerDeleteDeletingServer")
 	EcVServerServerDeleteBillingServer            = ErrorCode("VngCloudVServerServerDeleteBillingServer")
+	EcVServerServerVolumeAttachQuotaExceeded      = ErrorCode("VngCloudVServerServerVolumeAttachQuotaExceeded")
 	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 )
 

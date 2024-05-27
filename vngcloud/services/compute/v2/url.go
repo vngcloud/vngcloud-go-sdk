@@ -29,3 +29,24 @@ func updateServerSecgroupsByServerIdUrl(psc lsclient.IServiceClient, popts IUpda
 		popts.GetServerId(),
 		"update-sec-group")
 }
+
+func attachBlockVolumeUrl(psc lsclient.IServiceClient, popts IAttachBlockVolumeRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"servers",
+		popts.GetServerId(),
+		"attach")
+}
+
+func detachBlockVolumeUrl(psc lsclient.IServiceClient, popts IDetachBlockVolumeRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"servers",
+		popts.GetServerId(),
+		"detach",
+	)
+}
