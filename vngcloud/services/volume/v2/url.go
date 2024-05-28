@@ -40,3 +40,35 @@ func resizeBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IResizeBlockVol
 		popts.GetBlockVolumeId(),
 		"resize")
 }
+
+func listSnapshotsByBlockVolumeIdUrl(psc lsclient.IServiceClient, popts IListSnapshotsByBlockVolumeIdRequest) string {
+	query, err := popts.ToQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"snapshots",
+	) + query
+}
+
+func createSnapshotByBlockVolumeIdUrl(psc lsclient.IServiceClient, popts ICreateSnapshotByVolumeIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"snapshots")
+}
+
+func deleteSnapshotByIdUrl(psc lsclient.IServiceClient, popts IDeleteSnapshotByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"snapshots",
+		popts.GetSnapshotId(),
+	)
+}

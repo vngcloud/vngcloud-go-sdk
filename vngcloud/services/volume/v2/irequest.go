@@ -33,3 +33,22 @@ type IResizeBlockVolumeByIdRequest interface {
 	GetSize() int
 	GetVolumeTypeId() string
 }
+
+type IListSnapshotsByBlockVolumeIdRequest interface {
+	GetBlockVolumeId() string
+	ToQuery() (string, error)
+	GetDefaultQuery() string
+}
+
+type ICreateSnapshotByVolumeIdRequest interface {
+	GetBlockVolumeId() string
+	ToRequestBody() interface{}
+	WithDescription(pdesc string) ICreateSnapshotByVolumeIdRequest
+	WithPermanently(pval bool) ICreateSnapshotByVolumeIdRequest
+	WithRetainedDay(pval uint64) ICreateSnapshotByVolumeIdRequest
+}
+
+type IDeleteSnapshotByIdRequest interface {
+	GetSnapshotId() string
+	GetBlockVolumeId() string
+}

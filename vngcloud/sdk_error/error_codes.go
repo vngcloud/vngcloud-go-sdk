@@ -84,3 +84,9 @@ const (
 const (
 	EcVServerQuotaNotFound = ErrorCode("VngCloudVServerQuotaNotFound")
 )
+
+// vServer snapshot
+const (
+	EcVServerSnapshotNameNotValid = ErrorCode("VngCloudVServerSnapshotNameNotValid")
+	EcVServerSnapshotNotFound     = ErrorCode("VngCloudVServerSnapshotNotFound")
+)

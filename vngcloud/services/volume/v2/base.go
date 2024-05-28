@@ -13,4 +13,7 @@ func (s *VolumeServiceV2) getProjectId() string {
 const (
 	defaultPageListBlockVolumesRequest = 1
 	defaultSizeListBlockVolumesRequest = 10000
+
+	defaultPageListSnapshotsByBlockVolumeIdRequest = 1
+	defaultSizeListSnapshotsByBlockVolumeIdRequest = 10000
 )
