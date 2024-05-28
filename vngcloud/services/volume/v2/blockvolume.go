@@ -84,3 +84,28 @@ func (s *VolumeServiceV2) GetBlockVolumeById(popts IGetBlockVolumeByIdRequest) (
 
 	return resp.ToEntityVolume(), nil
 }
+
+func (s *VolumeServiceV2) ResizeBlockVolumeById(popts IResizeBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError) {
+	url := resizeBlockVolumeByIdUrl(s.VServerClient, popts)
+	resp := new(ResizeBlockVolumeByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeNotFound(errResp),
+			lserr.WithErrorVolumeSizeOutOfRange(errResp),
+			lserr.WithErrorVolumeMustSameZone(errResp),
+			lserr.WithErrorVolumeUnchanged(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId(),
+				"size", popts.GetSize())
+	}
+
+	return resp.ToEntityVolume(), nil
+}

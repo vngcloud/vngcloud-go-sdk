@@ -18,6 +18,10 @@ type GetBlockVolumeByIdResponse struct {
 	Data BlockVolume `json:"data"`
 }
 
+type ResizeBlockVolumeByIdResponse struct {
+	Data BlockVolume `json:"data"`
+}
+
 func (s *GetBlockVolumeByIdResponse) ToEntityVolume() *lsentity.Volume {
 	return s.Data.toEntityVolume()
 }
@@ -92,4 +96,8 @@ func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 		AttachedMachine: s.ServerIDList,
 		VolumeTypeID:    s.VolumeTypeID,
 	}
+}
+
+func (s *ResizeBlockVolumeByIdResponse) ToEntityVolume() *lsentity.Volume {
+	return s.Data.toEntityVolume()
 }

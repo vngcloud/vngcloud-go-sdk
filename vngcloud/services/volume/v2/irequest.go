@@ -26,3 +26,10 @@ type IListBlockVolumesRequest interface {
 type IGetBlockVolumeByIdRequest interface {
 	GetBlockVolumeId() string
 }
+
+type IResizeBlockVolumeByIdRequest interface {
+	ToRequestBody() interface{}
+	GetBlockVolumeId() string
+	GetSize() int
+	GetVolumeTypeId() string
+}

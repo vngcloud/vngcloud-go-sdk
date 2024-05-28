@@ -32,3 +32,11 @@ func getBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IGetBlockVolumeByI
 		"volumes",
 		popts.GetBlockVolumeId())
 }
+
+func resizeBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IResizeBlockVolumeByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"resize")
+}

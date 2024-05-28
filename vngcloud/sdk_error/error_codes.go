@@ -58,6 +58,8 @@ const (
 	EcVServerVolumeAlreadyAttached           = ErrorCode("VngCloudVServerVolumeAlreadyAttached")
 	EcVServerVolumeAlreadyAttachedThisServer = ErrorCode("VngCloudVServerVolumeAlreadyAttachedThisServer")
 	EcVServerVolumeInProcess                 = ErrorCode("VngCloudVServerVolumeInProcess")
+	EcVServerVolumeUnchanged                 = ErrorCode("VngCloudVServerVolumeUnchanged")
+	EcVServerVolumeMustSameZone              = ErrorCode("VngCloudVServerVolumeMustSameZone")
 )
 
 // Billing

@@ -152,3 +152,19 @@ func TestGetBlockVolumeByIdSuccess(t *ltesting.T) {
 	t.Log("Result: ", volume)
 	t.Log("PASS")
 }
+
+func TestResizeBlockVolumeFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewResizeBlockVolumeByIdRequest("vol-ae3fffe5-bd46-475f-bee3-3d5eff4a4b45", "vtype-9f811804-3574-466e-831c-f23d56ca6700", 40)
+	volume, sdkerr := vngcloud.VServerGateway().V2().VolumeService().ResizeBlockVolumeById(opt)
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if volume != nil {
+		t.Fatalf("Expect nil but got %v", volume)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

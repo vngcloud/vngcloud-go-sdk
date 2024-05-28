@@ -35,6 +35,14 @@ func NewGetBlockVolumeByIdRequest(pvolumeId string) IGetBlockVolumeByIdRequest {
 	return opt
 }
 
+func NewResizeBlockVolumeByIdRequest(pvolumeId, pvolumeType string, psize int) IResizeBlockVolumeByIdRequest {
+	opt := new(ResizeBlockVolumeByIdRequest)
+	opt.BlockVolumeId = pvolumeId
+	opt.NewSize = psize
+	opt.VolumeTypeID = pvolumeType
+	return opt
+}
+
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
@@ -55,6 +63,12 @@ type CreateBlockVolumeRequest struct {
 }
 
 type DeleteBlockVolumeByIdRequest struct {
+	lscommon.BlockVolumeCommon
+}
+
+type ResizeBlockVolumeByIdRequest struct {
+	NewSize      int    `json:"newSize"`         // NewSize is the new size of the volume, in GB
+	VolumeTypeID string `json:"newVolumeTypeId"` // VolumeTypeID is the type of the volume
 	lscommon.BlockVolumeCommon
 }
 
@@ -184,4 +198,16 @@ func (s *ListBlockVolumesRequest) ToMap() map[string]interface{} {
 func (s *ListBlockVolumesRequest) WithName(pname string) IListBlockVolumesRequest {
 	s.Name = pname
 	return s
+}
+
+func (s *ResizeBlockVolumeByIdRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *ResizeBlockVolumeByIdRequest) GetSize() int {
+	return s.NewSize
+}
+
+func (s *ResizeBlockVolumeByIdRequest) GetVolumeTypeId() string {
+	return s.VolumeTypeID
 }

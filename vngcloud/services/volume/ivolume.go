@@ -11,4 +11,5 @@ type IVolumeServiceV2 interface {
 	DeleteBlockVolumeById(popts lsvolumeSvcV2.IDeleteBlockVolumeByIdRequest) lserr.ISdkError
 	ListBlockVolumes(popts lsvolumeSvcV2.IListBlockVolumesRequest) (*lsentity.ListVolumes, lserr.ISdkError)
 	GetBlockVolumeById(popts lsvolumeSvcV2.IGetBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError)
+	ResizeBlockVolumeById(popts lsvolumeSvcV2.IResizeBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError)
 }
