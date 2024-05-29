@@ -46,12 +46,15 @@ func NewResizeBlockVolumeByIdRequest(pvolumeId, pvolumeType string, psize int) I
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
+
+	AesXtsPlain64_128 = EncryptType("aes-xts-plain64_128")
+	AesXtsPlain64_256 = EncryptType("aes-xts-plain64_256")
 )
 
 type CreateBlockVolumeRequest struct {
 	BackupVolumePointId    string                  `json:"backupVolumePointId,omitempty"`
 	CreatedFrom            CreateVolumeFrom        `json:"createdFrom,omitempty"`
-	EncryptionType         string                  `json:"encryptionType,omitempty"`
+	EncryptionType         EncryptType             `json:"encryptionType,omitempty"`
 	MultiAttach            bool                    `json:"multiAttach,omitempty"`
 	Name                   string                  `json:"name"`
 	Size                   int64                   `json:"size"`
@@ -89,6 +92,7 @@ type GetBlockVolumeByIdRequest struct {
 
 type (
 	CreateVolumeFrom string
+	EncryptType      string
 
 	VolumeTag struct {
 		Key   string `json:"key"`
@@ -141,8 +145,8 @@ func (s *CreateBlockVolumeRequest) WithSize(psize int64) ICreateBlockVolumeReque
 	return s
 }
 
-func (s *CreateBlockVolumeRequest) WithCreateFrom(pcreateFrom CreateVolumeFrom) ICreateBlockVolumeRequest {
-	s.CreatedFrom = pcreateFrom
+func (s *CreateBlockVolumeRequest) WithEncryptionType(pet EncryptType) ICreateBlockVolumeRequest {
+	s.EncryptionType = pet
 	return s
 }
 

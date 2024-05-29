@@ -7,7 +7,7 @@ type ICreateBlockVolumeRequest interface {
 	WithAutoRenew(pval bool) ICreateBlockVolumeRequest
 	WithMultiAttach(pmultiAttach bool) ICreateBlockVolumeRequest
 	WithSize(psize int64) ICreateBlockVolumeRequest
-	WithCreateFrom(pcreateFrom CreateVolumeFrom) ICreateBlockVolumeRequest
+	WithEncryptionType(pet EncryptType) ICreateBlockVolumeRequest
 	WithVolumeType(pvolumeTypeId string) ICreateBlockVolumeRequest
 	WithVolumeRestoreFromSnapshot(psnapshotID, pvolumeTypeID string) ICreateBlockVolumeRequest
 	WithTags(ptags ...string) ICreateBlockVolumeRequest
