@@ -141,6 +141,11 @@ func (s *CreateBlockVolumeRequest) WithSize(psize int64) ICreateBlockVolumeReque
 	return s
 }
 
+func (s *CreateBlockVolumeRequest) WithCreateFrom(pcreateFrom CreateVolumeFrom) ICreateBlockVolumeRequest {
+	s.CreatedFrom = pcreateFrom
+	return s
+}
+
 func (s *CreateBlockVolumeRequest) WithVolumeType(pvolumeTypeId string) ICreateBlockVolumeRequest {
 	s.VolumeTypeId = pvolumeTypeId
 	return s
