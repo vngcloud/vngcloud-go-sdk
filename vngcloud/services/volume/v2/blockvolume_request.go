@@ -141,6 +141,18 @@ func (s *CreateBlockVolumeRequest) GetListParameters() []interface{} {
 	}
 }
 
+func (s *CreateBlockVolumeRequest) GetVolumeName() string {
+	return s.Name
+}
+
+func (s *CreateBlockVolumeRequest) GetVolumeType() string {
+	return s.VolumeTypeId
+}
+
+func (s *CreateBlockVolumeRequest) GetSize() int64 {
+	return s.Size
+}
+
 func (s *CreateBlockVolumeRequest) WithPoc(pisPoc bool) ICreateBlockVolumeRequest {
 	s.IsPoc = pisPoc
 	return s

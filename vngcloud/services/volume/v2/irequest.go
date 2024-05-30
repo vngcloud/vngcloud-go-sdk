@@ -4,6 +4,9 @@ type ICreateBlockVolumeRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 	GetListParameters() []interface{}
+	GetSize() int64
+	GetVolumeType() string
+	GetVolumeName() string
 	WithPoc(pisPoc bool) ICreateBlockVolumeRequest
 	WithAutoRenew(pval bool) ICreateBlockVolumeRequest
 	WithMultiAttach(pmultiAttach bool) ICreateBlockVolumeRequest
