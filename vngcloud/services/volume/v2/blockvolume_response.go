@@ -22,6 +22,10 @@ type ResizeBlockVolumeByIdResponse struct {
 	Data BlockVolume `json:"data"`
 }
 
+type GetUnderBlockVolumeIdResponse struct {
+	Uuid string `json:"uuid"`
+}
+
 func (s *GetBlockVolumeByIdResponse) ToEntityVolume() *lsentity.Volume {
 	return s.Data.toEntityVolume()
 }
@@ -100,4 +104,10 @@ func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 
 func (s *ResizeBlockVolumeByIdResponse) ToEntityVolume() *lsentity.Volume {
 	return s.Data.toEntityVolume()
+}
+
+func (s *GetUnderBlockVolumeIdResponse) ToEntityVolume() *lsentity.Volume {
+	return &lsentity.Volume{
+		UnderId: s.Uuid,
+	}
 }

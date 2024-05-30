@@ -13,6 +13,7 @@ type Volume struct {
 	UpdatedAt        *string
 	PersistentVolume bool
 	AttachedMachine  []string
+	UnderId          string
 }
 
 type ListVolumes struct {

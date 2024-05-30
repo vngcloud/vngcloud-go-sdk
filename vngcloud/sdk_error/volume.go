@@ -11,6 +11,7 @@ const (
 	patternVolumeSizeOutOfRange            = "field volume_size must from"
 	patternVolumeNewSizeOutOfRange         = "field new_volume_size must from"
 	patternVolumeNotFound                  = `volume with id [^.]+ is not found`
+	patternVolumeNotFound2                 = "cannot get volume with id"
 	patternVolumeAvailable                 = "this volume is available"
 	patternVolumeAlreadyAttached           = "already attached to instance"
 	patternVolumeAlreadyAttachedThisServer = "this volume has been attached"
@@ -76,7 +77,8 @@ func WithErrorVolumeNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 		}
 
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
-		if regexErrorVolumeNotFound.FindString(errMsg) != "" {
+		if regexErrorVolumeNotFound.FindString(errMsg) != "" ||
+			lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeNotFound2) {
 			sdkError.WithErrorCode(EcVServerVolumeNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())

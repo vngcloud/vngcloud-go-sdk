@@ -57,3 +57,7 @@ type IDeleteSnapshotByIdRequest interface {
 	GetSnapshotId() string
 	GetBlockVolumeId() string
 }
+
+type IGetUnderBlockVolumeIdRequest interface {
+	GetBlockVolumeId() string
+}

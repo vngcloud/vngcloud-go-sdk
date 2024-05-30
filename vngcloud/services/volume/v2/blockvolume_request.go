@@ -43,6 +43,12 @@ func NewResizeBlockVolumeByIdRequest(pvolumeId, pvolumeType string, psize int) I
 	return opt
 }
 
+func NewGetUnderVolumeIdRequest(pvolumeId string) IGetUnderBlockVolumeIdRequest {
+	opt := new(GetUnderBlockVolumeIdRequest)
+	opt.BlockVolumeId = pvolumeId
+	return opt
+}
+
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
@@ -87,6 +93,10 @@ type AttachBlockVolumeRequest struct {
 }
 
 type GetBlockVolumeByIdRequest struct {
+	lscommon.BlockVolumeCommon
+}
+
+type GetUnderBlockVolumeIdRequest struct {
 	lscommon.BlockVolumeCommon
 }
 

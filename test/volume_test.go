@@ -168,3 +168,35 @@ func TestResizeBlockVolumeFailure(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestGetUnderVolumeIdFailure(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewGetUnderVolumeIdRequest("vol-ae3fffe5-bd46-475f-besadd")
+	volume, sdkerr := vngcloud.VServerGateway().V2().VolumeService().GetUnderBlockVolumeId(opt)
+	if sdkerr == nil {
+		t.Fatalf("Expect error but got nil")
+	}
+
+	if volume != nil {
+		t.Fatalf("Expect nil but got %v", volume)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestGetUnderVolumeIdSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewGetUnderVolumeIdRequest("vol-137f3dfc-9198-4d94-983f-6802e3c39e4f")
+	volume, sdkerr := vngcloud.VServerGateway().V2().VolumeService().GetUnderBlockVolumeId(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	if volume == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", volume)
+	t.Log("PASS")
+}

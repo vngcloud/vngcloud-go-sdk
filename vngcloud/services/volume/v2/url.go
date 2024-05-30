@@ -72,3 +72,12 @@ func deleteSnapshotByIdUrl(psc lsclient.IServiceClient, popts IDeleteSnapshotByI
 		popts.GetSnapshotId(),
 	)
 }
+
+func getUnderBlockVolumeIdUrl(psc lsclient.IServiceClient, popts IGetUnderBlockVolumeIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"mapping",
+	)
+}
