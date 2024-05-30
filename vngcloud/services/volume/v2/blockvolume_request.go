@@ -125,6 +125,22 @@ func (s *CreateBlockVolumeRequest) ToMap() map[string]interface{} {
 	}
 }
 
+func (s *CreateBlockVolumeRequest) GetListParameters() []interface{} {
+	return []interface{}{
+		"backupVolumePointId", s.BackupVolumePointId,
+		"createdFrom", s.CreatedFrom,
+		"encryptionType", s.EncryptionType,
+		"multiAttach", s.MultiAttach,
+		"name", s.Name,
+		"size", s.Size,
+		"volumeTypeId", s.VolumeTypeId,
+		"tags", s.Tags,
+		"isPoc", s.IsPoc,
+		"isEnableAutoRenew", s.IsEnableAutoRenew,
+		"configVolumeRestore", s.ConfigureVolumeRestore,
+	}
+}
+
 func (s *CreateBlockVolumeRequest) WithPoc(pisPoc bool) ICreateBlockVolumeRequest {
 	s.IsPoc = pisPoc
 	return s
