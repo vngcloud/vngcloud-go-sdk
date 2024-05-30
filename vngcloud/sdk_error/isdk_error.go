@@ -15,6 +15,7 @@ type ISdkError interface {
 	GetErrorCode() ErrorCode
 	GetParameters() map[string]interface{}
 	GetErrorMessages() string
+	GetListParameters() []interface{}
 }
 
 type IErrorRespone interface {

@@ -119,3 +119,16 @@ func (s *SdkError) GetErrorMessages() string {
 
 	return lfmt.Sprintf("%s: %s", s.message, s.error.Error())
 }
+
+func (s *SdkError) GetListParameters() []interface{} {
+	var result []interface{}
+	if s.parameters == nil {
+		return result
+	}
+
+	for key, val := range s.parameters {
+		result = append(result, key, val)
+	}
+
+	return result
+}
