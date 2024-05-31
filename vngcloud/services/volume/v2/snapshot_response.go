@@ -75,6 +75,11 @@ func (s *ListSnapshotByBlockVolumeIdResponse) ToEntityListSnapshots() *lsentity.
 		sl.Items = append(sl.Items, item.toEntitySnapshot())
 	}
 
+	sl.TotalPages = s.TotalPages
+	sl.Page = s.Page
+	sl.PageSize = s.PageSize
+	sl.TotalItems = s.TotalItems
+
 	return sl
 }
 

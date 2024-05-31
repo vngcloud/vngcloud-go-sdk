@@ -11,5 +11,9 @@ type Snapshot struct {
 }
 
 type ListSnapshots struct {
-	Items []*Snapshot
+	Items      []*Snapshot
+	TotalPages int
+	Page       int
+	PageSize   int
+	TotalItems int
 }
