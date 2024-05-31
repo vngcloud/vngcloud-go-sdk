@@ -107,6 +107,7 @@ func (s *ComputeServiceV2) AttachBlockVolume(popts IAttachBlockVolumeRequest) ls
 			lserr.WithErrorVolumeAvailable(errResp),
 			lserr.WithErrorVolumeInProcess(errResp),
 			lserr.WithErrorVolumeAlreadyAttached(errResp),
+			lserr.WithErrorServerAttachEncryptedVolume(errResp),
 			lserr.WithErrorVolumeAlreadyAttachedThisServer(errResp),
 			lserr.WithErrorServerAttachVolumeQuotaExceeded(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),

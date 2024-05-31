@@ -10,6 +10,7 @@ const (
 	patternServerBilling                   = "cannot delete server with status creating-billing"
 	patternBillingPaymentMethodNotAllowed  = "payment method is not allowed for the user"
 	patternServerAttachVolumeQuotaExceeded = "exceeded volume_per_server quota"
+	patternServerAttachEncryptedVolume     = "cannot attach encryption volume"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -111,6 +112,21 @@ func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkEr
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerAttachVolumeQuotaExceeded) {
 			sdkError.WithErrorCode(EcVServerServerVolumeAttachQuotaExceeded).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerAttachEncryptedVolume(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerAttachEncryptedVolume) {
+			sdkError.WithErrorCode(EcVServerServerAttachEncryptedVolume).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
