@@ -129,6 +129,7 @@ func (s *ComputeServiceV2) DetachBlockVolume(popts IDetachBlockVolumeRequest) ls
 	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorVolumeNotFound(errResp),
+			lserr.WithErrorVolumeInProcess(errResp),
 			lserr.WithErrorVolumeAvailable(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),
 				"volumeId", popts.GetBlockVolumeId(),
