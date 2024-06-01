@@ -37,3 +37,12 @@ func TestGetVolumeTypeSuccess(t *ltesting.T) {
 	t.Log("Result: ", volume)
 	t.Log("PASS")
 }
+
+func TestGetDefaultVolumeType(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	volType, sdkerr := vngcloud.VServerGateway().V1().VolumeService().GetDefaultVolumeType()
+
+	t.Log("Result: ", volType)
+	t.Log("Error: ", sdkerr)
+	t.Log("PASS")
+}

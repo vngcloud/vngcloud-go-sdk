@@ -6,6 +6,11 @@ type GetVolumeTypeByIdResponse struct {
 	VolumeTypes []VolumeType `json:"volumeTypes"`
 }
 
+type GetDefaultVolumeTypeResponse struct {
+	Id     string `json:"volumeTypeId"`
+	ZoneId string `json:"volumeTypeZoneId"`
+}
+
 type (
 	VolumeType struct {
 		Id         string `json:"id"`
@@ -24,6 +29,13 @@ func (s *GetVolumeTypeByIdResponse) ToEntityVolumeType() *lsentity.VolumeType {
 	}
 
 	return s.VolumeTypes[0].toEntityVolumeType()
+}
+
+func (s *GetDefaultVolumeTypeResponse) ToEntityVolumeType() *lsentity.VolumeType {
+	return &lsentity.VolumeType{
+		Id:     s.Id,
+		ZoneId: s.ZoneId,
+	}
 }
 
 func (s VolumeType) toEntityVolumeType() *lsentity.VolumeType {

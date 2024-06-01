@@ -8,3 +8,9 @@ func getVolumeTypeByIdUrl(psc lsclient.IServiceClient, popts IGetVolumeTypeByIdR
 		"volume_types",
 		popts.GetVolumeTypeId())
 }
+
+func getDefaultVolumeTypeUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volume_default_id")
+}

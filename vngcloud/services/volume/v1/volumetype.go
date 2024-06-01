@@ -24,5 +24,22 @@ func (s *VolumeServiceV1) GetVolumeTypeById(popts IGetVolumeTypeByIdRequest) (*l
 	}
 
 	return resp.ToEntityVolumeType(), nil
+}
 
+func (s *VolumeServiceV1) GetDefaultVolumeType() (*lsentity.VolumeType, lserr.ISdkError) {
+	url := getDefaultVolumeTypeUrl(s.VServerClient)
+	resp := new(GetDefaultVolumeTypeResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters(
+				"projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityVolumeType(), nil
 }
