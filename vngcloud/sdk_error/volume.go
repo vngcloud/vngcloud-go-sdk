@@ -25,6 +25,7 @@ const ( // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184
 	patternVolumeMigrateBeingFinish        = "this volume cannot migrate difference data because state is confirm final migration"
 	patternVolumeMigrateProcessingConfirm  = "this volume cannot initialize migration because state is processing to confirm"
 	patternVolumeMigrateInSameZone         = "new volume type must be different zone"
+	patternVolumeIsMigrating               = "is migrating"
 )
 
 var (
@@ -289,3 +290,20 @@ func WithErrorVolumeMigrateInSameZone(perrResp IErrorRespone) func(sdkError ISdk
 		}
 	}
 }
+
+func WithErrorVolumeIsMigrating(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeIsMigrating) {
+			sdkError.WithErrorCode(EcVServerVolumeIsMigrating).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+// patternVolumeIsMigrating
