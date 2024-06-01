@@ -3,6 +3,7 @@ package volume
 import (
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
+	lsvolumeSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v1"
 	lsvolumeSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v2"
 )
 
@@ -18,4 +19,9 @@ type IVolumeServiceV2 interface {
 	ListSnapshotsByBlockVolumeId(popts lsvolumeSvcV2.IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.ISdkError)
 	CreateSnapshotByBlockVolumeId(popts lsvolumeSvcV2.ICreateSnapshotByBlockVolumeIdRequest) (*lsentity.Snapshot, lserr.ISdkError)
 	DeleteSnapshotById(popts lsvolumeSvcV2.IDeleteSnapshotByIdRequest) lserr.ISdkError
+}
+
+type IVolumeServiceV1 interface {
+	// Volume Type Api group
+	GetVolumeTypeById(popts lsvolumeSvcV1.IGetVolumeTypeByIdRequest) (*lsentity.VolumeType, lserr.ISdkError)
 }

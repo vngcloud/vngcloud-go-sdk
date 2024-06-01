@@ -10,6 +10,7 @@ import (
 
 type vserverGatewayV1 struct {
 	portalService lsportalSvc.IPortalServiceV1
+	volumeService lsvolumeSvc.IVolumeServiceV1
 }
 
 type vserverGatewayV2 struct {
@@ -22,6 +23,7 @@ type vserverGatewayV2 struct {
 func NewVServerGatewayV1(psvcClient lsclient.IServiceClient) IVServerGatewayV1 {
 	return &vserverGatewayV1{
 		portalService: lsportalSvc.NewPortalServiceV1(psvcClient),
+		volumeService: lsvolumeSvc.NewVolumeServiceV1(psvcClient),
 	}
 }
 
@@ -36,6 +38,10 @@ func NewVServerGatewayV2(psvcClient lsclient.IServiceClient) IVServerGatewayV2 {
 
 func (s *vserverGatewayV1) PortalService() lsportalSvc.IPortalServiceV1 {
 	return s.portalService
+}
+
+func (s *vserverGatewayV1) VolumeService() lsvolumeSvc.IVolumeServiceV1 {
+	return s.volumeService
 }
 
 func (s *vserverGatewayV2) NetworkService() lsnetworkSvc.INetworkServiceV2 {

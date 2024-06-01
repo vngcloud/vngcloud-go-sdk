@@ -26,6 +26,7 @@ type IVServerGateway interface {
 
 type IVServerGatewayV1 interface {
 	PortalService() lsportalSvc.IPortalServiceV1
+	VolumeService() lsvolumeSvc.IVolumeServiceV1
 }
 
 type IVServerGatewayV2 interface {
