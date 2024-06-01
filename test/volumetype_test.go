@@ -23,7 +23,7 @@ func TestGetVolumeTypeFailure(t *ltesting.T) {
 
 func TestGetVolumeTypeSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsvolume.NewGetVolumeTypeByIdRequest("vtype-7a7a8610-34f5-11ee-be56-0242ac120002")
+	opt := lsvolume.NewGetVolumeTypeByIdRequest("vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018")
 	volume, sdkerr := vngcloud.VServerGateway().V1().VolumeService().GetVolumeTypeById(opt)
 
 	if sdkerr != nil {
@@ -34,7 +34,7 @@ func TestGetVolumeTypeSuccess(t *ltesting.T) {
 		t.Fatalf("Expect not nil but got nil")
 	}
 
-	t.Log("Result: ", volume)
+	t.Logf("Result: %+v", volume)
 	t.Log("PASS")
 }
 
