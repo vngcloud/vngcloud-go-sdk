@@ -34,3 +34,8 @@ func (s *Paging) SetSize(psize int) *Paging {
 	s.Size = psize
 	return s
 }
+
+type Tag struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}

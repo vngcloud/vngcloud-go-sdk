@@ -129,3 +129,46 @@ func (s *VolumeServiceV2) GetUnderBlockVolumeId(popts IGetUnderBlockVolumeIdRequ
 
 	return resp.ToEntityVolume(), nil
 }
+
+func (s *VolumeServiceV2) MigrateBlockVolumeById(popts IMigrateBlockVolumeByIdRequest) lserr.ISdkError {
+	url := migrateBlockVolumeByIdUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(204).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		sdkErr = lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeMigrateInSameZone(errResp),
+			lserr.WithErrorVolumeMigrateMissingInit(errResp),
+			lserr.WithErrorVolumeMigrateNeedProcess(errResp),
+			lserr.WithErrorVolumeMigrateNeedConfirm(errResp),
+			lserr.WithErrorVolumeMigrateBeingProcess(errResp),
+			lserr.WithErrorVolumeMigrateProcessingConfirm(errResp),
+			lserr.WithErrorVolumeMigrateBeingMigrating(errResp), // should under WithErrorVolumeMigrateBeingProcess
+			lserr.WithErrorVolumeMigrateBeingFinish(errResp),
+			lserr.WithErrorVolumeNotFound(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"volumeId", popts.GetBlockVolumeId())
+
+		if popts.IsConfirm() {
+			switch sdkErr.GetErrorCode() {
+			case lserr.EcVServerVolumeMigrateMissingInit:
+				popts = popts.WithAction(InitMigrateAction)
+				return s.MigrateBlockVolumeById(popts)
+			case lserr.EcVServerVolumeMigrateNeedProcess:
+				popts = popts.WithAction(ProcessMigrateAction)
+				return s.MigrateBlockVolumeById(popts)
+			case lserr.EcVServerVolumeMigrateNeedConfirm:
+				popts = popts.WithAction(ConfirmMigrateAction)
+				return s.MigrateBlockVolumeById(popts)
+			}
+		}
+
+		return sdkErr
+	}
+
+	return nil
+}

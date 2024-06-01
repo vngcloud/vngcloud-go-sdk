@@ -17,6 +17,14 @@ const ( // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184
 	patternVolumeInProcess                 = "is in-process"
 	patternVolumeUnchaged                  = "volume size or volume type must be changed"
 	patternVolumeMustSameZone              = "new volume type must be same zone"
+	patternVolumeMigrateMissingInit        = "the action must be init-migrate or migrate or confirm-migrate"
+	patternVolumeMigrateNeedProcess        = "this volume cannot initialize migration because state is ready to migrate difference"
+	patternVolumeMigrateNeedConfirm        = "this volume cannot initialize migration because state is confirm final migration"
+	patternVolumeMigrateBeingProcess       = "this volume cannot initialize migration because state is migrating difference"
+	patternVolumeMigrateBeingMigrating     = "this volume cannot initialize migration because state is migrating"
+	patternVolumeMigrateBeingFinish        = "this volume cannot migrate difference data because state is confirm final migration"
+	patternVolumeMigrateProcessingConfirm  = "this volume cannot initialize migration because state is processing to confirm"
+	patternVolumeMigrateInSameZone         = "new volume type must be different zone"
 )
 
 var (
@@ -154,6 +162,128 @@ func WithErrorVolumeMustSameZone(perrResp IErrorRespone) func(sdkError ISdkError
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMustSameZone) {
 			sdkError.WithErrorCode(EcVServerVolumeMustSameZone).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateMissingInit(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateMissingInit) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateMissingInit).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateNeedProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateNeedProcess) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateNeedProcess).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateNeedConfirm(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateNeedConfirm) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateNeedConfirm).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateBeingProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateBeingProcess) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateBeingProcess).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateBeingFinish(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateBeingFinish) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateBeingFinish).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateProcessingConfirm(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateProcessingConfirm) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateProcessingConfirm).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+//
+
+func WithErrorVolumeMigrateBeingMigrating(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateBeingMigrating) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateBeingMigrating).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeMigrateInSameZone(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeMigrateInSameZone) {
+			sdkError.WithErrorCode(EcVServerVolumeMigrateInSameZone).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

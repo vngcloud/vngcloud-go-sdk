@@ -60,6 +60,14 @@ const (
 	EcVServerVolumeInProcess                 = ErrorCode("VngCloudVServerVolumeInProcess")
 	EcVServerVolumeUnchanged                 = ErrorCode("VngCloudVServerVolumeUnchanged")
 	EcVServerVolumeMustSameZone              = ErrorCode("VngCloudVServerVolumeMustSameZone")
+	EcVServerVolumeMigrateMissingInit        = ErrorCode("VngCloudVServerVolumeMigrateMissingInit")
+	EcVServerVolumeMigrateNeedProcess        = ErrorCode("VngCloudVServerVolumeMigrateNeedProcess")
+	EcVServerVolumeMigrateNeedConfirm        = ErrorCode("VngCloudVServerVolumeMigrateNeedConfirm")
+	EcVServerVolumeMigrateBeingProcess       = ErrorCode("VngCloudVServerVolumeMigrateBeingProcess")
+	EcVServerVolumeMigrateBeingFinish        = ErrorCode("VngCloudVServerVolumeMigrateBeingFinish")
+	EcVServerVolumeMigrateProcessingConfirm  = ErrorCode("VngCloudVServerVolumeMigrateProcessingConfirm")
+	EcVServerVolumeMigrateBeingMigrating     = ErrorCode("VngCloudVServerVolumeMigrateBeingMigrating")
+	EcVServerVolumeMigrateInSameZone         = ErrorCode("VngCloudVServerVolumeMigrateInSameZone")
 )
 
 // Billing

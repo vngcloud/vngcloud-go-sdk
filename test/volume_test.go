@@ -200,3 +200,16 @@ func TestGetUnderVolumeIdSuccess(t *ltesting.T) {
 	t.Log("Result: ", volume)
 	t.Log("PASS")
 }
+
+func TestMigrateBlockVolume(t *ltesting.T) {
+	vtNvme := "vtype-7a7a8610-34f5-11ee-be56-0242ac120002"
+	vtSsd := "vtype-61c3fc5b-f4e9-45b4-8957-8aa7b6029018"
+	t.Log(vtSsd, vtNvme)
+
+	vngcloud := validSdkConfig()
+	opt := v2.NewMigrateBlockVolumeByIdRequest("vol-ef605a82-270d-48f1-b763-f5338ae9f162", vtSsd).WithConfirm(true)
+	sdkerr := vngcloud.VServerGateway().V2().VolumeService().MigrateBlockVolumeById(opt)
+
+	t.Log("Error: ", sdkerr)
+	t.Log("PASS")
+}

@@ -61,3 +61,12 @@ type IDeleteSnapshotByIdRequest interface {
 type IGetUnderBlockVolumeIdRequest interface {
 	GetBlockVolumeId() string
 }
+
+type IMigrateBlockVolumeByIdRequest interface {
+	GetBlockVolumeId() string
+	ToRequestBody() interface{}
+	WithTags(ptags ...string) IMigrateBlockVolumeByIdRequest
+	WithAction(paction MigrateAction) IMigrateBlockVolumeByIdRequest
+	WithConfirm(pconfirm bool) IMigrateBlockVolumeByIdRequest
+	IsConfirm() bool
+}

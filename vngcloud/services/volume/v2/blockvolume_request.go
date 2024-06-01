@@ -49,12 +49,24 @@ func NewGetUnderVolumeIdRequest(pvolumeId string) IGetUnderBlockVolumeIdRequest 
 	return opt
 }
 
+func NewMigrateBlockVolumeByIdRequest(pvolumeId, pvolumeType string) IMigrateBlockVolumeByIdRequest {
+	opt := new(MigrateBlockVolumeByIdRequest)
+	opt.BlockVolumeId = pvolumeId
+	opt.VolumeTypeId = pvolumeType
+	opt.Action = InitMigrateAction
+	return opt
+}
+
 const (
 	CreateFromNew      = CreateVolumeFrom("NEW")
 	CreateFromSnapshot = CreateVolumeFrom("SNAPSHOT")
 
 	AesXtsPlain64_128 = EncryptType("aes-xts-plain64_128")
 	AesXtsPlain64_256 = EncryptType("aes-xts-plain64_256")
+
+	InitMigrateAction    = MigrateAction("INIT-MIGRATE")
+	ProcessMigrateAction = MigrateAction("MIGRATE")
+	ConfirmMigrateAction = MigrateAction("CONFIRM-MIGRATE")
 )
 
 type CreateBlockVolumeRequest struct {
@@ -100,7 +112,18 @@ type GetUnderBlockVolumeIdRequest struct {
 	lscommon.BlockVolumeCommon
 }
 
+type MigrateBlockVolumeByIdRequest struct {
+	Action         MigrateAction `json:"action"`
+	ConfirmMigrate bool
+	Tags           []lscommon.Tag `json:"tags"`
+	VolumeTypeId   string         `json:"volumeTypeId"`
+	Auto           bool
+
+	lscommon.BlockVolumeCommon
+}
+
 type (
+	MigrateAction    string
 	CreateVolumeFrom string
 	EncryptType      string
 
@@ -257,4 +280,44 @@ func (s *ResizeBlockVolumeByIdRequest) GetSize() int {
 
 func (s *ResizeBlockVolumeByIdRequest) GetVolumeTypeId() string {
 	return s.VolumeTypeID
+}
+
+func (s *MigrateBlockVolumeByIdRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *MigrateBlockVolumeByIdRequest) WithTags(ptags ...string) IMigrateBlockVolumeByIdRequest {
+	if s.Tags == nil {
+		s.Tags = make([]lscommon.Tag, 0)
+	}
+
+	if len(ptags)%2 != 0 {
+		ptags = append(ptags, "none")
+	}
+
+	for i := 0; i < len(ptags); i += 2 {
+		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
+	}
+
+	return s
+}
+
+func (s *MigrateBlockVolumeByIdRequest) WithAction(paction MigrateAction) IMigrateBlockVolumeByIdRequest {
+	switch paction {
+	case InitMigrateAction, ProcessMigrateAction, ConfirmMigrateAction:
+		s.Action = paction
+	default:
+		s.Action = InitMigrateAction
+	}
+
+	return s
+}
+
+func (s *MigrateBlockVolumeByIdRequest) WithConfirm(pconfirm bool) IMigrateBlockVolumeByIdRequest {
+	s.ConfirmMigrate = pconfirm
+	return s
+}
+
+func (s *MigrateBlockVolumeByIdRequest) IsConfirm() bool {
+	return s.ConfirmMigrate
 }

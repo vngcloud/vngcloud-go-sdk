@@ -81,3 +81,12 @@ func getUnderBlockVolumeIdUrl(psc lsclient.IServiceClient, popts IGetUnderBlockV
 		"mapping",
 	)
 }
+
+func migrateBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IMigrateBlockVolumeByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes",
+		popts.GetBlockVolumeId(),
+		"change-device-type",
+	)
+}
