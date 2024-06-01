@@ -15,7 +15,7 @@ type IVolumeServiceV2 interface {
 	GetUnderBlockVolumeId(popts lsvolumeSvcV2.IGetUnderBlockVolumeIdRequest) (*lsentity.Volume, lserr.ISdkError)
 
 	// Snapshot
-	ListSnapshotByVolumeId(popts lsvolumeSvcV2.IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.ISdkError)
-	CreateSnapshotByVolumeId(popts lsvolumeSvcV2.ICreateSnapshotByVolumeIdRequest) (*lsentity.Snapshot, lserr.ISdkError)
+	ListSnapshotsByBlockVolumeId(popts lsvolumeSvcV2.IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.ISdkError)
+	CreateSnapshotByBlockVolumeId(popts lsvolumeSvcV2.ICreateSnapshotByBlockVolumeIdRequest) (*lsentity.Snapshot, lserr.ISdkError)
 	DeleteSnapshotById(popts lsvolumeSvcV2.IDeleteSnapshotByIdRequest) lserr.ISdkError
 }

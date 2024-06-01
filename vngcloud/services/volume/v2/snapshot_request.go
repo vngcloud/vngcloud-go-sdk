@@ -16,8 +16,8 @@ func NewListSnapshotsByBlockVolumeIdRequest(ppage, psize int, pblockVolumeId str
 	return opt
 }
 
-func NewCreateSnapshotByVolumeIdRequest(pname, pblockVolumeId string) ICreateSnapshotByVolumeIdRequest {
-	opt := new(CreateSnapshotByVolumeIdRequest)
+func NewCreateSnapshotByBlockVolumeIdRequest(pname, pblockVolumeId string) ICreateSnapshotByBlockVolumeIdRequest {
+	opt := new(CreateSnapshotByBlockVolumeIdRequest)
 	opt.Name = pname
 	opt.BlockVolumeId = pblockVolumeId
 
@@ -39,7 +39,7 @@ type ListSnapshotsByBlockVolumeIdRequest struct {
 	lscommon.BlockVolumeCommon
 }
 
-type CreateSnapshotByVolumeIdRequest struct {
+type CreateSnapshotByBlockVolumeIdRequest struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Permanently bool   `json:"isPermanently"`
@@ -68,21 +68,21 @@ func (s *ListSnapshotsByBlockVolumeIdRequest) ToQuery() (string, error) {
 	return url.String(), err
 }
 
-func (s *CreateSnapshotByVolumeIdRequest) ToRequestBody() interface{} {
+func (s *CreateSnapshotByBlockVolumeIdRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func (s *CreateSnapshotByVolumeIdRequest) WithDescription(pdesc string) ICreateSnapshotByVolumeIdRequest {
+func (s *CreateSnapshotByBlockVolumeIdRequest) WithDescription(pdesc string) ICreateSnapshotByBlockVolumeIdRequest {
 	s.Description = pdesc
 	return s
 }
 
-func (s *CreateSnapshotByVolumeIdRequest) WithPermanently(pval bool) ICreateSnapshotByVolumeIdRequest {
+func (s *CreateSnapshotByBlockVolumeIdRequest) WithPermanently(pval bool) ICreateSnapshotByBlockVolumeIdRequest {
 	s.Permanently = pval
 	return s
 }
 
-func (s *CreateSnapshotByVolumeIdRequest) WithRetainedDay(pval uint64) ICreateSnapshotByVolumeIdRequest {
+func (s *CreateSnapshotByBlockVolumeIdRequest) WithRetainedDay(pval uint64) ICreateSnapshotByBlockVolumeIdRequest {
 	s.RetainedDay = pval
 	return s
 }

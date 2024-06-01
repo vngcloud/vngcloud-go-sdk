@@ -45,12 +45,12 @@ type IListSnapshotsByBlockVolumeIdRequest interface {
 	GetDefaultQuery() string
 }
 
-type ICreateSnapshotByVolumeIdRequest interface {
+type ICreateSnapshotByBlockVolumeIdRequest interface {
 	GetBlockVolumeId() string
 	ToRequestBody() interface{}
-	WithDescription(pdesc string) ICreateSnapshotByVolumeIdRequest
-	WithPermanently(pval bool) ICreateSnapshotByVolumeIdRequest
-	WithRetainedDay(pval uint64) ICreateSnapshotByVolumeIdRequest
+	WithDescription(pdesc string) ICreateSnapshotByBlockVolumeIdRequest
+	WithPermanently(pval bool) ICreateSnapshotByBlockVolumeIdRequest
+	WithRetainedDay(pval uint64) ICreateSnapshotByBlockVolumeIdRequest
 }
 
 type IDeleteSnapshotByIdRequest interface {

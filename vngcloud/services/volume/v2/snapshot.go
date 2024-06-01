@@ -6,9 +6,9 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *VolumeServiceV2) ListSnapshotByVolumeId(popts IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.ISdkError) {
+func (s *VolumeServiceV2) ListSnapshotsByBlockVolumeId(popts IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.ISdkError) {
 	url := listSnapshotsByBlockVolumeIdUrl(s.VServerClient, popts)
-	resp := new(ListSnapshotByBlockVolumeIdResponse)
+	resp := new(ListSnapshotsByBlockVolumeIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
 		WithOkCodes(200).
@@ -25,7 +25,7 @@ func (s *VolumeServiceV2) ListSnapshotByVolumeId(popts IListSnapshotsByBlockVolu
 	return resp.ToEntityListSnapshots(), nil
 }
 
-func (s *VolumeServiceV2) CreateSnapshotByVolumeId(popts ICreateSnapshotByVolumeIdRequest) (*lsentity.Snapshot, lserr.ISdkError) {
+func (s *VolumeServiceV2) CreateSnapshotByBlockVolumeId(popts ICreateSnapshotByBlockVolumeIdRequest) (*lsentity.Snapshot, lserr.ISdkError) {
 	url := createSnapshotByBlockVolumeIdUrl(s.VServerClient, popts)
 	resp := new(CreateSnapshotByBlockVolumeIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

@@ -2,7 +2,7 @@ package v2
 
 import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 
-type ListSnapshotByBlockVolumeIdResponse struct {
+type ListSnapshotsByBlockVolumeIdResponse struct {
 	Items      []Snapshot `json:"items"`
 	Page       int        `json:"page"`
 	PageSize   int        `json:"pageSize"`
@@ -68,7 +68,7 @@ type (
 	}
 )
 
-func (s *ListSnapshotByBlockVolumeIdResponse) ToEntityListSnapshots() *lsentity.ListSnapshots {
+func (s *ListSnapshotsByBlockVolumeIdResponse) ToEntityListSnapshots() *lsentity.ListSnapshots {
 	sl := new(lsentity.ListSnapshots)
 
 	for _, item := range s.Items {

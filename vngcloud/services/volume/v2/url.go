@@ -55,7 +55,7 @@ func listSnapshotsByBlockVolumeIdUrl(psc lsclient.IServiceClient, popts IListSna
 	) + query
 }
 
-func createSnapshotByBlockVolumeIdUrl(psc lsclient.IServiceClient, popts ICreateSnapshotByVolumeIdRequest) string {
+func createSnapshotByBlockVolumeIdUrl(psc lsclient.IServiceClient, popts ICreateSnapshotByBlockVolumeIdRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
 		"volumes",
