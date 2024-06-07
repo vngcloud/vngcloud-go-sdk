@@ -11,6 +11,7 @@ const (
 	patternBillingPaymentMethodNotAllowed  = "payment method is not allowed for the user"
 	patternServerAttachVolumeQuotaExceeded = "exceeded volume_per_server quota"
 	patternServerAttachEncryptedVolume     = "cannot attach encryption volume"
+	patternServerExpired                   = "server is expired"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -37,6 +38,21 @@ func WithErrorServerDeleteCreatingServer(perrResp IErrorRespone) func(sdkError I
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerCreating) {
 			sdkError.WithErrorCode(EcVServerServerDeleteCreatingServer).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerExpired(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExpired) {
+			sdkError.WithErrorCode(EcVServerServerExpired).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
