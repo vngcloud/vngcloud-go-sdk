@@ -20,6 +20,7 @@ func (s *VolumeServiceV2) CreateBlockVolume(popts ICreateBlockVolumeRequest) (*l
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorVolumeSizeOutOfRange(errResp),
+			lserr.WithErrorVolumeSizeExceedGlobalQuota(errResp),
 			lserr.WithErrorVolumeNameNotValid(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.ToMap())
