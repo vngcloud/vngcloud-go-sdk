@@ -14,6 +14,12 @@ type vserverGateway struct {
 	vserverGatewayV2 IVServerGatewayV2
 }
 
+type vlbGateway struct {
+	endpoint           string // Hold the endpoint of the vLB service
+	vlbGatewayInternal IVLBGatewayInternal
+	vlbGatewayV2       IVLBGatewayV2
+}
+
 func NewIamGateway(pendpoint, projectId string, phc lsclient.IHttpClient) IIamGateway {
 	iamSvcV2 := lsclient.NewServiceClient().
 		WithEndpoint(pendpoint + "v2").
@@ -43,6 +49,24 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 	}
 }
 
+func NewVLBGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) IVLBGateway {
+	vlbSvcV2 := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "v2").
+		WithClient(phc).
+		WithProjectId(pprojectId)
+
+	vlbSvcIn := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "internal").
+		WithClient(phc).
+		WithProjectId(pprojectId)
+
+	return &vlbGateway{
+		endpoint:           pendpoint,
+		vlbGatewayV2:       NewVLBGatewayV2(vlbSvcV2),
+		vlbGatewayInternal: NewVLBGatewayInternal(vlbSvcIn),
+	}
+}
+
 func (s *iamGateway) V2() IIamGatewayV2 {
 	return s.iamGatewayV2
 }
@@ -55,6 +79,18 @@ func (s *vserverGateway) V2() IVServerGatewayV2 {
 	return s.vserverGatewayV2
 }
 
+func (s *vlbGateway) Internal() IVLBGatewayInternal {
+	return s.vlbGatewayInternal
+}
+
+func (s *vlbGateway) V2() IVLBGatewayV2 {
+	return s.vlbGatewayV2
+}
+
 func (s *vserverGateway) GetEndpoint() string {
+	return s.endpoint
+}
+
+func (s *vlbGateway) GetEndpoint() string {
 	return s.endpoint
 }

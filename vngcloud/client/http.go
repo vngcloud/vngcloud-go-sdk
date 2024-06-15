@@ -122,7 +122,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		resp, err = req.Put(purl)
 	}
 
-	if err != nil {
+	if err != nil && resp == nil {
 		return resp, lserr.ErrorHandler(err)
 	}
 
@@ -143,6 +143,10 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		return nil, lserr.SdkErrorHandler(
 			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
 			lserr.WithErrorInternalServerError())
+	case lhttp.StatusForbidden:
+		return nil, lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+			lserr.WithErrorPermissionDenied())
 	}
 
 	if preq.ContainsOkCode(resp.StatusCode) {

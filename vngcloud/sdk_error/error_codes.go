@@ -7,6 +7,7 @@ const (
 
 	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
 	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
+	EcPermissionDenied    = ErrorCode("VngCloudApiPermissionDenied")
 )
 
 // Internal SDK error

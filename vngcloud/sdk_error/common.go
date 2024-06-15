@@ -62,6 +62,14 @@ func WithErrorInternalServerError() func(ISdkError) {
 	}
 }
 
+func WithErrorPermissionDenied() func(ISdkError) {
+	return func(sdkErr ISdkError) {
+		sdkErr.WithErrorCode(EcPermissionDenied).
+			WithMessage("Permission Denied").
+			WithErrors(lfmt.Errorf("permission denied when making request to external service"))
+	}
+}
+
 func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError ISdkError) {
 	return func(sdkError ISdkError) {
 		if perrResp == nil {

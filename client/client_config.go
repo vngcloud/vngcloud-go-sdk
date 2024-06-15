@@ -9,6 +9,7 @@ type (
 		GetProjectId() string
 		GetIamEndpoint() string
 		GetVServerEndpoint() string
+		GetVLBEndpoint() string
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
 		WithProjectId(pprojectId string) ISdkConfigure
@@ -47,6 +48,10 @@ func (s *sdkConfigure) GetVServerEndpoint() string {
 	return s.vserverEndpoint
 }
 
+func (s *sdkConfigure) GetVLBEndpoint() string {
+	return s.vlbEndpoint
+}
+
 func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 	s.clientId = pclientId
 	return s
@@ -73,6 +78,6 @@ func (s *sdkConfigure) WithVServerEndpoint(pvserverEndpoint string) ISdkConfigur
 }
 
 func (s *sdkConfigure) WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure {
-	s.vlbEndpoint = pvlbEndpoint
+	s.vlbEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
 	return s
 }
