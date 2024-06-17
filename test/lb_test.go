@@ -51,12 +51,11 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 		"cuongdm3-test-intervpc",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156",
-		"sub-888d8fd2-3fed-4aaa-a62d-8554c0aff651",
-	).WithListener(
-		lsinter.NewCreateListenerRequest("cuongdm3-test-listener", lsinter.CreateOptsListenerProtocolOptTCP, 80)).
-		WithPool(lsinter.NewCreatePoolRequest("cuongdm3-test-pool", lsinter.PoolProtocolTCP).WithMembers(
-			lsinter.NewMember("cuongdm3-member-1", "10.84.0.22", 80, 80),
-		).WithHealthMonitor(lsinter.NewHealthMonitor(lsinter.HealthCheckProtocolTCP)))
+		"sub-888d8fd2-3fed-4aaa-a62d-8554c0aff651").
+		WithListener(lsinter.NewCreateListenerRequest("cuongdm3-test-listener", lsinter.CreateOptsListenerProtocolOptTCP, 80)).
+		WithPool(lsinter.NewCreatePoolRequest("cuongdm3-test-pool", lsinter.PoolProtocolTCP).
+			WithMembers(lsinter.NewMember("cuongdm3-member-1", "10.84.0.22", 80, 80)).
+			WithHealthMonitor(lsinter.NewHealthMonitor(lsinter.HealthCheckProtocolTCP)))
 
 	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
 	if sdkerr != nil {
