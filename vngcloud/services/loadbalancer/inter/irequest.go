@@ -6,6 +6,7 @@ type ICreateLoadBalancerRequest interface {
 	WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest
 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
 	WithProjectId(pprojectId string) ICreateLoadBalancerRequest
+	WithTags(ptags ...string) ICreateLoadBalancerRequest
 	GetMapHeaders() map[string]string
 }
 

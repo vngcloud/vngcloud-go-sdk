@@ -40,6 +40,7 @@ type CreateLoadBalancerRequest struct {
 	Type            LoadBalancerType       `json:"type"`
 	Listener        ICreateListenerRequest `json:"listener,omitempty"`
 	Pool            ICreatePoolRequest     `json:"pool,omitempty"`
+	Tags            []lscommon.Tag         `json:"tags,omitempty"`
 
 	lscommon.PortalUser
 	lscommon.UserAgent
@@ -78,5 +79,21 @@ func (s *CreateLoadBalancerRequest) WithListener(plistener ICreateListenerReques
 
 func (s *CreateLoadBalancerRequest) WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest {
 	s.Pool = ppool
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalancerRequest {
+	if s.Tags == nil {
+		s.Tags = make([]lscommon.Tag, 0)
+	}
+
+	if len(ptags)%2 != 0 {
+		ptags = append(ptags, "none")
+	}
+
+	for i := 0; i < len(ptags); i += 2 {
+		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
+	}
+
 	return s
 }
