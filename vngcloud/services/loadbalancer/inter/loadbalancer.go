@@ -11,6 +11,7 @@ func (s *LoadBalancerServiceInternal) CreateLoadBalancer(popts ICreateLoadBalanc
 	resp := new(CreateLoadBalancerResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithMapHeaders(popts.GetMapHeaders()).
 		WithOkCodes(202).
 		WithJsonBody(popts.WithProjectId(s.VLBClient.GetProjectId()).ToRequestBody()).
 		WithJsonResponse(resp).

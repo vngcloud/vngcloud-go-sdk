@@ -98,7 +98,20 @@ func (s *request) WithHeader(pkey, pvalue string) IRequest {
 	if s.MoreHeaders == nil {
 		s.MoreHeaders = make(map[string]string)
 	}
+
 	s.MoreHeaders[pkey] = pvalue
+	return s
+}
+
+func (s *request) WithMapHeaders(pheaders map[string]string) IRequest {
+	if s.MoreHeaders == nil {
+		s.MoreHeaders = make(map[string]string)
+	}
+
+	for k, v := range pheaders {
+		s.MoreHeaders[k] = v
+	}
+
 	return s
 }
 

@@ -1,5 +1,7 @@
 package inter
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 const (
 	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
@@ -16,15 +18,16 @@ type (
 	LoadBalancerType   string
 )
 
-func NewCreateLoadBalancerRequest(pname, ppackageId, pbeSubnetId, psubnetId string) ICreateLoadBalancerRequest {
-	return &CreateLoadBalancerRequest{
-		Name:            pname,
-		PackageID:       ppackageId,
-		Scheme:          InterVpcLoadBalancerScheme,
-		BackEndSubnetId: pbeSubnetId,
-		SubnetID:        psubnetId,
-		Type:            CreateOptsTypeOptLayer4,
-	}
+func NewCreateLoadBalancerRequest(puserId, pname, ppackageId, pbeSubnetId, psubnetId string) ICreateLoadBalancerRequest {
+	opt := new(CreateLoadBalancerRequest)
+	opt.SetPortalUserId(puserId)
+	opt.Name = pname
+	opt.PackageID = ppackageId
+	opt.Scheme = InterVpcLoadBalancerScheme
+	opt.BackEndSubnetId = pbeSubnetId
+	opt.SubnetID = psubnetId
+	opt.Type = CreateOptsTypeOptLayer4
+	return opt
 }
 
 type CreateLoadBalancerRequest struct {
@@ -35,8 +38,11 @@ type CreateLoadBalancerRequest struct {
 	BackEndSubnetId string                 `json:"backendSubnetId,omitempty"`
 	ProjectId       string                 `json:"projectId,omitempty"`
 	Type            LoadBalancerType       `json:"type"`
-	Listener        *CreateListenerRequest `json:"listener,omitempty"`
-	Pool            *CreatePoolRequest     `json:"pool,omitempty"`
+	Listener        ICreateListenerRequest `json:"listener,omitempty"`
+	Pool            ICreatePoolRequest     `json:"pool,omitempty"`
+
+	lscommon.PortalUser
+	lscommon.UserAgent
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
@@ -53,5 +59,24 @@ func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
 
 func (s *CreateLoadBalancerRequest) WithProjectId(pprojectId string) ICreateLoadBalancerRequest {
 	s.ProjectId = pprojectId
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) AddUserAgent(pagent ...string) ICreateLoadBalancerRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *CreateLoadBalancerRequest) WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest {
+	s.Listener = plistener
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest {
+	s.Pool = ppool
 	return s
 }

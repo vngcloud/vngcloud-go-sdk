@@ -1,5 +1,7 @@
 package common
 
+import lstr "strings"
+
 type Project struct {
 	Id string
 }
@@ -38,4 +40,36 @@ func (s *Paging) SetSize(psize int) *Paging {
 type Tag struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
+}
+
+type UserAgent struct {
+	Agent []string
+}
+
+func (s *UserAgent) ParseUserAgent() string {
+	// Parse the array into string
+	return lstr.Join(s.Agent, " ")
+}
+
+func (s *UserAgent) AddUserAgent(pagent ...string) *UserAgent {
+	s.Agent = append(s.Agent, pagent...)
+	return s
+}
+
+type PortalUser struct {
+	Id string
+}
+
+func (s *PortalUser) GetPortalUserId() string {
+	return s.Id
+}
+
+func (s *PortalUser) SetPortalUserId(pid string) {
+	s.Id = pid
+}
+
+func (s *PortalUser) GetMapHeaders() map[string]string {
+	return map[string]string{
+		"portal-user-id": s.Id,
+	}
 }
