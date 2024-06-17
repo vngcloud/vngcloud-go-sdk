@@ -90,6 +90,7 @@ const (
 	EcVServerServerVolumeAttachQuotaExceeded      = ErrorCode("VngCloudVServerServerVolumeAttachQuotaExceeded")
 	EcVServerServerAttachEncryptedVolume          = ErrorCode("VngCloudVServerServerAttachEncryptedVolume")
 	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
+	EcVServerServerFlavorSystemExceedQuota        = ErrorCode("VngCloudVServerServerFlavorSystemExceedQuota")
 )
 
 // vServer quota

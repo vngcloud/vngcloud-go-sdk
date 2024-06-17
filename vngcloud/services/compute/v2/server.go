@@ -21,6 +21,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorOutOfPoc(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
+			lserr.WithErrorServerFlavorSystemExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).

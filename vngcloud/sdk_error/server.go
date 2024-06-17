@@ -12,6 +12,7 @@ const (
 	patternServerAttachVolumeQuotaExceeded = "exceeded volume_per_server quota"
 	patternServerAttachEncryptedVolume     = "cannot attach encryption volume"
 	patternServerExpired                   = "server is expired"
+	patternServerFlavorSystemExceedQuota   = "there are no more remaining flavor with id"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -23,6 +24,21 @@ func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerNotFound) {
 			sdkError.WithErrorCode(EcVServerServerNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerFlavorSystemExceedQuota) {
+			sdkError.WithErrorCode(EcVServerServerFlavorSystemExceedQuota).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
