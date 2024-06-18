@@ -14,14 +14,17 @@ const (
 	patternListenerNotFound                = "cannot get listener with id"
 	patternListenerDuplicateProtocolOrPort = "duplicated listener protocol port"
 	patternPoolNotFound                    = "cannot get pool with id"
+	patternPoolInUse                       = "is used in listener"
 	patternLoadBalancerNotReady            = `the load balancer id [^.]+ is not ready`
 	patternListenerNotReady                = `listener id [^.]+ is not ready`
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
+	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
 )
 
 var (
 	regexErrorLoadBalancerNotReady = lregexp.MustCompile(patternLoadBalancerNotReady)
 	regexErrorListenerNotReady     = lregexp.MustCompile(patternListenerNotReady)
+	regexErrorPoolIsUpdating       = lregexp.MustCompile(patternPoolIsUpdating)
 )
 
 func WithErrorLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -116,6 +119,21 @@ func WithErrorPoolNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
+func WithErrorPoolInUse(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternPoolInUse) {
+			sdkError.WithErrorCode(EcVLBPoolInUse).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
 func WithErrorLoadBalancerNotReady(perrResp IErrorRespone) func(sdkError ISdkError) {
 	return func(sdkError ISdkError) {
 		if perrResp == nil {
@@ -124,7 +142,8 @@ func WithErrorLoadBalancerNotReady(perrResp IErrorRespone) func(sdkError ISdkErr
 
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
 		if regexErrorLoadBalancerNotReady.FindString(errMsg) != "" ||
-			regexErrorListenerNotReady.FindString(errMsg) != "" {
+			regexErrorListenerNotReady.FindString(errMsg) != "" ||
+			regexErrorPoolIsUpdating.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBLoadBalancerNotReady).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())

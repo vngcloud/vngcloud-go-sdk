@@ -201,3 +201,21 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 
 	return resp.ToEntityListMembers(), nil
 }
+
+func (s *LoadBalancerServiceV2) DeletePoolById(popt IDeletePoolByIdRequest) lserr.ISdkError {
+	url := deletePoolByIdUrl(s.VLBClient, popt)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popt.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorPoolInUse(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorPoolNotFound(errResp))
+	}
+
+	return nil
+}

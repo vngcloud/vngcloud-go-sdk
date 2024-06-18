@@ -81,6 +81,12 @@ type IListPoolMembersRequest interface {
 	ParseUserAgent() string
 }
 
+type IDeletePoolByIdRequest interface {
+	GetLoadBalancerId() string
+	GetPoolId() string
+	ParseUserAgent() string
+}
+
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

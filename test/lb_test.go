@@ -283,8 +283,8 @@ func TestListPoolsByLoadBalancerId(t *ltesting.T) {
 
 func TestUpdatePoolMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewUpdatePoolMembersRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-9d5b6d0d-d4c4-49e7-961c-55966730dd01").
-		WithMembers(lslbv2.NewMember("cuongdm3-member-11", "10.84.0.41", 80, 80))
+	opt := lslbv2.NewUpdatePoolMembersRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-82c3c670-6662-4087-bfc1-8098f25e84df").
+		WithMembers(lslbv2.NewMember("cuongdm3-member-50", "10.84.0.50", 80, 80))
 
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdatePoolMembers(opt)
 	if sdkerr != nil {
@@ -308,5 +308,17 @@ func TestListPoolMembersSuccess(t *ltesting.T) {
 	}
 
 	t.Log("Result: ", members)
+	t.Log("PASS")
+}
+
+func TestDeletePoolSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewDeletePoolByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-82c3c670-6662-4087-bfc1-8098f25e84df")
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeletePoolById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }

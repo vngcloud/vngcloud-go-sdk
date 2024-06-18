@@ -112,6 +112,7 @@ const (
 	EcVLBListenerDuplicateProtocolOrPort = ErrorCode("VngCloudVLBListenerDuplicateProtocolOrPort")
 	EcVLBListenerDuplicateName           = ErrorCode("VngCloudVLBListenerDuplicateName")
 	EcVLBPoolNotFound                    = ErrorCode("VngCloudVLBPoolNotFound")
+	EcVLBPoolInUse                       = ErrorCode("VngCloudVLBPoolInUse")
 	EcVLBLoadBalancerNotReady            = ErrorCode("VngCloudVLBLoadBalancerNotReady")
 	EcVLBListenerNotFound                = ErrorCode("VngCloudVLBListenerNotFound")
 	EcVLBMemberMustIdentical             = ErrorCode("VngCloudVLBMemberMustIdentical")

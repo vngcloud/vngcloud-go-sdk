@@ -84,3 +84,12 @@ func listPoolMembersUrl(psc lsclient.IServiceClient, popts IListPoolMembersReque
 		popts.GetPoolId(),
 		"members")
 }
+
+func deletePoolByIdUrl(psc lsclient.IServiceClient, popts IDeletePoolByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId())
+}
