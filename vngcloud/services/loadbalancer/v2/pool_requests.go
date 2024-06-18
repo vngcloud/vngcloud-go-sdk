@@ -54,6 +54,15 @@ func NewListPoolsByLoadBalancerIdRequest(plbId string) IListPoolsByLoadBalancerI
 	return opts
 }
 
+func NewUpdatePoolMembersRequest(plbId, ppoolId string) IUpdatePoolMembersRequest {
+	opts := new(UpdatePoolMembersRequest)
+	opts.LoadBalancerId = plbId
+	opts.PoolId = ppoolId
+	opts.Members = make([]IMemberRequest, 0)
+
+	return opts
+}
+
 func NewHealthMonitor(pcheckProtocol HealthCheckProtocol) IHealthMonitorRequest {
 	switch pcheckProtocol {
 	default:
@@ -133,6 +142,14 @@ type Member struct {
 type ListPoolsByLoadBalancerIdRequest struct {
 	lscommon.LoadBalancerCommon
 	lscommon.UserAgent
+}
+
+type UpdatePoolMembersRequest struct {
+	Members []IMemberRequest `json:"members"`
+
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
 }
 
 func (s *CreatePoolRequest) ToRequestBody() interface{} {
@@ -230,4 +247,13 @@ func (s *Member) ToMap() map[string]interface{} {
 		"port":        s.Port,
 		"weight":      s.Weight,
 	}
+}
+
+func (s *UpdatePoolMembersRequest) WithMembers(pmembers ...IMemberRequest) IUpdatePoolMembersRequest {
+	s.Members = append(s.Members, pmembers...)
+	return s
+}
+
+func (s *UpdatePoolMembersRequest) ToRequestBody() interface{} {
+	return s
 }

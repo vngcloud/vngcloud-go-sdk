@@ -15,3 +15,11 @@ type ListenerCommon struct {
 func (s *ListenerCommon) GetListenerId() string {
 	return s.ListenerId
 }
+
+type PoolCommon struct {
+	PoolId string
+}
+
+func (s *PoolCommon) GetPoolId() string {
+	return s.PoolId
+}

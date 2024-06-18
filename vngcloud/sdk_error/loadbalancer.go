@@ -16,6 +16,7 @@ const (
 	patternPoolNotFound                    = "cannot get pool with id"
 	patternLoadBalancerNotReady            = `the load balancer id [^.]+ is not ready`
 	patternListenerNotReady                = `listener id [^.]+ is not ready`
+	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 )
 
 var (
@@ -140,6 +141,21 @@ func WithErrorListenerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) 
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) {
 			sdkError.WithErrorCode(EcVLBListenerNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorMemberMustIdentical(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternMemberMustIdentical) {
+			sdkError.WithErrorCode(EcVLBMemberMustIdentical).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

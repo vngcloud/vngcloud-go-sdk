@@ -16,6 +16,7 @@ type ILoadBalancerServiceV2 interface {
 	UpdateListener(popts lslbSvcV2.IUpdateListenerRequest) lserr.ISdkError
 	ListListenersByLoadBalancerId(popts lslbSvcV2.IListListenersByLoadBalancerIdRequest) (*lsentity.ListListeners, lserr.ISdkError)
 	ListPoolsByLoadBalancerId(popts lslbSvcV2.IListPoolsByLoadBalancerIdRequest) (*lsentity.ListPools, lserr.ISdkError)
+	UpdatePoolMembers(popts lslbSvcV2.IUpdatePoolMembersRequest) lserr.ISdkError
 }
 
 type ILoadBalancerServiceInternal interface {

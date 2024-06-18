@@ -67,6 +67,14 @@ type IListPoolsByLoadBalancerIdRequest interface {
 	ParseUserAgent() string
 }
 
+type IUpdatePoolMembersRequest interface {
+	WithMembers(pmembers ...IMemberRequest) IUpdatePoolMembersRequest
+	ToRequestBody() interface{}
+	GetLoadBalancerId() string
+	GetPoolId() string
+	ParseUserAgent() string
+}
+
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

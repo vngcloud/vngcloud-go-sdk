@@ -64,3 +64,13 @@ func listPoolsByLoadBalancerIdUrl(psc lsclient.IServiceClient, popts IListPoolsB
 		popts.GetLoadBalancerId(),
 		"pools")
 }
+
+func updatePoolMembersUrl(psc lsclient.IServiceClient, popts IUpdatePoolMembersRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId(),
+		"members")
+}
