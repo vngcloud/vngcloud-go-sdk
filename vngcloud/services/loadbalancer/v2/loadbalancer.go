@@ -182,3 +182,22 @@ func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersReques
 
 	return nil
 }
+
+func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (*lsentity.ListMembers, lserr.ISdkError) {
+	url := listPoolMembersUrl(s.VLBClient, popts)
+	resp := new(ListPoolMembersResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorPoolNotFound(errResp))
+	}
+
+	return resp.ToEntityListMembers(), nil
+}

@@ -294,3 +294,19 @@ func TestUpdatePoolMembersSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestListPoolMembersSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListPoolMembersRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-9d5b6d0d-d4c4-49e7-961c-55966730dd00")
+	members, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPoolMembers(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if members == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", members)
+	t.Log("PASS")
+}

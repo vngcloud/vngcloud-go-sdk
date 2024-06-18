@@ -10,6 +10,10 @@ type ListPoolsByLoadBalancerIdResponse struct {
 	Data []Pool `json:"data"`
 }
 
+type ListPoolMembersResponse struct {
+	Data []PoolMember `json:"data"`
+}
+
 type Pool struct {
 	UUID              string       `json:"uuid"`
 	Name              string       `json:"name"`
@@ -95,4 +99,12 @@ func (s *Pool) toEntityPool() *lsentity.Pool {
 		TLSEncryption:     s.TLSEncryption,
 		Members:           s.toEntityListMembers(),
 	}
+}
+
+func (s *ListPoolMembersResponse) ToEntityListMembers() *lsentity.ListMembers {
+	listMembers := &lsentity.ListMembers{}
+	for _, member := range s.Data {
+		listMembers.Add(member.toEntityMember())
+	}
+	return listMembers
 }
