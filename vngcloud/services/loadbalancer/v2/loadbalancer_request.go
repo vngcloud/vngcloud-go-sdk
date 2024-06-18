@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 const (
 	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
@@ -32,8 +34,11 @@ type CreateLoadBalancerRequest struct {
 	Scheme    LoadBalancerScheme     `json:"scheme"`
 	SubnetID  string                 `json:"subnetId"`
 	Type      LoadBalancerType       `json:"type"`
-	Listener  *CreateListenerRequest `json:"listener"`
-	Pool      *CreatePoolRequest     `json:"pool"`
+	Listener  ICreateListenerRequest `json:"listener"`
+	Pool      ICreatePoolRequest     `json:"pool"`
+	Tags      []lscommon.Tag         `json:"tags,omitempty"`
+
+	lscommon.UserAgent
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
@@ -43,6 +48,36 @@ func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
 
 	if s.Listener != nil {
 		s.Listener = s.Listener.ToRequestBody().(*CreateListenerRequest)
+	}
+
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) AddUserAgent(pagent ...string) ICreateLoadBalancerRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+func (s *CreateLoadBalancerRequest) WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest {
+	s.Listener = plistener
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest {
+	s.Pool = ppool
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalancerRequest {
+	if s.Tags == nil {
+		s.Tags = make([]lscommon.Tag, 0)
+	}
+
+	if len(ptags)%2 != 0 {
+		ptags = append(ptags, "none")
+	}
+
+	for i := 0; i < len(ptags); i += 2 {
+		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
 	}
 
 	return s

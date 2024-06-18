@@ -37,6 +37,49 @@ const (
 	defaultFakeDomainName = "nip.io"
 )
 
+func NewCreatePoolRequest(pname string, pprotocol PoolProtocol) ICreatePoolRequest {
+	opts := new(CreatePoolRequest)
+	opts.PoolName = pname
+	opts.Algorithm = PoolAlgorithmRoundRobin
+	opts.PoolProtocol = pprotocol
+	opts.Members = make([]IMemberRequest, 0)
+
+	return opts
+}
+
+func NewHealthMonitor(pcheckProtocol HealthCheckProtocol) IHealthMonitorRequest {
+	switch pcheckProtocol {
+	default:
+		return newHealthMonitorTCPRequest()
+	}
+}
+
+func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberRequest {
+	return &Member{
+		Backup:      false,
+		IpAddress:   pipAddress,
+		MonitorPort: pmonitorPort,
+		Name:        pname,
+		Port:        pport,
+		Weight:      1,
+	}
+}
+
+func newHealthMonitorTCPRequest() IHealthMonitorTCPRequest {
+	return &HealthMonitor{
+		HealthCheckProtocol: HealthCheckProtocolTCP,
+		HealthyThreshold:    3,
+		UnhealthyThreshold:  3,
+		Interval:            30,
+		Timeout:             5,
+		HealthCheckPath:     nil,
+		HttpVersion:         nil,
+		SuccessCode:         nil,
+		HealthCheckMethod:   nil,
+		DomainName:          nil,
+	}
+}
+
 type (
 	PoolAlgorithm          string
 	PoolProtocol           string
@@ -46,13 +89,13 @@ type (
 )
 
 type CreatePoolRequest struct {
-	Algorithm     PoolAlgorithm `json:"algorithm"`
-	PoolName      string        `json:"poolName"`
-	PoolProtocol  PoolProtocol  `json:"poolProtocol"`
-	Stickiness    *bool         `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
-	TLSEncryption *bool         `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
-	HealthMonitor HealthMonitor `json:"healthMonitor"`
-	Members       []*Member     `json:"members"`
+	Algorithm     PoolAlgorithm         `json:"algorithm"`
+	PoolName      string                `json:"poolName"`
+	PoolProtocol  PoolProtocol          `json:"poolProtocol"`
+	Stickiness    *bool                 `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
+	TLSEncryption *bool                 `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
+	HealthMonitor IHealthMonitorRequest `json:"healthMonitor"`
+	Members       []IMemberRequest      `json:"members"`
 
 	lscommon.LoadBalancerCommon
 }
@@ -80,7 +123,6 @@ type Member struct {
 }
 
 func (s *CreatePoolRequest) ToRequestBody() interface{} {
-	s.HealthMonitor.validate()
 	return s
 }
 
@@ -108,4 +150,22 @@ func (s *HealthMonitor) validate() {
 			}
 		}
 	}
+}
+
+func (s *CreatePoolRequest) WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest {
+	s.HealthMonitor = pmonitor
+	return s
+}
+
+func (s *CreatePoolRequest) WithMembers(pmembers ...IMemberRequest) ICreatePoolRequest {
+	s.Members = append(s.Members, pmembers...)
+	return s
+}
+
+func (s *HealthMonitor) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *Member) ToRequestBody() interface{} {
+	return s
 }
