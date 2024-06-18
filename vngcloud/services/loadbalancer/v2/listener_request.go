@@ -25,6 +25,14 @@ func NewCreateListenerRequest(pname string, pprotocol ListenerProtocol, pport in
 	return opts
 }
 
+func NewUpdateListenerRequest(plbId, plistenerId string) IUpdateListenerRequest {
+	opts := new(UpdateListenerRequest)
+	opts.LoadBalancerId = plbId
+	opts.ListenerId = plistenerId
+
+	return opts
+}
+
 type ListenerProtocol string
 
 type CreateListenerRequest struct {
@@ -41,6 +49,21 @@ type CreateListenerRequest struct {
 	DefaultCertificateAuthority *string          `json:"defaultCertificateAuthority"`
 
 	lscommon.LoadBalancerCommon
+	lscommon.UserAgent
+}
+
+type UpdateListenerRequest struct {
+	AllowedCidrs                string   `json:"allowedCidrs"`
+	DefaultPoolId               string   `json:"defaultPoolId"`
+	TimeoutClient               int      `json:"timeoutClient"`
+	TimeoutConnection           int      `json:"timeoutConnection"`
+	TimeoutMember               int      `json:"timeoutMember"`
+	Headers                     []string `json:"headers"`
+	ClientCertificate           *string  `json:"clientCertificate"`
+	DefaultCertificateAuthority *string  `json:"defaultCertificateAuthority"`
+
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
 	lscommon.UserAgent
 }
 
@@ -104,4 +127,46 @@ func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 		"allowedCidrs":         s.AllowedCidrs,
 		"defaultPoolId":        s.DefaultPoolId,
 	}
+}
+
+func (s *UpdateListenerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *UpdateListenerRequest) WithCidrs(pcidrs ...string) IUpdateListenerRequest {
+	if len(pcidrs) < 1 {
+		return s
+	}
+
+	s.AllowedCidrs = lstr.Join(pcidrs, ",")
+	return s
+}
+
+func (s *UpdateListenerRequest) WithTimeoutClient(ptoc int) IUpdateListenerRequest {
+	s.TimeoutClient = ptoc
+	return s
+}
+
+func (s *UpdateListenerRequest) WithTimeoutConnection(ptoc int) IUpdateListenerRequest {
+	s.TimeoutConnection = ptoc
+	return s
+}
+
+func (s *UpdateListenerRequest) WithTimeoutMember(ptom int) IUpdateListenerRequest {
+	s.TimeoutMember = ptom
+	return s
+}
+
+func (s *UpdateListenerRequest) WithDefaultPoolId(ppoolId string) IUpdateListenerRequest {
+	s.DefaultPoolId = ppoolId
+	return s
+}
+
+func (s *UpdateListenerRequest) WithHeaders(pheaders ...string) IUpdateListenerRequest {
+	if len(pheaders) < 1 {
+		return s
+	}
+
+	s.Headers = pheaders
+	return s
 }

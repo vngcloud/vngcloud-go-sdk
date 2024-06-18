@@ -13,6 +13,7 @@ type ILoadBalancerServiceV2 interface {
 	ListLoadBalancers(popts lslbSvcV2.IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.ISdkError)
 	CreatePool(popts lslbSvcV2.ICreatePoolRequest) (*lsentity.Pool, lserr.ISdkError)
 	CreateListener(popts lslbSvcV2.ICreateListenerRequest) (*lsentity.Listener, lserr.ISdkError)
+	UpdateListener(popts lslbSvcV2.IUpdateListenerRequest) lserr.ISdkError
 }
 
 type ILoadBalancerServiceInternal interface {

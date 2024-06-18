@@ -34,6 +34,19 @@ type ICreateListenerRequest interface {
 	ToMap() map[string]interface{}
 }
 
+type IUpdateListenerRequest interface {
+	GetLoadBalancerId() string
+	GetListenerId() string
+	ToRequestBody() interface{}
+	WithCidrs(pcidrs ...string) IUpdateListenerRequest
+	WithTimeoutClient(ptoc int) IUpdateListenerRequest
+	WithTimeoutConnection(ptoc int) IUpdateListenerRequest
+	WithTimeoutMember(ptom int) IUpdateListenerRequest
+	WithDefaultPoolId(ppoolId string) IUpdateListenerRequest
+	WithHeaders(pheaders ...string) IUpdateListenerRequest
+	ParseUserAgent() string
+}
+
 type ICreatePoolRequest interface {
 	ToRequestBody() interface{}
 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest

@@ -11,13 +11,16 @@ const (
 	patternLoadBalancerDuplicatePoolName   = "duplicated pool name"
 	patternLoadBalancerNotFound2           = "could not find resource"
 	patternListenerDuplicateName           = "duplicated listener name"
+	patternListenerNotFound                = "cannot get listener with id"
 	patternListenerDuplicateProtocolOrPort = "duplicated listener protocol port"
 	patternPoolNotFound                    = "cannot get pool with id"
 	patternLoadBalancerNotReady            = `the load balancer id [^.]+ is not ready`
+	patternListenerNotReady                = `listener id [^.]+ is not ready`
 )
 
 var (
 	regexErrorLoadBalancerNotReady = lregexp.MustCompile(patternLoadBalancerNotReady)
+	regexErrorListenerNotReady     = lregexp.MustCompile(patternListenerNotReady)
 )
 
 func WithErrorLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -119,8 +122,24 @@ func WithErrorLoadBalancerNotReady(perrResp IErrorRespone) func(sdkError ISdkErr
 		}
 
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
-		if regexErrorLoadBalancerNotReady.FindString(errMsg) != "" {
+		if regexErrorLoadBalancerNotReady.FindString(errMsg) != "" ||
+			regexErrorListenerNotReady.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBLoadBalancerNotReady).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorListenerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) {
+			sdkError.WithErrorCode(EcVLBListenerNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

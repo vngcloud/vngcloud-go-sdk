@@ -230,3 +230,21 @@ func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 	t.Log("Result: ", listener)
 	t.Log("PASS")
 }
+
+func TestUpdateListenerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewUpdateListenerRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "lis-23655c30-e458-49ac-ba55-49dfcd104db8").
+		WithTimeoutClient(100).
+		WithTimeoutConnection(100).
+		WithTimeoutMember(100).
+		WithCidrs("0.0.0.0/0").
+		WithDefaultPoolId("pool-b28eb5ce-c714-439d-b140-03ffe6bebf8f")
+
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdateListener(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

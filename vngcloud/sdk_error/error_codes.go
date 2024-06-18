@@ -113,4 +113,5 @@ const (
 	EcVLBListenerDuplicateName           = ErrorCode("VngCloudVLBListenerDuplicateName")
 	EcVLBPoolNotFound                    = ErrorCode("VngCloudVLBPoolNotFound")
 	EcVLBLoadBalancerNotReady            = ErrorCode("VngCloudVLBLoadBalancerNotReady")
+	EcVLBListenerNotFound                = ErrorCode("VngCloudVLBListenerNotFound")
 )
