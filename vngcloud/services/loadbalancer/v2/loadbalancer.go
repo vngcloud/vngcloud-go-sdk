@@ -237,3 +237,20 @@ func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequ
 
 	return nil
 }
+
+func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancerByIdRequest) lserr.ISdkError {
+	url := deleteLoadBalancerByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp))
+	}
+
+	return nil
+}

@@ -102,3 +102,10 @@ func deleteListenerByIdUrl(psc lsclient.IServiceClient, popts IDeleteListenerByI
 		"listeners",
 		popts.GetListenerId())
 }
+
+func deleteLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IDeleteLoadBalancerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId())
+}

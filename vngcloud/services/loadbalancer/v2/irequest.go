@@ -93,6 +93,11 @@ type IDeleteListenerByIdRequest interface {
 	ParseUserAgent() string
 }
 
+type IDeleteLoadBalancerByIdRequest interface {
+	GetLoadBalancerId() string
+	ParseUserAgent() string
+}
+
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

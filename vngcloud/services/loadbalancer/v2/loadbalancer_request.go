@@ -46,6 +46,12 @@ func NewListLoadBalancersRequest(ppage, psize int) IListLoadBalancersRequest {
 	return opts
 }
 
+func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdRequest {
+	opts := new(DeleteLoadBalancerByIdRequest)
+	opts.LoadBalancerId = plbId
+	return opts
+}
+
 type CreateLoadBalancerRequest struct {
 	Name      string                 `json:"name"`
 	PackageID string                 `json:"packageId"`
@@ -71,6 +77,11 @@ type ListLoadBalancersRequest struct {
 
 	Tags []lscommon.Tag
 	lscommon.UserAgent
+}
+
+type DeleteLoadBalancerByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {

@@ -334,3 +334,15 @@ func TestDeleteListenterSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestDeleteLoadBalancer(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewDeleteLoadBalancerByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f")
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeleteLoadBalancerById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
