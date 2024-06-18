@@ -22,3 +22,19 @@ type Listener struct {
 	ClientCertificateAuthentication *string
 	ProgressStatus                  string
 }
+
+type ListListeners struct {
+	Items []*Listener
+}
+
+func (s *ListListeners) Add(listeners ...*Listener) {
+	s.Items = append(s.Items, listeners...)
+}
+
+func (s *ListListeners) Len() int {
+	return len(s.Items)
+}
+
+func (s *ListListeners) Empty() bool {
+	return s.Len() < 1
+}

@@ -33,6 +33,13 @@ func NewUpdateListenerRequest(plbId, plistenerId string) IUpdateListenerRequest 
 	return opts
 }
 
+func NewListListenersByLoadBalancerIdRequest(plbId string) IListListenersByLoadBalancerIdRequest {
+	opts := new(ListListenersByLoadBalancerIdRequest)
+	opts.LoadBalancerId = plbId
+
+	return opts
+}
+
 type ListenerProtocol string
 
 type CreateListenerRequest struct {
@@ -64,6 +71,11 @@ type UpdateListenerRequest struct {
 
 	lscommon.LoadBalancerCommon
 	lscommon.ListenerCommon
+	lscommon.UserAgent
+}
+
+type ListListenersByLoadBalancerIdRequest struct {
+	lscommon.LoadBalancerCommon
 	lscommon.UserAgent
 }
 

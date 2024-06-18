@@ -124,3 +124,22 @@ func (s *LoadBalancerServiceV2) UpdateListener(popts IUpdateListenerRequest) lse
 
 	return nil
 }
+
+func (s *LoadBalancerServiceV2) ListListenersByLoadBalancerId(popts IListListenersByLoadBalancerIdRequest) (*lsentity.ListListeners, lserr.ISdkError) {
+	url := listListenersByLoadBalancerIdUrl(s.VLBClient, popts)
+	resp := new(ListListenersByLoadBalancerIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId())
+	}
+
+	return resp.ToEntityListListeners(), nil
+}
