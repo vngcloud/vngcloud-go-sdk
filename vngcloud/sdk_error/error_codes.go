@@ -44,8 +44,9 @@ const (
 // VServer network
 
 const (
-	EcVServerNetworkNotFound = ErrorCode("VngCloudVServerNetworkNotFound")
-	EcVServerSubnetNotFound  = ErrorCode("VngCloudVServerSubnetNotFound")
+	EcVServerNetworkNotFound        = ErrorCode("VngCloudVServerNetworkNotFound")
+	EcVServerSubnetNotFound         = ErrorCode("VngCloudVServerSubnetNotFound")
+	EcVServerSubnetNotBelongNetwork = ErrorCode("VngCloudVServerSubnetNotBelongNetwork")
 )
 
 // vServer volume

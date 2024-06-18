@@ -6,12 +6,14 @@ import (
 )
 
 const (
-	patternNetworkNotFound = "is not found"
-	patternSubnetNotFound  = `subnet with id [^.]+ is not found`
+	patternNetworkNotFound        = "is not found"
+	patternSubnetNotFound         = `subnet with id [^.]+ is not found`
+	patternSubnetNotBelongNetwork = `subnet id: [^.]+ belong to network id: [^.]+ not found`
 )
 
 var (
-	regexErrorSubnetNotFound = lregexp.MustCompile(patternSubnetNotFound)
+	regexErrorSubnetNotFound         = lregexp.MustCompile(patternSubnetNotFound)
+	regexErrorSubnetNotBelongNetwork = lregexp.MustCompile(patternSubnetNotBelongNetwork)
 )
 
 func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -23,6 +25,21 @@ func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternNetworkNotFound) {
 			sdkError.WithErrorCode(EcVServerNetworkNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorSubnetNotBelongNetwork(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorSubnetNotBelongNetwork.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVServerSubnetNotBelongNetwork).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

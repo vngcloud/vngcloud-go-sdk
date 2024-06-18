@@ -35,3 +35,11 @@ type IListSecgroupRulesBySecgroupIdRequest interface {
 type IGetNetworkByIdRequest interface {
 	GetNetworkId() string
 }
+
+// Subnet
+
+type IGetSubnetByIdRequest interface {
+	ParseUserAgent() string
+	GetNetworkId() string
+	GetSubnetId() string
+}
