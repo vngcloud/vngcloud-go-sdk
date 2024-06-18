@@ -1,6 +1,11 @@
 package v2
 
-import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+import (
+	lfmt "fmt"
+	ljparser "github.com/cuongpiger/joat/parser"
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+	lstr "strings"
+)
 
 const (
 	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
@@ -34,6 +39,13 @@ func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
 	return opts
 }
 
+func NewListLoadBalancersRequest(ppage, psize int) IListLoadBalancersRequest {
+	opts := new(ListLoadBalancersRequest)
+	opts.Page = ppage
+	opts.Size = psize
+	return opts
+}
+
 type CreateLoadBalancerRequest struct {
 	Name      string                 `json:"name"`
 	PackageID string                 `json:"packageId"`
@@ -50,6 +62,15 @@ type CreateLoadBalancerRequest struct {
 type GetLoadBalancerByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
+}
+
+type ListLoadBalancersRequest struct {
+	Name string `q:"name,beempty"`
+	Page int    `q:"page"`
+	Size int    `q:"size"`
+
+	Tags []lscommon.Tag
+	lscommon.UserAgent
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
@@ -97,4 +118,56 @@ func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalance
 func (s *GetLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
+}
+
+func (s *ListLoadBalancersRequest) WithName(pname string) IListLoadBalancersRequest {
+	s.Name = pname
+	return s
+}
+
+func (s *ListLoadBalancersRequest) WithTags(ptags ...string) IListLoadBalancersRequest {
+	if s.Tags == nil {
+		s.Tags = make([]lscommon.Tag, 0)
+	}
+
+	if len(ptags)%2 != 0 {
+		ptags = append(ptags, "")
+	}
+
+	for i := 0; i < len(ptags); i += 2 {
+		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
+	}
+
+	return s
+}
+
+func (s *ListLoadBalancersRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	if err != nil {
+		return "", err
+	}
+
+	var tuples []string
+	for _, tag := range s.Tags {
+		if tag.Key == "" {
+			continue
+		}
+
+		tuple := "tags=key:" + tag.Key
+		if tag.Value != "" {
+			tuple += ",value:" + tag.Value
+		}
+		tuples = append(tuples, tuple)
+	}
+
+	if len(tuples) > 0 {
+		return url.String() + "&" + lstr.Join(tuples, "&"), nil
+	}
+
+	return url.String(), err
+}
+
+func (s *ListLoadBalancersRequest) GetDefaultQuery() string {
+	return lfmt.Sprintf("name=&page=%d&size=%d", defaultPageListLoadBalancer, defaultSizeListLoadBalancer)
 }

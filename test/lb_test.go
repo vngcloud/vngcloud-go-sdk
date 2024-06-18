@@ -138,3 +138,19 @@ func TestGetLoadBalancerFailure(t *ltesting.T) {
 	t.Log("Result: ", lb)
 	t.Log("PASS")
 }
+
+func TestListLoadBalancer(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListLoadBalancersRequest(1, 10).WithName("cuongdm3-testlb-empty-members")
+	lbs, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancers(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lbs == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lbs)
+	t.Log("PASS")
+}

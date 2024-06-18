@@ -10,6 +10,7 @@ import (
 type ILoadBalancerServiceV2 interface {
 	CreateLoadBalancer(popts lslbSvcV2.ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.ISdkError)
 	GetLoadBalancerById(popts lslbSvcV2.IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.ISdkError)
+	ListLoadBalancers(popts lslbSvcV2.IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.ISdkError)
 }
 
 type ILoadBalancerServiceInternal interface {

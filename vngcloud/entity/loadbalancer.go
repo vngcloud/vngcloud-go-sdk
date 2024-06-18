@@ -20,3 +20,23 @@ type LoadBalancer struct {
 	SubnetID           string
 	Internal           bool
 }
+
+type ListLoadBalancers struct {
+	Items     []*LoadBalancer
+	Page      int
+	PageSize  int
+	TotalPage int
+	TotalItem int
+}
+
+func (s *ListLoadBalancers) Len() int {
+	return len(s.Items)
+}
+
+func (s *ListLoadBalancers) Empty() bool {
+	return s.Len() < 1
+}
+
+func (s *ListLoadBalancers) Add(item *LoadBalancer) {
+	s.Items = append(s.Items, item)
+}

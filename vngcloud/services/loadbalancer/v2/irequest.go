@@ -6,12 +6,21 @@ type ICreateLoadBalancerRequest interface {
 	WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest
 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
+	ParseUserAgent() string
 }
 
 type IGetLoadBalancerByIdRequest interface {
 	AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest
 	ParseUserAgent() string
 	GetLoadBalancerId() string
+}
+
+type IListLoadBalancersRequest interface {
+	WithName(pname string) IListLoadBalancersRequest
+	WithTags(ptags ...string) IListLoadBalancersRequest
+	ToListQuery() (string, error)
+	ParseUserAgent() string
+	GetDefaultQuery() string
 }
 
 type ICreateListenerRequest interface {

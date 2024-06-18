@@ -13,6 +13,14 @@ type GetLoadBalancerByIdResponse struct {
 	Data LoadBalancer `json:"data"`
 }
 
+type ListLoadBalancersResponse struct {
+	ListData  []LoadBalancer `json:"listData"`
+	Page      int            `json:"page"`
+	PageSize  int            `json:"pageSize"`
+	TotalPage int            `json:"totalPage"`
+	TotalItem int            `json:"totalItem"`
+}
+
 type (
 	LoadBalancer struct {
 		UUID               string `json:"uuid"`
@@ -46,27 +54,54 @@ func (s *CreateLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalanc
 }
 
 func (s *GetLoadBalancerByIdResponse) ToEntityLoadBalancer() *lsentity.LoadBalancer {
-	internal := lstr.TrimSpace(lstr.ToUpper(s.Data.LoadBalancerSchema)) == "INTERNAL"
+	if s == nil {
+		return nil
+	}
+
+	return s.Data.toEntityLoadBalancer()
+}
+
+func (s *ListLoadBalancersResponse) ToEntityListLoadBalancers() *lsentity.ListLoadBalancers {
+	if s == nil || s.ListData == nil || len(s.ListData) < 1 {
+		return nil
+	}
+
+	result := &lsentity.ListLoadBalancers{
+		Page:      s.Page,
+		PageSize:  s.PageSize,
+		TotalPage: s.TotalPage,
+		TotalItem: s.TotalItem,
+	}
+
+	for _, itemLb := range s.ListData {
+		result.Add(itemLb.toEntityLoadBalancer())
+	}
+
+	return result
+}
+
+func (s *LoadBalancer) toEntityLoadBalancer() *lsentity.LoadBalancer {
+	internal := lstr.TrimSpace(lstr.ToUpper(s.LoadBalancerSchema)) == "INTERNAL"
 	return &lsentity.LoadBalancer{
-		UUID:               s.Data.UUID,
-		Name:               s.Data.Name,
-		Address:            s.Data.Address,
-		DisplayStatus:      s.Data.DisplayStatus,
-		PrivateSubnetID:    s.Data.PrivateSubnetID,
-		PrivateSubnetCidr:  s.Data.PrivateSubnetCidr,
-		Type:               s.Data.Type,
-		DisplayType:        s.Data.DisplayType,
-		LoadBalancerSchema: s.Data.LoadBalancerSchema,
-		PackageID:          s.Data.PackageID,
-		Description:        s.Data.Description,
-		Location:           s.Data.Location,
-		CreatedAt:          s.Data.CreatedAt,
-		UpdatedAt:          s.Data.UpdatedAt,
-		ProgressStatus:     s.Data.ProgressStatus,
+		UUID:               s.UUID,
+		Name:               s.Name,
+		Address:            s.Address,
+		DisplayStatus:      s.DisplayStatus,
+		PrivateSubnetID:    s.PrivateSubnetID,
+		PrivateSubnetCidr:  s.PrivateSubnetCidr,
+		Type:               s.Type,
+		DisplayType:        s.DisplayType,
+		LoadBalancerSchema: s.LoadBalancerSchema,
+		PackageID:          s.PackageID,
+		Description:        s.Description,
+		Location:           s.Location,
+		CreatedAt:          s.CreatedAt,
+		UpdatedAt:          s.UpdatedAt,
+		ProgressStatus:     s.ProgressStatus,
 
 		// will be removed
-		Status:   s.Data.DisplayStatus,
+		Status:   s.DisplayStatus,
 		Internal: internal,
-		SubnetID: s.Data.PrivateSubnetID,
+		SubnetID: s.PrivateSubnetID,
 	}
 }

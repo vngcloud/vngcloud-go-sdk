@@ -9,3 +9,8 @@ type LoadBalancerServiceV2 struct {
 func (s *LoadBalancerServiceV2) getProjectId() string {
 	return s.VLBClient.GetProjectId()
 }
+
+const (
+	defaultPageListLoadBalancer = 1
+	defaultSizeListLoadBalancer = 10
+)
