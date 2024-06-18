@@ -62,6 +62,11 @@ type IListListenersByLoadBalancerIdRequest interface {
 	ParseUserAgent() string
 }
 
+type IListPoolsByLoadBalancerIdRequest interface {
+	GetLoadBalancerId() string
+	ParseUserAgent() string
+}
+
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

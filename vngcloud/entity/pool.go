@@ -9,7 +9,7 @@ type Pool struct {
 	Status            string
 	Stickiness        bool
 	TLSEncryption     bool
-	Members           []*Member
+	Members           *ListMembers
 	HealthMonitor     *HealthMonitor
 }
 
@@ -46,4 +46,20 @@ type HealthMonitor struct {
 	SuccessCode         *string `json:"successCode"`
 	ProgressStatus      string  `json:"progressStatus"`
 	DisplayStatus       string  `json:"displayStatus"`
+}
+
+type ListPools struct {
+	Items []*Pool
+}
+
+type ListMembers struct {
+	Items []*Member
+}
+
+func (s *ListPools) Add(pools ...*Pool) {
+	s.Items = append(s.Items, pools...)
+}
+
+func (s *ListMembers) Add(members ...*Member) {
+	s.Items = append(s.Items, members...)
 }

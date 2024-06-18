@@ -56,3 +56,11 @@ func listListenersByLoadBalancerIdUrl(psc lsclient.IServiceClient, popts IListLi
 		popts.GetLoadBalancerId(),
 		"listeners")
 }
+
+func listPoolsByLoadBalancerIdUrl(psc lsclient.IServiceClient, popts IListPoolsByLoadBalancerIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools")
+}

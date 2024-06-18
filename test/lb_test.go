@@ -264,3 +264,19 @@ func TestListListenersByLoadBalancerId(t *ltesting.T) {
 	t.Log("Result: ", listeners)
 	t.Log("PASS")
 }
+
+func TestListPoolsByLoadBalancerId(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListPoolsByLoadBalancerIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd66")
+	pools, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPoolsByLoadBalancerId(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if pools == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", pools)
+	t.Log("PASS")
+}
