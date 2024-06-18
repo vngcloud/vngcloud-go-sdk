@@ -87,6 +87,12 @@ type IDeletePoolByIdRequest interface {
 	ParseUserAgent() string
 }
 
+type IDeleteListenerByIdRequest interface {
+	GetLoadBalancerId() string
+	GetListenerId() string
+	ParseUserAgent() string
+}
+
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

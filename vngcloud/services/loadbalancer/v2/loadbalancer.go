@@ -202,11 +202,11 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 	return resp.ToEntityListMembers(), nil
 }
 
-func (s *LoadBalancerServiceV2) DeletePoolById(popt IDeletePoolByIdRequest) lserr.ISdkError {
-	url := deletePoolByIdUrl(s.VLBClient, popt)
+func (s *LoadBalancerServiceV2) DeletePoolById(popts IDeletePoolByIdRequest) lserr.ISdkError {
+	url := deletePoolByIdUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
-		WithHeader("User-Agent", popt.ParseUserAgent()).
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
 		WithJsonError(errResp)
 
@@ -215,6 +215,24 @@ func (s *LoadBalancerServiceV2) DeletePoolById(popt IDeletePoolByIdRequest) lser
 			lserr.WithErrorPoolInUse(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorPoolNotFound(errResp))
+	}
+
+	return nil
+}
+
+func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequest) lserr.ISdkError {
+	url := deleteListenerByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp))
 	}
 
 	return nil

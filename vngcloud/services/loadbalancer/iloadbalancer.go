@@ -19,6 +19,7 @@ type ILoadBalancerServiceV2 interface {
 	UpdatePoolMembers(popts lslbSvcV2.IUpdatePoolMembersRequest) lserr.ISdkError
 	ListPoolMembers(popts lslbSvcV2.IListPoolMembersRequest) (*lsentity.ListMembers, lserr.ISdkError)
 	DeletePoolById(popt lslbSvcV2.IDeletePoolByIdRequest) lserr.ISdkError
+	DeleteListenerById(popts lslbSvcV2.IDeleteListenerByIdRequest) lserr.ISdkError
 }
 
 type ILoadBalancerServiceInternal interface {
