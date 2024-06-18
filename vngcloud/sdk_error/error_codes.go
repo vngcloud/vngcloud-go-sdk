@@ -107,6 +107,10 @@ const (
 
 // LoadBalancer
 const (
-	EcVLBLoadBalancerNotFound          = ErrorCode("VngCloudVLBLoadBalancerNotFound")
-	EcVLBLoadBalancerDuplicatePoolName = ErrorCode("VngCloudVLBLoadBalancerDuplicatePoolName")
+	EcVLBLoadBalancerNotFound            = ErrorCode("VngCloudVLBLoadBalancerNotFound")
+	EcVLBLoadBalancerDuplicatePoolName   = ErrorCode("VngCloudVLBLoadBalancerDuplicatePoolName")
+	EcVLBListenerDuplicateProtocolOrPort = ErrorCode("VngCloudVLBListenerDuplicateProtocolOrPort")
+	EcVLBListenerDuplicateName           = ErrorCode("VngCloudVLBListenerDuplicateName")
+	EcVLBPoolNotFound                    = ErrorCode("VngCloudVLBPoolNotFound")
+	EcVLBLoadBalancerNotReady            = ErrorCode("VngCloudVLBLoadBalancerNotReady")
 )

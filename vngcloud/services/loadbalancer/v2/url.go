@@ -31,3 +31,11 @@ func createPoolUrl(psc lsclient.IServiceClient, popts ICreatePoolRequest) string
 		popts.GetLoadBalancerId(),
 		"pools")
 }
+
+func createListenerUrl(psc lsclient.IServiceClient, popts ICreateListenerRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners")
+}

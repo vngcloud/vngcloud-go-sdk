@@ -26,7 +26,12 @@ type IListLoadBalancersRequest interface {
 type ICreateListenerRequest interface {
 	ToRequestBody() interface{}
 	WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest
+	WithLoadBalancerId(plbid string) ICreateListenerRequest
+	WithDefaultPoolId(ppoolId string) ICreateListenerRequest
 	AddCidrs(pcidrs ...string) ICreateListenerRequest
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	ToMap() map[string]interface{}
 }
 
 type ICreatePoolRequest interface {
@@ -34,6 +39,7 @@ type ICreatePoolRequest interface {
 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest
 	WithMembers(pmembers ...IMemberRequest) ICreatePoolRequest
 	WithLoadBalancerId(plbId string) ICreatePoolRequest
+	ToMap() map[string]interface{}
 	GetLoadBalancerId() string
 	ParseUserAgent() string
 }

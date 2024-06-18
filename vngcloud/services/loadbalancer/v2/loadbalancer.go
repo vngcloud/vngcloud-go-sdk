@@ -74,8 +74,34 @@ func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp))
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp)).
+			WithParameters(popts.ToMap())
 	}
 
 	return resp.ToEntityPool(), nil
+}
+
+func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*lsentity.Listener, lserr.ISdkError) {
+	url := createListenerUrl(s.VLBClient, popts)
+	resp := new(CreateListenerResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorListenerDuplicateName(errResp),
+			lserr.WithErrorPoolNotFound(errResp),
+			lserr.WithErrorListenerDuplicateProtocolOrPort(errResp)).
+			WithParameters(popts.ToMap())
+	}
+
+	return resp.ToEntityListener(), nil
 }
