@@ -95,6 +95,10 @@ func (s *request) ContainsOkCode(pcode ...int) bool {
 }
 
 func (s *request) WithHeader(pkey, pvalue string) IRequest {
+	if pkey == "" || pvalue == "" {
+		return s
+	}
+
 	if s.MoreHeaders == nil {
 		s.MoreHeaders = make(map[string]string)
 	}

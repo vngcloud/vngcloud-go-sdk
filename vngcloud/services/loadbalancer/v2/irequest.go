@@ -8,6 +8,12 @@ type ICreateLoadBalancerRequest interface {
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
 }
 
+type IGetLoadBalancerByIdRequest interface {
+	AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+}
+
 type ICreateListenerRequest interface {
 	ToRequestBody() interface{}
 	WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest

@@ -28,6 +28,12 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 	}
 }
 
+func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
+	opts := new(GetLoadBalancerByIdRequest)
+	opts.LoadBalancerId = plbId
+	return opts
+}
+
 type CreateLoadBalancerRequest struct {
 	Name      string                 `json:"name"`
 	PackageID string                 `json:"packageId"`
@@ -39,6 +45,11 @@ type CreateLoadBalancerRequest struct {
 	Tags      []lscommon.Tag         `json:"tags,omitempty"`
 
 	lscommon.UserAgent
+}
+
+type GetLoadBalancerByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
@@ -54,7 +65,7 @@ func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
 }
 
 func (s *CreateLoadBalancerRequest) AddUserAgent(pagent ...string) ICreateLoadBalancerRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 func (s *CreateLoadBalancerRequest) WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest {
@@ -80,5 +91,10 @@ func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalance
 		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
 	}
 
+	return s
+}
+
+func (s *GetLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }

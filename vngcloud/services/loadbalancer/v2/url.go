@@ -7,3 +7,10 @@ func createLoadBalancerUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"loadBalancers")
 }
+
+func getLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetLoadBalancerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId())
+}

@@ -104,3 +104,8 @@ const (
 	EcVServerSnapshotNameNotValid = ErrorCode("VngCloudVServerSnapshotNameNotValid")
 	EcVServerSnapshotNotFound     = ErrorCode("VngCloudVServerSnapshotNotFound")
 )
+
+// LoadBalancer
+const (
+	EcVLBLoadBalancerNotFound = ErrorCode("VngCloudVLBLoadBalancerNotFound")
+)
