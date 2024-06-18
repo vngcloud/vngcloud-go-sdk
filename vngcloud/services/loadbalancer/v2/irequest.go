@@ -33,16 +33,22 @@ type ICreatePoolRequest interface {
 	ToRequestBody() interface{}
 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest
 	WithMembers(pmembers ...IMemberRequest) ICreatePoolRequest
+	WithLoadBalancerId(plbId string) ICreatePoolRequest
+	GetLoadBalancerId() string
+	ParseUserAgent() string
 }
 
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
 }
 
 type IHealthMonitorTCPRequest interface {
 	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
 }
 
 type IMemberRequest interface {
 	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
 }

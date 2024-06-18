@@ -60,19 +60,22 @@ func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersReques
 	return resp.ToEntityListLoadBalancers(), nil
 }
 
-func (s *LoadBalancerServiceV2) ListLoadBalancersWithName(popts IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.ISdkError) {
-	url := listLoadBalancersUrl(s.VLBClient, popts)
-	resp := new(ListLoadBalancersResponse)
+func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.Pool, lserr.ISdkError) {
+	url := createPoolUrl(s.VLBClient, popts)
+	resp := new(CreatePoolResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithOkCodes(200).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
 
-	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp))
 	}
 
-	return resp.ToEntityListLoadBalancers(), nil
+	return resp.ToEntityPool(), nil
 }

@@ -154,3 +154,43 @@ func TestListLoadBalancer(t *ltesting.T) {
 	t.Log("Result: ", lbs)
 	t.Log("PASS")
 }
+
+func TestCreatePoolWithoutMembersSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewCreatePoolRequest("cuongdm3-test-pool-2", lslbv2.PoolProtocolTCP).
+		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f").
+		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolTCP))
+	pool, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreatePool(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if pool == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", pool)
+	t.Log("PASS")
+}
+
+func TestCreatePoolWithMembersSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewCreatePoolRequest("cuongdm3-test-pool-3", lslbv2.PoolProtocolTCP).
+		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cddf").
+		WithMembers(lslbv2.NewMember("cuongdm3-member-1", "10.84.0.32", 80, 80)).
+		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolTCP))
+
+	pool, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreatePool(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if pool == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", pool)
+	t.Log("PASS")
+}

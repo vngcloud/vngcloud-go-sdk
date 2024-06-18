@@ -98,6 +98,7 @@ type CreatePoolRequest struct {
 	Members       []IMemberRequest      `json:"members"`
 
 	lscommon.LoadBalancerCommon
+	lscommon.UserAgent
 }
 
 type HealthMonitor struct {
@@ -162,10 +163,59 @@ func (s *CreatePoolRequest) WithMembers(pmembers ...IMemberRequest) ICreatePoolR
 	return s
 }
 
+func (s *CreatePoolRequest) WithLoadBalancerId(plbId string) ICreatePoolRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *CreatePoolRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"algorithm":     s.Algorithm,
+		"poolName":      s.PoolName,
+		"poolProtocol":  s.PoolProtocol,
+		"stickiness":    s.Stickiness,
+		"tlsEncryption": s.TLSEncryption,
+		"healthMonitor": s.HealthMonitor.ToMap(),
+		"members": func() []map[string]interface{} {
+			var members []map[string]interface{}
+			for _, member := range s.Members {
+				members = append(members, member.ToMap())
+			}
+			return members
+		}(),
+	}
+}
+
 func (s *HealthMonitor) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *HealthMonitor) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"healthCheckProtocol": s.HealthCheckProtocol,
+		"healthyThreshold":    s.HealthyThreshold,
+		"unhealthyThreshold":  s.UnhealthyThreshold,
+		"interval":            s.Interval,
+		"timeout":             s.Timeout,
+		"healthCheckMethod":   s.HealthCheckMethod,
+		"httpVersion":         s.HttpVersion,
+		"healthCheckPath":     s.HealthCheckPath,
+		"domainName":          s.DomainName,
+		"successCode":         s.SuccessCode,
+	}
+}
+
 func (s *Member) ToRequestBody() interface{} {
 	return s
+}
+
+func (s *Member) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"backup":      s.Backup,
+		"ipAddress":   s.IpAddress,
+		"monitorPort": s.MonitorPort,
+		"name":        s.Name,
+		"port":        s.Port,
+		"weight":      s.Weight,
+	}
 }

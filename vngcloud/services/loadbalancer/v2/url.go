@@ -23,3 +23,11 @@ func listLoadBalancersUrl(psc lsclient.IServiceClient, popts IListLoadBalancersR
 
 	return psc.ServiceURL(psc.GetProjectId(), "loadBalancers") + query
 }
+
+func createPoolUrl(psc lsclient.IServiceClient, popts ICreatePoolRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools")
+}
