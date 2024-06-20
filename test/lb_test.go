@@ -406,3 +406,16 @@ func TestListTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", tags)
 	t.Log("PASS")
 }
+
+func TestCreateTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewCreateTagsRequest("lb-0d9bc46b-66db-4c57-8270-cd380226839d").
+		WithTags("cuongdm4", "cuongdm4", "vinhnt9", "vinhnt9")
+	sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}

@@ -38,8 +38,9 @@ func (s *Paging) SetSize(psize int) *Paging {
 }
 
 type Tag struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key      string `json:"key"`
+	Value    string `json:"value"`
+	IsEdited bool   `json:"isEdited,omitempty"`
 }
 
 type UserAgent struct {

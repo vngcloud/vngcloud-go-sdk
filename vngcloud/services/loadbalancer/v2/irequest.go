@@ -117,3 +117,10 @@ type IListTagsRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
 }
+
+type ICreateTagsRequest interface {
+	GetLoadBalancerId() string
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) ICreateTagsRequest
+}
