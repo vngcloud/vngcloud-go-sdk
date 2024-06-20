@@ -80,10 +80,14 @@ func NewDeletePoolByIdRequest(plbId, ppoolId string) IDeletePoolByIdRequest {
 }
 
 func NewHealthMonitor(pcheckProtocol HealthCheckProtocol) IHealthMonitorRequest {
-	switch pcheckProtocol {
-	default:
-		return newHealthMonitorTCPRequest()
-	}
+	opts := new(HealthMonitor)
+	opts.HealthCheckProtocol = pcheckProtocol
+	opts.HealthyThreshold = 3
+	opts.UnhealthyThreshold = 3
+	opts.Interval = 30
+	opts.Timeout = 5
+
+	return opts
 }
 
 func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberRequest {
@@ -94,21 +98,6 @@ func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberReq
 		Name:        pname,
 		Port:        pport,
 		Weight:      1,
-	}
-}
-
-func newHealthMonitorTCPRequest() IHealthMonitorTCPRequest {
-	return &HealthMonitor{
-		HealthCheckProtocol: HealthCheckProtocolTCP,
-		HealthyThreshold:    3,
-		UnhealthyThreshold:  3,
-		Interval:            30,
-		Timeout:             5,
-		HealthCheckPath:     nil,
-		HttpVersion:         nil,
-		SuccessCode:         nil,
-		HealthCheckMethod:   nil,
-		DomainName:          nil,
 	}
 }
 
@@ -181,10 +170,11 @@ type UpdatePoolMembersRequest struct {
 }
 
 func (s *CreatePoolRequest) ToRequestBody() interface{} {
+	s.HealthMonitor = s.HealthMonitor.(*HealthMonitor).toRequestBody()
 	return s
 }
 
-func (s *HealthMonitor) validate() {
+func (s *HealthMonitor) toRequestBody() IHealthMonitorRequest {
 	switch s.HealthCheckProtocol {
 	case HealthCheckProtocolPINGUDP, HealthCheckProtocolTCP:
 		s.HealthCheckPath = nil
@@ -208,6 +198,8 @@ func (s *HealthMonitor) validate() {
 			}
 		}
 	}
+
+	return s
 }
 
 func (s *CreatePoolRequest) WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest {
@@ -249,6 +241,67 @@ func (s *CreatePoolRequest) WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolR
 }
 
 func (s *HealthMonitor) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *HealthMonitor) WithHealthyThreshold(pht int) IHealthMonitorRequest {
+	if pht < 1 {
+		pht = 3
+	}
+
+	s.HealthyThreshold = pht
+	return s
+}
+
+func (s *HealthMonitor) WithUnhealthyThreshold(puht int) IHealthMonitorRequest {
+	if puht < 1 {
+		puht = 3
+	}
+
+	s.UnhealthyThreshold = puht
+	return s
+}
+
+func (s *HealthMonitor) WithInterval(pinterval int) IHealthMonitorRequest {
+	if pinterval < 1 {
+		pinterval = 30
+	}
+
+	s.Interval = pinterval
+	return s
+}
+
+func (s *HealthMonitor) WithTimeout(pto int) IHealthMonitorRequest {
+	if pto < 1 {
+		pto = 5
+	}
+
+	s.Timeout = pto
+	return s
+}
+
+func (s *HealthMonitor) WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest {
+	s.HealthCheckMethod = &pmethod
+	return s
+}
+
+func (s *HealthMonitor) WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest {
+	s.HttpVersion = &pversion
+	return s
+}
+
+func (s *HealthMonitor) WithHealthCheckPath(ppath string) IHealthMonitorRequest {
+	s.HealthCheckPath = &ppath
+	return s
+}
+
+func (s *HealthMonitor) WithDomainName(pdomain string) IHealthMonitorRequest {
+	s.DomainName = &pdomain
+	return s
+}
+
+func (s *HealthMonitor) WithSuccessCode(pcode string) IHealthMonitorRequest {
+	s.SuccessCode = &pcode
 	return s
 }
 

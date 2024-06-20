@@ -109,11 +109,15 @@ type IDeleteLoadBalancerByIdRequest interface {
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
-}
-
-type IHealthMonitorTCPRequest interface {
-	ToRequestBody() interface{}
-	ToMap() map[string]interface{}
+	WithHealthyThreshold(pht int) IHealthMonitorRequest
+	WithUnhealthyThreshold(puht int) IHealthMonitorRequest
+	WithInterval(pinterval int) IHealthMonitorRequest
+	WithTimeout(pto int) IHealthMonitorRequest
+	WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest
+	WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest
+	WithHealthCheckPath(ppath string) IHealthMonitorRequest
+	WithSuccessCode(pcode string) IHealthMonitorRequest
+	WithDomainName(pdomain string) IHealthMonitorRequest
 }
 
 type IMemberRequest interface {
