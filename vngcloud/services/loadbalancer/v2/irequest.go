@@ -8,6 +8,8 @@ type ICreateLoadBalancerRequest interface {
 	WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest
 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
+	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
+	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	ParseUserAgent() string
 }
 

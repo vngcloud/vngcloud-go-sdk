@@ -126,6 +126,16 @@ func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalance
 	return s
 }
 
+func (s *CreateLoadBalancerRequest) WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest {
+	s.Scheme = pscheme
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest {
+	s.Type = ptype
+	return s
+}
+
 func (s *GetLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
