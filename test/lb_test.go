@@ -29,6 +29,50 @@ func TestCreateInterLoadBalancerSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig2()
+	opt := lsinter.NewCreateLoadBalancerRequest(
+		getValueOfEnv("VINHPORTAL_USER_ID"),
+		"cuongdm3-test-intervpc",
+		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
+		"sub-01842d14-3476-4af7-b252-5a2cdbd37b38",
+		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
+	)
+	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
+func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig().WithProjectId("pro-c8e87532-dc1a-421c-8c5e-4604d772829f")
+	opt := lsinter.NewCreateLoadBalancerRequest(
+		getValueOfEnv("VINHPORTAL_USER_ID"),
+		"cuongdm3-test-intervpc",
+		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
+		"sub-01842d14-3476-4af7-b252-5a2cdbd37b38",
+		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
+	)
+	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
 func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateLoadBalancerRequest(

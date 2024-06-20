@@ -59,6 +59,19 @@ func validSuperSdkConfig() lsclient.IClient {
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
 
+func validSuperSdkConfig2() lsclient.IClient {
+	clientId, clientSecret := getValueOfEnv("VINHCLIENT_ID"), getValueOfEnv("VINHCLIENT_SECRET")
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("VINH_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
 func validSdkConfigDevops() lsclient.IClient {
 	clientId, clientSecret := getEnvDevOps()
 	sdkConfig := lsclient.NewSdkConfigure().
@@ -130,6 +143,20 @@ func TestAuthenPass(t *ltesting.T) {
 func TestASuperuthenPass(t *ltesting.T) {
 	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")
 	vngcloud := validSdkConfig()
+	opt := lsidentityV2.NewGetAccessTokenRequest(clientId, clientSecret)
+	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
+
+	if err != nil || token == nil {
+		t.Error("This testcase MUST pass")
+	}
+
+	t.Log("RESULT:", token)
+	t.Log("PASS")
+}
+
+func TestVinhAuthenPass(t *ltesting.T) {
+	clientId, clientSecret := getValueOfEnv("VINHCLIENT_ID"), getValueOfEnv("VINHCLIENT_SECRET")
+	vngcloud := validSuperSdkConfig2()
 	opt := lsidentityV2.NewGetAccessTokenRequest(clientId, clientSecret)
 	token, err := vngcloud.IamGateway().V2().IdentityService().GetAccessToken(opt)
 
