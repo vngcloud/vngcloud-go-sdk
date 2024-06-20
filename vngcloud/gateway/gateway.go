@@ -49,20 +49,25 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 	}
 }
 
-func NewVLBGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) IVLBGateway {
+func NewVLBGateway(plbEndpoint, pserverEndpoint, pprojectId string, phc lsclient.IHttpClient) IVLBGateway {
 	vlbSvcV2 := lsclient.NewServiceClient().
-		WithEndpoint(pendpoint + "v2").
+		WithEndpoint(plbEndpoint + "v2").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
 	vlbSvcIn := lsclient.NewServiceClient().
-		WithEndpoint(pendpoint + "internal").
+		WithEndpoint(plbEndpoint + "internal").
+		WithClient(phc).
+		WithProjectId(pprojectId)
+
+	vserverSvcV2 := lsclient.NewServiceClient().
+		WithEndpoint(pserverEndpoint + "v2").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
 	return &vlbGateway{
-		endpoint:           pendpoint,
-		vlbGatewayV2:       NewVLBGatewayV2(vlbSvcV2),
+		endpoint:           plbEndpoint,
+		vlbGatewayV2:       NewVLBGatewayV2(vlbSvcV2, vserverSvcV2),
 		vlbGatewayInternal: NewVLBGatewayInternal(vlbSvcIn),
 	}
 }

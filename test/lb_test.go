@@ -151,7 +151,7 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 
 func TestGetLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f").
+	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-10689014-4c30-415c-96f7-2293b137854f").
 		AddUserAgent("vks-cluster-id/user-1234:cluster-1")
 	lb, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().GetLoadBalancerById(opt)
 	if sdkerr != nil {
@@ -388,5 +388,21 @@ func TestDeleteLoadBalancer(t *ltesting.T) {
 	}
 
 	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestListTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListTagsRequest("lb-10689014-4c30-415c-96f7-2293b137854f")
+	tags, sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().ListTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if tags == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", tags)
 	t.Log("PASS")
 }

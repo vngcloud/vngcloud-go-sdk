@@ -21,6 +21,7 @@ type ILoadBalancerServiceV2 interface {
 	DeletePoolById(popt lslbSvcV2.IDeletePoolByIdRequest) lserr.ISdkError
 	DeleteListenerById(popts lslbSvcV2.IDeleteListenerByIdRequest) lserr.ISdkError
 	DeleteLoadBalancerById(popts lslbSvcV2.IDeleteLoadBalancerByIdRequest) lserr.ISdkError
+	ListTags(popts lslbSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.ISdkError)
 }
 
 type ILoadBalancerServiceInternal interface {

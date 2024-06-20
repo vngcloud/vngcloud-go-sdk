@@ -112,3 +112,8 @@ type IMemberRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
+
+type IListTagsRequest interface {
+	GetLoadBalancerId() string
+	ParseUserAgent() string
+}

@@ -6,9 +6,10 @@ import (
 	lsloadbalancerV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/v2"
 )
 
-func NewLoadBalancerServiceV2(psvcClient lsclient.IServiceClient) ILoadBalancerServiceV2 {
+func NewLoadBalancerServiceV2(plbSvcClient, pserverSvcClient lsclient.IServiceClient) ILoadBalancerServiceV2 {
 	return &lsloadbalancerV2.LoadBalancerServiceV2{
-		VLBClient: psvcClient,
+		VLBClient:     plbSvcClient,
+		VServerClient: pserverSvcClient,
 	}
 }
 

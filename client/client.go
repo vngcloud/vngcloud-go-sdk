@@ -98,13 +98,13 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 		return s
 	}
 
-	// So it needs to reconfigure the gateway project Id
+	// So it needs to reconfigure the gateway project id
 	if s.vserverGateway != nil {
 		s.vserverGateway = lsgateway.NewVServerGateway(s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
 	}
 
 	if s.vlbGateway != nil {
-		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
 	}
 
 	return s
@@ -125,7 +125,7 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	if s.vlbGateway == nil {
-		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))

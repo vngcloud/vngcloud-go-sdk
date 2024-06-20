@@ -109,3 +109,11 @@ func deleteLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IDeleteLoadBal
 		"loadBalancers",
 		popts.GetLoadBalancerId())
 }
+
+func listTagsUrl(psc lsclient.IServiceClient, popts IListTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag",
+		"resource",
+		popts.GetLoadBalancerId())
+}
