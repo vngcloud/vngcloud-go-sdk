@@ -11,6 +11,7 @@ import (
 	lbCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2"
 	lsListener "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/listener"
 	lsPool "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2/pool"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/utils"
 )
 
 const (
@@ -49,6 +50,10 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 		s.Listener = s.Listener.ToRequestBody().(*lsListener.CreateOpts)
 	}
 	return s
+}
+
+func (s *CreateOpts) String() string {
+	return utils.ToJSON(s)
 }
 
 type GetOpts struct {
@@ -127,6 +132,10 @@ type UpdateOpts struct {
 
 func (s *UpdateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+func (s *UpdateOpts) String() string {
+	return utils.ToJSON(s)
 }
 
 type (

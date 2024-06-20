@@ -4,6 +4,7 @@ import (
 	lParser "github.com/cuongpiger/joat/parser"
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lSecgroupCommonV2 "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/network/v2"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/utils"
 )
 
 // ****************************************************** CreateOpts ***************************************************
@@ -16,6 +17,10 @@ type CreateOpts struct {
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+func (s *CreateOpts) String() string {
+	return utils.ToJSON(s)
 }
 
 type DeleteOpts struct {

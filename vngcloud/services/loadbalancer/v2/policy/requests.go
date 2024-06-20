@@ -3,6 +3,7 @@ package policy
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lbCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/utils"
 )
 
 type ListOptsBuilder struct {
@@ -97,6 +98,10 @@ func (s *CreateOptsBuilder) ToRequestBody() interface{} {
 	return nil
 }
 
+func (s *CreateOptsBuilder) String() string {
+	return utils.ToJSON(s)
+}
+
 type DeleteOptsBuilder struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
@@ -156,6 +161,10 @@ func (s *UpdateOptsBuilder) ToRequestBody() interface{} {
 		}
 	}
 	return nil
+}
+
+func (s *UpdateOptsBuilder) String() string {
+	return utils.ToJSON(s)
 }
 
 type GetOptsBuilder struct {

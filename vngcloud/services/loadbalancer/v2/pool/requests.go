@@ -3,6 +3,7 @@ package pool
 import (
 	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/common"
 	lbCm "github.com/vngcloud/vngcloud-go-sdk/vngcloud/services/loadbalancer/v2"
+	"github.com/vngcloud/vngcloud-go-sdk/vngcloud/utils"
 )
 
 // **************************************************** CreateOpts *****************************************************
@@ -118,6 +119,10 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *CreateOpts) String() string {
+	return utils.ToJSON(s)
+}
+
 // ****************************************** ListPoolsBasedLoadBalancerOpts *******************************************
 
 type ListPoolsBasedLoadBalancerOpts struct {
@@ -164,3 +169,6 @@ func (s *UpdateOpts) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *UpdateOpts) String() string {
+	return utils.ToJSON(s)
+}
