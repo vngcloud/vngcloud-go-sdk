@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	CreateOptsListenerProtocolOptTCP   ListenerProtocol = "TCP"
-	CreateOptsListenerProtocolOptUDP   ListenerProtocol = "UDP"
-	CreateOptsListenerProtocolOptHTTP  ListenerProtocol = "HTTP"
-	CreateOptsListenerProtocolOptHTTPS ListenerProtocol = "HTTPS"
+	ListenerProtocolTCP   ListenerProtocol = "TCP"
+	ListenerProtocolUDP   ListenerProtocol = "UDP"
+	ListenerProtocolHTTP  ListenerProtocol = "HTTP"
+	ListenerProtocolHTTPS ListenerProtocol = "HTTPS"
 )
 
 func NewCreateListenerRequest(pname string, pprotocol ListenerProtocol, pport int) ICreateListenerRequest {
@@ -98,7 +98,7 @@ func (s *CreateListenerRequest) ToRequestBody() interface{} {
 		return nil
 	}
 
-	if s.ListenerProtocol == CreateOptsListenerProtocolOptHTTPS {
+	if s.ListenerProtocol == ListenerProtocolHTTPS {
 		return s
 	}
 

@@ -80,7 +80,7 @@ func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
-		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.CreateOptsListenerProtocolOptTCP, 80)).
+		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
 			WithMembers(lslbv2.NewMember("cuongdm3-member-1", "10.84.0.22", 80, 80)).
 			WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolTCP)))
@@ -105,7 +105,7 @@ func TestCreateLoadBalancerEmptyMemberSuccess(t *ltesting.T) {
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
-		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.CreateOptsListenerProtocolOptTCP, 80)).
+		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
 			WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolTCP)))
 
@@ -241,7 +241,7 @@ func TestCreatePoolWithMembersSuccess(t *ltesting.T) {
 
 func TestCreateListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-10", lslbv2.CreateOptsListenerProtocolOptTCP, 8080).
+	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-10", lslbv2.ListenerProtocolTCP, 8080).
 		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cddf")
 
 	listener, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateListener(opt)
@@ -259,7 +259,7 @@ func TestCreateListenerSuccess(t *ltesting.T) {
 
 func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-14", lslbv2.CreateOptsListenerProtocolOptTCP, 8087).
+	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-14", lslbv2.ListenerProtocolTCP, 8087).
 		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f").WithDefaultPoolId("pool-82c3c670-6662-4087-bfc1-8098f25e84df")
 
 	listener, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateListener(opt)
