@@ -243,6 +243,11 @@ func (s *CreatePoolRequest) ToMap() map[string]interface{} {
 	}
 }
 
+func (s *CreatePoolRequest) WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolRequest {
+	s.Algorithm = palgorithm
+	return s
+}
+
 func (s *HealthMonitor) ToRequestBody() interface{} {
 	return s
 }

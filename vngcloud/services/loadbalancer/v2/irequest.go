@@ -59,6 +59,7 @@ type ICreatePoolRequest interface {
 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest
 	WithMembers(pmembers ...IMemberRequest) ICreatePoolRequest
 	WithLoadBalancerId(plbId string) ICreatePoolRequest
+	WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolRequest
 	ToMap() map[string]interface{}
 	GetLoadBalancerId() string
 	ParseUserAgent() string
