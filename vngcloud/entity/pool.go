@@ -63,3 +63,7 @@ func (s *ListPools) Add(pools ...*Pool) {
 func (s *ListMembers) Add(members ...*Member) {
 	s.Items = append(s.Items, members...)
 }
+
+func (s *ListPools) Len() int {
+	return len(s.Items)
+}
