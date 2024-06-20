@@ -23,6 +23,7 @@ type ILoadBalancerServiceV2 interface {
 	DeleteLoadBalancerById(popts lslbSvcV2.IDeleteLoadBalancerByIdRequest) lserr.ISdkError
 	ListTags(popts lslbSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.ISdkError)
 	CreateTags(popts lslbSvcV2.ICreateTagsRequest) lserr.ISdkError
+	UpdateTags(popts lslbSvcV2.IUpdateTagsRequest) lserr.ISdkError
 }
 
 type ILoadBalancerServiceInternal interface {

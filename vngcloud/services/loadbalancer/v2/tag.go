@@ -38,3 +38,25 @@ func (s *LoadBalancerServiceV2) CreateTags(popts ICreateTagsRequest) lserr.ISdkE
 
 	return nil
 }
+
+func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.ISdkError {
+	tags, sdkErr := s.ListTags(NewListTagsRequest(popts.GetLoadBalancerId()))
+	if sdkErr != nil {
+		return sdkErr
+	}
+
+	url := updateTagsUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonBody(popts.ToRequestBody(tags)).
+		WithJsonError(errResp)
+
+	if _, sdkErr = s.VServerClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return nil
+
+}

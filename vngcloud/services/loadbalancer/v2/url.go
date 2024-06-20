@@ -125,3 +125,11 @@ func createTagsUrl(psc lsclient.IServiceClient, popts ICreateTagsRequest) string
 		"resource",
 		popts.GetLoadBalancerId())
 }
+
+func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag",
+		"resource",
+		popts.GetLoadBalancerId())
+}

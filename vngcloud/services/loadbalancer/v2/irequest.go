@@ -1,5 +1,7 @@
 package v2
 
+import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+
 type ICreateLoadBalancerRequest interface {
 	ToRequestBody() interface{}
 	AddUserAgent(pagent ...string) ICreateLoadBalancerRequest
@@ -123,4 +125,11 @@ type ICreateTagsRequest interface {
 	ToRequestBody() interface{}
 	ParseUserAgent() string
 	WithTags(ptags ...string) ICreateTagsRequest
+}
+
+type IUpdateTagsRequest interface {
+	GetLoadBalancerId() string
+	ToRequestBody(plstTags *lsentity.ListTags) interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) IUpdateTagsRequest
 }
