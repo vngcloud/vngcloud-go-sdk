@@ -118,6 +118,21 @@ func (s *CreateListenerRequest) WithAllowedCidrs(pcidrs ...string) ICreateListen
 	return s
 }
 
+func (s *CreateListenerRequest) WithTimeoutClient(ptoc int) ICreateListenerRequest {
+	s.TimeoutClient = ptoc
+	return s
+}
+
+func (s *CreateListenerRequest) WithTimeoutConnection(ptoc int) ICreateListenerRequest {
+	s.TimeoutConnection = ptoc
+	return s
+}
+
+func (s *CreateListenerRequest) WithTimeoutMember(ptom int) ICreateListenerRequest {
+	s.TimeoutMember = ptom
+	return s
+}
+
 func (s *CreateListenerRequest) AddCidrs(pcidrs ...string) ICreateListenerRequest {
 	if len(pcidrs) < 1 {
 		return s

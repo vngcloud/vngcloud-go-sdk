@@ -32,6 +32,9 @@ type ICreateListenerRequest interface {
 	WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest
 	WithLoadBalancerId(plbid string) ICreateListenerRequest
 	WithDefaultPoolId(ppoolId string) ICreateListenerRequest
+	WithTimeoutClient(ptoc int) ICreateListenerRequest
+	WithTimeoutConnection(ptoc int) ICreateListenerRequest
+	WithTimeoutMember(ptom int) ICreateListenerRequest
 	AddCidrs(pcidrs ...string) ICreateListenerRequest
 	ParseUserAgent() string
 	GetLoadBalancerId() string
