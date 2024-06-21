@@ -8,14 +8,13 @@ import (
 )
 
 const (
-	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
 	InternetLoadBalancerScheme LoadBalancerScheme = "Internet"
 )
 
 const (
-	CreateOptsTypeOptLayer4 LoadBalancerType = "Layer 4"
-	CreateOptsTypeOptLayer7 LoadBalancerType = "Layer 7"
+	LoadBalancerTypeLayer4 LoadBalancerType = "Layer 4"
+	LoadBalancerTypeLayer7 LoadBalancerType = "Layer 7"
 )
 
 type (
@@ -29,7 +28,7 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 		PackageID: ppackageId,
 		Scheme:    InternetLoadBalancerScheme,
 		SubnetID:  psubnetId,
-		Type:      CreateOptsTypeOptLayer4,
+		Type:      LoadBalancerTypeLayer4,
 	}
 }
 
