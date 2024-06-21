@@ -73,6 +73,7 @@ func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp)).

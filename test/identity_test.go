@@ -46,6 +46,19 @@ func validSdkConfig() lsclient.IClient {
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
 
+func validSdkHannibalConfig() lsclient.IClient {
+	clientId, clientSecret := getValueOfEnv("HANNIBAL_CLIENT_ID"), getValueOfEnv("HANNIBAL_CLIENT_SECRET")
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("HANNIBAL_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
 func validSuperSdkConfig() lsclient.IClient {
 	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")
 	sdkConfig := lsclient.NewSdkConfigure().
