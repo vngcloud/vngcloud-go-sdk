@@ -199,6 +199,24 @@ func TestListLoadBalancer(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestListLoadBalancerByTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListLoadBalancersRequest(1, 10).
+		WithTags("vks-owned-cluster", "hcm03a_user-11412_k8s-a3c03d8e-344c-4a1e-98e0-6d9999ac8077")
+
+	lbs, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancers(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lbs == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lbs)
+	t.Log("PASS")
+}
+
 func TestCreatePoolWithoutMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkHannibalConfig()
 	opt := lslbv2.NewCreatePoolRequest("cuongdm3-test-pool-7", lslbv2.PoolProtocolTCP).

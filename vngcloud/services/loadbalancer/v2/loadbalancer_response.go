@@ -63,7 +63,13 @@ func (s *GetLoadBalancerByIdResponse) ToEntityLoadBalancer() *lsentity.LoadBalan
 
 func (s *ListLoadBalancersResponse) ToEntityListLoadBalancers() *lsentity.ListLoadBalancers {
 	if s == nil || s.ListData == nil || len(s.ListData) < 1 {
-		return nil
+		return &lsentity.ListLoadBalancers{
+			Page:      0,
+			PageSize:  0,
+			TotalPage: 0,
+			TotalItem: 0,
+			Items:     make([]*lsentity.LoadBalancer, 0),
+		}
 	}
 
 	result := &lsentity.ListLoadBalancers{
