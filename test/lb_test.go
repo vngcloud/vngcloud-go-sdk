@@ -221,7 +221,7 @@ func TestCreatePoolWithoutMembersSuccess(t *ltesting.T) {
 func TestCreatePoolWithMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreatePoolRequest("cuongdm3-test-pool-3", lslbv2.PoolProtocolTCP).
-		WithLoadBalancerId("lb-96138e73-0864-4016-8db1-bae387002378").
+		WithLoadBalancerId("lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb").
 		WithMembers(lslbv2.NewMember("cuongdm3-member-1", "10.84.0.32", 80, 80)).
 		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolTCP))
 

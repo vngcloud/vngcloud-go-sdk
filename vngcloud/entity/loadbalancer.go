@@ -40,3 +40,11 @@ func (s *ListLoadBalancers) Empty() bool {
 func (s *ListLoadBalancers) Add(item *LoadBalancer) {
 	s.Items = append(s.Items, item)
 }
+
+func (s *ListLoadBalancers) At(pidx int) *LoadBalancer {
+	if pidx < 0 || pidx >= s.Len() {
+		return nil
+	}
+
+	return s.Items[pidx]
+}
