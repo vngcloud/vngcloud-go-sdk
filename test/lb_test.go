@@ -295,12 +295,12 @@ func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 
 func TestUpdateListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewUpdateListenerRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "lis-23655c30-e458-49ac-ba55-49dfcd104db8").
-		WithTimeoutClient(100).
-		WithTimeoutConnection(100).
-		WithTimeoutMember(100).
+	opt := lslbv2.NewUpdateListenerRequest("lb-ab73cad3-1dd3-4f2c-9c4c-49702133c5c9", "lis-ed226fe5-65d2-4bb1-986e-7814deb3a55b").
+		WithTimeoutClient(50).
+		WithTimeoutConnection(5).
+		WithTimeoutMember(50).
 		WithCidrs("0.0.0.0/0").
-		WithDefaultPoolId("pool-b28eb5ce-c714-439d-b140-03ffe6bebf8f")
+		WithDefaultPoolId("pool-a9239c24-9289-4641-a16b-2d71883d168b")
 
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdateListener(opt)
 	if sdkerr != nil {
@@ -359,7 +359,7 @@ func TestUpdatePoolMembersSuccess(t *ltesting.T) {
 
 func TestListPoolMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListPoolMembersRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-9d5b6d0d-d4c4-49e7-961c-55966730dd00")
+	opt := lslbv2.NewListPoolMembersRequest("lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb", "pool-528261c5-9fb4-40bb-bd48-f47b79b272f3")
 	members, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPoolMembers(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
