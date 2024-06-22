@@ -29,6 +29,10 @@ type ListLoadBalancers struct {
 	TotalItem int
 }
 
+func (s *LoadBalancer) GetId() string {
+	return s.UUID
+}
+
 func (s *ListLoadBalancers) Len() int {
 	return len(s.Items)
 }
