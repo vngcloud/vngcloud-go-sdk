@@ -38,3 +38,7 @@ func (s *ListListeners) Len() int {
 func (s *ListListeners) Empty() bool {
 	return s.Len() < 1
 }
+
+func (s *Listener) GetId() string {
+	return s.UUID
+}
