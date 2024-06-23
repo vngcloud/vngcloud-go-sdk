@@ -411,7 +411,7 @@ func TestDeleteLoadBalancer(t *ltesting.T) {
 
 func TestListTagsSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListTagsRequest("lb-10689014-4c30-415c-96f7-2293b137854f")
+	opt := lslbv2.NewListTagsRequest("lb-8c544dcd-b0fe-4d60-a5b4-ac81b473b475")
 	tags, sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().ListTags(opt)
 	if sdkErr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkErr)
