@@ -71,3 +71,7 @@ func (s *ListMembers) Add(members ...*Member) {
 func (s *ListPools) Len() int {
 	return len(s.Items)
 }
+
+func (s *ListPools) Empty() bool {
+	return s.Len() < 1
+}
