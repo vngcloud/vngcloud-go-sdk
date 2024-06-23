@@ -33,6 +33,10 @@ func (s *LoadBalancer) GetId() string {
 	return s.UUID
 }
 
+func (s *LoadBalancer) GetAddress() string {
+	return s.Address
+}
+
 func (s *ListLoadBalancers) Len() int {
 	return len(s.Items)
 }

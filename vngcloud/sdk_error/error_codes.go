@@ -117,4 +117,5 @@ const (
 	EcVLBLoadBalancerNotReady            = ErrorCode("VngCloudVLBLoadBalancerNotReady")
 	EcVLBListenerNotFound                = ErrorCode("VngCloudVLBListenerNotFound")
 	EcVLBMemberMustIdentical             = ErrorCode("VngCloudVLBMemberMustIdentical")
+	EcVLBLoadBalancerExceedQuota         = ErrorCode("VngCloudVLBLoadBalancerExceedQuota")
 )

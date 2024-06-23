@@ -19,6 +19,7 @@ const (
 	patternListenerNotReady                = `listener id [^.]+ is not ready`
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
+	patternLoadBalancerExceedQuota         = "exceeded load_balancer quota. current used"
 )
 
 var (
@@ -53,6 +54,21 @@ func WithErrorLoadBalancerNotFound2(perrResp IErrorRespone) func(sdkError ISdkEr
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerNotFound2) {
 			sdkError.WithErrorCode(EcVLBLoadBalancerNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerExceedQuota) {
+			sdkError.WithErrorCode(EcVLBLoadBalancerExceedQuota).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

@@ -18,7 +18,8 @@ func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequ
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerExceedQuota(errResp))
 	}
 
 	return resp.ToEntityLoadBalancer(), nil
