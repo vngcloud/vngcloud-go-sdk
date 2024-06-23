@@ -42,3 +42,11 @@ func (s *ListListeners) Empty() bool {
 func (s *Listener) GetId() string {
 	return s.UUID
 }
+
+func (s *ListListeners) At(index int) *Listener {
+	if index < 0 || index >= len(s.Items) {
+		return nil
+	}
+
+	return s.Items[index]
+}

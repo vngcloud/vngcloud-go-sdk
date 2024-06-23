@@ -75,3 +75,11 @@ func (s *ListPools) Len() int {
 func (s *ListPools) Empty() bool {
 	return s.Len() < 1
 }
+
+func (s *ListPools) At(index int) *Pool {
+	if index < 0 || index >= s.Len() {
+		return nil
+	}
+
+	return s.Items[index]
+}
