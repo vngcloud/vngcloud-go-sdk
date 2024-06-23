@@ -131,10 +131,23 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156",
 		"sub-888d8fd2-3fed-4aaa-a62d-8554c0aff651").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
-		WithListener(lsinter.NewCreateListenerRequest("cuongdm3-test-listener", lsinter.CreateOptsListenerProtocolOptTCP, 80)).
+		WithListener(lsinter.NewCreateListenerRequest("cuongdm3-test-listener", lsinter.ListenerProtocolTCP, 80).
+			WithAllowedCidrs("0.0.0.0/0").
+			WithTimeoutClient(50).
+			WithTimeoutMember(50).
+			WithTimeoutConnection(5)).
 		WithPool(lsinter.NewCreatePoolRequest("cuongdm3-test-pool", lsinter.PoolProtocolTCP).
 			WithMembers(lsinter.NewMember("cuongdm3-member-1", "10.84.0.22", 80, 80)).
-			WithHealthMonitor(lsinter.NewHealthMonitor(lsinter.HealthCheckProtocolTCP)))
+			WithHealthMonitor(lsinter.NewHealthMonitor(lsinter.HealthCheckProtocolTCP).
+				WithHealthCheckMethod(lsinter.HealthCheckMethodGET).
+				WithHttpVersion(lsinter.HealthCheckHttpVersionHttp1).
+				WithHealthyThreshold(30).
+				WithUnhealthyThreshold(30).
+				WithTimeout(30).
+				WithInterval(40).
+				WithHealthCheckPath("/health").
+				WithDomainName("vngcloud.com").
+				WithSuccessCode("200")))
 
 	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
 	if sdkerr != nil {

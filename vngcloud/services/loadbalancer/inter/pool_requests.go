@@ -48,10 +48,14 @@ func NewCreatePoolRequest(pname string, pprotocol PoolProtocol) ICreatePoolReque
 }
 
 func NewHealthMonitor(pcheckProtocol HealthCheckProtocol) IHealthMonitorRequest {
-	switch pcheckProtocol {
-	default:
-		return newHealthMonitorTCPRequest()
-	}
+	opts := new(HealthMonitor)
+	opts.HealthCheckProtocol = pcheckProtocol
+	opts.HealthyThreshold = 3
+	opts.UnhealthyThreshold = 3
+	opts.Interval = 30
+	opts.Timeout = 5
+
+	return opts
 }
 
 func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberRequest {
@@ -62,21 +66,6 @@ func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberReq
 		Name:        pname,
 		Port:        pport,
 		Weight:      1,
-	}
-}
-
-func newHealthMonitorTCPRequest() IHealthMonitorTCPRequest {
-	return &HealthMonitor{
-		HealthCheckProtocol: HealthCheckProtocolTCP,
-		HealthyThreshold:    3,
-		UnhealthyThreshold:  3,
-		Interval:            30,
-		Timeout:             5,
-		HealthCheckPath:     nil,
-		HttpVersion:         nil,
-		SuccessCode:         nil,
-		HealthCheckMethod:   nil,
-		DomainName:          nil,
 	}
 }
 
@@ -98,6 +87,7 @@ type CreatePoolRequest struct {
 	Members       []IMemberRequest      `json:"members"`
 
 	lscommon.LoadBalancerCommon
+	lscommon.UserAgent
 }
 
 type HealthMonitor struct {
@@ -123,10 +113,11 @@ type Member struct {
 }
 
 func (s *CreatePoolRequest) ToRequestBody() interface{} {
+	s.HealthMonitor = s.HealthMonitor.(*HealthMonitor).toRequestBody()
 	return s
 }
 
-func (s *HealthMonitor) validate() {
+func (s *HealthMonitor) toRequestBody() IHealthMonitorRequest {
 	switch s.HealthCheckProtocol {
 	case HealthCheckProtocolPINGUDP, HealthCheckProtocolTCP:
 		s.HealthCheckPath = nil
@@ -150,6 +141,8 @@ func (s *HealthMonitor) validate() {
 			}
 		}
 	}
+
+	return s
 }
 
 func (s *CreatePoolRequest) WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest {
@@ -162,10 +155,125 @@ func (s *CreatePoolRequest) WithMembers(pmembers ...IMemberRequest) ICreatePoolR
 	return s
 }
 
+func (s *CreatePoolRequest) WithLoadBalancerId(plbId string) ICreatePoolRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *CreatePoolRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"algorithm":     s.Algorithm,
+		"poolName":      s.PoolName,
+		"poolProtocol":  s.PoolProtocol,
+		"stickiness":    s.Stickiness,
+		"tlsEncryption": s.TLSEncryption,
+		"healthMonitor": s.HealthMonitor.ToMap(),
+		"members": func() []map[string]interface{} {
+			var members []map[string]interface{}
+			for _, member := range s.Members {
+				members = append(members, member.ToMap())
+			}
+			return members
+		}(),
+	}
+}
+
+func (s *CreatePoolRequest) WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolRequest {
+	s.Algorithm = palgorithm
+	return s
+}
+
 func (s *HealthMonitor) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *HealthMonitor) WithHealthyThreshold(pht int) IHealthMonitorRequest {
+	if pht < 1 {
+		pht = 3
+	}
+
+	s.HealthyThreshold = pht
+	return s
+}
+
+func (s *HealthMonitor) WithUnhealthyThreshold(puht int) IHealthMonitorRequest {
+	if puht < 1 {
+		puht = 3
+	}
+
+	s.UnhealthyThreshold = puht
+	return s
+}
+
+func (s *HealthMonitor) WithInterval(pinterval int) IHealthMonitorRequest {
+	if pinterval < 1 {
+		pinterval = 30
+	}
+
+	s.Interval = pinterval
+	return s
+}
+
+func (s *HealthMonitor) WithTimeout(pto int) IHealthMonitorRequest {
+	if pto < 1 {
+		pto = 5
+	}
+
+	s.Timeout = pto
+	return s
+}
+
+func (s *HealthMonitor) WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest {
+	s.HealthCheckMethod = &pmethod
+	return s
+}
+
+func (s *HealthMonitor) WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest {
+	s.HttpVersion = &pversion
+	return s
+}
+
+func (s *HealthMonitor) WithHealthCheckPath(ppath string) IHealthMonitorRequest {
+	s.HealthCheckPath = &ppath
+	return s
+}
+
+func (s *HealthMonitor) WithDomainName(pdomain string) IHealthMonitorRequest {
+	s.DomainName = &pdomain
+	return s
+}
+
+func (s *HealthMonitor) WithSuccessCode(pcode string) IHealthMonitorRequest {
+	s.SuccessCode = &pcode
+	return s
+}
+
+func (s *HealthMonitor) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"healthCheckProtocol": s.HealthCheckProtocol,
+		"healthyThreshold":    s.HealthyThreshold,
+		"unhealthyThreshold":  s.UnhealthyThreshold,
+		"interval":            s.Interval,
+		"timeout":             s.Timeout,
+		"healthCheckMethod":   s.HealthCheckMethod,
+		"httpVersion":         s.HttpVersion,
+		"healthCheckPath":     s.HealthCheckPath,
+		"domainName":          s.DomainName,
+		"successCode":         s.SuccessCode,
+	}
+}
+
 func (s *Member) ToRequestBody() interface{} {
 	return s
+}
+
+func (s *Member) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"backup":      s.Backup,
+		"ipAddress":   s.IpAddress,
+		"monitorPort": s.MonitorPort,
+		"name":        s.Name,
+		"port":        s.Port,
+		"weight":      s.Weight,
+	}
 }

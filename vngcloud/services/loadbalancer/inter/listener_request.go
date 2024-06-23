@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	CreateOptsListenerProtocolOptTCP   ListenerProtocol = "TCP"
-	CreateOptsListenerProtocolOptUDP   ListenerProtocol = "UDP"
-	CreateOptsListenerProtocolOptHTTP  ListenerProtocol = "HTTP"
-	CreateOptsListenerProtocolOptHTTPS ListenerProtocol = "HTTPS"
+	ListenerProtocolTCP   ListenerProtocol = "TCP"
+	ListenerProtocolUDP   ListenerProtocol = "UDP"
+	ListenerProtocolHTTP  ListenerProtocol = "HTTP"
+	ListenerProtocolHTTPS ListenerProtocol = "HTTPS"
 )
 
 func NewCreateListenerRequest(pname string, pprotocol ListenerProtocol, pport int) ICreateListenerRequest {
@@ -41,6 +41,7 @@ type CreateListenerRequest struct {
 	DefaultCertificateAuthority *string          `json:"defaultCertificateAuthority"`
 
 	lscommon.LoadBalancerCommon
+	lscommon.UserAgent
 }
 
 func (s *CreateListenerRequest) ToRequestBody() interface{} {
@@ -48,7 +49,7 @@ func (s *CreateListenerRequest) ToRequestBody() interface{} {
 		return nil
 	}
 
-	if s.ListenerProtocol == CreateOptsListenerProtocolOptHTTPS {
+	if s.ListenerProtocol == ListenerProtocolHTTPS {
 		return s
 	}
 
@@ -68,6 +69,31 @@ func (s *CreateListenerRequest) WithAllowedCidrs(pcidrs ...string) ICreateListen
 	return s
 }
 
+func (s *CreateListenerRequest) WithTimeoutClient(ptoc int) ICreateListenerRequest {
+	s.TimeoutClient = ptoc
+	return s
+}
+
+func (s *CreateListenerRequest) WithTimeoutConnection(ptoc int) ICreateListenerRequest {
+	s.TimeoutConnection = ptoc
+	return s
+}
+
+func (s *CreateListenerRequest) WithTimeoutMember(ptom int) ICreateListenerRequest {
+	s.TimeoutMember = ptom
+	return s
+}
+
+func (s *CreateListenerRequest) WithLoadBalancerId(plbid string) ICreateListenerRequest {
+	s.LoadBalancerId = plbid
+	return s
+}
+
+func (s *CreateListenerRequest) WithDefaultPoolId(ppoolId string) ICreateListenerRequest {
+	s.DefaultPoolId = &ppoolId
+	return s
+}
+
 func (s *CreateListenerRequest) AddCidrs(pcidrs ...string) ICreateListenerRequest {
 	if len(pcidrs) < 1 {
 		return s
@@ -80,4 +106,17 @@ func (s *CreateListenerRequest) AddCidrs(pcidrs ...string) ICreateListenerReques
 	}
 
 	return s
+}
+
+func (s *CreateListenerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"listenerName":         s.ListenerName,
+		"listenerProtocol":     s.ListenerProtocol,
+		"listenerProtocolPort": s.ListenerProtocolPort,
+		"timeoutClient":        s.TimeoutClient,
+		"timeoutConnection":    s.TimeoutConnection,
+		"timeoutMember":        s.TimeoutMember,
+		"allowedCidrs":         s.AllowedCidrs,
+		"defaultPoolId":        s.DefaultPoolId,
+	}
 }
