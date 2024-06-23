@@ -141,10 +141,10 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 			WithHealthMonitor(lsinter.NewHealthMonitor(lsinter.HealthCheckProtocolTCP).
 				WithHealthCheckMethod(lsinter.HealthCheckMethodGET).
 				WithHttpVersion(lsinter.HealthCheckHttpVersionHttp1).
-				WithHealthyThreshold(30).
-				WithUnhealthyThreshold(30).
-				WithTimeout(30).
-				WithInterval(40).
+				WithHealthyThreshold(3).
+				WithUnhealthyThreshold(3).
+				WithTimeout(5).
+				WithInterval(30).
 				WithHealthCheckPath("/health").
 				WithDomainName("vngcloud.com").
 				WithSuccessCode("200")))
