@@ -33,10 +33,10 @@ func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig2()
 	opt := lsinter.NewCreateLoadBalancerRequest(
 		getValueOfEnv("VINHPORTAL_USER_ID"),
-		"cuongdm3-test-intervpc",
+		"lb-overlap-private-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-01842d14-3476-4af7-b252-5a2cdbd37b38",
-		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
+		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
+		"sub-d1c1e1bf-2364-4a6a-b300-7bc25785a634",
 	)
 	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
 	if sdkerr != nil {

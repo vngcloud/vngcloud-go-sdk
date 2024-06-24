@@ -73,7 +73,7 @@ func validSuperSdkConfig() lsclient.IClient {
 }
 
 func validSuperSdkConfig2() lsclient.IClient {
-	clientId, clientSecret := getValueOfEnv("VINHCLIENT_ID"), getValueOfEnv("VINHCLIENT_SECRET")
+	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
