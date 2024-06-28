@@ -8,8 +8,8 @@ type Policy struct {
 	RedirectPoolName string
 	Action           string
 	RedirectURL      string
-	RedirectHTTPCode string
-	KeepQueryString  string
+	RedirectHTTPCode int
+	KeepQueryString  bool
 	Position         int
 	L7Rules          []*L7Rule
 	DisplayStatus    string

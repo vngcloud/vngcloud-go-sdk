@@ -14,8 +14,8 @@ type ResponseData struct {
 	RedirectPoolName string   `json:"redirectPoolName"`
 	Action           string   `json:"action"`
 	RedirectURL      string   `json:"redirectUrl"`
-	RedirectHTTPCode string   `json:"redirectHttpCode"`
-	KeepQueryString  string   `json:"keepQueryString"`
+	RedirectHTTPCode int      `json:"redirectHttpCode"`
+	KeepQueryString  bool     `json:"keepQueryString"`
 	Position         int      `json:"position"`
 	L7Rules          []L7Rule `json:"l7Rules"`
 	DisplayStatus    string   `json:"displayStatus"`
