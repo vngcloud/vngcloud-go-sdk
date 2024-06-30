@@ -85,6 +85,7 @@ func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSe
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerExpired(errResp),
+			lserr.WithErrorServerUpdatingSecgroups(errResp),
 			lserr.WithErrorSecgroupNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),
 				"serverId", popts.GetServerId(),

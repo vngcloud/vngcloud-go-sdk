@@ -13,6 +13,7 @@ const (
 	patternServerAttachEncryptedVolume     = "cannot attach encryption volume"
 	patternServerExpired                   = "server is expired"
 	patternServerFlavorSystemExceedQuota   = "there are no more remaining flavor with id"
+	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
@@ -69,6 +70,21 @@ func WithErrorServerExpired(perrResp IErrorRespone) func(sdkError ISdkError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExpired) {
 			sdkError.WithErrorCode(EcVServerServerExpired).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerUpdatingSecgroups) {
+			sdkError.WithErrorCode(EcVServerServerUpdatingSecgroups).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

@@ -206,8 +206,9 @@ func TestAttachVolumeFailure(t *ltesting.T) {
 }
 
 func TestAttachVolumeSuccess(t *ltesting.T) {
+	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS" volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-6f6b7238-1d57-4c4b-a683-225454a2e168", "vol-a9484a51-243b-4217-81d4-9f55a7ad426d")
+	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4", "vol-3aced398-5f8e-4040-84aa-7309a5c5b365")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachBlockVolume(opt)
 
 	if sdkerr != nil {

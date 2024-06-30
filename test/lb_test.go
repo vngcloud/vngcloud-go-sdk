@@ -308,6 +308,7 @@ func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 
 func TestUpdateListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
+
 	opt := lslbv2.NewUpdateListenerRequest("lb-ab73cad3-1dd3-4f2c-9c4c-49702133c5c9", "lis-ed226fe5-65d2-4bb1-986e-7814deb3a55b").
 		WithTimeoutClient(50).
 		WithTimeoutConnection(5).
