@@ -95,6 +95,7 @@ func WithErrorVolumeNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
+// WithErrorVolumeAvailable indicates that the volume is AVAILABLE state but try to make detach this volume out of server
 func WithErrorVolumeAvailable(perrResp IErrorRespone) func(sdkError ISdkError) {
 	return func(sdkError ISdkError) {
 		if perrResp == nil {

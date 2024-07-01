@@ -40,7 +40,7 @@ type (
 		VolumeTypeID       string   `json:"volumeTypeId"`
 		VolumeTypeZoneName string   `json:"volumeTypeZoneName"`
 		IOPS               string   `json:"iops"`
-		ServerID           *string  `json:"serverId"`
+		ServerID           string   `json:"serverId,omitempty"`
 		CreatedAt          string   `json:"createdAt"`
 		UpdatedAt          *string  `json:"updatedAt"`
 		Bootable           bool     `json:"bootable"`

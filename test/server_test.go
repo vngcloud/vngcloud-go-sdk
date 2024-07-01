@@ -220,11 +220,11 @@ func TestAttachVolumeSuccess(t *ltesting.T) {
 
 func TestDetachVolumeSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("undefined", "vol-a9484a51-243b-4217-81d4-9f55a7ad426d")
+	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("ins-c7acd1d3-376c-4439-a4bd-27dd87b72a83", "vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachBlockVolume(opt)
 
 	if sdkerr != nil {
-		t.Fatalf("Expect error but got nil")
+		t.Errorf("Expect error but got nil")
 	}
 
 	t.Log("Result: ", sdkerr)

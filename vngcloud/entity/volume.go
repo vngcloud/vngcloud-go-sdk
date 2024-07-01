@@ -5,7 +5,7 @@ type Volume struct {
 	Id               string
 	VolumeTypeID     string
 	ClusterId        *string
-	VmId             *string
+	VmId             string
 	Size             uint64
 	IopsId           uint64
 	Status           string
@@ -22,4 +22,18 @@ type ListVolumes struct {
 
 func (s *ListVolumes) Len() int {
 	return len(s.Items)
+}
+
+func (s *Volume) AttachedTheInstance(pinstanceId string) bool {
+	if s.VmId == pinstanceId {
+		return true
+	}
+
+	for _, machineId := range s.AttachedMachine {
+		if machineId == pinstanceId {
+			return true
+		}
+	}
+
+	return false
 }
