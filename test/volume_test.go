@@ -139,7 +139,7 @@ func TestGetBlockVolumeByIdFailure(t *ltesting.T) {
 
 func TestGetBlockVolumeByIdSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := v2.NewGetBlockVolumeByIdRequest("vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
+	opt := v2.NewGetBlockVolumeByIdRequest("vol-aa784f76-a13d-4f92-b807-d2df3180e030")
 	volume, sdkerr := vngcloud.VServerGateway().V2().VolumeService().GetBlockVolumeById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %v", sdkerr)

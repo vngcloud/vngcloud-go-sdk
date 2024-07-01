@@ -14,6 +14,7 @@ type Volume struct {
 	PersistentVolume bool
 	AttachedMachine  []string
 	UnderId          string
+	MigrateState     string
 }
 
 type ListVolumes struct {

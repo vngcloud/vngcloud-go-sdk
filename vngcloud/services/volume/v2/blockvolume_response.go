@@ -51,6 +51,7 @@ type (
 		Location           *string  `json:"location"`
 		Product            string   `json:"product"`
 		PersistentVolume   bool     `json:"persistentVolume"`
+		MigrateState       string   `json:"migrateState,omitempty"`
 	}
 )
 
@@ -67,27 +68,6 @@ func (s *ListBlockVolumesResponse) ToEntityListVolumes() *lsentity.ListVolumes {
 	return lstVolumes
 }
 
-func (s *ListBlockVolumesResponse) toEntityVolume(pIdx int) *lsentity.Volume {
-	if s == nil {
-		return nil
-	}
-
-	if pIdx >= 0 && pIdx < len(s.ListData) {
-		vol := s.ListData[pIdx]
-		return &lsentity.Volume{
-			Id:        vol.UUID,
-			Name:      vol.Name,
-			Size:      vol.Size,
-			Status:    vol.Status,
-			CreatedAt: vol.CreatedAt,
-			UpdatedAt: vol.UpdatedAt,
-			VmId:      vol.ServerID,
-		}
-	}
-
-	return nil
-}
-
 func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 	return &lsentity.Volume{
 		Id:              s.UUID,
@@ -99,6 +79,7 @@ func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 		VmId:            s.ServerID,
 		AttachedMachine: s.ServerIDList,
 		VolumeTypeID:    s.VolumeTypeID,
+		MigrateState:    s.MigrateState,
 	}
 }
 
