@@ -15,6 +15,7 @@ type Volume struct {
 	AttachedMachine  []string
 	UnderId          string
 	MigrateState     string
+	MultiAttach      bool
 }
 
 type ListVolumes struct {

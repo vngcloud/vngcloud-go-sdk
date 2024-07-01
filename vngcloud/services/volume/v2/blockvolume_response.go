@@ -80,6 +80,7 @@ func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 		AttachedMachine: s.ServerIDList,
 		VolumeTypeID:    s.VolumeTypeID,
 		MigrateState:    s.MigrateState,
+		MultiAttach:     s.MultiAttach,
 	}
 }
 
