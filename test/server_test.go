@@ -220,7 +220,7 @@ func TestAttachVolumeSuccess(t *ltesting.T) {
 
 func TestDetachVolumeSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("ins-c7acd1d3-376c-4439-a4bd-27dd87b72a83", "vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
+	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("ins-c7acd1d3-376c-xxxx-a4bd-27dd87b72a83", "vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachBlockVolume(opt)
 
 	if sdkerr != nil {
