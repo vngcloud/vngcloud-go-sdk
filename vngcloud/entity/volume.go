@@ -52,11 +52,11 @@ func (s *Volume) IsInUse() bool {
 }
 
 func (s *Volume) CanDelete() bool {
-	if len(s.AttachedMachine) < 1 && s.VmId == "" {
+	if len(s.AttachedMachine) < 1 && s.VmId == "" && s.Status == "AVAILABLE" {
 		return true
 	}
 
-	if s.Status == "AVAILABLE" || s.Status == "ERROR" {
+	if s.Status == "ERROR" {
 		return true
 	}
 
