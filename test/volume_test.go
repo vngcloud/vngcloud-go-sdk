@@ -207,7 +207,7 @@ func TestMigrateBlockVolume(t *ltesting.T) {
 	t.Log(vtSsd, vtNvme)
 
 	vngcloud := validSdkConfig()
-	opt := v2.NewMigrateBlockVolumeByIdRequest("vol-ef605a82-270d-48f1-b763-f5338ae9f162", vtSsd).WithConfirm(true)
+	opt := v2.NewMigrateBlockVolumeByIdRequest("vol-aa784f76-a13d-4f92-b807-d2df3180e030", vtSsd).WithConfirm(true).WithAction(v2.ProcessMigrateAction)
 	sdkerr := vngcloud.VServerGateway().V2().VolumeService().MigrateBlockVolumeById(opt)
 
 	t.Log("Error: ", sdkerr)

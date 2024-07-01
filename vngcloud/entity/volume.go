@@ -37,3 +37,15 @@ func (s *Volume) AttachedTheInstance(pinstanceId string) bool {
 
 	return false
 }
+
+func (s *Volume) IsAvailable() bool {
+	return s.Status == "AVAILABLE"
+}
+
+func (s *Volume) IsError() bool {
+	return s.Status == "ERROR"
+}
+
+func (s *Volume) IsInUse() bool {
+	return s.Status == "IN-USE"
+}
