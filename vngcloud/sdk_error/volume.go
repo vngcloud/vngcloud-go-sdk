@@ -27,6 +27,7 @@ const ( // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184
 	patternVolumeMigrateInSameZone         = "new volume type must be different zone"
 	patternVolumeIsMigrating               = "is migrating"
 	patternVolumeSizeExceedGlobalQuota     = "exceeded volume_size quota"
+	patternVolumeExceedQuota               = "exceeded volume quota. current used"
 )
 
 var (
@@ -73,6 +74,21 @@ func WithErrorVolumeSizeExceedGlobalQuota(perrResp IErrorRespone) func(sdkError 
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeSizeExceedGlobalQuota) {
 			sdkError.WithErrorCode(EcVServerVolumeSizeExceedGlobalQuota).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorVolumeExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeExceedQuota) {
+			sdkError.WithErrorCode(EcVServerVolumeExceedQuota).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

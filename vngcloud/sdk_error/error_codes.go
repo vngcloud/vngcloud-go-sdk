@@ -56,6 +56,7 @@ const (
 	EcVServerVolumeNameNotValid              = ErrorCode("VngCloudVServerVolumeNameNotValid")
 	EcVServerVolumeSizeOutOfRange            = ErrorCode("VngCloudVServerVolumeSizeOutOfRange")
 	EcVServerVolumeSizeExceedGlobalQuota     = ErrorCode("VngCloudVServerVolumeSizeExceedGlobalQuota")
+	EcVServerVolumeExceedQuota               = ErrorCode("VngCloudVServerVolumeExceedQuota")
 	EcVServerVolumeNotFound                  = ErrorCode("VngCloudVServerVolumeNotFound")
 	EcVServerVolumeAvailable                 = ErrorCode("VngCloudVServerVolumeAvailable")
 	EcVServerVolumeAlreadyAttached           = ErrorCode("VngCloudVServerVolumeAlreadyAttached")
