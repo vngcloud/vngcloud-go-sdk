@@ -126,34 +126,38 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		return resp, lserr.ErrorHandler(err)
 	}
 
-	switch resp.StatusCode {
-	case lhttp.StatusUnauthorized:
-		if !preq.SkipAuthentication() && s.reauthFunc != nil {
-			if sdkErr := s.reauthenticate(); sdkErr != nil {
-				return nil, sdkErr
+	if resp.Response != nil {
+		switch resp.Response.StatusCode {
+		case lhttp.StatusUnauthorized:
+			if !preq.SkipAuthentication() && s.reauthFunc != nil {
+				if sdkErr := s.reauthenticate(); sdkErr != nil {
+					return nil, sdkErr
+				}
+
+				return s.DoRequest(purl, preq)
+			} else {
+				return nil, defaultErrorResponse(resp.Err, purl, preq, resp)
 			}
-
-			return s.DoRequest(purl, preq)
-		} else {
-			return nil, defaultErrorResponse(resp.Err, purl, preq, resp)
+		case lhttp.StatusTooManyRequests:
+			return nil, lserr.ErrorHandler(resp.Err)
+		case lhttp.StatusInternalServerError:
+			return nil, lserr.SdkErrorHandler(
+				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+				lserr.WithErrorInternalServerError())
+		case lhttp.StatusForbidden:
+			return nil, lserr.SdkErrorHandler(
+				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+				lserr.WithErrorPermissionDenied())
 		}
-	case lhttp.StatusTooManyRequests:
-		return nil, lserr.ErrorHandler(resp.Err)
-	case lhttp.StatusInternalServerError:
-		return nil, lserr.SdkErrorHandler(
-			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-			lserr.WithErrorInternalServerError())
-	case lhttp.StatusForbidden:
-		return nil, lserr.SdkErrorHandler(
-			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-			lserr.WithErrorPermissionDenied())
+
+		if preq.ContainsOkCode(resp.StatusCode) {
+			return resp, nil
+		}
+
+		return resp, lserr.ErrorHandler(resp.Err)
 	}
 
-	if preq.ContainsOkCode(resp.StatusCode) {
-		return resp, nil
-	}
-
-	return resp, lserr.ErrorHandler(resp.Err)
+	return nil, lserr.ErrorHandler(nil, lserr.WithErrorUnexpected())
 }
 
 func (s *httpClient) needReauth(preq IRequest) bool {

@@ -55,7 +55,7 @@ func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig().WithProjectId("pro-c8e87532-dc1a-421c-8c5e-4604d772829f")
 	opt := lsinter.NewCreateLoadBalancerRequest(
 		getValueOfEnv("VINHPORTAL_USER_ID"),
-		"cuongdm3-test-intervpc",
+		"cuongdm3-demo-intervpc-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-01842d14-3476-4af7-b252-5a2cdbd37b38",
 		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
@@ -424,8 +424,8 @@ func TestDeleteLoadBalancer(t *ltesting.T) {
 }
 
 func TestListTagsSuccess(t *ltesting.T) {
-	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListTagsRequest("lb-8c544dcd-b0fe-4d60-a5b4-ac81b473b475")
+	vngcloud := validSuperSdkConfig2()
+	opt := lslbv2.NewListTagsRequest("lb-b1153f05-fd44-4861-8b66-d8b811597faf")
 	tags, sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().ListTags(opt)
 	if sdkErr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkErr)

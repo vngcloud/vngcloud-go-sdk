@@ -99,3 +99,11 @@ func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError ISdkError) {
 		}
 	}
 }
+
+func WithErrorUnexpected() func(ISdkError) {
+	return func(sdkErr ISdkError) {
+		sdkErr.WithErrorCode(EcUnexpectedError).
+			WithMessage("Unexpected Error").
+			WithErrors(lfmt.Errorf("unexpected error from making request to external service"))
+	}
+}
