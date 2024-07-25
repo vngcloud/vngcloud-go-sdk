@@ -7,25 +7,33 @@ type (
 		GetClientId() string
 		GetClientSecret() string
 		GetProjectId() string
+		GetUserId() string
+		GetZoneId() string
 		GetIamEndpoint() string
 		GetVServerEndpoint() string
 		GetVLBEndpoint() string
+		GetVNetworkEndpoint() string
+		WithUserId(puserId string) ISdkConfigure
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
 		WithProjectId(pprojectId string) ISdkConfigure
 		WithIamEndpoint(piamEndpoint string) ISdkConfigure
 		WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure
 		WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure
+		WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfigure
 	}
 )
 
 type sdkConfigure struct {
-	clientId        string
-	clientSecret    string
-	projectId       string
-	iamEndpoint     string
-	vserverEndpoint string
-	vlbEndpoint     string
+	clientId         string
+	clientSecret     string
+	projectId        string
+	zoneId           string
+	userId           string
+	iamEndpoint      string
+	vserverEndpoint  string
+	vlbEndpoint      string
+	vnetworkEndpoint string
 }
 
 func (s *sdkConfigure) GetClientId() string {
@@ -40,6 +48,14 @@ func (s *sdkConfigure) GetProjectId() string {
 	return s.projectId
 }
 
+func (s *sdkConfigure) GetUserId() string {
+	return s.userId
+}
+
+func (s *sdkConfigure) GetZoneId() string {
+	return s.zoneId
+}
+
 func (s *sdkConfigure) GetIamEndpoint() string {
 	return s.iamEndpoint
 }
@@ -52,6 +68,10 @@ func (s *sdkConfigure) GetVLBEndpoint() string {
 	return s.vlbEndpoint
 }
 
+func (s *sdkConfigure) GetVNetworkEndpoint() string {
+	return s.vnetworkEndpoint
+}
+
 func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 	s.clientId = pclientId
 	return s
@@ -59,6 +79,11 @@ func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {
 
 func (s *sdkConfigure) WithClientSecret(pclientSecret string) ISdkConfigure {
 	s.clientSecret = pclientSecret
+	return s
+}
+
+func (s *sdkConfigure) WithUserId(puserId string) ISdkConfigure {
+	s.userId = puserId
 	return s
 }
 
@@ -79,5 +104,10 @@ func (s *sdkConfigure) WithVServerEndpoint(pvserverEndpoint string) ISdkConfigur
 
 func (s *sdkConfigure) WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure {
 	s.vlbEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
+	return s
+}
+
+func (s *sdkConfigure) WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfigure {
+	s.vnetworkEndpoint = ljutils.NormalizeURL(pvnetworkEndpoint)
 	return s
 }

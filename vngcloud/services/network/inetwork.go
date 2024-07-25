@@ -3,8 +3,13 @@ package network
 import (
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
+	lsnetworkSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
 	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v2"
 )
+
+type INetworkServiceV1 interface {
+	GetEndpointById(pops lsnetworkSvcV1.IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.ISdkError)
+}
 
 type INetworkServiceV2 interface {
 	// The group of Network APIs

@@ -33,6 +33,10 @@ func (s *request) WithOkCodes(pokCodes ...int) IRequest {
 	return s
 }
 
+func (s *request) WithUserId(puserId string) IRequest {
+	return s.WithHeader("portal-user-id", puserId)
+}
+
 func (s *request) WithJsonBody(pjsonBody interface{}) IRequest {
 	s.JsonBody = pjsonBody
 	return s

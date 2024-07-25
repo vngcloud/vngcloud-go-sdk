@@ -47,6 +47,24 @@ func TestGetPortalInfoSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestGetPortalInfoSuccess2(t *ltesting.T) {
+	backendProjectId := getValueOfEnv("USER_11412_OS_PROJECT_ID")
+	vngcloud := validUser11412SdkConfig()
+	opt := lsportalV1.NewGetPortalInfoRequest(backendProjectId)
+	portal, err := vngcloud.VServerGateway().V1().PortalService().GetPortalInfo(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if portal == nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", portal)
+	t.Log("PASS")
+}
+
 func TestGetPortalInfoFailure(t *ltesting.T) {
 	backendProjectId := getValueOfEnv("FAKE_BACKEND_PROJECT_ID")
 	vngcloud := validSdkConfig()

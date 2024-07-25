@@ -28,6 +28,7 @@ type IRequest interface {
 	WithSkipAuth(pskipAuth bool) IRequest
 	WithHeader(pkey, pvalue string) IRequest
 	WithMapHeaders(pheaders map[string]string) IRequest
+	WithUserId(puserId string) IRequest
 
 	GetRequestBody() interface{}
 	GetRequestMethod() string

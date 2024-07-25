@@ -18,12 +18,15 @@ type (
 	client struct {
 		context    lctx.Context
 		projectId  string
+		zoneId     string
+		userId     string
 		httpClient lsclient.IHttpClient
 
-		iamGateway     lsgateway.IIamGateway
-		vserverGateway lsgateway.IVServerGateway
-		vlbGateway     lsgateway.IVLBGateway
-		vbackupGateway lsgateway.IVBackUpGateway
+		iamGateway      lsgateway.IIamGateway
+		vserverGateway  lsgateway.IVServerGateway
+		vlbGateway      lsgateway.IVLBGateway
+		vbackupGateway  lsgateway.IVBackUpGateway
+		vnetworkGateway lsgateway.IVNetworkGateway
 	}
 )
 
@@ -107,25 +110,43 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
 	}
 
+	if s.vnetworkGateway != nil {
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(s.vnetworkGateway.GetEndpoint(), s.zoneId, s.projectId, s.userId, s.httpClient)
+	}
+
+	return s
+}
+
+func (s *client) WithUserId(puserId string) IClient {
+	s.userId = puserId
+	if s.vnetworkGateway != nil {
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(s.vnetworkGateway.GetEndpoint(), s.zoneId, s.projectId, s.userId, s.httpClient)
+	}
+
 	return s
 }
 
 func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	s.projectId = psdkCfg.GetProjectId()
+	s.userId = psdkCfg.GetUserId()
 	if s.httpClient == nil {
 		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
-	if s.iamGateway == nil {
+	if s.iamGateway == nil && psdkCfg.GetIamEndpoint() != "" {
 		s.iamGateway = lsgateway.NewIamGateway(psdkCfg.GetIamEndpoint(), s.projectId, s.httpClient)
 	}
 
-	if s.vserverGateway == nil {
+	if s.vserverGateway == nil && psdkCfg.GetVServerEndpoint() != "" {
 		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
 	}
 
-	if s.vlbGateway == nil {
+	if s.vlbGateway == nil && psdkCfg.GetVLBEndpoint() != "" && psdkCfg.GetVServerEndpoint() != "" {
 		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
+	}
+
+	if s.vnetworkGateway == nil && psdkCfg.GetVNetworkEndpoint() != "" {
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(psdkCfg.GetVNetworkEndpoint(), psdkCfg.GetZoneId(), s.projectId, s.userId, s.httpClient)
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
@@ -147,6 +168,10 @@ func (s *client) VLBGateway() lsgateway.IVLBGateway {
 
 func (s *client) VBackUpGateway() lsgateway.IVBackUpGateway {
 	return s.vbackupGateway
+}
+
+func (s *client) VNetworkGateway() lsgateway.IVNetworkGateway {
+	return s.vnetworkGateway
 }
 
 func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.ISdkError) {

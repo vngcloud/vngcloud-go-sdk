@@ -13,6 +13,8 @@ type serviceClient struct {
 	name        string
 	endpoint    string
 	projectId   string
+	zoneId      string
+	userId      string
 	moreHeaders map[string]string
 	client      IHttpClient
 }
@@ -28,6 +30,16 @@ func (s *serviceClient) WithEndpoint(pendpoint string) IServiceClient {
 
 func (s *serviceClient) WithName(pname string) IServiceClient {
 	s.name = pname
+	return s
+}
+
+func (s *serviceClient) WithZoneId(pzoneId string) IServiceClient {
+	s.zoneId = pzoneId
+	return s
+}
+
+func (s *serviceClient) WithUserId(puserId string) IServiceClient {
+	s.userId = puserId
 	return s
 }
 
@@ -73,6 +85,14 @@ func (s *serviceClient) Put(purl string, preq IRequest) (*lreq.Response, lsdkErr
 
 func (s *serviceClient) GetProjectId() string {
 	return s.projectId
+}
+
+func (s *serviceClient) GetZoneId() string {
+	return s.zoneId
+}
+
+func (s *serviceClient) GetUserId() string {
+	return s.userId
 }
 
 type SdkAuthentication struct {

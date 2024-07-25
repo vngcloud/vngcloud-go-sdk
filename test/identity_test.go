@@ -41,7 +41,8 @@ func validSdkConfig() lsclient.IClient {
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
-		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork")
 
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
@@ -65,6 +66,19 @@ func validSuperSdkConfig() lsclient.IClient {
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func validUser11412SdkConfig() lsclient.IClient {
+	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("USER_11412_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")

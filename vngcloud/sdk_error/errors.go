@@ -13,17 +13,27 @@ type (
 	NormalErrorResponse struct {
 		Message string `json:"message,omitempty"`
 	}
+
+	NetworkGatewayErrorResponse struct {
+		Message   string `json:"message,omitempty"`
+		Code      int    `json:"code,omitempty"`
+		ErrorCode string `json:"errorCode,omitempty"`
+		Success   bool   `json:"success,omitempty"`
+	}
 )
 
 const (
 	NormalErrorType = iota
 	IamErrorType
+	NetworkGatewayErrorType
 )
 
 func NewErrorResponse(ptype int) IErrorRespone {
 	switch {
 	case ptype == IamErrorType:
 		return new(IamErrorResponse)
+	case ptype == NetworkGatewayErrorType:
+		return new(NetworkGatewayErrorResponse)
 	default:
 		return new(NormalErrorResponse)
 	}
@@ -51,4 +61,12 @@ func (s *NormalErrorResponse) GetMessage() string {
 
 func (s *NormalErrorResponse) GetError() error {
 	return lfmt.Errorf("%s", s.Message)
+}
+
+func (s *NetworkGatewayErrorResponse) GetMessage() string {
+	return s.Message
+}
+
+func (s *NetworkGatewayErrorResponse) GetError() error {
+	return lfmt.Errorf("%s/%d/%s", s.ErrorCode, s.Code, s.Message)
 }

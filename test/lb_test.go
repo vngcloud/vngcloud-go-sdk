@@ -29,6 +29,28 @@ func TestCreateInterLoadBalancerSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestCreateInterLoadBalancerV2(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsinter.NewCreateLoadBalancerRequest(
+		getValueOfEnv("VNGCLOUD_PORTAL_USER_ID"),
+		"cuongdm3-test-intervpc",
+		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
+		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
+		"sub-f7770744-6aa4-4292-9ff9-b43b44716ede",
+	)
+	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
 func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig2()
 	opt := lsinter.NewCreateLoadBalancerRequest(

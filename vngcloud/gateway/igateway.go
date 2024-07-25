@@ -25,6 +25,11 @@ type IVServerGateway interface {
 	GetEndpoint() string
 }
 
+type IVNetworkGateway interface {
+	V1() IVNetworkGatewayV1
+	GetEndpoint() string
+}
+
 type IVServerGatewayV1 interface {
 	PortalService() lsportalSvc.IPortalServiceV1
 	VolumeService() lsvolumeSvc.IVolumeServiceV1
@@ -39,6 +44,10 @@ type IVServerGatewayV2 interface {
 
 type IVLBGatewayV2 interface {
 	LoadBalancerService() lslbSvc.ILoadBalancerServiceV2
+}
+
+type IVNetworkGatewayV1 interface {
+	NetworkService() lsnetworkSvc.INetworkServiceV1
 }
 
 type IVLBGatewayInternal interface {
