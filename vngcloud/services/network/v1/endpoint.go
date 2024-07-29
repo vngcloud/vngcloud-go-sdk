@@ -25,3 +25,22 @@ func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsen
 
 	return resp.ToEntityEndpoint(), nil
 }
+
+func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsentity.Endpoint, lserr.ISdkError) {
+	url := createEndpointUrl(s.VNetworkClient)
+	resp := new(CreateEndpointResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(201).
+		WithUserId(s.getUserId()).
+		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityEndpoint(), nil
+}

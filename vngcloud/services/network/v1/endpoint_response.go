@@ -28,3 +28,13 @@ func (s *GetEndpointByIdResponse) ToEntityEndpoint() *lsentity.Endpoint {
 		Status:      s.Data.Status,
 	}
 }
+
+type CreateEndpointResponse struct {
+	Uuid string `json:"uuid,omitempty"`
+}
+
+func (s *CreateEndpointResponse) ToEntityEndpoint() *lsentity.Endpoint {
+	return &lsentity.Endpoint{
+		Id: s.Uuid,
+	}
+}

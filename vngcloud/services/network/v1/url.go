@@ -9,3 +9,10 @@ func getEndpointByIdUrl(psc lsclient.IServiceClient, popts IGetEndpointByIdReque
 		"endpoints",
 		popts.GetEndpointId())
 }
+
+func createEndpointUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetZoneId(),
+		psc.GetProjectId(),
+		"endpoints")
+}
