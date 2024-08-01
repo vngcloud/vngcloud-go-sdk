@@ -77,7 +77,7 @@ func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig().WithProjectId("pro-c8e87532-dc1a-421c-8c5e-4604d772829f")
 	opt := lsinter.NewCreateLoadBalancerRequest(
 		getValueOfEnv("VINHPORTAL_USER_ID"),
-		"vinhnt8-vserver-endpoint-2",
+		"vinhnt8-15percent-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
 		"sub-0725ef54-a32e-404c-96f2-34745239c28d",
