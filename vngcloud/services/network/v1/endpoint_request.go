@@ -5,9 +5,35 @@ import (
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
 
+const (
+	defaultPackageId = "d33c1f28-cb27-442d-81ac-062f57bd52b9"
+
+	vstorageServiceId = "b9ba2b16-389e-48b7-9e75-4c991239da27"
+)
+
 func NewGetEndpointByIdRequest(pendpointId string) IGetEndpointByIdRequest {
 	opt := new(GetEndpointByIdRequest)
 	opt.EndpointId = pendpointId
+	return opt
+}
+
+func NewCreateEndpointRequest(pname, pserviceId, pvpcId, psubnetId string) ICreateEndpointRequest {
+	opts := new(CreateEndpointRequest)
+	opts.ResourceInfo.EndpointName = pname
+	opts.ResourceInfo.ServiceUuid = pserviceId
+	opts.ResourceInfo.VpcUuid = pvpcId
+	opts.ResourceInfo.SubnetUuid = psubnetId
+
+	return opts
+}
+
+func NewDeleteEndpointByIdRequest(pendpointId, pvpcId, pendpointServiceId string) IDeleteEndpointByIdRequest {
+	opt := new(DeleteEndpointByIdRequest)
+	opt.EndpointId = pendpointId
+	opt.EndpointUuid = pendpointId
+	opt.VpcUuid = pvpcId
+	opt.EndpointServiceUuid = pendpointServiceId
+
 	return opt
 }
 
@@ -52,6 +78,7 @@ func (s *CreateEndpointRequest) ToRequestBody(psvc lsclient.IServiceClient) inte
 	s.Action = "create"
 	s.ResourceInfo.RegionUuid = psvc.GetZoneId()
 	s.ResourceInfo.ProjectUuid = psvc.GetProjectId()
+	s.ResourceInfo.PackageUuid = defaultPackageId
 
 	return s
 }
@@ -88,5 +115,28 @@ func (s *CreateEndpointRequest) WithSubnetUuid(psubnetUuid string) ICreateEndpoi
 
 func (s *CreateEndpointRequest) WithDescription(pdesp string) ICreateEndpointRequest {
 	s.ResourceInfo.Description = pdesp
+	return s
+}
+
+type DeleteEndpointByIdRequest struct {
+	EndpointServiceUuid string `json:"endpointServiceUuid"`
+	EndpointUuid        string `json:"endpointUuid"`
+	ProjectUuid         string `json:"projectUuid"`
+	RegionUuid          string `json:"regionUuid"`
+	VpcUuid             string `json:"vpcUuid"`
+
+	lscommon.UserAgent
+	lscommon.EndpointCommon
+}
+
+func (s *DeleteEndpointByIdRequest) AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *DeleteEndpointByIdRequest) ToRequestBody(psvc lsclient.IServiceClient) interface{} {
+	s.ProjectUuid = psvc.GetProjectId()
+	s.RegionUuid = psvc.GetZoneId()
+
 	return s
 }

@@ -16,3 +16,11 @@ func createEndpointUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"endpoints")
 }
+
+func deleteEndpointByIdUrl(psc lsclient.IServiceClient, popts IDeleteEndpointByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetZoneId(),
+		psc.GetProjectId(),
+		"endpoints",
+		popts.GetEndpointId())
+}

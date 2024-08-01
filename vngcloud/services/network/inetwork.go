@@ -10,6 +10,7 @@ import (
 type INetworkServiceV1 interface {
 	GetEndpointById(pops lsnetworkSvcV1.IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.ISdkError)
 	CreateEndpoint(popts lsnetworkSvcV1.ICreateEndpointRequest) (*lsentity.Endpoint, lserr.ISdkError)
+	DeleteEndpointById(popts lsnetworkSvcV1.IDeleteEndpointByIdRequest) lserr.ISdkError
 }
 
 type INetworkServiceV2 interface {

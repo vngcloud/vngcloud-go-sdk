@@ -30,11 +30,15 @@ func (s *GetEndpointByIdResponse) ToEntityEndpoint() *lsentity.Endpoint {
 }
 
 type CreateEndpointResponse struct {
-	Uuid string `json:"uuid,omitempty"`
+	Data struct {
+		Uuid string `json:"uuid,omitempty"`
+		Name string `json:"name,omitempty"`
+	} `json:"data"`
 }
 
 func (s *CreateEndpointResponse) ToEntityEndpoint() *lsentity.Endpoint {
 	return &lsentity.Endpoint{
-		Id: s.Uuid,
+		Id:   s.Data.Uuid,
+		Name: s.Data.Name,
 	}
 }

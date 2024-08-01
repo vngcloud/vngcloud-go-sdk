@@ -38,11 +38,13 @@ func validSdkConfig() lsclient.IClient {
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
+		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
-		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork")
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
 
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }

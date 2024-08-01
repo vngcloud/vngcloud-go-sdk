@@ -14,6 +14,7 @@ type (
 		GetVLBEndpoint() string
 		GetVNetworkEndpoint() string
 		WithUserId(puserId string) ISdkConfigure
+		WithZoneId(pzoneId string) ISdkConfigure
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
 		WithProjectId(pprojectId string) ISdkConfigure
@@ -84,6 +85,11 @@ func (s *sdkConfigure) WithClientSecret(pclientSecret string) ISdkConfigure {
 
 func (s *sdkConfigure) WithUserId(puserId string) ISdkConfigure {
 	s.userId = puserId
+	return s
+}
+
+func (s *sdkConfigure) WithZoneId(pzoneId string) ISdkConfigure {
+	s.zoneId = pzoneId
 	return s
 }
 

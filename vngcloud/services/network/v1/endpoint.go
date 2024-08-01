@@ -12,7 +12,7 @@ func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsen
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithOkCodes(200).
-		WithUserId(s.getUserId()).
+		//WithUserId(s.getUserId()).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
 
@@ -32,7 +32,7 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithOkCodes(201).
-		WithUserId(s.getUserId()).
+		//WithUserId(s.getUserId()).
 		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
@@ -43,4 +43,23 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 	}
 
 	return resp.ToEntityEndpoint(), nil
+}
+
+func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) lserr.ISdkError {
+	url := deleteEndpointByIdUrl(s.VNetworkClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
+		//WithUserId(s.getUserId()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
+		lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters(
+				"endpointId", popts.GetEndpointId(),
+				"projectId", s.getProjectId())
+	}
+
+	return nil
 }
