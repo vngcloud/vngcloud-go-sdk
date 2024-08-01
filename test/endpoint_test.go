@@ -7,15 +7,15 @@ import (
 
 func TestGetEndpointSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnwv1.NewGetEndpointByIdRequest("enp-f20dd4a4-2a21-49ca-adfc-34af87d03b9e")
+	opt := lsnwv1.NewGetEndpointByIdRequest("enp-7575cb25-0033-4c26-9145-53cd90d7778c")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().GetEndpointById(opt)
 	if sdkerr != nil {
-		t.Fatalf("Expect nil but got %+v", sdkerr.GetError())
+		t.Errorf("Expect nil but got %+v", sdkerr.GetError())
 	}
 
 	if lb == nil {
-		t.Fatalf("Expect not nil but got nil")
+		t.Errorf("Expect not nil but got nil")
 	}
 
 	t.Log("Result: ", lb)
