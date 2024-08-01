@@ -55,7 +55,7 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
-		lserr.SdkErrorHandler(sdkErr, errResp).
+		return lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters(
 				"endpointId", popts.GetEndpointId(),
 				"projectId", s.getProjectId())
