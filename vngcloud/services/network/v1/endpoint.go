@@ -38,7 +38,8 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointOfVpcExists(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
 	}
 
