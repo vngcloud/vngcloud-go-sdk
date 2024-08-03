@@ -65,3 +65,21 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 
 	return nil
 }
+
+func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.ISdkError) {
+	url := listEndpointsUrl(s.VNetworkClient, popts)
+	resp := new(ListEndpointsResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		//WithUserId(s.getUserId()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityListEndpoints(), nil
+}

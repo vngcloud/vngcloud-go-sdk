@@ -40,3 +40,11 @@ func (s *Endpoint) GetStatus() string {
 func (s *Endpoint) IsError() bool {
 	return s.Status == "ERROR"
 }
+
+type ListEndpoints struct {
+	Items     []*Endpoint
+	Page      int
+	PageSize  int
+	TotalPage int
+	TotalItem int
+}

@@ -3,6 +3,8 @@ package test
 import (
 	lsnwv1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
 	ltesting "testing"
+
+	"net/url"
 )
 
 func TestGetEndpointSuccess(t *ltesting.T) {
@@ -49,4 +51,28 @@ func TestDeleteEndpoint(t *ltesting.T) {
 	}
 
 	t.Log("PASS")
+}
+
+func TestListEndpoints(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnwv1.NewListEndpointsRequest(1, 100).WithVpcId("net-5ac170fc-834a-4621-b512-481e09b83fc8")
+
+	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().ListEndpoints(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
+func TestEndpoint(t *ltesting.T) {
+	raw := `{"page":1,"size":10,"search":[{"field":"vpcId","value":"net-5ac170fc-834a-4621-b512-481e09b82fc8"}]}`
+	encode := url.QueryEscape(raw)
+
+	t.Log("Encode: ", encode)
 }

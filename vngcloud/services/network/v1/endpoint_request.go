@@ -1,14 +1,19 @@
 package v1
 
 import (
+	lfmt "fmt"
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+	lurl "net/url"
 )
 
 const (
 	defaultPackageId = "d33c1f28-cb27-442d-81ac-062f57bd52b9"
 
 	vstorageServiceId = "b9ba2b16-389e-48b7-9e75-4c991239da27"
+
+	defaultListEndpointsRequestPage = 1
+	defaultListEndpointsRequestSize = 10
 )
 
 func NewGetEndpointByIdRequest(pendpointId string) IGetEndpointByIdRequest {
@@ -35,6 +40,13 @@ func NewDeleteEndpointByIdRequest(pendpointId, pvpcId, pendpointServiceId string
 	opt.EndpointServiceUuid = pendpointServiceId
 
 	return opt
+}
+
+func NewListEndpointsRequest(ppage, psize int) IListEndpointsRequest {
+	return &ListEndpointsRequest{
+		Page: ppage,
+		Size: psize,
+	}
 }
 
 type GetEndpointByIdRequest struct {
@@ -138,5 +150,50 @@ func (s *DeleteEndpointByIdRequest) ToRequestBody(psvc lsclient.IServiceClient) 
 	s.ProjectUuid = psvc.GetProjectId()
 	s.RegionUuid = psvc.GetZoneId()
 
+	return s
+}
+
+type ListEndpointsRequest struct {
+	Page  int
+	Size  int
+	VpcId string
+	lscommon.UserAgent
+}
+
+func (s *ListEndpointsRequest) WithPage(ppage int) IListEndpointsRequest {
+	s.Page = ppage
+	return s
+}
+
+func (s *ListEndpointsRequest) WithSize(psize int) IListEndpointsRequest {
+	s.Size = psize
+	return s
+}
+
+func (s *ListEndpointsRequest) WithVpcId(pvpcId string) IListEndpointsRequest {
+	s.VpcId = pvpcId
+	return s
+}
+
+func (s *ListEndpointsRequest) ToListQuery() (string, error) {
+	params := ""
+	if s.VpcId != "" {
+		params = lfmt.Sprintf(`{"field":"vpcId","value":"%s"}`, s.VpcId)
+	}
+
+	query := lfmt.Sprintf(`{"page":%d,"size":%d,"search":[%s]}`, s.Page, s.Size, params)
+	query = "params=" + lurl.QueryEscape(query)
+
+	return query, nil
+}
+
+func (s *ListEndpointsRequest) GetDefaultQuery() string {
+	query := lfmt.Sprintf(`{"page":%d,"size":%d}`, defaultListEndpointsRequestPage, defaultListEndpointsRequestSize)
+	query = "params=" + lurl.QueryEscape(query)
+	return query
+}
+
+func (s *ListEndpointsRequest) AddUserAgent(pagent ...string) IListEndpointsRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
 }

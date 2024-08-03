@@ -24,3 +24,12 @@ func deleteEndpointByIdUrl(psc lsclient.IServiceClient, popts IDeleteEndpointByI
 		"endpoints",
 		popts.GetEndpointId())
 }
+
+func listEndpointsUrl(psc lsclient.IServiceClient, popts IListEndpointsRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(psc.GetZoneId(), psc.GetProjectId(), "endpoints?") + query
+}

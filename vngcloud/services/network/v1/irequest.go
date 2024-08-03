@@ -24,3 +24,12 @@ type IDeleteEndpointByIdRequest interface {
 	AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest
 	ToRequestBody(psvc lsclient.IServiceClient) interface{}
 }
+
+type IListEndpointsRequest interface {
+	WithPage(ppage int) IListEndpointsRequest
+	WithSize(psize int) IListEndpointsRequest
+	WithVpcId(pvpcId string) IListEndpointsRequest
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
+	AddUserAgent(pagent ...string) IListEndpointsRequest
+}
