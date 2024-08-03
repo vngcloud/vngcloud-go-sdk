@@ -11,7 +11,7 @@ func TestGetEndpointSuccess(t *ltesting.T) {
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().GetEndpointById(opt)
 	if sdkerr != nil {
-		t.Errorf("Expect nil but got %+v", sdkerr.GetError())
+		t.Errorf("Expect nil but got %+v", sdkerr.GetErrorCode())
 	}
 
 	if lb == nil {
@@ -45,7 +45,7 @@ func TestDeleteEndpoint(t *ltesting.T) {
 
 	sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().DeleteEndpointById(opt)
 	if sdkerr != nil {
-		t.Fatalf("Expect nil but got %+v", sdkerr.GetError())
+		t.Fatalf("Expect nil but got %+v", sdkerr.GetErrorCode())
 	}
 
 	t.Log("PASS")

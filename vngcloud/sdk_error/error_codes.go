@@ -122,3 +122,9 @@ const (
 	EcVLBMemberMustIdentical             = ErrorCode("VngCloudVLBMemberMustIdentical")
 	EcVLBLoadBalancerExceedQuota         = ErrorCode("VngCloudVLBLoadBalancerExceedQuota")
 )
+
+// Endpoint
+
+const (
+	EcVNetworkEndpointStatusInvalid = ErrorCode("EndpointStatusInvalid")
+)

@@ -64,9 +64,9 @@ func (s *NormalErrorResponse) GetError() error {
 }
 
 func (s *NetworkGatewayErrorResponse) GetMessage() string {
-	return s.Message
+	return lfmt.Sprintf("%s/%d/%s", s.ErrorCode, s.Code, s.Message)
 }
 
 func (s *NetworkGatewayErrorResponse) GetError() error {
-	return lfmt.Errorf("%s/%d/%s", s.ErrorCode, s.Code, s.Message)
+	return lfmt.Errorf(s.ErrorCode)
 }
