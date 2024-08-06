@@ -43,7 +43,7 @@ func TestCreateEndpoint(t *ltesting.T) {
 
 func TestDeleteEndpoint(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnwv1.NewDeleteEndpointByIdRequest("enp-7575cb25-0033-4c26-9145-53cd90d7778c", "net-5ac170fc-834a-4621-b512-481e09b82fc8", "b9ba2b16-389e-48b7-9e75-4c991239da27")
+	opt := lsnwv1.NewDeleteEndpointByIdRequest("enp-56d7359f-4b9a-4f01-a210-54523c6d0c88", "net-5ac170fc-834a-4621-b512-481e09b82fc8", "b9ba2b16-389e-48b7-9e75-4c991239da27")
 
 	sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().DeleteEndpointById(opt)
 	if sdkerr != nil {
