@@ -10,7 +10,11 @@ import (
 const (
 	defaultPackageId = "d33c1f28-cb27-442d-81ac-062f57bd52b9"
 
-	vstorageServiceId = "b9ba2b16-389e-48b7-9e75-4c991239da27"
+	VStorageServiceId = "xxx"
+	VCRServiceId      = "xxx"
+	VServerServiceId  = "xxx"
+	IAMServiceId      = "xxx"
+	VMonitorServiceId = "xxx"
 
 	defaultListEndpointsRequestPage = 1
 	defaultListEndpointsRequestSize = 10
