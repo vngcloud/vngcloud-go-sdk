@@ -32,6 +32,7 @@ func NewCreateEndpointRequest(pname, pserviceId, pvpcId, psubnetId string) ICrea
 	opts.ResourceInfo.ServiceUuid = pserviceId
 	opts.ResourceInfo.VpcUuid = pvpcId
 	opts.ResourceInfo.SubnetUuid = psubnetId
+	opts.ResourceInfo.PackageUuid = defaultPackageId
 
 	return opts
 }
@@ -94,7 +95,6 @@ func (s *CreateEndpointRequest) ToRequestBody(psvc lsclient.IServiceClient) inte
 	s.Action = "create"
 	s.ResourceInfo.RegionUuid = psvc.GetZoneId()
 	s.ResourceInfo.ProjectUuid = psvc.GetProjectId()
-	s.ResourceInfo.PackageUuid = defaultPackageId
 
 	return s
 }
