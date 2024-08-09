@@ -55,7 +55,7 @@ func TestDeleteEndpoint(t *ltesting.T) {
 
 func TestListEndpoints(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnwv1.NewListEndpointsRequest(1, 100).WithVpcId("net-5ac170fc-834a-4621-b512-481e09b83fc8")
+	opt := lsnwv1.NewListEndpointsRequest(1, 100).WithVpcId("net-9f390556-f3f1-4989-97b0-0aa3fffe93dd")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().ListEndpoints(opt)
 	if sdkerr != nil {
@@ -66,7 +66,7 @@ func TestListEndpoints(t *ltesting.T) {
 		t.Fatalf("Expect not nil but got nil")
 	}
 
-	t.Log("Result: ", lb)
+	t.Log("Result: ", lb.Items[0].IPv4Address)
 	t.Log("PASS")
 }
 

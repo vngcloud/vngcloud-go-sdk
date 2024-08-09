@@ -8,12 +8,8 @@ type Endpoint struct {
 	EndpointServiceId string `json:"endpointServiceId,omitempty"`
 	VpcId             string `json:"vpcId,omitempty"`
 	EndpointUrl       string `json:"endpointUrl,omitempty"`
+	EndpointIp        string `json:"endpointIp,omitempty"`
 	Status            string `json:"status,omitempty"`
-	Service           struct {
-		Uuid       string `json:"uuid,omitempty"`
-		Name       string `json:"name,omitempty"`
-		EndpointIp string `json:"endpointIp,omitempty"`
-	} `json:"service,omitempty"`
 }
 
 func (s *Endpoint) toEntityEndpoint() *lsentity.Endpoint {
@@ -21,7 +17,7 @@ func (s *Endpoint) toEntityEndpoint() *lsentity.Endpoint {
 		Id:          s.Uuid,
 		Name:        s.EndpointName,
 		VpcId:       s.VpcId,
-		IPv4Address: s.Service.EndpointIp,
+		IPv4Address: s.EndpointIp,
 		EndpointUrl: s.EndpointUrl,
 		Status:      s.Status,
 	}
