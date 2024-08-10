@@ -48,3 +48,15 @@ type ListEndpoints struct {
 	TotalPage int
 	TotalItem int
 }
+
+func (s *ListEndpoints) Len() int {
+	return len(s.Items)
+}
+
+func (s *ListEndpoints) At(pidx int) *Endpoint {
+	if pidx < 0 || pidx >= s.Len() {
+		return nil
+	}
+
+	return s.Items[pidx]
+}

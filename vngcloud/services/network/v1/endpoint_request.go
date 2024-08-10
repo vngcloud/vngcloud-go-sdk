@@ -2,9 +2,11 @@ package v1
 
 import (
 	lfmt "fmt"
+	lurl "net/url"
+	lstr "strings"
+
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
-	lurl "net/url"
 )
 
 const (
@@ -161,6 +163,7 @@ type ListEndpointsRequest struct {
 	Page  int
 	Size  int
 	VpcId string
+	Uuid  string
 	lscommon.UserAgent
 }
 
@@ -179,13 +182,23 @@ func (s *ListEndpointsRequest) WithVpcId(pvpcId string) IListEndpointsRequest {
 	return s
 }
 
+func (s *ListEndpointsRequest) WithUuid(puuid string) IListEndpointsRequest {
+	s.Uuid = puuid
+	return s
+}
+
 func (s *ListEndpointsRequest) ToListQuery() (string, error) {
-	params := ""
+	var params []string
 	if s.VpcId != "" {
-		params = lfmt.Sprintf(`{"field":"vpcId","value":"%s"}`, s.VpcId)
+		params = append(params, lfmt.Sprintf(`{"field":"vpcId","value":"%s"}`, s.VpcId))
 	}
 
-	query := lfmt.Sprintf(`{"page":%d,"size":%d,"search":[%s]}`, s.Page, s.Size, params)
+	if s.Uuid != "" {
+		params = append(params, lfmt.Sprintf(`{"field":"uuid","value":"%s"}`, s.Uuid))
+	}
+
+	paramsFilter := lstr.Join(params, ",")
+	query := lfmt.Sprintf(`{"page":%d,"size":%d,"search":[%s]}`, s.Page, s.Size, paramsFilter)
 	query = "params=" + lurl.QueryEscape(query)
 
 	return query, nil
