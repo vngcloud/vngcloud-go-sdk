@@ -128,4 +128,5 @@ const (
 const (
 	EcVNetworkEndpointStatusInvalid = ErrorCode("EndpointStatusInvalid")
 	EcVNetworkEndpointOfVpcExists   = ErrorCode("EndpointOfVpcIsExists")
+	ECVNetworkEndpointNotFound      = ErrorCode("VngCloudVNetworkEndpointNotFound")
 )
