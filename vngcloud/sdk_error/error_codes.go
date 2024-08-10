@@ -130,4 +130,5 @@ const (
 	EcVNetworkEndpointOfVpcExists                       = ErrorCode("EndpointOfVpcIsExists")
 	EcVNetworkEndpointNotFound                          = ErrorCode("VngCloudVNetworkEndpointNotFound")
 	EcVNetworkEndpointPackageNotBelongToEndpointService = ErrorCode("EndpointPackageNotBelongToEndpointService")
+	EcContainInvalidCharacter                           = ErrorCode("ContainInvalidCharacter")
 )

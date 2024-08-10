@@ -43,3 +43,17 @@ func WithErrorEndpointPackageNotBelongToEndpointService(perrResp IErrorRespone) 
 		}
 	}
 }
+
+func WithErrorContainInvalidCharacter(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "CONTAIN_INVALID_CHARACTER" {
+			sdkError.WithErrorCode(EcContainInvalidCharacter).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
