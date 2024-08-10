@@ -29,3 +29,17 @@ func WithErrorEndpointOfVpcExists(perrResp IErrorRespone) func(sdkError ISdkErro
 		}
 	}
 }
+
+func WithErrorEndpointPackageNotBelongToEndpointService(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "ENDPOINT_PACKAGE_NOT_BELONG_TO_ENDPOINT_SERVICE" {
+			sdkError.WithErrorCode(EcVNetworkEndpointPackageNotBelongToEndpointService).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
