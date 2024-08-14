@@ -40,6 +40,7 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorEndpointOfVpcExists(errResp),
+			lserr.WithErrorLockOnProcess(errResp),
 			lserr.WithErrorEndpointPackageNotBelongToEndpointService(errResp),
 			lserr.WithErrorContainInvalidCharacter(errResp)).
 			WithKVparameters("projectId", s.getProjectId())

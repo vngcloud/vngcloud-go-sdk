@@ -51,7 +51,21 @@ func WithErrorContainInvalidCharacter(perrResp IErrorRespone) func(sdkError ISdk
 		}
 
 		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "CONTAIN_INVALID_CHARACTER" {
-			sdkError.WithErrorCode(EcContainInvalidCharacter).
+			sdkError.WithErrorCode(EcVNetworkContainInvalidCharacter).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLockOnProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
+	return func(sdkError ISdkError) {
+		if perrResp == nil {
+			return
+		}
+
+		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "LOCK_ON_PROCESS" {
+			sdkError.WithErrorCode(EcVNetworkLockOnProcess).
 				WithMessage(perrResp.GetMessage()).
 				WithErrors(perrResp.GetError())
 		}
