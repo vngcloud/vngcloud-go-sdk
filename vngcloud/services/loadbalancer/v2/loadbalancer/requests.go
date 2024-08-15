@@ -30,13 +30,14 @@ type (
 )
 
 type CreateOpts struct {
-	Name      string                 `json:"name"`
-	PackageID string                 `json:"packageId"`
-	Scheme    CreateOptsSchemeOpt    `json:"scheme"`
-	SubnetID  string                 `json:"subnetId"`
-	Type      CreateOptsTypeOpt      `json:"type"`
-	Listener  *lsListener.CreateOpts `json:"listener"`
-	Pool      *lsPool.CreateOpts     `json:"pool"`
+	Name         string                 `json:"name"`
+	PackageID    string                 `json:"packageId"`
+	Scheme       CreateOptsSchemeOpt    `json:"scheme"`
+	SubnetID     string                 `json:"subnetId"`
+	Type         CreateOptsTypeOpt      `json:"type"`
+	Listener     *lsListener.CreateOpts `json:"listener"`
+	Pool         *lsPool.CreateOpts     `json:"pool"`
+	AutoScalable bool                   `json:"autoScalable"`
 
 	lsCm.CommonOpts
 }

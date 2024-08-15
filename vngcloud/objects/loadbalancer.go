@@ -16,6 +16,7 @@ type LoadBalancer struct {
 	CreatedAt          string `json:"createdAt"`
 	UpdatedAt          string `json:"updatedAt"`
 	ProgressStatus     string `json:"progressStatus"`
+	AutoScalable       bool   `json:"autoScalable"`
 	// PackageInfo        struct {
 	// 	PackageID        string `json:"packageId"`
 	// 	ConnectionNumber int    `json:"connectionNumber"`

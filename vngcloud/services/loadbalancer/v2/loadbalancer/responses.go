@@ -23,6 +23,7 @@ type ResponseData struct {
 	Location           string `json:"location"`
 	CreatedAt          string `json:"createdAt"`
 	UpdatedAt          string `json:"updatedAt"`
+	AutoScalable       bool   `json:"autoScalable"`
 	PackageInfo        struct {
 		PackageID        string `json:"packageId"`
 		ConnectionNumber int    `json:"connectionNumber"`
@@ -76,6 +77,7 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 		CreatedAt:          s.Data.CreatedAt,
 		UpdatedAt:          s.Data.UpdatedAt,
 		ProgressStatus:     s.Data.ProgressStatus,
+		AutoScalable:       s.Data.AutoScalable,
 
 		// will be removed
 		Status:   s.Data.DisplayStatus,
@@ -101,6 +103,7 @@ type ListBySubnetIDResponse struct {
 	Type               string `json:"type"`
 	UUID               string `json:"uuid"`
 	UpdatedAt          string `json:"updatedAt"`
+	AutoScalable       bool   `json:"autoScalable"`
 }
 
 func (s *ListBySubnetIDResponse) ToLoadBalancerObject() *objects.LoadBalancer {
@@ -123,6 +126,7 @@ func (s *ListBySubnetIDResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 		Type:               s.Type,
 		CreatedAt:          s.CreatedAt,
 		UpdatedAt:          s.UpdatedAt,
+		AutoScalable:       s.AutoScalable,
 
 		Status:   s.DisplayStatus,
 		Internal: lStr.ToUpper(lStr.TrimSpace(s.LoadBalancerSchema)) == "INTERNAL",
@@ -162,6 +166,7 @@ func (s *ListResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
 			Type:               itemLb.Type,
 			CreatedAt:          itemLb.CreatedAt,
 			UpdatedAt:          itemLb.UpdatedAt,
+			AutoScalable:       itemLb.AutoScalable,
 
 			Status:   itemLb.DisplayStatus,
 			Internal: lStr.ToUpper(lStr.TrimSpace(itemLb.LoadBalancerSchema)) == "INTERNAL",
