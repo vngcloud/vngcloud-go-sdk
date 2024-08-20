@@ -110,6 +110,18 @@ func TestDeleteServerByIdSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestDeleteServerByIdSuccess2(t *ltesting.T) {
+	vngcloud := customerSdkConfig()
+	opt := lscomputeSvcV2.NewDeleteServerByIdRequest("ins-b40e3911-c524-47e1-a58f-d12efcb0ad66")
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DeleteServerById(opt)
+
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Log("PASS")
+}
+
 func TestUpdateServerSecgroupsByServerIdFailure(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lscomputeSvcV2.NewUpdateServerSecgroupsRequest("this-is-fake-id")

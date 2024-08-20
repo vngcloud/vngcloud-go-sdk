@@ -74,9 +74,9 @@ func TestCreateInterLoadBalancerTanTm3(t *ltesting.T) {
 }
 
 func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
-	vngcloud := validSuperSdkConfig2()
+	vngcloud := validHcm3bSdkConfig().WithProjectId(getValueOfEnv("HCM3BPROJECT_ID"))
 	opt := lsinter.NewCreateLoadBalancerRequest(
-		getValueOfEnv("VINHPORTAL_USER_ID"),
+		getValueOfEnv("HCM3BUSER_ID"),
 		"lb-overlap-private-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",

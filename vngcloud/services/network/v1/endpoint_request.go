@@ -13,7 +13,7 @@ const (
 	defaultPackageId = "d33c1f28-cb27-442d-81ac-062f57bd52b9"
 
 	VStorageServiceId = "b9ba2b16-389e-48b7-9e75-4c991239da27"
-	VCRServiceId      = "xxx"
+	VCRServiceId      = "4f823540-4d64-4bf5-a3e2-322b098b601b"
 	VServerServiceId  = "e3f1b087-2d8b-4258-8b49-f5c6a4d27411"
 	IAMServiceId      = "f3d11a4c-f071-4009-88a6-4a21346c8708"
 	VMonitorServiceId = "9cc0d21a-5c27-4295-9787-eea213e255a1"

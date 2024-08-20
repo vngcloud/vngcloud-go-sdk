@@ -49,6 +49,30 @@ func validSdkConfig() lsclient.IClient {
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
 
+func validHcm3bSdkConfig() lsclient.IClient {
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(getValueOfEnv("HCM3BCLIENT_ID")).
+		WithClientSecret(getValueOfEnv("HCM3BCLIENT_SECRET")).
+		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
+		WithProjectId(getValueOfEnv("HCM3BPROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func customerSdkConfig() lsclient.IClient {
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
 func validSdkHannibalConfig() lsclient.IClient {
 	clientId, clientSecret := getValueOfEnv("HANNIBAL_CLIENT_ID"), getValueOfEnv("HANNIBAL_CLIENT_SECRET")
 	sdkConfig := lsclient.NewSdkConfigure().
