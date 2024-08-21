@@ -67,19 +67,19 @@ func (s *serviceClient) ServiceURL(pparts ...string) string {
 	return s.endpoint + lstr.Join(pparts, "/")
 }
 
-func (s *serviceClient) Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
+func (s *serviceClient) Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPost))
 }
 
-func (s *serviceClient) Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
+func (s *serviceClient) Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodGet))
 }
 
-func (s *serviceClient) Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
+func (s *serviceClient) Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodDelete))
 }
 
-func (s *serviceClient) Put(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError) {
+func (s *serviceClient) Put(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError) {
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPut))
 }
 

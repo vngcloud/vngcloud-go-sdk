@@ -10,7 +10,7 @@ const (
 	patternPagingInvalid = "page or size invalid"
 )
 
-func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
+func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
 	sdkErr := &SdkError{
 		error:     perr,
 		errorCode: EcUnknownError,
@@ -30,7 +30,7 @@ func ErrorHandler(perr error, popts ...func(psdkErr ISdkError)) ISdkError {
 	return sdkErr
 }
 
-func SdkErrorHandler(psdkErr ISdkError, perrResp IErrorRespone, popts ...func(psdkErr ISdkError)) ISdkError {
+func SdkErrorHandler(psdkErr IError, perrResp IErrorRespone, popts ...func(psdkErr IError)) IError {
 	if psdkErr == nil && perrResp == nil {
 		return nil
 	}
@@ -54,24 +54,24 @@ func SdkErrorHandler(psdkErr ISdkError, perrResp IErrorRespone, popts ...func(ps
 	return psdkErr
 }
 
-func WithErrorInternalServerError() func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorInternalServerError() func(IError) {
+	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcInternalServerError).
 			WithMessage("Internal Server Error").
 			WithErrors(lfmt.Errorf("internal server error from making request to external service"))
 	}
 }
 
-func WithErrorPermissionDenied() func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorPermissionDenied() func(IError) {
+	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcPermissionDenied).
 			WithMessage("Permission Denied").
 			WithErrors(lfmt.Errorf("permission denied when making request to external service"))
 	}
 }
 
-func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -85,8 +85,8 @@ func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -100,8 +100,8 @@ func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorUnexpected() func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorUnexpected() func(IError) {
+	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcUnexpectedError).
 			WithMessage("Unexpected Error").
 			WithErrors(lfmt.Errorf("unexpected error from making request to external service"))

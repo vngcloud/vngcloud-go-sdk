@@ -8,29 +8,29 @@ import (
 )
 
 type INetworkServiceV1 interface {
-	GetEndpointById(pops lsnetworkSvcV1.IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.ISdkError)
-	CreateEndpoint(popts lsnetworkSvcV1.ICreateEndpointRequest) (*lsentity.Endpoint, lserr.ISdkError)
-	DeleteEndpointById(popts lsnetworkSvcV1.IDeleteEndpointByIdRequest) lserr.ISdkError
-	ListEndpoints(popts lsnetworkSvcV1.IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.ISdkError)
+	GetEndpointById(pops lsnetworkSvcV1.IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.IError)
+	CreateEndpoint(popts lsnetworkSvcV1.ICreateEndpointRequest) (*lsentity.Endpoint, lserr.IError)
+	DeleteEndpointById(popts lsnetworkSvcV1.IDeleteEndpointByIdRequest) lserr.IError
+	ListEndpoints(popts lsnetworkSvcV1.IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.IError)
 }
 
 type INetworkServiceV2 interface {
 	// The group of Network APIs
 
-	GetNetworkById(popts lsnetworkSvcV2.IGetNetworkByIdRequest) (*lsentity.Network, lserr.ISdkError)
+	GetNetworkById(popts lsnetworkSvcV2.IGetNetworkByIdRequest) (*lsentity.Network, lserr.IError)
 
 	// The group of Secgroup APIs
 
-	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError)
-	CreateSecgroup(popts lsnetworkSvcV2.ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.ISdkError)
-	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupByIdRequest) lserr.ISdkError
+	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.IError)
+	CreateSecgroup(popts lsnetworkSvcV2.ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.IError)
+	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupByIdRequest) lserr.IError
 
 	// The group of SecgroupRule APIs
 
-	CreateSecgroupRule(popts lsnetworkSvcV2.ICreateSecgroupRuleRequest) (*lsentity.SecgroupRule, lserr.ISdkError)
-	DeleteSecgroupRuleById(popts lsnetworkSvcV2.IDeleteSecgroupRuleByIdRequest) lserr.ISdkError
-	ListSecgroupRulesBySecgroupId(popts lsnetworkSvcV2.IListSecgroupRulesBySecgroupIdRequest) (*lsentity.ListSecgroupRules, lserr.ISdkError)
+	CreateSecgroupRule(popts lsnetworkSvcV2.ICreateSecgroupRuleRequest) (*lsentity.SecgroupRule, lserr.IError)
+	DeleteSecgroupRuleById(popts lsnetworkSvcV2.IDeleteSecgroupRuleByIdRequest) lserr.IError
+	ListSecgroupRulesBySecgroupId(popts lsnetworkSvcV2.IListSecgroupRulesBySecgroupIdRequest) (*lsentity.ListSecgroupRules, lserr.IError)
 
 	// Subnet
-	GetSubnetById(popts lsnetworkSvcV2.IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.ISdkError)
+	GetSubnetById(popts lsnetworkSvcV2.IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.IError)
 }

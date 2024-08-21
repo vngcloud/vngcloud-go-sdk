@@ -34,8 +34,8 @@ var (
 	regexErrorVolumeNotFound = lregexp.MustCompile(patternVolumeNotFound)
 )
 
-func WithErrorVolumeNameNotValid(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeNameNotValid(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -49,8 +49,8 @@ func WithErrorVolumeNameNotValid(perrResp IErrorRespone) func(sdkError ISdkError
 	}
 }
 
-func WithErrorVolumeSizeOutOfRange(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeSizeOutOfRange(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -65,8 +65,8 @@ func WithErrorVolumeSizeOutOfRange(perrResp IErrorRespone) func(sdkError ISdkErr
 	}
 }
 
-func WithErrorVolumeSizeExceedGlobalQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeSizeExceedGlobalQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -80,8 +80,8 @@ func WithErrorVolumeSizeExceedGlobalQuota(perrResp IErrorRespone) func(sdkError 
 	}
 }
 
-func WithErrorVolumeExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -95,8 +95,8 @@ func WithErrorVolumeExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError)
 	}
 }
 
-func WithErrorVolumeNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -112,8 +112,8 @@ func WithErrorVolumeNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 }
 
 // WithErrorVolumeAvailable indicates that the volume is AVAILABLE state but try to make detach this volume out of server
-func WithErrorVolumeAvailable(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeAvailable(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -127,8 +127,8 @@ func WithErrorVolumeAvailable(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorVolumeAlreadyAttached(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeAlreadyAttached(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -142,8 +142,8 @@ func WithErrorVolumeAlreadyAttached(perrResp IErrorRespone) func(sdkError ISdkEr
 	}
 }
 
-func WithErrorVolumeAlreadyAttachedThisServer(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeAlreadyAttachedThisServer(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -157,8 +157,8 @@ func WithErrorVolumeAlreadyAttachedThisServer(perrResp IErrorRespone) func(sdkEr
 	}
 }
 
-func WithErrorVolumeInProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeInProcess(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -172,8 +172,8 @@ func WithErrorVolumeInProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorVolumeUnchanged(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeUnchanged(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -187,8 +187,8 @@ func WithErrorVolumeUnchanged(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorVolumeMustSameZone(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMustSameZone(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -202,8 +202,8 @@ func WithErrorVolumeMustSameZone(perrResp IErrorRespone) func(sdkError ISdkError
 	}
 }
 
-func WithErrorVolumeMigrateMissingInit(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateMissingInit(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -217,8 +217,8 @@ func WithErrorVolumeMigrateMissingInit(perrResp IErrorRespone) func(sdkError ISd
 	}
 }
 
-func WithErrorVolumeMigrateNeedProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateNeedProcess(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -232,8 +232,8 @@ func WithErrorVolumeMigrateNeedProcess(perrResp IErrorRespone) func(sdkError ISd
 	}
 }
 
-func WithErrorVolumeMigrateNeedConfirm(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateNeedConfirm(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -247,8 +247,8 @@ func WithErrorVolumeMigrateNeedConfirm(perrResp IErrorRespone) func(sdkError ISd
 	}
 }
 
-func WithErrorVolumeMigrateBeingProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateBeingProcess(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -262,8 +262,8 @@ func WithErrorVolumeMigrateBeingProcess(perrResp IErrorRespone) func(sdkError IS
 	}
 }
 
-func WithErrorVolumeMigrateBeingFinish(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateBeingFinish(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -277,8 +277,8 @@ func WithErrorVolumeMigrateBeingFinish(perrResp IErrorRespone) func(sdkError ISd
 	}
 }
 
-func WithErrorVolumeMigrateProcessingConfirm(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateProcessingConfirm(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -294,8 +294,8 @@ func WithErrorVolumeMigrateProcessingConfirm(perrResp IErrorRespone) func(sdkErr
 
 //
 
-func WithErrorVolumeMigrateBeingMigrating(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateBeingMigrating(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -309,8 +309,8 @@ func WithErrorVolumeMigrateBeingMigrating(perrResp IErrorRespone) func(sdkError 
 	}
 }
 
-func WithErrorVolumeMigrateInSameZone(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeMigrateInSameZone(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -324,8 +324,8 @@ func WithErrorVolumeMigrateInSameZone(perrResp IErrorRespone) func(sdkError ISdk
 	}
 }
 
-func WithErrorVolumeIsMigrating(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorVolumeIsMigrating(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}

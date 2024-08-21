@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *LoadBalancerServiceV2) ListTags(popts IListTagsRequest) (*lsentity.ListTags, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) ListTags(popts IListTagsRequest) (*lsentity.ListTags, lserr.IError) {
 	url := listTagsUrl(s.VServerClient, popts)
 	resp := new(ListTagsResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -23,7 +23,7 @@ func (s *LoadBalancerServiceV2) ListTags(popts IListTagsRequest) (*lsentity.List
 	return resp.ToEntityListTags(), nil
 }
 
-func (s *LoadBalancerServiceV2) CreateTags(popts ICreateTagsRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) CreateTags(popts ICreateTagsRequest) lserr.IError {
 	url := createTagsUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -39,7 +39,7 @@ func (s *LoadBalancerServiceV2) CreateTags(popts ICreateTagsRequest) lserr.ISdkE
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IError {
 	tags, sdkErr := s.ListTags(NewListTagsRequest(popts.GetLoadBalancerId()))
 	if sdkErr != nil {
 		return sdkErr

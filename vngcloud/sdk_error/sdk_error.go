@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	_ ISdkError = new(SdkError)
+	_ IError = new(SdkError)
 )
 
 type (
@@ -34,17 +34,17 @@ func (s *SdkError) IsErrorAny(perrCodes ...ErrorCode) bool {
 	return false
 }
 
-func (s *SdkError) WithErrorCode(perrCode ErrorCode) ISdkError {
+func (s *SdkError) WithErrorCode(perrCode ErrorCode) IError {
 	s.errorCode = perrCode
 	return s
 }
 
-func (s *SdkError) WithMessage(pmsg string) ISdkError {
+func (s *SdkError) WithMessage(pmsg string) IError {
 	s.message = pmsg
 	return s
 }
 
-func (s *SdkError) WithErrors(perrs ...error) ISdkError {
+func (s *SdkError) WithErrors(perrs ...error) IError {
 	if len(perrs) == 0 {
 		return s
 	}
@@ -61,7 +61,7 @@ func (s *SdkError) WithErrors(perrs ...error) ISdkError {
 	return s
 }
 
-func (s *SdkError) WithParameters(pparams map[string]interface{}) ISdkError {
+func (s *SdkError) WithParameters(pparams map[string]interface{}) IError {
 	if s.parameters == nil {
 		s.parameters = pparams
 		return s
@@ -74,7 +74,7 @@ func (s *SdkError) WithParameters(pparams map[string]interface{}) ISdkError {
 	return s
 }
 
-func (s *SdkError) WithKVparameters(pparams ...interface{}) ISdkError {
+func (s *SdkError) WithKVparameters(pparams ...interface{}) IError {
 	if s.parameters == nil {
 		s.parameters = make(map[string]interface{})
 	}

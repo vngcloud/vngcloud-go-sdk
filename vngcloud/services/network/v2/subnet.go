@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *NetworkServiceV2) GetSubnetById(popts IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.ISdkError) {
+func (s *NetworkServiceV2) GetSubnetById(popts IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.IError) {
 	url := getSubnetByIdUrl(s.VserverClient, popts)
 	resp := new(GetSubnetByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

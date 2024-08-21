@@ -16,8 +16,8 @@ const (
 	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
 )
 
-func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -31,8 +31,8 @@ func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -46,8 +46,8 @@ func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkErro
 	}
 }
 
-func WithErrorServerDeleteCreatingServer(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerDeleteCreatingServer(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -61,8 +61,8 @@ func WithErrorServerDeleteCreatingServer(perrResp IErrorRespone) func(sdkError I
 	}
 }
 
-func WithErrorServerExpired(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerExpired(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -76,8 +76,8 @@ func WithErrorServerExpired(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -91,8 +91,8 @@ func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError ISdk
 	}
 }
 
-func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -106,8 +106,8 @@ func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError)
 	}
 }
 
-func WithErrorServerDeleteDeletingServer(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerDeleteDeletingServer(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -121,8 +121,8 @@ func WithErrorServerDeleteDeletingServer(perrResp IErrorRespone) func(sdkError I
 	}
 }
 
-func WithErrorServerDeleteBillingServer(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerDeleteBillingServer(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -136,8 +136,8 @@ func WithErrorServerDeleteBillingServer(perrResp IErrorRespone) func(sdkError IS
 	}
 }
 
-func WithErrorServerCreateBillingPaymentMethodNotAllowed(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerCreateBillingPaymentMethodNotAllowed(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -151,8 +151,8 @@ func WithErrorServerCreateBillingPaymentMethodNotAllowed(perrResp IErrorRespone)
 	}
 }
 
-func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -166,8 +166,8 @@ func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkEr
 	}
 }
 
-func WithErrorServerAttachEncryptedVolume(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorServerAttachEncryptedVolume(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}

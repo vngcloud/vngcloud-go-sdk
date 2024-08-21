@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.ISdkError) {
+func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.IError) {
 	url := getSecgroupByIdUrl(s.VserverClient, popts)
 	resp := new(GetSecgroupByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -26,7 +26,7 @@ func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsen
 	return resp.ToEntitySecgroup(), nil
 }
 
-func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.ISdkError) {
+func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.IError) {
 	url := createSecgroupUrl(s.VserverClient)
 	resp := new(CreateSecgroupResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -48,7 +48,7 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 	return resp.ToEntitySecgroup(), nil
 }
 
-func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) lserr.ISdkError {
+func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) lserr.IError {
 	url := deleteSecgroupByIdUrl(s.VserverClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().

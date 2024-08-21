@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.Portal, lserr.ISdkError) {
+func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.Portal, lserr.IError) {
 	url := getPortalInfoUrl(s.PortalClient, popts)
 	resp := new(GetPortalInfoResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

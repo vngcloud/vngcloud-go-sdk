@@ -16,8 +16,8 @@ var (
 	regexErrorSubnetNotBelongNetwork = lregexp.MustCompile(patternSubnetNotBelongNetwork)
 )
 
-func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -31,8 +31,8 @@ func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
 	}
 }
 
-func WithErrorSubnetNotBelongNetwork(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorSubnetNotBelongNetwork(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -46,8 +46,8 @@ func WithErrorSubnetNotBelongNetwork(perrResp IErrorRespone) func(sdkError ISdkE
 	}
 }
 
-func WithErrorSubnetNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorSubnetNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}

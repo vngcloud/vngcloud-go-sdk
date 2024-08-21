@@ -7,5 +7,5 @@ import (
 )
 
 type IIdentityServiceV2 interface {
-	GetAccessToken(popts lsidentitySvcV2.IGetAccessTokenRequest) (*lsentity.AccessToken, lsdkErr.ISdkError)
+	GetAccessToken(popts lsidentitySvcV2.IGetAccessTokenRequest) (*lsentity.AccessToken, lsdkErr.IError)
 }

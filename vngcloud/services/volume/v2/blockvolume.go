@@ -7,7 +7,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *VolumeServiceV2) CreateBlockVolume(popts ICreateBlockVolumeRequest) (*lsentity.Volume, lserr.ISdkError) {
+func (s *VolumeServiceV2) CreateBlockVolume(popts ICreateBlockVolumeRequest) (*lsentity.Volume, lserr.IError) {
 	url := createBlockVolumeUrl(s.VServerClient)
 	resp := new(CreateBlockVolumeResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -30,7 +30,7 @@ func (s *VolumeServiceV2) CreateBlockVolume(popts ICreateBlockVolumeRequest) (*l
 	return resp.ToEntityVolume(), nil
 }
 
-func (s *VolumeServiceV2) DeleteBlockVolumeById(popts IDeleteBlockVolumeByIdRequest) lserr.ISdkError {
+func (s *VolumeServiceV2) DeleteBlockVolumeById(popts IDeleteBlockVolumeByIdRequest) lserr.IError {
 	url := deleteBlockVolumeByIdUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -48,7 +48,7 @@ func (s *VolumeServiceV2) DeleteBlockVolumeById(popts IDeleteBlockVolumeByIdRequ
 	return nil
 }
 
-func (s *VolumeServiceV2) ListBlockVolumes(popts IListBlockVolumesRequest) (*lsentity.ListVolumes, lserr.ISdkError) {
+func (s *VolumeServiceV2) ListBlockVolumes(popts IListBlockVolumesRequest) (*lsentity.ListVolumes, lserr.IError) {
 	url := listBlockVolumesUrl(s.VServerClient, popts)
 	resp := new(ListBlockVolumesResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -67,7 +67,7 @@ func (s *VolumeServiceV2) ListBlockVolumes(popts IListBlockVolumesRequest) (*lse
 	return resp.ToEntityListVolumes(), nil
 }
 
-func (s *VolumeServiceV2) GetBlockVolumeById(popts IGetBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError) {
+func (s *VolumeServiceV2) GetBlockVolumeById(popts IGetBlockVolumeByIdRequest) (*lsentity.Volume, lserr.IError) {
 	url := getBlockVolumeByIdUrl(s.VServerClient, popts)
 	resp := new(GetBlockVolumeByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -87,7 +87,7 @@ func (s *VolumeServiceV2) GetBlockVolumeById(popts IGetBlockVolumeByIdRequest) (
 	return resp.ToEntityVolume(), nil
 }
 
-func (s *VolumeServiceV2) ResizeBlockVolumeById(popts IResizeBlockVolumeByIdRequest) (*lsentity.Volume, lserr.ISdkError) {
+func (s *VolumeServiceV2) ResizeBlockVolumeById(popts IResizeBlockVolumeByIdRequest) (*lsentity.Volume, lserr.IError) {
 	url := resizeBlockVolumeByIdUrl(s.VServerClient, popts)
 	resp := new(ResizeBlockVolumeByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -112,7 +112,7 @@ func (s *VolumeServiceV2) ResizeBlockVolumeById(popts IResizeBlockVolumeByIdRequ
 	return resp.ToEntityVolume(), nil
 }
 
-func (s *VolumeServiceV2) GetUnderBlockVolumeId(popts IGetUnderBlockVolumeIdRequest) (*lsentity.Volume, lserr.ISdkError) {
+func (s *VolumeServiceV2) GetUnderBlockVolumeId(popts IGetUnderBlockVolumeIdRequest) (*lsentity.Volume, lserr.IError) {
 	url := getUnderBlockVolumeIdUrl(s.VServerClient, popts)
 	resp := new(GetUnderBlockVolumeIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -132,7 +132,7 @@ func (s *VolumeServiceV2) GetUnderBlockVolumeId(popts IGetUnderBlockVolumeIdRequ
 	return resp.ToEntityVolume(), nil
 }
 
-func (s *VolumeServiceV2) MigrateBlockVolumeById(popts IMigrateBlockVolumeByIdRequest) lserr.ISdkError {
+func (s *VolumeServiceV2) MigrateBlockVolumeById(popts IMigrateBlockVolumeByIdRequest) lserr.IError {
 	url := migrateBlockVolumeByIdUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	resp := map[string]interface{}{}

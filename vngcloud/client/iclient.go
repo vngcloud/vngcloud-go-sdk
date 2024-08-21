@@ -14,9 +14,9 @@ type IHttpClient interface {
 	WithTimeout(ptimeout ltime.Duration) IHttpClient
 	WithSleep(psleep ltime.Duration) IHttpClient
 	WithKvDefaultHeaders(pargs ...string) IHttpClient
-	WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient
+	WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.IError)) IHttpClient
 
-	DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.ISdkError)
+	DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.IError)
 }
 
 type IRequest interface {

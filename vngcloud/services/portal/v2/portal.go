@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *PortalServiceV2) ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.ISdkError) {
+func (s *PortalServiceV2) ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.IError) {
 	url := listAllQuotaUsedUrl(s.PortalClient)
 	resp := new(ListAllQuotaUsedResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -23,7 +23,7 @@ func (s *PortalServiceV2) ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.ISdkEr
 	return resp.ToEntityListQuotas(), nil
 }
 
-func (s *PortalServiceV2) GetQuotaByName(popts IGetQuotaByNameRequest) (*lsentity.Quota, lserr.ISdkError) {
+func (s *PortalServiceV2) GetQuotaByName(popts IGetQuotaByNameRequest) (*lsentity.Quota, lserr.IError) {
 	listQuotas, sdkErr := s.ListAllQuotaUsed()
 	if sdkErr != nil {
 		return nil, sdkErr

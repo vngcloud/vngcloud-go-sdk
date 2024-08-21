@@ -8,7 +8,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsentity.AccessToken, lserr.ISdkError) {
+func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsentity.AccessToken, lserr.IError) {
 	url := getAccessTokenUrl(s.IamClient)
 	resp := new(GetAccessTokenResponse)
 	errResp := lserr.NewErrorResponse(lserr.IamErrorType)

@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError) {
 	url := createLoadBalancerUrl(s.VLBClient)
 	resp := new(CreateLoadBalancerResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -25,7 +25,7 @@ func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequ
 	return resp.ToEntityLoadBalancer(), nil
 }
 
-func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError) {
 	url := getLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetLoadBalancerByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -44,7 +44,7 @@ func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRe
 	return resp.ToEntityLoadBalancer(), nil
 }
 
-func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.IError) {
 	url := listLoadBalancersUrl(s.VLBClient, popts)
 	resp := new(ListLoadBalancersResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -61,7 +61,7 @@ func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersReques
 	return resp.ToEntityListLoadBalancers(), nil
 }
 
-func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.Pool, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.Pool, lserr.IError) {
 	url := createPoolUrl(s.VLBClient, popts)
 	resp := new(CreatePoolResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -84,7 +84,7 @@ func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.
 	return resp.ToEntityPool(), nil
 }
 
-func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*lsentity.Listener, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*lsentity.Listener, lserr.IError) {
 	url := createListenerUrl(s.VLBClient, popts)
 	resp := new(CreateListenerResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -108,7 +108,7 @@ func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*l
 	return resp.ToEntityListener(), nil
 }
 
-func (s *LoadBalancerServiceV2) UpdateListener(popts IUpdateListenerRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) UpdateListener(popts IUpdateListenerRequest) lserr.IError {
 	url := updateListenerUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -127,7 +127,7 @@ func (s *LoadBalancerServiceV2) UpdateListener(popts IUpdateListenerRequest) lse
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) ListListenersByLoadBalancerId(popts IListListenersByLoadBalancerIdRequest) (*lsentity.ListListeners, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) ListListenersByLoadBalancerId(popts IListListenersByLoadBalancerIdRequest) (*lsentity.ListListeners, lserr.IError) {
 	url := listListenersByLoadBalancerIdUrl(s.VLBClient, popts)
 	resp := new(ListListenersByLoadBalancerIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -146,7 +146,7 @@ func (s *LoadBalancerServiceV2) ListListenersByLoadBalancerId(popts IListListene
 	return resp.ToEntityListListeners(), nil
 }
 
-func (s *LoadBalancerServiceV2) ListPoolsByLoadBalancerId(popts IListPoolsByLoadBalancerIdRequest) (*lsentity.ListPools, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) ListPoolsByLoadBalancerId(popts IListPoolsByLoadBalancerIdRequest) (*lsentity.ListPools, lserr.IError) {
 	url := listPoolsByLoadBalancerIdUrl(s.VLBClient, popts)
 	resp := new(ListPoolsByLoadBalancerIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -165,7 +165,7 @@ func (s *LoadBalancerServiceV2) ListPoolsByLoadBalancerId(popts IListPoolsByLoad
 	return resp.ToEntityListPools(), nil
 }
 
-func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersRequest) lserr.IError {
 	url := updatePoolMembersUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -185,7 +185,7 @@ func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersReques
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (*lsentity.ListMembers, lserr.ISdkError) {
+func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (*lsentity.ListMembers, lserr.IError) {
 	url := listPoolMembersUrl(s.VLBClient, popts)
 	resp := new(ListPoolMembersResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -204,7 +204,7 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 	return resp.ToEntityListMembers(), nil
 }
 
-func (s *LoadBalancerServiceV2) DeletePoolById(popts IDeletePoolByIdRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) DeletePoolById(popts IDeletePoolByIdRequest) lserr.IError {
 	url := deletePoolByIdUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -222,7 +222,7 @@ func (s *LoadBalancerServiceV2) DeletePoolById(popts IDeletePoolByIdRequest) lse
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequest) lserr.IError {
 	url := deleteListenerByIdUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -240,7 +240,7 @@ func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequ
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancerByIdRequest) lserr.ISdkError {
+func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancerByIdRequest) lserr.IError {
 	url := deleteLoadBalancerByIdUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().

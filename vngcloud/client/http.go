@@ -22,7 +22,7 @@ type (
 		retryCount int
 		client     *lreq.Client
 
-		reauthFunc   func() (ISdkAuthentication, lserr.ISdkError)
+		reauthFunc   func() (ISdkAuthentication, lserr.IError)
 		reauthOption AuthOpts
 
 		accessToken    ISdkAuthentication
@@ -39,7 +39,7 @@ type (
 
 	reauthFuture struct {
 		done chan struct{}
-		err  lserr.ISdkError
+		err  lserr.IError
 	}
 
 	AuthOpts string
@@ -89,13 +89,13 @@ func (s *httpClient) WithKvDefaultHeaders(pargs ...string) IHttpClient {
 	return s
 }
 
-func (s *httpClient) WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.ISdkError)) IHttpClient {
+func (s *httpClient) WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkAuthentication, lserr.IError)) IHttpClient {
 	s.reauthFunc = preauthFunc
 	s.reauthOption = pauthOpt
 	return s
 }
 
-func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.ISdkError) {
+func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.IError) {
 	req := s.client.R().SetContext(s.context).SetHeaders(s.defaultHeaders).SetHeaders(preq.GetMoreHeaders())
 	if opt := preq.GetRequestBody(); opt != nil {
 		req.SetBodyJsonMarshal(opt)
@@ -172,7 +172,7 @@ func (s *httpClient) needReauth(preq IRequest) bool {
 	return s.accessToken.NeedReauth()
 }
 
-func (s *httpClient) reauthenticate() lserr.ISdkError {
+func (s *httpClient) reauthenticate() lserr.IError {
 	if s.reauthFunc == nil {
 		return lserr.ErrorHandler(nil, lserr.WithErrorReauthFuncNotSet())
 	}
@@ -217,17 +217,17 @@ func newReauthFuture() *reauthFuture {
 	}
 }
 
-func (s *reauthFuture) get() lserr.ISdkError {
+func (s *reauthFuture) get() lserr.IError {
 	<-s.done
 	return s.err
 }
 
-func (s *reauthFuture) set(err lserr.ISdkError) {
+func (s *reauthFuture) set(err lserr.IError) {
 	s.err = err
 	close(s.done)
 }
 
-func defaultErrorResponse(perr error, purl string, preq IRequest, resp *lreq.Response) lserr.ISdkError {
+func defaultErrorResponse(perr error, purl string, preq IRequest, resp *lreq.Response) lserr.IError {
 	return lserr.ErrorHandler(perr).WithKVparameters(
 		"statusCode", resp.StatusCode,
 		"url", purl,

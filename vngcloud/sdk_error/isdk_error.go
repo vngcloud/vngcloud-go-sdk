@@ -1,14 +1,14 @@
 package sdk_error
 
-type ISdkError interface {
+type IError interface {
 	IsError(perrCode ErrorCode) bool
 	IsErrorAny(perrCodes ...ErrorCode) bool
 
-	WithErrorCode(perrCode ErrorCode) ISdkError
-	WithMessage(pmsg string) ISdkError
-	WithErrors(perrs ...error) ISdkError
-	WithParameters(pparams map[string]interface{}) ISdkError
-	WithKVparameters(pparams ...interface{}) ISdkError
+	WithErrorCode(perrCode ErrorCode) IError
+	WithMessage(pmsg string) IError
+	WithErrors(perrs ...error) IError
+	WithParameters(pparams map[string]interface{}) IError
+	WithKVparameters(pparams ...interface{}) IError
 
 	GetError() error
 	GetMessage() string

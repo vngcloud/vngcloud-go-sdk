@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *VolumeServiceV1) GetVolumeTypeById(popts IGetVolumeTypeByIdRequest) (*lsentity.VolumeType, lserr.ISdkError) {
+func (s *VolumeServiceV1) GetVolumeTypeById(popts IGetVolumeTypeByIdRequest) (*lsentity.VolumeType, lserr.IError) {
 	url := getVolumeTypeByIdUrl(s.VServerClient, popts)
 	resp := new(GetVolumeTypeByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -26,7 +26,7 @@ func (s *VolumeServiceV1) GetVolumeTypeById(popts IGetVolumeTypeByIdRequest) (*l
 	return resp.ToEntityVolumeType(), nil
 }
 
-func (s *VolumeServiceV1) GetDefaultVolumeType() (*lsentity.VolumeType, lserr.ISdkError) {
+func (s *VolumeServiceV1) GetDefaultVolumeType() (*lsentity.VolumeType, lserr.IError) {
 	url := getDefaultVolumeTypeUrl(s.VServerClient)
 	resp := new(GetDefaultVolumeTypeResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

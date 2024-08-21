@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.ISdkError) {
+func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.IError) {
 	url := getEndpointByIdUrl(s.VNetworkClient, popts)
 	resp := new(GetEndpointByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
@@ -26,7 +26,7 @@ func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsen
 	return resp.ToEntityEndpoint(), nil
 }
 
-func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsentity.Endpoint, lserr.ISdkError) {
+func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsentity.Endpoint, lserr.IError) {
 	url := createEndpointUrl(s.VNetworkClient)
 	resp := new(CreateEndpointResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
@@ -49,7 +49,7 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 	return resp.ToEntityEndpoint(), nil
 }
 
-func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) lserr.ISdkError {
+func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) lserr.IError {
 	url := deleteEndpointByIdUrl(s.VNetworkClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
@@ -69,7 +69,7 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 	return nil
 }
 
-func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.ISdkError) {
+func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.IError) {
 	url := listEndpointsUrl(s.VNetworkClient, popts)
 	resp := new(ListEndpointsResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)

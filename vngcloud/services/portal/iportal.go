@@ -8,10 +8,10 @@ import (
 )
 
 type IPortalServiceV1 interface {
-	GetPortalInfo(popts lsportalV1.IGetPortalInfoRequest) (*lsentity.Portal, lserr.ISdkError)
+	GetPortalInfo(popts lsportalV1.IGetPortalInfoRequest) (*lsentity.Portal, lserr.IError)
 }
 
 type IPortalServiceV2 interface {
-	ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.ISdkError)
-	GetQuotaByName(popts lsportalV2.IGetQuotaByNameRequest) (*lsentity.Quota, lserr.ISdkError)
+	ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.IError)
+	GetQuotaByName(popts lsportalV2.IGetQuotaByNameRequest) (*lsentity.Quota, lserr.IError)
 }

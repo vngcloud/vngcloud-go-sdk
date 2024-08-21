@@ -4,8 +4,8 @@ import (
 	lfmt "fmt"
 )
 
-func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(IError) {
+	return func(sdkErr IError) {
 		if perrResp == nil {
 			return
 		}
@@ -22,16 +22,16 @@ func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(ISdkError) {
 	}
 }
 
-func WithErrorReauthFuncNotSet() func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorReauthFuncNotSet() func(IError) {
+	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcReauthFuncNotSet).
 			WithMessage("Reauthentication function is not configured").
 			WithErrors(lfmt.Errorf("reauthentication function is not configured"))
 	}
 }
 
-func WithErrorTooManyFailedLogin(perrResp IErrorRespone) func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorTooManyFailedLogin(perrResp IErrorRespone) func(IError) {
+	return func(sdkErr IError) {
 		if perrResp == nil {
 			return
 		}
@@ -48,8 +48,8 @@ func WithErrorTooManyFailedLogin(perrResp IErrorRespone) func(ISdkError) {
 	}
 }
 
-func WithErrorUnknownAuthFailure(perrResp IErrorRespone) func(ISdkError) {
-	return func(sdkErr ISdkError) {
+func WithErrorUnknownAuthFailure(perrResp IErrorRespone) func(IError) {
+	return func(sdkErr IError) {
 		if perrResp == nil {
 			return
 		}

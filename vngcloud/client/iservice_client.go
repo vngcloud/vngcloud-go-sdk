@@ -20,10 +20,10 @@ type IServiceClient interface {
 	GetZoneId() string
 	GetUserId() string
 
-	Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
-	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
-	Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
-	Put(purl string, preq IRequest) (*lreq.Response, lsdkErr.ISdkError)
+	Post(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
+	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
+	Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
+	Put(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
 }
 
 type ISdkAuthentication interface {

@@ -174,8 +174,8 @@ func (s *client) VNetworkGateway() lsgateway.IVNetworkGateway {
 	return s.vnetworkGateway
 }
 
-func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.ISdkError) {
-	authFunc := func() (lsclient.ISdkAuthentication, lserr.ISdkError) {
+func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.IError) {
+	authFunc := func() (lsclient.ISdkAuthentication, lserr.IError) {
 		token, err := s.iamGateway.V2().IdentityService().GetAccessToken(
 			lssvcIdentityV2.NewGetAccessTokenRequest(pauthConfig.GetClientId(), pauthConfig.GetClientSecret()))
 		if err != nil {

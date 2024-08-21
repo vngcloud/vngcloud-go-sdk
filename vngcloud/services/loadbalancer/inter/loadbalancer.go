@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *LoadBalancerServiceInternal) CreateLoadBalancer(popts ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.ISdkError) {
+func (s *LoadBalancerServiceInternal) CreateLoadBalancer(popts ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError) {
 	url := createLoadBalancerUrl(s.VLBClient)
 	resp := new(CreateLoadBalancerResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

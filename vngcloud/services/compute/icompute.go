@@ -7,10 +7,10 @@ import (
 )
 
 type IComputeServiceV2 interface {
-	CreateServer(popts lscomputeSvcV2.ICreateServerRequest) (*lsentity.Server, lserr.ISdkError)
-	GetServerById(popts lscomputeSvcV2.IGetServerByIdRequest) (*lsentity.Server, lserr.ISdkError)
-	DeleteServerById(popts lscomputeSvcV2.IDeleteServerByIdRequest) lserr.ISdkError
-	UpdateServerSecgroupsByServerId(popts lscomputeSvcV2.IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.ISdkError)
-	AttachBlockVolume(popts lscomputeSvcV2.IAttachBlockVolumeRequest) lserr.ISdkError
-	DetachBlockVolume(popts lscomputeSvcV2.IDetachBlockVolumeRequest) lserr.ISdkError
+	CreateServer(popts lscomputeSvcV2.ICreateServerRequest) (*lsentity.Server, lserr.IError)
+	GetServerById(popts lscomputeSvcV2.IGetServerByIdRequest) (*lsentity.Server, lserr.IError)
+	DeleteServerById(popts lscomputeSvcV2.IDeleteServerByIdRequest) lserr.IError
+	UpdateServerSecgroupsByServerId(popts lscomputeSvcV2.IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.IError)
+	AttachBlockVolume(popts lscomputeSvcV2.IAttachBlockVolumeRequest) lserr.IError
+	DetachBlockVolume(popts lscomputeSvcV2.IDetachBlockVolumeRequest) lserr.IError
 }

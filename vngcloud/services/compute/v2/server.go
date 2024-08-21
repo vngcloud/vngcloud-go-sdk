@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.Server, lserr.ISdkError) {
+func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.Server, lserr.IError) {
 	url := createServerUrl(s.VServerClient)
 	resp := new(CreateServerResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -32,7 +32,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 	return resp.ToEntityServer(), nil
 }
 
-func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity.Server, lserr.ISdkError) {
+func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity.Server, lserr.IError) {
 	url := getServerByIdUrl(s.VServerClient, popts)
 	resp := new(GetServerByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -51,7 +51,7 @@ func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity
 	return resp.ToEntityServer(), nil
 }
 
-func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lserr.ISdkError {
+func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lserr.IError {
 	url := deleteServerByIdUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -72,7 +72,7 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 	return nil
 }
 
-func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.ISdkError) {
+func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.IError) {
 	url := updateServerSecgroupsByServerIdUrl(s.VServerClient, popts)
 	resp := new(UpdateServerSecgroupsByServerIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -96,7 +96,7 @@ func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSe
 	return resp.ToEntityServer(), nil
 }
 
-func (s *ComputeServiceV2) AttachBlockVolume(popts IAttachBlockVolumeRequest) lserr.ISdkError {
+func (s *ComputeServiceV2) AttachBlockVolume(popts IAttachBlockVolumeRequest) lserr.IError {
 	url := attachBlockVolumeUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -122,7 +122,7 @@ func (s *ComputeServiceV2) AttachBlockVolume(popts IAttachBlockVolumeRequest) ls
 	return nil
 }
 
-func (s *ComputeServiceV2) DetachBlockVolume(popts IDetachBlockVolumeRequest) lserr.ISdkError {
+func (s *ComputeServiceV2) DetachBlockVolume(popts IDetachBlockVolumeRequest) lserr.IError {
 	url := detachBlockVolumeUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().

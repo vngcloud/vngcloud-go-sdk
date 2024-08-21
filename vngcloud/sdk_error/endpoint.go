@@ -2,8 +2,8 @@ package sdk_error
 
 import lstr "strings"
 
-func WithErrorEndpointStatusInvalid(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorEndpointStatusInvalid(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -16,8 +16,8 @@ func WithErrorEndpointStatusInvalid(perrResp IErrorRespone) func(sdkError ISdkEr
 	}
 }
 
-func WithErrorEndpointOfVpcExists(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorEndpointOfVpcExists(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -30,8 +30,8 @@ func WithErrorEndpointOfVpcExists(perrResp IErrorRespone) func(sdkError ISdkErro
 	}
 }
 
-func WithErrorEndpointPackageNotBelongToEndpointService(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorEndpointPackageNotBelongToEndpointService(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -44,8 +44,8 @@ func WithErrorEndpointPackageNotBelongToEndpointService(perrResp IErrorRespone) 
 	}
 }
 
-func WithErrorContainInvalidCharacter(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorContainInvalidCharacter(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -58,8 +58,8 @@ func WithErrorContainInvalidCharacter(perrResp IErrorRespone) func(sdkError ISdk
 	}
 }
 
-func WithErrorLockOnProcess(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorLockOnProcess(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}

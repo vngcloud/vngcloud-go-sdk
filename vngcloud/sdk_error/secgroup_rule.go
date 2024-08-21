@@ -8,8 +8,8 @@ const (
 	patternSecgroupRuleExceedQuota = "exceeded secgroup_rule quota"
 )
 
-func WithErrorSecgroupRuleNotFound(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorSecgroupRuleNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -23,8 +23,8 @@ func WithErrorSecgroupRuleNotFound(perrResp IErrorRespone) func(sdkError ISdkErr
 	}
 }
 
-func WithErrorSecgroupRuleAlreadyExists(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorSecgroupRuleAlreadyExists(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
@@ -38,8 +38,8 @@ func WithErrorSecgroupRuleAlreadyExists(perrResp IErrorRespone) func(sdkError IS
 	}
 }
 
-func WithErrorSecgroupRuleExceedQuota(perrResp IErrorRespone) func(sdkError ISdkError) {
-	return func(sdkError ISdkError) {
+func WithErrorSecgroupRuleExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
