@@ -50,3 +50,9 @@ type IGetAllAddressPairByVirtualSubnetIdRequest interface {
 	GetVirtualSubnetId() string
 	ParseUserAgent() string
 }
+
+type ISetAddressPairInVirtualSubnetRequest interface {
+	GetVirtualSubnetId() string
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+}

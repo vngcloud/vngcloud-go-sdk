@@ -6,4 +6,5 @@ type AddressPair struct {
 	VirtualSubnetId    string
 	NetworkInterfaceIp string
 	NetworkInterfaceId string
+	CIDR               string
 }
