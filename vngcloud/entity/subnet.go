@@ -9,4 +9,11 @@ type Subnet struct {
 	RouteTableId           string
 	InterfaceAclPolicyId   string
 	InterfaceAclPolicyName string
+	SecondarySubnets       []SubnetSecondaryRange
+}
+
+type SubnetSecondaryRange struct {
+	Id   string
+	Name string
+	Cidr string
 }

@@ -13,9 +13,22 @@ type GetSubnetByIdResponse struct {
 	Name                   string `json:"name"`
 	InterfaceAclPolicyUuid string `json:"interfaceAclPolicyUuid,omitempty"`
 	InterfaceAclPolicyName string `json:"interfaceAclPolicyName,omitempty"`
+	SecondarySubnets       []struct {
+		UUID string `json:"uuid"`
+		Name string `json:"name"`
+		Cidr string `json:"cidr"`
+	} `json:"secondarySubnets,omitempty"`
 }
 
 func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
+	secondaryRange := make([]lsentity.SubnetSecondaryRange, 0)
+	for _, sr := range s.SecondarySubnets {
+		secondaryRange = append(secondaryRange, lsentity.SubnetSecondaryRange{
+			Id:   sr.UUID,
+			Name: sr.Name,
+			Cidr: sr.Cidr,
+		})
+	}
 	return &lsentity.Subnet{
 		Id:                     s.UUID,
 		NetworkId:              s.NetworkUuid,
@@ -25,5 +38,6 @@ func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
 		RouteTableId:           s.RouteTableUuid,
 		InterfaceAclPolicyId:   s.InterfaceAclPolicyUuid,
 		InterfaceAclPolicyName: s.InterfaceAclPolicyName,
+		SecondarySubnets:       secondaryRange,
 	}
 }

@@ -62,3 +62,11 @@ func getSubnetByIdUrl(psc lsclient.IServiceClient, popts IGetSubnetByIdRequest) 
 		"subnets",
 		popts.GetSubnetId())
 }
+
+func getAllAddressPairsByVirtualSubnetIdUrl(psc lsclient.IServiceClient, popts IGetAllAddressPairByVirtualSubnetIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtual-subnets",
+		popts.GetVirtualSubnetId(),
+		"addressPairs")
+}

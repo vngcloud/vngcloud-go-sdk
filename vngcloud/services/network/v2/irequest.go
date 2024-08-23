@@ -43,3 +43,10 @@ type IGetSubnetByIdRequest interface {
 	GetNetworkId() string
 	GetSubnetId() string
 }
+
+// Address Pair
+
+type IGetAllAddressPairByVirtualSubnetIdRequest interface {
+	GetVirtualSubnetId() string
+	ParseUserAgent() string
+}
