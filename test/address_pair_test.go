@@ -1,14 +1,15 @@
 package test
 
 import (
-	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v2"
 	ltesting "testing"
+
+	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v2"
 )
 
-func TestGetAllAddressPairsByVirtualSubnetId(t *ltesting.T) {
+func TestGetAllAddressPairByVirtualSubnetId(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnetworkSvcV2.NewGetAllAddressPairsByVirtualSubnetIdRequest(getValueOfEnv("VIRTUAL_SUBNET_ID"))
-	network, err := vngcloud.VServerGateway().V2().NetworkService().GetAllAddressPairsByVirtualSubnetId(opt)
+	opt := lsnetworkSvcV2.NewGetAllAddressPairByVirtualSubnetIdRequest(getValueOfEnv("VIRTUAL_SUBNET_ID"))
+	network, err := vngcloud.VServerGateway().V2().NetworkService().GetAllAddressPairByVirtualSubnetId(opt)
 
 	if err != nil {
 		t.Fatalf("Expect error to be nil but got %+v", err)

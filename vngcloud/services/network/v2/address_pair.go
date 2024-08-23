@@ -6,9 +6,9 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *NetworkServiceV2) GetAllAddressPairsByVirtualSubnetId(popts IGetAllAddressPairByVirtualSubnetIdRequest) ([]*lsentity.AddressPair, lserr.IError) {
-	url := getAllAddressPairsByVirtualSubnetIdUrl(s.VserverClient, popts)
-	resp := new(GetAllAddressPairsByVirtualSubnetIdResponse)
+func (s *NetworkServiceV2) GetAllAddressPairByVirtualSubnetId(popts IGetAllAddressPairByVirtualSubnetIdRequest) ([]*lsentity.AddressPair, lserr.IError) {
+	url := getAllAddressPairByVirtualSubnetIdUrl(s.VserverClient, popts)
+	resp := new(GetAllAddressPairByVirtualSubnetIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).

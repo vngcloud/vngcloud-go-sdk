@@ -35,6 +35,6 @@ type INetworkServiceV2 interface {
 	GetSubnetById(popts lsnetworkSvcV2.IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.IError)
 
 	// Address Pair
-	GetAllAddressPairsByVirtualSubnetId(popts lsnetworkSvcV2.IGetAllAddressPairByVirtualSubnetIdRequest) ([]*lsentity.AddressPair, lserr.IError)
+	GetAllAddressPairByVirtualSubnetId(popts lsnetworkSvcV2.IGetAllAddressPairByVirtualSubnetIdRequest) ([]*lsentity.AddressPair, lserr.IError)
 	SetAddressPairInVirtualSubnet(popts lsnetworkSvcV2.ISetAddressPairInVirtualSubnetRequest) (*lsentity.AddressPair, lserr.IError)
 }

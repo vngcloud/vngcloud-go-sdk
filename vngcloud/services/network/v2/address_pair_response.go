@@ -2,7 +2,7 @@ package v2
 
 import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 
-type GetAllAddressPairsByVirtualSubnetIdResponse struct {
+type GetAllAddressPairByVirtualSubnetIdResponse struct {
 	Data []*AddressPairResponse `json:"data"`
 }
 
@@ -21,7 +21,7 @@ type AddressPairResponse struct {
 	// DeletedAt       string `json:"deletedAt"`
 }
 
-func (s *GetAllAddressPairsByVirtualSubnetIdResponse) ToListAddressPair() []*lsentity.AddressPair {
+func (s *GetAllAddressPairByVirtualSubnetIdResponse) ToListAddressPair() []*lsentity.AddressPair {
 	addressPairs := make([]*lsentity.AddressPair, 0)
 	for _, addressPair := range s.Data {
 		addressPairs = append(addressPairs, &lsentity.AddressPair{

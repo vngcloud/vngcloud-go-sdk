@@ -2,18 +2,18 @@ package v2
 
 import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 
-func NewGetAllAddressPairsByVirtualSubnetIdRequest(psubnetId string) IGetAllAddressPairByVirtualSubnetIdRequest {
-	opt := new(GetAllAddressPairsByVirtualSubnetIdRequest)
+func NewGetAllAddressPairByVirtualSubnetIdRequest(psubnetId string) IGetAllAddressPairByVirtualSubnetIdRequest {
+	opt := new(GetAllAddressPairByVirtualSubnetIdRequest)
 	opt.VirtualSubnetId = psubnetId
 	return opt
 }
 
-type GetAllAddressPairsByVirtualSubnetIdRequest struct {
+type GetAllAddressPairByVirtualSubnetIdRequest struct {
 	lscommon.UserAgent
 	VirtualSubnetId string
 }
 
-func (s *GetAllAddressPairsByVirtualSubnetIdRequest) GetVirtualSubnetId() string {
+func (s *GetAllAddressPairByVirtualSubnetIdRequest) GetVirtualSubnetId() string {
 	return s.VirtualSubnetId
 }
 
