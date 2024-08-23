@@ -56,3 +56,8 @@ type ISetAddressPairInVirtualSubnetRequest interface {
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 }
+
+type IDeleteAddressPairRequest interface {
+	ParseUserAgent() string
+	GetAddressPairID() string
+}

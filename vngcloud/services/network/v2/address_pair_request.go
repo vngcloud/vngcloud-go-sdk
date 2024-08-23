@@ -17,6 +17,8 @@ func (s *GetAllAddressPairByVirtualSubnetIdRequest) GetVirtualSubnetId() string 
 	return s.VirtualSubnetId
 }
 
+// --------------------------------------------------------
+
 func NewSetAddressPairInVirtualSubnetRequest(psubnetId, networkInterfaceID, CIDR string) ISetAddressPairInVirtualSubnetRequest {
 	opt := new(SetAddressPairInVirtualSubnetRequest)
 	opt.VirtualSubnetId = psubnetId
@@ -45,3 +47,22 @@ type AddressPairRequest struct {
 	CIDR                       string `json:"cidr"`
 	InternalNetworkInterfaceId string `json:"internalNetworkInterfaceId"`
 }
+
+// --------------------------------------------------------
+
+func NewDeleteAddressPairRequest(addressPairID string) IDeleteAddressPairRequest {
+	opt := new(DeleteAddressPairRequest)
+	opt.AddressPairID = addressPairID
+	return opt
+}
+
+type DeleteAddressPairRequest struct {
+	lscommon.UserAgent
+	AddressPairID string
+}
+
+func (s *DeleteAddressPairRequest) GetAddressPairID() string {
+	return s.AddressPairID
+}
+
+// --------------------------------------------------------

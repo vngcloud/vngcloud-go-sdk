@@ -44,3 +44,17 @@ func (s *NetworkServiceV2) SetAddressPairInVirtualSubnet(popts ISetAddressPairIn
 	}
 	return resp.ToAddressPair(), nil
 }
+
+func (s *NetworkServiceV2) DeleteAddressPair(popts IDeleteAddressPairRequest) lserr.IError {
+	url := deleteAddressPairUrl(s.VserverClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200, 201, 202, 203, 204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+	return nil
+}

@@ -78,3 +78,11 @@ func setAddressPairInVirtualSubnetUrl(psc lsclient.IServiceClient, popts IGetAll
 		popts.GetVirtualSubnetId(),
 		"addressPairs")
 }
+
+func deleteAddressPairUrl(psc lsclient.IServiceClient, popts IDeleteAddressPairRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtual-subnets",
+		"addressPairs",
+		popts.GetAddressPairID())
+}

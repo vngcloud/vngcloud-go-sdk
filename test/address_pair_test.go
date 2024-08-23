@@ -41,3 +41,15 @@ func TestSetAddressPairInVirtualSubnet(t *ltesting.T) {
 
 	t.Log("RESULT:", network)
 }
+
+func TestDeleteAddressPair(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewDeleteAddressPairRequest(getValueOfEnv("ADDRESS_PAIR_ID"))
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteAddressPair(opt)
+
+	if err != nil {
+		t.Fatalf("Expect error to be nil but got %+v", err)
+	}
+
+	t.Log("PASS")
+}
