@@ -16,6 +16,9 @@ type ICreateEndpointRequest interface {
 	WithServiceUuid(pserviceUuid string) ICreateEndpointRequest
 	WithCategoryUuid(pcategoryUuid string) ICreateEndpointRequest
 	WithEndpointName(pendpointName string) ICreateEndpointRequest
+	WithPoc(pyes bool) ICreateEndpointRequest
+	WithBuyMorePoc(pyes bool) ICreateEndpointRequest
+	WithEnableAutoRenew(pyes bool) ICreateEndpointRequest
 	AddUserAgent(pagent ...string) ICreateEndpointRequest
 }
 
