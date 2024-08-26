@@ -44,6 +44,13 @@ type IGetSubnetByIdRequest interface {
 	GetSubnetId() string
 }
 
+type IUpdateSubnetByIdRequest interface {
+	ParseUserAgent() string
+	GetNetworkId() string
+	GetSubnetId() string
+	ToRequestBody() interface{}
+}
+
 // Address Pair
 
 type IGetAllAddressPairByVirtualSubnetIdRequest interface {

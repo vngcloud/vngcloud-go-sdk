@@ -27,3 +27,22 @@ func (s *NetworkServiceV2) GetSubnetById(popts IGetSubnetByIdRequest) (*lsentity
 
 	return resp.ToEntitySubnet(), nil
 }
+
+func (s *NetworkServiceV2) UpdateSubnetById(popts IUpdateSubnetByIdRequest) (*lsentity.Subnet, lserr.IError) {
+	url := updateSubnetByIdUrl(s.VserverClient, popts)
+	resp := new(UpdateSubnetByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200, 201, 202, 203, 204).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	_, sdkErr := s.VserverClient.Patch(url, req)
+	if sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntitySubnet(), nil
+}

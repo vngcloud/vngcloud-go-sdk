@@ -120,6 +120,8 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		resp, err = req.Delete(purl)
 	case "PUT":
 		resp, err = req.Put(purl)
+	case "PATCH":
+		resp, err = req.Patch(purl)
 	}
 
 	if err != nil && resp == nil {

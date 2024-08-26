@@ -41,3 +41,12 @@ func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
 		SecondarySubnets:       secondaryRange,
 	}
 }
+
+// --------------------------------------------------------
+type UpdateSubnetByIdResponse struct {
+	Data GetSubnetByIdResponse `json:"data"`
+}
+
+func (s *UpdateSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
+	return s.Data.ToEntitySubnet()
+}
