@@ -62,6 +62,14 @@ func WithErrorInternalServerError() func(IError) {
 	}
 }
 
+func WithErrorServiceMaintenance() func(IError) {
+	return func(sdkErr IError) {
+		sdkErr.WithErrorCode(EcServiceMaintenance).
+			WithMessage("Service Maintenance").
+			WithErrors(lfmt.Errorf("service is under maintenance"))
+	}
+}
+
 func WithErrorPermissionDenied() func(IError) {
 	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcPermissionDenied).

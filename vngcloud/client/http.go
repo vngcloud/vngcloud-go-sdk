@@ -144,6 +144,10 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 			return nil, lserr.SdkErrorHandler(
 				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
 				lserr.WithErrorInternalServerError())
+		case lhttp.StatusServiceUnavailable:
+			return nil, lserr.SdkErrorHandler(
+				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+				lserr.WithErrorServiceMaintenance())
 		case lhttp.StatusForbidden:
 			return nil, lserr.SdkErrorHandler(
 				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
