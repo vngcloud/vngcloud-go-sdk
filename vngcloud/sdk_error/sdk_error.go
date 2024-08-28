@@ -122,7 +122,7 @@ func (s *SdkError) GetErrorMessages() string {
 
 func (s *SdkError) GetListParameters() []interface{} {
 	var result []interface{}
-	if s.parameters == nil {
+	if s.parameters == nil || len(s.parameters) < 1 {
 		return result
 	}
 

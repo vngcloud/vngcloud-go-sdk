@@ -33,7 +33,7 @@ func TestCreateInterLoadBalancerV2(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
 		getValueOfEnv("VNGCLOUD_PORTAL_USER_ID"),
-		"cuongdm3-test-intervpc",
+		"phongnt10-test-intervpc",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
 		"sub-f7770744-6aa4-4292-9ff9-b43b44716ede",
@@ -96,13 +96,13 @@ func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
 }
 
 func TestCreateInterVpcLbHcm3b(t *ltesting.T) {
-	vngcloud := validHcm3bSdkConfig()
+	vngcloud := validHcm3bSuperSdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
-		getValueOfEnv("HCM3BUSER_ID"),
-		"cuongdm3-test-create-intervpc",
+		getValueOfEnv("HCM3B_USER_ID"),
+		"duynh7-hcm04-vstorage",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-69a84d35-5f8c-4220-81ce-a12940277e06",
-		"sub-a4c0037b-e0db-4f99-8d3b-54f3bddad24e",
+		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
+		"sub-511ef030-c961-45b5-baac-9d2dadf7e44c",
 	)
 	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
 	if sdkerr != nil {
