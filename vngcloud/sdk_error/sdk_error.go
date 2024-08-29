@@ -108,6 +108,10 @@ func (s *SdkError) GetErrorCode() ErrorCode {
 	return s.errorCode
 }
 
+func (s *SdkError) GetStringErrorCode() string {
+	return string(s.errorCode)
+}
+
 func (s *SdkError) GetParameters() map[string]interface{} {
 	return s.parameters
 }

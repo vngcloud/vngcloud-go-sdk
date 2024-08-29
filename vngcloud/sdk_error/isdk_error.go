@@ -13,6 +13,7 @@ type IError interface {
 	GetError() error
 	GetMessage() string
 	GetErrorCode() ErrorCode
+	GetStringErrorCode() string
 	GetParameters() map[string]interface{}
 	GetErrorMessages() string
 	GetListParameters() []interface{}
