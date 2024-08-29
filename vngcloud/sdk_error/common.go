@@ -113,20 +113,25 @@ func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError IError) {
 func WithErrorUnexpected(presponse *lreq.Response) func(IError) {
 	statusCode := 0
 	url := ""
+	err := lfmt.Errorf("unexpected error from making request to external service")
 	if presponse != nil {
-		if presponse.StatusCode != 0 {
+		if presponse.Response != nil && presponse.StatusCode != 0 {
 			statusCode = presponse.StatusCode
 		}
 
 		if presponse.Request != nil && presponse.Request.URL != nil {
 			url = presponse.Request.URL.String()
 		}
+
+		if presponse.Err != nil {
+			err = presponse.Err
+		}
 	}
 
 	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcUnexpectedError).
 			WithMessage("Unexpected Error").
-			WithErrors(lfmt.Errorf("unexpected error from making request to external service")).
+			WithErrors(err).
 			WithParameters(map[string]interface{}{
 				"statusCode": statusCode,
 				"url":        url,
