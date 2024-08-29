@@ -3,6 +3,8 @@ package sdk_error
 import (
 	lfmt "fmt"
 	lstr "strings"
+
+	lreq "github.com/imroc/req/v3"
 )
 
 const (
@@ -108,10 +110,26 @@ func WithErrorPagingInvalid(perrResp IErrorRespone) func(sdkError IError) {
 	}
 }
 
-func WithErrorUnexpected() func(IError) {
+func WithErrorUnexpected(presponse *lreq.Response) func(IError) {
+	statusCode := 0
+	url := ""
+	if presponse != nil {
+		if presponse.StatusCode != 0 {
+			statusCode = presponse.StatusCode
+		}
+
+		if presponse.Request != nil && presponse.Request.URL != nil {
+			url = presponse.Request.URL.String()
+		}
+	}
+
 	return func(sdkErr IError) {
 		sdkErr.WithErrorCode(EcUnexpectedError).
 			WithMessage("Unexpected Error").
-			WithErrors(lfmt.Errorf("unexpected error from making request to external service"))
+			WithErrors(lfmt.Errorf("unexpected error from making request to external service")).
+			WithParameters(map[string]interface{}{
+				"statusCode": statusCode,
+				"url":        url,
+			})
 	}
 }
