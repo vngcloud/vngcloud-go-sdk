@@ -62,7 +62,8 @@ func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IErro
 		WithJsonError(errResp)
 
 	if _, sdkErr = s.VServerClient.Put(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp)
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorTagKeyInvalid(errResp)).WithParameters(popts.ToMap())
 	}
 
 	return nil

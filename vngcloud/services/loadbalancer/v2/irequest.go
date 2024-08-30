@@ -142,4 +142,5 @@ type IUpdateTagsRequest interface {
 	ToRequestBody(plstTags *lsentity.ListTags) interface{}
 	ParseUserAgent() string
 	WithTags(ptags ...string) IUpdateTagsRequest
+	ToMap() map[string]interface{}
 }

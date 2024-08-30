@@ -10,6 +10,7 @@ import (
 const (
 	patternOutOfPoc      = "you do not have sufficient credits to complete the purchase"
 	patternPagingInvalid = "page or size invalid"
+	patternTagKeyInvalid = "the value for the tag key contains illegal characters"
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
@@ -89,6 +90,21 @@ func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError IError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternOutOfPoc) {
 			sdkError.WithErrorCode(EcBillingOutOfPoc).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorTagKeyInvalid(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternTagKeyInvalid) {
+			sdkError.WithErrorCode(EcTagKeyInvalid).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

@@ -8,6 +8,7 @@ const (
 	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
 	EcServiceMaintenance  = ErrorCode("VngCloudServiceMaintenance")
 	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
+	EcTagKeyInvalid       = ErrorCode("VngCloudApiTagKeyInvalid")
 	EcPermissionDenied    = ErrorCode("VngCloudApiPermissionDenied")
 	EcUnexpectedError     = ErrorCode("VngCloudApiUnexpectedError")
 )
