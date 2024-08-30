@@ -21,10 +21,12 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorOutOfPoc(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
+			lserr.WithErrorServerExceedCpuQuota(errResp),
 			lserr.WithErrorServerFlavorSystemExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorVolumeExceedQuota(errResp),
+			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
 	}

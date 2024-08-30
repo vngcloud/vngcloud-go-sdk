@@ -94,8 +94,10 @@ const (
 	EcVServerServerDeleteBillingServer            = ErrorCode("VngCloudVServerServerDeleteBillingServer")
 	EcVServerServerVolumeAttachQuotaExceeded      = ErrorCode("VngCloudVServerServerVolumeAttachQuotaExceeded")
 	EcVServerServerAttachEncryptedVolume          = ErrorCode("VngCloudVServerServerAttachEncryptedVolume")
-	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 	EcVServerServerFlavorSystemExceedQuota        = ErrorCode("VngCloudVServerServerFlavorSystemExceedQuota")
+	EcVServerServerExceedCpuQuota                 = ErrorCode("VngCloudVServerServerExceedCpuQuota")
+	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
+	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
 )
 
 // vServer quota

@@ -14,6 +14,8 @@ const (
 	patternServerExpired                   = "server is expired"
 	patternServerFlavorSystemExceedQuota   = "there are no more remaining flavor with id"
 	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
+	patternServerExceedCpuQuota            = "exceeded vcpu quota. current used"
+	patternServerImageNotSupported         = "doesn't support image with id"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -85,6 +87,36 @@ func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError IErr
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerUpdatingSecgroups) {
 			sdkError.WithErrorCode(EcVServerServerUpdatingSecgroups).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerExceedCpuQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedCpuQuota) {
+			sdkError.WithErrorCode(EcVServerServerExceedCpuQuota).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerImageNotSupported(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerImageNotSupported) {
+			sdkError.WithErrorCode(EcVServerServerImageNotSupported).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
