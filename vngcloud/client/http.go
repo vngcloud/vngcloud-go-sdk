@@ -159,7 +159,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		return resp, lserr.ErrorHandler(resp.Err)
 	}
 
-	return nil, lserr.ErrorHandler(nil, lserr.WithErrorUnexpected())
+	return nil, lserr.ErrorHandler(nil, lserr.WithErrorUnexpected(resp))
 }
 
 func (s *httpClient) needReauth(preq IRequest) bool {
