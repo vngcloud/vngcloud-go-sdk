@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	patternOutOfPoc      = "you do not have sufficient credits to complete the purchase"
+	patternPurchaseIssue = "you do not have sufficient credits to complete the purchase"
 	patternPagingInvalid = "page or size invalid"
 	patternTagKeyInvalid = "the value for the tag key contains illegal characters"
 )
@@ -81,17 +81,18 @@ func WithErrorPermissionDenied() func(IError) {
 	}
 }
 
-func WithErrorOutOfPoc(perrResp IErrorRespone) func(sdkError IError) {
+func WithErrorPurchaseIssue(perrResp IErrorRespone) func(sdkError IError) {
 	return func(sdkError IError) {
 		if perrResp == nil {
 			return
 		}
 
 		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternOutOfPoc) {
-			sdkError.WithErrorCode(EcBillingOutOfPoc).
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternPurchaseIssue) {
+			sdkError.WithErrorCode(EcPurchaseIssue).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatPurchase)
 		}
 	}
 }

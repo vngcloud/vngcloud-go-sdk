@@ -81,7 +81,7 @@ const (
 // Billing
 
 const (
-	EcBillingOutOfPoc = ErrorCode("BillingOutOfPoc")
+	EcPurchaseIssue = ErrorCode("PurchaseIssue")
 )
 
 // vServer server

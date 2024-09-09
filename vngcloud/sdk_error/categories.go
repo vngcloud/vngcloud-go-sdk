@@ -15,3 +15,9 @@ const (
 const (
 	ErrCatInfra ErrorCategory = "infra"
 )
+
+// purchase error category
+
+const (
+	ErrCatPurchase ErrorCategory = "purchase"
+)
