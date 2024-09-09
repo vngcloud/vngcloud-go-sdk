@@ -7,6 +7,7 @@ type IError interface {
 	WithErrorCode(perrCode ErrorCode) IError
 	WithMessage(pmsg string) IError
 	WithErrors(perrs ...error) IError
+	WithErrorCategories(pcategories ...ErrorCategory) IError
 	WithParameters(pparams map[string]interface{}) IError
 	WithKVparameters(pparams ...interface{}) IError
 

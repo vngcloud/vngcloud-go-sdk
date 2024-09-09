@@ -133,7 +133,8 @@ func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedQuota) {
 			sdkError.WithErrorCode(EcVServerServerExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

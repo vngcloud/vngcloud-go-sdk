@@ -232,11 +232,18 @@ func (s *reauthFuture) set(err lserr.IError) {
 }
 
 func defaultErrorResponse(perr error, purl string, preq IRequest, resp *lreq.Response) lserr.IError {
+	headers := preq.GetMoreHeaders()
+
+	// Remove sensitive information
+	if headers != nil {
+		delete(headers, "Authorization")
+	}
+
 	return lserr.ErrorHandler(perr).WithKVparameters(
 		"statusCode", resp.StatusCode,
 		"url", purl,
 		"method", preq.GetRequestMethod(),
-		"requestHeaders", preq.GetMoreHeaders(),
+		"requestHeaders", headers,
 		"responseHeaders", resp.Header,
 	)
 }

@@ -3,6 +3,8 @@ package sdk_error
 import (
 	lerrors "errors"
 	lfmt "fmt"
+
+	ljset "github.com/cuongpiger/joat/data-structure/set"
 )
 
 var (
@@ -14,10 +16,13 @@ type (
 		error      error
 		errorCode  ErrorCode
 		message    string
+		categories ljset.Set[ErrorCategory]
 		parameters map[string]interface{}
 	}
 
 	ErrorCode string
+
+	ErrorCategory string
 )
 
 func (s *SdkError) IsError(perrCode ErrorCode) bool {
@@ -56,6 +61,16 @@ func (s *SdkError) WithErrors(perrs ...error) IError {
 
 	for _, err := range perrs {
 		s.error = lerrors.Join(s.error, err)
+	}
+
+	return s
+}
+
+func (s *SdkError) WithErrorCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		s.categories = ljset.NewSet[ErrorCategory](pcategories...)
+	} else {
+		s.categories.Append(pcategories...)
 	}
 
 	return s
