@@ -39,6 +39,22 @@ func (s *SdkError) IsErrorAny(perrCodes ...ErrorCode) bool {
 	return false
 }
 
+func (s *SdkError) IsCategory(pcategory ErrorCategory) bool {
+	if s.categories == nil {
+		return false
+	}
+
+	return s.categories.ContainsOne(pcategory)
+}
+
+func (s *SdkError) IsCategories(pcategories ...ErrorCategory) bool {
+	if s.categories == nil {
+		return false
+	}
+
+	return s.categories.ContainsAny(pcategories...)
+}
+
 func (s *SdkError) WithErrorCode(perrCode ErrorCode) IError {
 	s.errorCode = perrCode
 	return s
@@ -131,6 +147,10 @@ func (s *SdkError) GetParameters() map[string]interface{} {
 	return s.parameters
 }
 
+func (s *SdkError) GetErrorCategories() ljset.Set[ErrorCategory] {
+	return s.categories
+}
+
 func (s *SdkError) GetErrorMessages() string {
 	if s.error == nil {
 		return s.message
@@ -150,4 +170,23 @@ func (s *SdkError) GetListParameters() []interface{} {
 	}
 
 	return result
+}
+
+func (s *SdkError) RemoveCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		return s
+	}
+
+	s.categories.RemoveAll(pcategories...)
+	return s
+}
+
+func (s *SdkError) AppendCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		s.categories = ljset.NewSet[ErrorCategory](pcategories...)
+		return s
+	}
+
+	s.categories.Append(pcategories...)
+	return s
 }

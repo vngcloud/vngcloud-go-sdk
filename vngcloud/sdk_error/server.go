@@ -43,7 +43,8 @@ func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkErro
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerFlavorSystemExceedQuota) {
 			sdkError.WithErrorCode(EcVServerServerFlavorSystemExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatInfra)
 		}
 	}
 }
@@ -103,7 +104,8 @@ func WithErrorServerExceedCpuQuota(perrResp IErrorRespone) func(sdkError IError)
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedCpuQuota) {
 			sdkError.WithErrorCode(EcVServerServerExceedCpuQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }
@@ -194,7 +196,8 @@ func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkEr
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerAttachVolumeQuotaExceeded) {
 			sdkError.WithErrorCode(EcVServerServerVolumeAttachQuotaExceeded).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

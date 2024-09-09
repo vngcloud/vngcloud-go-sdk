@@ -10,3 +10,8 @@ const (
 const (
 	ErrCatIam ErrorCategory = "iam"
 )
+
+// infra error category
+const (
+	ErrCatInfra ErrorCategory = "infra"
+)

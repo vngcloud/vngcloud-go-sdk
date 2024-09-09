@@ -1,8 +1,12 @@
 package sdk_error
 
+import ljset "github.com/cuongpiger/joat/data-structure/set"
+
 type IError interface {
 	IsError(perrCode ErrorCode) bool
 	IsErrorAny(perrCodes ...ErrorCode) bool
+	IsCategory(pcategory ErrorCategory) bool
+	IsCategories(pcategories ...ErrorCategory) bool
 
 	WithErrorCode(perrCode ErrorCode) IError
 	WithMessage(pmsg string) IError
@@ -16,8 +20,13 @@ type IError interface {
 	GetErrorCode() ErrorCode
 	GetStringErrorCode() string
 	GetParameters() map[string]interface{}
+	GetErrorCategories() ljset.Set[ErrorCategory]
 	GetErrorMessages() string
 	GetListParameters() []interface{}
+
+	RemoveCategories(pcategories ...ErrorCategory) IError
+
+	AppendCategories(pcategories ...ErrorCategory) IError
 }
 
 type IErrorRespone interface {
