@@ -102,3 +102,11 @@ func (s *UpdateTagsRequest) WithTags(ptags ...string) IUpdateTagsRequest {
 
 	return s
 }
+
+func (s *UpdateTagsRequest) ToMap() map[string]interface{} {
+	res := make(map[string]interface{})
+	for _, tag := range s.TagRequestList {
+		res[tag.Key] = tag.Value
+	}
+	return res
+}

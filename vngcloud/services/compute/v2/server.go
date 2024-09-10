@@ -18,13 +18,15 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 
 	if _, sdkErr := s.VServerClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorOutOfPoc(errResp),
+			lserr.WithErrorPurchaseIssue(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
+			lserr.WithErrorServerExceedCpuQuota(errResp),
 			lserr.WithErrorServerFlavorSystemExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorVolumeExceedQuota(errResp),
+			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
 	}

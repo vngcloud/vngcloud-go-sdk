@@ -70,7 +70,8 @@ func WithErrorLoadBalancerExceedQuota(perrResp IErrorRespone) func(sdkError IErr
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerExceedQuota) {
 			sdkError.WithErrorCode(EcVLBLoadBalancerExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

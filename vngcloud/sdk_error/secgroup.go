@@ -49,7 +49,8 @@ func WithErrorSecgroupExceedQuota(perrResp IErrorRespone) func(sdkError IError) 
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternSecgroupExceedQuota) {
 			sdkError.WithErrorCode(EcVServerSecgroupExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

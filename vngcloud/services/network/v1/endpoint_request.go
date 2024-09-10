@@ -136,6 +136,21 @@ func (s *CreateEndpointRequest) WithDescription(pdesp string) ICreateEndpointReq
 	return s
 }
 
+func (s *CreateEndpointRequest) WithPoc(pyes bool) ICreateEndpointRequest {
+	s.ResourceInfo.IsPoc = pyes
+	return s
+}
+
+func (s *CreateEndpointRequest) WithBuyMorePoc(pyes bool) ICreateEndpointRequest {
+	s.ResourceInfo.IsBuyMorePoc = pyes
+	return s
+}
+
+func (s *CreateEndpointRequest) WithEnableAutoRenew(pyes bool) ICreateEndpointRequest {
+	s.ResourceInfo.IsEnableAutoRenew = pyes
+	return s
+}
+
 type DeleteEndpointByIdRequest struct {
 	EndpointServiceUuid string `json:"endpointServiceUuid"`
 	EndpointUuid        string `json:"endpointUuid"`

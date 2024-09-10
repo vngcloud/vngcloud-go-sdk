@@ -1,8 +1,9 @@
 package entity
 
 type Tag struct {
-	Key   string
-	Value string
+	Key       string
+	Value     string
+	SystemTag bool
 }
 
 type ListTags struct {

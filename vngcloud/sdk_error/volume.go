@@ -75,7 +75,8 @@ func WithErrorVolumeSizeExceedGlobalQuota(perrResp IErrorRespone) func(sdkError 
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeSizeExceedGlobalQuota) {
 			sdkError.WithErrorCode(EcVServerVolumeSizeExceedGlobalQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }
@@ -90,7 +91,8 @@ func WithErrorVolumeExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVolumeExceedQuota) {
 			sdkError.WithErrorCode(EcVServerVolumeExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

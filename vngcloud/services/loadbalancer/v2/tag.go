@@ -40,9 +40,17 @@ func (s *LoadBalancerServiceV2) CreateTags(popts ICreateTagsRequest) lserr.IErro
 }
 
 func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IError {
-	tags, sdkErr := s.ListTags(NewListTagsRequest(popts.GetLoadBalancerId()))
+	tmpTags, sdkErr := s.ListTags(NewListTagsRequest(popts.GetLoadBalancerId()))
 	if sdkErr != nil {
 		return sdkErr
+	}
+
+	// Do not update system tags
+	tags := new(lsentity.ListTags)
+	for _, tag := range tmpTags.Items {
+		if !tag.SystemTag {
+			tags.Items = append(tags.Items, tag)
+		}
 	}
 
 	url := updateTagsUrl(s.VServerClient, popts)
@@ -54,7 +62,8 @@ func (s *LoadBalancerServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IErro
 		WithJsonError(errResp)
 
 	if _, sdkErr = s.VServerClient.Put(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp)
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorTagKeyInvalid(errResp)).WithParameters(popts.ToMap())
 	}
 
 	return nil

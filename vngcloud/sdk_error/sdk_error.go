@@ -3,6 +3,8 @@ package sdk_error
 import (
 	lerrors "errors"
 	lfmt "fmt"
+
+	ljset "github.com/cuongpiger/joat/data-structure/set"
 )
 
 var (
@@ -14,10 +16,13 @@ type (
 		error      error
 		errorCode  ErrorCode
 		message    string
+		categories ljset.Set[ErrorCategory]
 		parameters map[string]interface{}
 	}
 
 	ErrorCode string
+
+	ErrorCategory string
 )
 
 func (s *SdkError) IsError(perrCode ErrorCode) bool {
@@ -32,6 +37,22 @@ func (s *SdkError) IsErrorAny(perrCodes ...ErrorCode) bool {
 	}
 
 	return false
+}
+
+func (s *SdkError) IsCategory(pcategory ErrorCategory) bool {
+	if s.categories == nil {
+		return false
+	}
+
+	return s.categories.ContainsOne(pcategory)
+}
+
+func (s *SdkError) IsCategories(pcategories ...ErrorCategory) bool {
+	if s.categories == nil {
+		return false
+	}
+
+	return s.categories.ContainsAny(pcategories...)
 }
 
 func (s *SdkError) WithErrorCode(perrCode ErrorCode) IError {
@@ -56,6 +77,16 @@ func (s *SdkError) WithErrors(perrs ...error) IError {
 
 	for _, err := range perrs {
 		s.error = lerrors.Join(s.error, err)
+	}
+
+	return s
+}
+
+func (s *SdkError) WithErrorCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		s.categories = ljset.NewSet[ErrorCategory](pcategories...)
+	} else {
+		s.categories.Append(pcategories...)
 	}
 
 	return s
@@ -108,8 +139,16 @@ func (s *SdkError) GetErrorCode() ErrorCode {
 	return s.errorCode
 }
 
+func (s *SdkError) GetStringErrorCode() string {
+	return string(s.errorCode)
+}
+
 func (s *SdkError) GetParameters() map[string]interface{} {
 	return s.parameters
+}
+
+func (s *SdkError) GetErrorCategories() ljset.Set[ErrorCategory] {
+	return s.categories
 }
 
 func (s *SdkError) GetErrorMessages() string {
@@ -122,7 +161,7 @@ func (s *SdkError) GetErrorMessages() string {
 
 func (s *SdkError) GetListParameters() []interface{} {
 	var result []interface{}
-	if s.parameters == nil {
+	if s.parameters == nil || len(s.parameters) < 1 {
 		return result
 	}
 
@@ -131,4 +170,23 @@ func (s *SdkError) GetListParameters() []interface{} {
 	}
 
 	return result
+}
+
+func (s *SdkError) RemoveCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		return s
+	}
+
+	s.categories.RemoveAll(pcategories...)
+	return s
+}
+
+func (s *SdkError) AppendCategories(pcategories ...ErrorCategory) IError {
+	if s.categories == nil {
+		s.categories = ljset.NewSet[ErrorCategory](pcategories...)
+		return s
+	}
+
+	s.categories.Append(pcategories...)
+	return s
 }

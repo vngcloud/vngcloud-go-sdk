@@ -14,6 +14,8 @@ const (
 	patternServerExpired                   = "server is expired"
 	patternServerFlavorSystemExceedQuota   = "there are no more remaining flavor with id"
 	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
+	patternServerExceedCpuQuota            = "exceeded vcpu quota. current used"
+	patternServerImageNotSupported         = "doesn't support image with id"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -41,7 +43,8 @@ func WithErrorServerFlavorSystemExceedQuota(perrResp IErrorRespone) func(sdkErro
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerFlavorSystemExceedQuota) {
 			sdkError.WithErrorCode(EcVServerServerFlavorSystemExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatInfra)
 		}
 	}
 }
@@ -91,6 +94,37 @@ func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError IErr
 	}
 }
 
+func WithErrorServerExceedCpuQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedCpuQuota) {
+			sdkError.WithErrorCode(EcVServerServerExceedCpuQuota).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
+		}
+	}
+}
+
+func WithErrorServerImageNotSupported(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerImageNotSupported) {
+			sdkError.WithErrorCode(EcVServerServerImageNotSupported).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
 func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
 	return func(sdkError IError) {
 		if perrResp == nil {
@@ -101,7 +135,8 @@ func WithErrorServerExceedQuota(perrResp IErrorRespone) func(sdkError IError) {
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedQuota) {
 			sdkError.WithErrorCode(EcVServerServerExceedQuota).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }
@@ -161,7 +196,8 @@ func WithErrorServerAttachVolumeQuotaExceeded(perrResp IErrorRespone) func(sdkEr
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerAttachVolumeQuotaExceeded) {
 			sdkError.WithErrorCode(EcVServerServerVolumeAttachQuotaExceeded).
 				WithMessage(errMsg).
-				WithErrors(perrResp.GetError())
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
 		}
 	}
 }

@@ -4,6 +4,10 @@ import (
 	lfmt "fmt"
 )
 
+const (
+	loginFailedPrefixMsg = "There are some problems with your service account key pair, please re-generate a new one. Error message: %s"
+)
+
 func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(IError) {
 	return func(sdkErr IError) {
 		if perrResp == nil {
@@ -17,7 +21,8 @@ func WithErrorAuthenticationFailed(perrResp IErrorRespone) func(IError) {
 		if perrResp.GetError().Error() == "AUTHENTICATION_FAILED" {
 			sdkErr.WithErrorCode(EcAuthenticationFailed).
 				WithErrors(perrResp.GetError()).
-				WithMessage(perrResp.GetMessage())
+				WithMessage(lfmt.Sprintf(loginFailedPrefixMsg, perrResp.GetMessage())).
+				WithErrorCategories(ErrCatIam)
 		}
 	}
 }
@@ -43,7 +48,8 @@ func WithErrorTooManyFailedLogin(perrResp IErrorRespone) func(IError) {
 		if perrResp.GetError().Error() == "TOO_MANY_FAILED_LOGINS" {
 			sdkErr.WithErrorCode(EcTooManyFailedLogins).
 				WithErrors(perrResp.GetError()).
-				WithMessage(perrResp.GetMessage())
+				WithMessage(lfmt.Sprintf(loginFailedPrefixMsg, perrResp.GetMessage())).
+				WithErrorCategories(ErrCatIam)
 		}
 	}
 }

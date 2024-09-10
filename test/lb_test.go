@@ -33,7 +33,7 @@ func TestCreateInterLoadBalancerV2(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
 		getValueOfEnv("VNGCLOUD_PORTAL_USER_ID"),
-		"cuongdm3-test-intervpc",
+		"phongnt10-test-intervpc",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
 		"sub-f7770744-6aa4-4292-9ff9-b43b44716ede",
@@ -74,9 +74,9 @@ func TestCreateInterLoadBalancerTanTm3(t *ltesting.T) {
 }
 
 func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
-	vngcloud := validHcm3bSdkConfig().WithProjectId(getValueOfEnv("HCM3BPROJECT_ID"))
+	vngcloud := validVinhNt8SdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
-		getValueOfEnv("HCM3BUSER_ID"),
+		getValueOfEnv("VINHCLIENT_USER_ID"),
 		"lb-overlap-private-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
@@ -95,10 +95,32 @@ func TestCreateInterLoadBalancerSuccess2(t *ltesting.T) {
 	t.Log("PASS")
 }
 
-func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
-	vngcloud := validSuperSdkConfig().WithProjectId("pro-c8e87532-dc1a-421c-8c5e-4604d772829f")
+func TestCreateInterVpcLbHcm3b(t *ltesting.T) {
+	vngcloud := validHcm3bSuperSdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
-		getValueOfEnv("VINHPORTAL_USER_ID"),
+		getValueOfEnv("HCM3B_USER_ID"),
+		"duynh7-hcm04-vstorage",
+		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
+		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
+		"sub-511ef030-c961-45b5-baac-9d2dadf7e44c",
+	)
+	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
+func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
+	vngcloud := validVinhNt8SdkConfig().WithProjectId("pro-c8e87532-dc1a-421c-8c5e-4604d772829f")
+	opt := lsinter.NewCreateLoadBalancerRequest(
+		getValueOfEnv("VINHCLIENT_USER_ID"),
 		"vinhnt8-15percent-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
 		"sub-0f20f37a-602c-4b17-b5f8-f81d4c36aab1",
@@ -456,8 +478,8 @@ func TestDeleteListenterSuccess(t *ltesting.T) {
 }
 
 func TestDeleteLoadBalancer(t *ltesting.T) {
-	vngcloud := validSdkConfig()
-	opt := lslbv2.NewDeleteLoadBalancerByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f")
+	vngcloud := validHcm3bSdkConfig()
+	opt := lslbv2.NewDeleteLoadBalancerByIdRequest("lb-50b72305-02a5-4235-8422-42d6638c7845")
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeleteLoadBalancerById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)

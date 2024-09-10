@@ -26,7 +26,7 @@ func (s *IdentityServiceV2) GetAccessToken(popts IGetAccessTokenRequest) (*lsent
 			lserr.WithErrorTooManyFailedLogin(errResp),
 			lserr.WithErrorAuthenticationFailed(errResp),
 			lserr.WithErrorUnknownAuthFailure(errResp)). // Always put this handler at the end
-			WithKVparameters("clientId", popts.GetClientId(), "clientSecret", popts.GetClientSecret())
+			WithKVparameters("clientId", popts.GetClientId())
 	}
 
 	return resp.ToEntityAccessToken(), nil

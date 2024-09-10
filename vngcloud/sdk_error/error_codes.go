@@ -6,7 +6,9 @@ const (
 	EcUnknownError = ErrorCode("UnknownError")
 
 	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
+	EcServiceMaintenance  = ErrorCode("VngCloudServiceMaintenance")
 	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
+	EcTagKeyInvalid       = ErrorCode("VngCloudApiTagKeyInvalid")
 	EcPermissionDenied    = ErrorCode("VngCloudApiPermissionDenied")
 	EcUnexpectedError     = ErrorCode("VngCloudApiUnexpectedError")
 )
@@ -79,7 +81,7 @@ const (
 // Billing
 
 const (
-	EcBillingOutOfPoc = ErrorCode("BillingOutOfPoc")
+	EcPurchaseIssue = ErrorCode("PurchaseIssue")
 )
 
 // vServer server
@@ -93,8 +95,10 @@ const (
 	EcVServerServerDeleteBillingServer            = ErrorCode("VngCloudVServerServerDeleteBillingServer")
 	EcVServerServerVolumeAttachQuotaExceeded      = ErrorCode("VngCloudVServerServerVolumeAttachQuotaExceeded")
 	EcVServerServerAttachEncryptedVolume          = ErrorCode("VngCloudVServerServerAttachEncryptedVolume")
-	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 	EcVServerServerFlavorSystemExceedQuota        = ErrorCode("VngCloudVServerServerFlavorSystemExceedQuota")
+	EcVServerServerExceedCpuQuota                 = ErrorCode("VngCloudVServerServerExceedCpuQuota")
+	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
+	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
 )
 
 // vServer quota
