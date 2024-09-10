@@ -14,3 +14,33 @@ type GetSubnetByIdRequest struct {
 	lscommon.SubnetCommon
 	lscommon.NetworkCommon
 }
+
+// --------------------------------------------------------
+type SecondarySubnetUpdateBody struct {
+	Name string `json:"name"`
+	CIDR string `json:"cidr"`
+}
+type UpdateSubnetBody struct {
+	Name                    string                      `json:"name"`
+	CIDR                    string                      `json:"cidr"`
+	SecondarySubnetRequests []SecondarySubnetUpdateBody `json:"secondarySubnetRequests"`
+}
+
+func NewUpdateSubnetByIdRequest(pnetworkId, psubnetId string, updateBody *UpdateSubnetBody) IUpdateSubnetByIdRequest {
+	opt := new(UpdateSubnetByIdRequest)
+	opt.NetworkId = pnetworkId
+	opt.SubnetId = psubnetId
+	opt.UpdateSubnetBody = updateBody
+	return opt
+}
+
+type UpdateSubnetByIdRequest struct {
+	UpdateSubnetBody *UpdateSubnetBody `json:"subnet"`
+	lscommon.UserAgent
+	lscommon.SubnetCommon
+	lscommon.NetworkCommon
+}
+
+func (s *UpdateSubnetByIdRequest) ToRequestBody() interface{} {
+	return s.UpdateSubnetBody
+}

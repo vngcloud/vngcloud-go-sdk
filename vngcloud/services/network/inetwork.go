@@ -33,4 +33,10 @@ type INetworkServiceV2 interface {
 
 	// Subnet
 	GetSubnetById(popts lsnetworkSvcV2.IGetSubnetByIdRequest) (*lsentity.Subnet, lserr.IError)
+	UpdateSubnetById(popts lsnetworkSvcV2.IUpdateSubnetByIdRequest) (*lsentity.Subnet, lserr.IError)
+
+	// Address Pair
+	GetAllAddressPairByVirtualSubnetId(popts lsnetworkSvcV2.IGetAllAddressPairByVirtualSubnetIdRequest) ([]*lsentity.AddressPair, lserr.IError)
+	SetAddressPairInVirtualSubnet(popts lsnetworkSvcV2.ISetAddressPairInVirtualSubnetRequest) (*lsentity.AddressPair, lserr.IError)
+	DeleteAddressPair(popts lsnetworkSvcV2.IDeleteAddressPairRequest) lserr.IError
 }

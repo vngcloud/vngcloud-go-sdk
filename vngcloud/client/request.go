@@ -19,6 +19,7 @@ const (
 	MethodGet    = requestMethod("GET")
 	MethodPost   = requestMethod("POST")
 	MethodPut    = requestMethod("PUT")
+	MethodPatch  = requestMethod("PATCH")
 	MethodDelete = requestMethod("DELETE")
 )
 

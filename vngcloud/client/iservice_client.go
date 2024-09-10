@@ -24,6 +24,7 @@ type IServiceClient interface {
 	Get(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
 	Delete(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
 	Put(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
+	Patch(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError)
 }
 
 type ISdkAuthentication interface {

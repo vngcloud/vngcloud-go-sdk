@@ -62,3 +62,36 @@ func getSubnetByIdUrl(psc lsclient.IServiceClient, popts IGetSubnetByIdRequest) 
 		"subnets",
 		popts.GetSubnetId())
 }
+
+func updateSubnetByIdUrl(psc lsclient.IServiceClient, popts IGetSubnetByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"networks",
+		popts.GetNetworkId(),
+		"subnets",
+		popts.GetSubnetId())
+}
+
+func getAllAddressPairByVirtualSubnetIdUrl(psc lsclient.IServiceClient, popts IGetAllAddressPairByVirtualSubnetIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtual-subnets",
+		popts.GetVirtualSubnetId(),
+		"addressPairs")
+}
+
+func setAddressPairInVirtualSubnetUrl(psc lsclient.IServiceClient, popts IGetAllAddressPairByVirtualSubnetIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtual-subnets",
+		popts.GetVirtualSubnetId(),
+		"addressPairs")
+}
+
+func deleteAddressPairUrl(psc lsclient.IServiceClient, popts IDeleteAddressPairRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtual-subnets",
+		"addressPairs",
+		popts.GetAddressPairID())
+}

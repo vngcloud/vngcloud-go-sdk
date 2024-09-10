@@ -83,6 +83,10 @@ func (s *serviceClient) Put(purl string, preq IRequest) (*lreq.Response, lsdkErr
 	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPut))
 }
 
+func (s *serviceClient) Patch(purl string, preq IRequest) (*lreq.Response, lsdkErr.IError) {
+	return s.client.DoRequest(purl, preq.WithRequestMethod(MethodPatch))
+}
+
 func (s *serviceClient) GetProjectId() string {
 	return s.projectId
 }
