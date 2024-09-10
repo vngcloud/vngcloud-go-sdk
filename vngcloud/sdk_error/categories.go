@@ -21,3 +21,7 @@ const (
 const (
 	ErrCatPurchase ErrorCategory = "purchase"
 )
+
+const (
+	ErrCatAll ErrorCategory = "all"
+)
