@@ -95,3 +95,11 @@ func deleteAddressPairUrl(psc lsclient.IServiceClient, popts IDeleteAddressPairR
 		"addressPairs",
 		popts.GetAddressPairID())
 }
+
+func listAllServersBySecgroupIdUrl(psc lsclient.IServiceClient, popts IListAllServersBySubnetIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"secgroups",
+		popts.GetSecgroupId(),
+		"servers")
+}

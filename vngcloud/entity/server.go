@@ -78,3 +78,7 @@ type (
 		Uuid string
 	}
 )
+
+type ListServers struct {
+	Items []*Server
+}

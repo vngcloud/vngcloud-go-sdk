@@ -68,3 +68,7 @@ type IDeleteAddressPairRequest interface {
 	ParseUserAgent() string
 	GetAddressPairID() string
 }
+
+type IListAllServersBySubnetIdRequest interface {
+	GetSecgroupId() string
+}
