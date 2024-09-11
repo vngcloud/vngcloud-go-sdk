@@ -69,6 +69,6 @@ type IDeleteAddressPairRequest interface {
 	GetAddressPairID() string
 }
 
-type IListAllServersBySubnetIdRequest interface {
+type IListAllServersBySecgroupIdRequest interface {
 	GetSecgroupId() string
 }

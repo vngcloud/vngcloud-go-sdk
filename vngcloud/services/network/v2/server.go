@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *NetworkServiceV2) ListAllServersBySecgroupId(popts IListAllServersBySubnetIdRequest) (*lsentity.ListServers, lserr.IError) {
+func (s *NetworkServiceV2) ListAllServersBySecgroupId(popts IListAllServersBySecgroupIdRequest) (*lsentity.ListServers, lserr.IError) {
 	url := listAllServersBySecgroupIdUrl(s.VserverClient, popts)
 	resp := new(ListAllServersBySecgroupIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

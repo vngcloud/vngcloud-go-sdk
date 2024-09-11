@@ -104,3 +104,21 @@ func TestDeleteSecgroupByIdSuccess(t *ltesting.T) {
 	t.Log("RESULT:", err)
 	t.Log("PASS")
 }
+
+func TestListAllServerBySecgroupIdSuccess(t *ltesting.T) {
+	secgroupId := "secg-1395e86c-9631-4c13-93b6-e41be5bdaab3"
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewListAllServersBySubnetIdRequest(secgroupId)
+	serbvers, err := vngcloud.VServerGateway().V2().NetworkService().ListAllServersBySecgroupId(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if serbvers == nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", serbvers)
+	t.Log("PASS")
+}

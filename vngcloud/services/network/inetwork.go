@@ -41,5 +41,5 @@ type INetworkServiceV2 interface {
 	DeleteAddressPair(popts lsnetworkSvcV2.IDeleteAddressPairRequest) lserr.IError
 
 	// Servers
-	ListAllServersBySecgroupId(popts lsnetworkSvcV2.IListAllServersBySubnetIdRequest) (*lsentity.ListServers, lserr.IError)
+	ListAllServersBySecgroupId(popts lsnetworkSvcV2.IListAllServersBySecgroupIdRequest) (*lsentity.ListServers, lserr.IError)
 }
