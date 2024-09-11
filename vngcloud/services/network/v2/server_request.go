@@ -1,6 +1,6 @@
 package v2
 
-func NewListAllServersBySubnetIdRequest(psecgroupId string) IListAllServersBySecgroupIdRequest {
+func NewListAllServersBySecgroupIdRequest(psecgroupId string) IListAllServersBySecgroupIdRequest {
 	opt := new(ListAllServersBySecgroupIdRequest)
 	opt.SecgroupId = psecgroupId
 	return opt
