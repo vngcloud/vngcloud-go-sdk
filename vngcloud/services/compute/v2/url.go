@@ -50,3 +50,24 @@ func detachBlockVolumeUrl(psc lsclient.IServiceClient, popts IDetachBlockVolumeR
 		"detach",
 	)
 }
+
+func attachFloatingIpUrl(psc lsclient.IServiceClient, popts IAttachFloatingIpRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"servers",
+		popts.GetServerId(),
+		"wan-ips",
+		"auto",
+		"attach")
+
+}
+
+func detachFloatingIpUrl(psc lsclient.IServiceClient, popts IDetachFloatingIpRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"servers",
+		popts.GetServerId(),
+		"wan-ips",
+		popts.GetWanId(),
+		"detach")
+}

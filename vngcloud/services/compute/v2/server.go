@@ -146,3 +146,50 @@ func (s *ComputeServiceV2) DetachBlockVolume(popts IDetachBlockVolumeRequest) ls
 
 	return nil
 }
+
+func (s *ComputeServiceV2) AttachFloatingIp(popts IAttachFloatingIpRequest) lserr.IError {
+	url := attachFloatingIpUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerNotFound(errResp),
+			lserr.WithErrorServerCanNotAttachFloatingIp(errResp),
+			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"serverId", popts.GetServerId(),
+				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+	}
+
+	return nil
+}
+
+func (s *ComputeServiceV2) DetachFloatingIp(popts IDetachFloatingIpRequest) lserr.IError {
+	url := detachFloatingIpUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorWanIpAvailable(errResp),
+			lserr.WithErrorServerNotFound(errResp),
+			lserr.WithErrorWanIdNotFound(errResp),
+			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"wanId", popts.GetWanId(),
+				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+	}
+
+	return nil
+}

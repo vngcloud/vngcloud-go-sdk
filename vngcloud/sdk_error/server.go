@@ -16,6 +16,7 @@ const (
 	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
 	patternServerExceedCpuQuota            = "exceeded vcpu quota. current used"
 	patternServerImageNotSupported         = "doesn't support image with id"
+	patternServerCanNotAttachFloatingIp    = "the server only allows attaching 1 floating ip"
 )
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -211,6 +212,21 @@ func WithErrorServerAttachEncryptedVolume(perrResp IErrorRespone) func(sdkError 
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerAttachEncryptedVolume) {
 			sdkError.WithErrorCode(EcVServerServerAttachEncryptedVolume).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerCanNotAttachFloatingIp(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerCanNotAttachFloatingIp) {
+			sdkError.WithErrorCode(EcVServerServerCanNotAttachFloatingIp).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

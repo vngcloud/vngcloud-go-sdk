@@ -38,3 +38,20 @@ type IDetachBlockVolumeRequest interface {
 	GetServerId() string
 	GetBlockVolumeId() string
 }
+
+type IAttachFloatingIpRequest interface {
+	GetServerId() string
+	GetInternalNetworkInterfaceId() string
+	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IAttachFloatingIpRequest
+	ParseUserAgent() string
+}
+
+type IDetachFloatingIpRequest interface {
+	GetInternalNetworkInterfaceId() string
+	GetWanId() string
+	GetServerId() string
+	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IDetachFloatingIpRequest
+	ParseUserAgent() string
+}

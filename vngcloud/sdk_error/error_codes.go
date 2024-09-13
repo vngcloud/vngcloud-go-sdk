@@ -50,6 +50,10 @@ const (
 	EcVServerNetworkNotFound        = ErrorCode("VngCloudVServerNetworkNotFound")
 	EcVServerSubnetNotFound         = ErrorCode("VngCloudVServerSubnetNotFound")
 	EcVServerSubnetNotBelongNetwork = ErrorCode("VngCloudVServerSubnetNotBelongNetwork")
+
+	EcVServerInternalNetworkInterfaceNotFound = ErrorCode("VngCloudVServerInternalNetworkInterfaceNotFound")
+	EcVServerWanIpAvailable                   = ErrorCode("VngCloudVServerWanIpAvailable")
+	EcVServerWanIdNotFound                    = ErrorCode("VngCloudVServerWanIdNotFound")
 )
 
 // vServer volume
@@ -99,6 +103,7 @@ const (
 	EcVServerServerExceedCpuQuota                 = ErrorCode("VngCloudVServerServerExceedCpuQuota")
 	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
+	EcVServerServerCanNotAttachFloatingIp         = ErrorCode("VngCloudVServerServerCanNotAttachFloatingIp")
 )
 
 // vServer quota

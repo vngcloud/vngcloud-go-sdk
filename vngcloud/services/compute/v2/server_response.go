@@ -30,8 +30,8 @@ type (
 	NetworkInterface struct {
 		CreatedAt     string `json:"createdAt"`
 		FixedIp       string `json:"fixedIp"`
-		FloatingIp    string `json:"floatingIp"`
-		FloatingIpId  string `json:"floatingIpId"`
+		FloatingIp    string `json:"floatingIp,omitempty"`
+		FloatingIpId  string `json:"floatingIpId,omitempty"`
 		InterfaceType string `json:"interfaceType"`
 		Mac           string `json:"mac"`
 		NetworkUuid   string `json:"networkUuid"`

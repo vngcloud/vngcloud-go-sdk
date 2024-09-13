@@ -13,4 +13,6 @@ type IComputeServiceV2 interface {
 	UpdateServerSecgroupsByServerId(popts lscomputeSvcV2.IUpdateServerSecgroupsByServerIdRequest) (*lsentity.Server, lserr.IError)
 	AttachBlockVolume(popts lscomputeSvcV2.IAttachBlockVolumeRequest) lserr.IError
 	DetachBlockVolume(popts lscomputeSvcV2.IDetachBlockVolumeRequest) lserr.IError
+	AttachFloatingIp(popts lscomputeSvcV2.IAttachFloatingIpRequest) lserr.IError
+	DetachFloatingIp(popts lscomputeSvcV2.IDetachFloatingIpRequest) lserr.IError
 }

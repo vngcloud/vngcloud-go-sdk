@@ -48,6 +48,23 @@ func NewDetachBlockVolumeRequest(pserverId, pvolumeId string) IDetachBlockVolume
 	return opt
 }
 
+func NewAttachFloatingIpRequest(pserverId, pniid string) IAttachFloatingIpRequest {
+	opt := new(AttachFloatingIpRequest)
+	opt.ServerId = pserverId
+	opt.InternalNetworkInterfaceId = pniid
+	opt.NetworkInterfaceId = pniid
+	return opt
+}
+
+func NewDetachFloatingIpRequest(pserverId, pwanId, pniid string) IDetachFloatingIpRequest {
+	opt := new(DetachFloatingIpRequest)
+	opt.ServerId = pserverId
+	opt.InternalNetworkInterfaceId = pniid
+	opt.NetworkInterfaceId = pniid
+	opt.WanId = pwanId
+	return opt
+}
+
 const (
 	DataDiskEncryptionAesXtsType DataDiskEncryptionType = "aes-xts-plain64_256"
 )
@@ -193,4 +210,39 @@ func (s *UpdateServerSecgroupsByServerIdRequest) ToRequestBody() interface{} {
 
 func (s *UpdateServerSecgroupsByServerIdRequest) GetListSecgroupsIds() []string {
 	return s.Secgroups
+}
+
+type AttachFloatingIpRequest struct {
+	NetworkInterfaceId string `json:"networkInterfaceId"`
+
+	lscommon.InternalNetworkInterfaceCommon
+	lscommon.ServerCommon
+	lscommon.UserAgent
+}
+
+func (s *AttachFloatingIpRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *AttachFloatingIpRequest) AddUserAgent(pagent ...string) IAttachFloatingIpRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+type DetachFloatingIpRequest struct {
+	NetworkInterfaceId string `json:"networkInterfaceId"`
+
+	lscommon.ServerCommon
+	lscommon.WanCommon
+	lscommon.InternalNetworkInterfaceCommon
+	lscommon.UserAgent
+}
+
+func (s *DetachFloatingIpRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *DetachFloatingIpRequest) AddUserAgent(pagent ...string) IDetachFloatingIpRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
 }

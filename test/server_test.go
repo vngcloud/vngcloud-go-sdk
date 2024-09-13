@@ -220,7 +220,7 @@ func TestAttachVolumeFailure(t *ltesting.T) {
 func TestAttachVolumeSuccess(t *ltesting.T) {
 	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS" volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4", "vol-3aced398-5f8e-4040-84aa-7309a5c5b365")
+	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-869ad034-60c2-4f39-bb41-fcdf6b3d4bd4", "vol-3aced398-5f8e-4040-84aa-7309a5c5b365")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachBlockVolume(opt)
 
 	if sdkerr != nil {
@@ -253,5 +253,35 @@ func TestDetachVolumeFailure(t *ltesting.T) {
 	}
 
 	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestAttachFloatingIpSuccess(t *ltesting.T) {
+	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS" volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
+	vngcloud := validSdkConfig()
+	serverId := "ins-1ac74cf8-df72-4ce2-926f-1c5f89ffda9f"
+	netId := "net-in-53c08d94-9ab2-414a-8ee9-169d5b36d52c"
+	opt := lscomputeSvcV2.NewAttachFloatingIpRequest(serverId, netId)
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachFloatingIp(opt)
+
+	if sdkerr != nil {
+		t.Errorf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Log("PASS")
+}
+
+func TestDetachFloatingIp(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	serverId := "ins-1ac74cf8-df72-4ce2-926f-1c5f89ffda9f"
+	wanId := "wan-61dcdecc-85d2-4cea-892a-a4a11be52d02"
+	netId := "net-in-53c08d95-9ab2-414a-8ee9-169d5b36d52c"
+	opt := lscomputeSvcV2.NewDetachFloatingIpRequest(serverId, wanId, netId)
+	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachFloatingIp(opt)
+
+	if sdkerr != nil {
+		t.Errorf("Expect nil but got %v", sdkerr)
+	}
+
 	t.Log("PASS")
 }

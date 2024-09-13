@@ -1,5 +1,7 @@
 package entity
 
+import lstr "strings"
+
 type (
 	Server struct {
 		BootVolumeId       string
@@ -81,4 +83,59 @@ type (
 
 type ListServers struct {
 	Items []*Server
+}
+
+func (s *Server) CanDelete() bool {
+	switch lstr.ToUpper(s.Status) {
+	case "ACTIVE", "ERROR", "STOPPED":
+		return true
+	}
+
+	return false
+}
+
+func (s *Server) IsRunning() bool {
+	switch lstr.ToUpper(s.Status) {
+	case "ACTIVE":
+		return true
+	}
+
+	return false
+}
+
+func (s *Server) GetInternalInterfaceWanInfo() (string, string, bool) {
+	for _, i := range s.InternalInterfaces {
+		if i.FloatingIp != "" {
+			return i.FloatingIpId, i.FloatingIp, true
+		}
+	}
+
+	return "", "", false
+}
+
+func (s *Server) GetInternalNetworkInterfaceIds() []string {
+	ids := make([]string, 0)
+	for _, i := range s.InternalInterfaces {
+		ids = append(ids, i.Uuid)
+	}
+
+	return ids
+}
+
+func (s *Server) InternalNetworkInterfacePossible() bool {
+	return len(s.InternalInterfaces) > 0
+}
+
+func (s *Server) CanAttachFloatingIp() bool {
+	if !s.InternalNetworkInterfacePossible() {
+		return false
+	}
+
+	for _, i := range s.InternalInterfaces {
+		if i.FloatingIp != "" {
+			return false
+		}
+	}
+
+	return true
 }
