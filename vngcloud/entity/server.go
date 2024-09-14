@@ -103,14 +103,14 @@ func (s *Server) IsRunning() bool {
 	return false
 }
 
-func (s *Server) GetInternalInterfaceWanInfo() (string, string, bool) {
+func (s *Server) GetInternalInterfaceWanInfo() (string, string, string, bool) {
 	for _, i := range s.InternalInterfaces {
 		if i.FloatingIp != "" {
-			return i.FloatingIpId, i.FloatingIp, true
+			return i.Uuid, i.FloatingIpId, i.FloatingIp, true
 		}
 	}
 
-	return "", "", false
+	return "", "", "", false
 }
 
 func (s *Server) GetInternalNetworkInterfaceIds() []string {
