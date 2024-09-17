@@ -39,6 +39,7 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorSecgroupNameAlreadyExists(errResp),
+			lserr.WithErrorSecgroupRuleExceedQuota(errResp),
 			lserr.WithErrorSecgroupExceedQuota(errResp)).
 			WithKVparameters(
 				"secgroupName", popts.GetSecgroupName(),
