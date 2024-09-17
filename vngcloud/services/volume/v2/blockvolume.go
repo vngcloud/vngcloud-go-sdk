@@ -1,7 +1,6 @@
 package v2
 
 import (
-	"fmt"
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
@@ -141,8 +140,6 @@ func (s *VolumeServiceV2) MigrateBlockVolumeById(popts IMigrateBlockVolumeByIdRe
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonError(errResp).
 		WithJsonResponse(&resp)
-
-	fmt.Println("The resp is: ", resp)
 
 	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
 		sdkErr = lserr.SdkErrorHandler(sdkErr, errResp,
