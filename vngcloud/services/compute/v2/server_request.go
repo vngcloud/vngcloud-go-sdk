@@ -66,7 +66,8 @@ func NewDetachFloatingIpRequest(pserverId, pwanId, pniid string) IDetachFloating
 }
 
 const (
-	DataDiskEncryptionAesXtsType DataDiskEncryptionType = "aes-xts-plain64_256"
+	DataDiskEncryptionAesXts256Type DataDiskEncryptionType = "aes-xts-plain64_256"
+	DataDiskEncryptionAesXts128Type DataDiskEncryptionType = "aes-xts-plain64_128"
 )
 
 type CreateServerRequest struct {
@@ -124,8 +125,9 @@ func (s *CreateServerRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func (s *CreateServerRequest) WithEncryptionVolume(pencryptionVolume bool) ICreateServerRequest {
-	s.EncryptionVolume = pencryptionVolume
+func (s *CreateServerRequest) WithEncryptionVolume(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest {
+	s.EncryptionVolume = true
+	s.RootDiskEncryptionType = pencryptionVolume
 	return s
 }
 
