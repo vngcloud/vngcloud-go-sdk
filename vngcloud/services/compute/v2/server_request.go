@@ -125,9 +125,14 @@ func (s *CreateServerRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func (s *CreateServerRequest) WithEncryptionVolume(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest {
+func (s *CreateServerRequest) WithRootDiskEncryptionType(pdataDisk DataDiskEncryptionType) ICreateServerRequest {
 	s.EncryptionVolume = true
-	s.RootDiskEncryptionType = pencryptionVolume
+	s.RootDiskEncryptionType = pdataDisk
+	return s
+}
+
+func (s *CreateServerRequest) WithEncryptionVolume(penabled bool) ICreateServerRequest {
+	s.EncryptionVolume = penabled
 	return s
 }
 

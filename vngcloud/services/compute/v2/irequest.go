@@ -2,7 +2,8 @@ package v2
 
 type ICreateServerRequest interface {
 	ToRequestBody() interface{}
-	WithEncryptionVolume(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest
+	WithRootDiskEncryptionType(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest
+	WithEncryptionVolume(penabled bool) ICreateServerRequest
 	WithAutoRenew(pval bool) ICreateServerRequest
 	WithUserData(puserData string, pbase64Encode bool) ICreateServerRequest
 	WithTags(ptags ...string) ICreateServerRequest
