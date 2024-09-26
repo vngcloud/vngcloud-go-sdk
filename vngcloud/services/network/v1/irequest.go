@@ -20,12 +20,14 @@ type ICreateEndpointRequest interface {
 	WithBuyMorePoc(pyes bool) ICreateEndpointRequest
 	WithEnableAutoRenew(pyes bool) ICreateEndpointRequest
 	AddUserAgent(pagent ...string) ICreateEndpointRequest
+	GetParameters() map[string]interface{}
 }
 
 type IDeleteEndpointByIdRequest interface {
 	GetEndpointId() string
 	AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest
 	ToRequestBody(psvc lsclient.IServiceClient) interface{}
+	GetParameters() map[string]interface{}
 }
 
 type IListEndpointsRequest interface {
@@ -36,4 +38,5 @@ type IListEndpointsRequest interface {
 	ToListQuery() (string, error)
 	GetDefaultQuery() string
 	AddUserAgent(pagent ...string) IListEndpointsRequest
+	GetParameters() map[string]interface{}
 }

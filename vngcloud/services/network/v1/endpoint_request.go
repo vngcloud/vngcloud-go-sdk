@@ -87,6 +87,31 @@ type CreateEndpointRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *CreateEndpointRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"resourceType":      s.ResourceType,
+		"action":            s.Action,
+		"isBuyMorePoc":      s.ResourceInfo.IsBuyMorePoc,
+		"isPoc":             s.ResourceInfo.IsPoc,
+		"isEnableAutoRenew": s.ResourceInfo.IsEnableAutoRenew,
+		"endpointName":      s.ResourceInfo.EndpointName,
+		"categoryID":        s.ResourceInfo.CategoryUuid,
+		"serviceId":         s.ResourceInfo.ServiceUuid,
+		"packageId":         s.ResourceInfo.PackageUuid,
+		"vpcId":             s.ResourceInfo.VpcUuid,
+		"subnetId":          s.ResourceInfo.SubnetUuid,
+		"regionId":          s.ResourceInfo.RegionUuid,
+		"projectId":         s.ResourceInfo.ProjectUuid,
+		"description":       s.ResourceInfo.Description,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
 func (s *CreateEndpointRequest) AddUserAgent(pagent ...string) ICreateEndpointRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
@@ -174,12 +199,43 @@ func (s *DeleteEndpointByIdRequest) ToRequestBody(psvc lsclient.IServiceClient) 
 	return s
 }
 
+func (s *DeleteEndpointByIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"serviceId":  s.EndpointServiceUuid,
+		"endpointId": s.EndpointId,
+		"projectId":  s.ProjectUuid,
+		"regionId":   s.RegionUuid,
+		"vpcId":      s.VpcUuid,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
 type ListEndpointsRequest struct {
 	Page  int
 	Size  int
 	VpcId string
 	Uuid  string
 	lscommon.UserAgent
+}
+
+func (s *ListEndpointsRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"page":  s.Page,
+		"size":  s.Size,
+		"vpcId": s.VpcId,
+		"uuid":  s.Uuid,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
 }
 
 func (s *ListEndpointsRequest) WithPage(ppage int) IListEndpointsRequest {

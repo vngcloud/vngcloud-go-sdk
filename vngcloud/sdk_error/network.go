@@ -27,7 +27,8 @@ func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError IError) {
 		}
 
 		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternNetworkNotFound) {
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternNetworkNotFound) ||
+			lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "VPC_IS_NOT_FOUND" {
 			sdkError.WithErrorCode(EcVServerNetworkNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
@@ -57,7 +58,8 @@ func WithErrorSubnetNotFound(perrResp IErrorRespone) func(sdkError IError) {
 		}
 
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
-		if regexErrorSubnetNotFound.FindString(errMsg) != "" {
+		if regexErrorSubnetNotFound.FindString(errMsg) != "" ||
+			lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "SUBNET_IS_NOT_FOUND" {
 			sdkError.WithErrorCode(EcVServerSubnetNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())

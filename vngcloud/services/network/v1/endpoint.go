@@ -41,9 +41,11 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorEndpointOfVpcExists(errResp),
 			lserr.WithErrorLockOnProcess(errResp),
+			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorEndpointPackageNotBelongToEndpointService(errResp),
 			lserr.WithErrorContainInvalidCharacter(errResp)).
-			WithKVparameters("projectId", s.getProjectId())
+			WithParameters(popts.GetParameters())
 	}
 
 	return resp.ToEntityEndpoint(), nil
@@ -60,10 +62,10 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 
 	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorEndpointStatusInvalid(errResp)).
-			WithKVparameters(
-				"endpointId", popts.GetEndpointId(),
-				"projectId", s.getProjectId())
+			lserr.WithErrorEndpointStatusInvalid(errResp),
+			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorSubnetNotFound(errResp)).
+			WithParameters(popts.GetParameters())
 	}
 
 	return nil
@@ -81,7 +83,8 @@ func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity
 
 	if _, sdkErr := s.VNetworkClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
-			WithKVparameters("projectId", s.getProjectId())
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.GetParameters())
 	}
 
 	return resp.ToEntityListEndpoints(), nil
