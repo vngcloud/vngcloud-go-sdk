@@ -9,6 +9,7 @@ type ICreateLoadBalancerRequest interface {
 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
 	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
+	WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	ParseUserAgent() string
 }

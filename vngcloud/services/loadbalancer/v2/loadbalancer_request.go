@@ -52,14 +52,15 @@ func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdReque
 }
 
 type CreateLoadBalancerRequest struct {
-	Name      string                 `json:"name"`
-	PackageID string                 `json:"packageId"`
-	Scheme    LoadBalancerScheme     `json:"scheme"`
-	SubnetID  string                 `json:"subnetId"`
-	Type      LoadBalancerType       `json:"type"`
-	Listener  ICreateListenerRequest `json:"listener"`
-	Pool      ICreatePoolRequest     `json:"pool"`
-	Tags      []lscommon.Tag         `json:"tags,omitempty"`
+	Name         string                 `json:"name"`
+	PackageID    string                 `json:"packageId"`
+	Scheme       LoadBalancerScheme     `json:"scheme"`
+	AutoScalable bool                   `json:"autoScalable"`
+	SubnetID     string                 `json:"subnetId"`
+	Type         LoadBalancerType       `json:"type"`
+	Listener     ICreateListenerRequest `json:"listener"`
+	Pool         ICreatePoolRequest     `json:"pool"`
+	Tags         []lscommon.Tag         `json:"tags,omitempty"`
 
 	lscommon.UserAgent
 }
@@ -127,6 +128,11 @@ func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalance
 
 func (s *CreateLoadBalancerRequest) WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest {
 	s.Scheme = pscheme
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest {
+	s.AutoScalable = pautoScalable
 	return s
 }
 
