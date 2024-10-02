@@ -66,6 +66,19 @@ type ICreatePoolRequest interface {
 	ParseUserAgent() string
 }
 
+type IUpdatePoolRequest interface {
+	GetPoolId() string
+	ToRequestBody() interface{}
+	WithHealthMonitor(pmonitor IHealthMonitorRequest) IUpdatePoolRequest
+	WithLoadBalancerId(plbId string) IUpdatePoolRequest
+	WithAlgorithm(palgorithm PoolAlgorithm) IUpdatePoolRequest
+	WithStickiness(v *bool) IUpdatePoolRequest
+	WithTLSEncryption(v *bool) IUpdatePoolRequest
+	ToMap() map[string]interface{}
+	GetLoadBalancerId() string
+	ParseUserAgent() string
+}
+
 type IListListenersByLoadBalancerIdRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
