@@ -84,6 +84,24 @@ func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.
 	return resp.ToEntityPool(), nil
 }
 
+func (s *LoadBalancerServiceV2) UpdatePool(popts IUpdatePoolRequest) lserr.IError {
+	url := updatePoolUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorListenerNotFound(errResp))
+	}
+	return nil
+}
+
 func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*lsentity.Listener, lserr.IError) {
 	url := createListenerUrl(s.VLBClient, popts)
 	resp := new(CreateListenerResponse)

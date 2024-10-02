@@ -12,6 +12,7 @@ type ILoadBalancerServiceV2 interface {
 	GetLoadBalancerById(popts lslbSvcV2.IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError)
 	ListLoadBalancers(popts lslbSvcV2.IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.IError)
 	CreatePool(popts lslbSvcV2.ICreatePoolRequest) (*lsentity.Pool, lserr.IError)
+	UpdatePool(popts lslbSvcV2.IUpdatePoolRequest) lserr.IError
 	CreateListener(popts lslbSvcV2.ICreateListenerRequest) (*lsentity.Listener, lserr.IError)
 	UpdateListener(popts lslbSvcV2.IUpdateListenerRequest) lserr.IError
 	ListListenersByLoadBalancerId(popts lslbSvcV2.IListListenersByLoadBalancerIdRequest) (*lsentity.ListListeners, lserr.IError)

@@ -32,6 +32,15 @@ func createPoolUrl(psc lsclient.IServiceClient, popts ICreatePoolRequest) string
 		"pools")
 }
 
+func updatePoolUrl(psc lsclient.IServiceClient, popts IUpdatePoolRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId())
+}
+
 func createListenerUrl(psc lsclient.IServiceClient, popts ICreateListenerRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),

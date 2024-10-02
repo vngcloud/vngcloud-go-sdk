@@ -530,3 +530,19 @@ func TestUpdateTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkErr)
 	t.Log("PASS")
 }
+
+func TestUpdatePoolSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+
+	opt := lslbv2.NewUpdatePoolRequest("lb-2af92b71-1da8-4ba3-87bc-b32bb6ab3267", "pool-e31c3e31-e285-493e-8ebd-0f0d2cf541b2").
+		WithAlgorithm(lslbv2.PoolAlgorithmLeastConn).
+		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolPINGUDP).WithTimeout(6).WithUnhealthyThreshold(4).WithHealthyThreshold(7).WithInterval(29))
+
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdatePool(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

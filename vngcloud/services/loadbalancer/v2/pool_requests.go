@@ -47,6 +47,14 @@ func NewCreatePoolRequest(pname string, pprotocol PoolProtocol) ICreatePoolReque
 	return opts
 }
 
+func NewUpdatePoolRequest(lbID, poolID string) IUpdatePoolRequest {
+	opts := new(UpdatePoolRequest)
+	opts.LoadBalancerId = lbID
+	opts.PoolId = poolID
+
+	return opts
+}
+
 func NewListPoolsByLoadBalancerIdRequest(plbId string) IListPoolsByLoadBalancerIdRequest {
 	opts := new(ListPoolsByLoadBalancerIdRequest)
 	opts.LoadBalancerId = plbId
@@ -119,6 +127,17 @@ type CreatePoolRequest struct {
 	Members       []IMemberRequest      `json:"members"`
 
 	lscommon.LoadBalancerCommon
+	lscommon.UserAgent
+}
+
+type UpdatePoolRequest struct {
+	Algorithm     PoolAlgorithm         `json:"algorithm"`
+	Stickiness    *bool                 `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
+	TLSEncryption *bool                 `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
+	HealthMonitor IHealthMonitorRequest `json:"healthMonitor"`
+
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
 	lscommon.UserAgent
 }
 
@@ -237,6 +256,45 @@ func (s *CreatePoolRequest) ToMap() map[string]interface{} {
 
 func (s *CreatePoolRequest) WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolRequest {
 	s.Algorithm = palgorithm
+	return s
+}
+
+func (s *UpdatePoolRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"algorithm":     s.Algorithm,
+		"stickiness":    s.Stickiness,
+		"tlsEncryption": s.TLSEncryption,
+		"healthMonitor": s.HealthMonitor.ToMap(),
+	}
+}
+
+func (s *UpdatePoolRequest) ToRequestBody() interface{} {
+	s.HealthMonitor = s.HealthMonitor.(*HealthMonitor).toRequestBody()
+	return s
+}
+
+func (s *UpdatePoolRequest) WithAlgorithm(palgorithm PoolAlgorithm) IUpdatePoolRequest {
+	s.Algorithm = palgorithm
+	return s
+}
+
+func (s *UpdatePoolRequest) WithHealthMonitor(pmonitor IHealthMonitorRequest) IUpdatePoolRequest {
+	s.HealthMonitor = pmonitor
+	return s
+}
+
+func (s *UpdatePoolRequest) WithLoadBalancerId(plbId string) IUpdatePoolRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *UpdatePoolRequest) WithTLSEncryption(v *bool) IUpdatePoolRequest {
+	s.TLSEncryption = v
+	return s
+}
+
+func (s *UpdatePoolRequest) WithStickiness(v *bool) IUpdatePoolRequest {
+	s.Stickiness = v
 	return s
 }
 
