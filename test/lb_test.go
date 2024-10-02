@@ -142,9 +142,9 @@ func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
 func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateLoadBalancerRequest(
-		"cuongdm3-testlb-tags",
-		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
+		"cuongdm3-testlb-tags").
+		WithPackageId("lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa").
+		WithSubnetId("sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
 		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
@@ -167,9 +167,9 @@ func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 func TestCreateLoadBalancerEmptyMemberSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateLoadBalancerRequest(
-		"cuongdm3-testlb-empty-members",
-		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
+		"cuongdm3-testlb-empty-members").
+		WithPackageId("lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa").
+		WithSubnetId("sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
 		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).

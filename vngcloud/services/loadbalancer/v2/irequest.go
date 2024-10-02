@@ -10,6 +10,8 @@ type ICreateLoadBalancerRequest interface {
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
 	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
 	WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest
+	WithPackageId(ppackageId string) ICreateLoadBalancerRequest
+	WithSubnetId(psubnetId string) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	ParseUserAgent() string
 }

@@ -22,12 +22,10 @@ type (
 	LoadBalancerType   string
 )
 
-func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLoadBalancerRequest {
+func NewCreateLoadBalancerRequest(pname string) ICreateLoadBalancerRequest {
 	return &CreateLoadBalancerRequest{
 		Name:      pname,
-		PackageID: ppackageId,
 		Scheme:    InternetLoadBalancerScheme,
-		SubnetID:  psubnetId,
 		Type:      LoadBalancerTypeLayer4,
 	}
 }
@@ -133,6 +131,16 @@ func (s *CreateLoadBalancerRequest) WithScheme(pscheme LoadBalancerScheme) ICrea
 
 func (s *CreateLoadBalancerRequest) WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest {
 	s.AutoScalable = pautoScalable
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithPackageId(ppackageId string) ICreateLoadBalancerRequest {
+	s.PackageID = ppackageId
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithSubnetId(psubnetId string) ICreateLoadBalancerRequest {
+	s.SubnetID = psubnetId
 	return s
 }
 
