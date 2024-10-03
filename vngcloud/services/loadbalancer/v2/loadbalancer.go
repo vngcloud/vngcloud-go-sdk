@@ -269,7 +269,11 @@ func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancer
 	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp))
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorLoadBalancerIsDeleting(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"projectId", s.getProjectId())
 	}
 
 	return nil

@@ -66,7 +66,8 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerDeleteDeletingServer(errResp),
 			lserr.WithErrorServerDeleteBillingServer(errResp),
-			lserr.WithErrorServerDeleteCreatingServer(errResp)).
+			lserr.WithErrorServerDeleteCreatingServer(errResp),
+			lserr.WithErrorVolumeInProcess(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),
 				"serverId", popts.GetServerId())
 	}

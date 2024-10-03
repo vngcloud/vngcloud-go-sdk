@@ -130,6 +130,7 @@ const (
 	EcVLBListenerNotFound                = ErrorCode("VngCloudVLBListenerNotFound")
 	EcVLBMemberMustIdentical             = ErrorCode("VngCloudVLBMemberMustIdentical")
 	EcVLBLoadBalancerExceedQuota         = ErrorCode("VngCloudVLBLoadBalancerExceedQuota")
+	EcVLBLoadBalancerIsDeleting          = ErrorCode("VngCloudVLBLoadBalancerIsDeleting")
 )
 
 // Endpoint

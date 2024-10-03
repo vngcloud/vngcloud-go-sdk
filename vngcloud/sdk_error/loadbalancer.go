@@ -20,12 +20,14 @@ const (
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
 	patternLoadBalancerExceedQuota         = "exceeded load_balancer quota. current used"
+	patternLoadBalancerIsDeleting          = `load balancer id [^.]+ is deleting`
 )
 
 var (
-	regexErrorLoadBalancerNotReady = lregexp.MustCompile(patternLoadBalancerNotReady)
-	regexErrorListenerNotReady     = lregexp.MustCompile(patternListenerNotReady)
-	regexErrorPoolIsUpdating       = lregexp.MustCompile(patternPoolIsUpdating)
+	regexErrorLoadBalancerNotReady   = lregexp.MustCompile(patternLoadBalancerNotReady)
+	regexErrorListenerNotReady       = lregexp.MustCompile(patternListenerNotReady)
+	regexErrorPoolIsUpdating         = lregexp.MustCompile(patternPoolIsUpdating)
+	regexErrorLoadBalancerIsDeleting = lregexp.MustCompile(patternLoadBalancerIsDeleting)
 )
 
 func WithErrorLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -162,6 +164,21 @@ func WithErrorLoadBalancerNotReady(perrResp IErrorRespone) func(sdkError IError)
 			regexErrorListenerNotReady.FindString(errMsg) != "" ||
 			regexErrorPoolIsUpdating.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBLoadBalancerNotReady).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerIsDeleting(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorLoadBalancerIsDeleting.FindString(errMsg) != ""  {
+			sdkError.WithErrorCode(EcVLBLoadBalancerIsDeleting).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
