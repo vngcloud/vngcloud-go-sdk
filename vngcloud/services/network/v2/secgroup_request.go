@@ -19,6 +19,13 @@ func NewGetSecgroupByIdRequest(psecgroupId string) IGetSecgroupByIdRequest {
 	return opt
 }
 
+func NewListSecgroupRequest() IListSecgroupRequest {
+	return &ListSecgroupRequest{}
+}
+
+type ListSecgroupRequest struct {
+}
+
 type DeleteSecgroupByIdRequest struct { //__________________________________________________________________________________
 	SecgroupId string
 }

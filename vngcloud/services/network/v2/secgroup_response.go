@@ -47,3 +47,31 @@ func (s *GetSecgroupByIdResponse) ToEntitySecgroup() *lsentity.Secgroup {
 		Status:      s.Data.Status,
 	}
 }
+
+type ListSecgroupResponse struct { //_________________________________________________________________________________
+	ListData []struct {
+		ID          string  `json:"id"`
+		Name        string  `json:"name"`
+		Description *string `json:"description"`
+		Status      string  `json:"status"`
+		CreatedAt   string  `json:"createdAt"`
+		IsSystem    bool    `json:"isSystem"`
+	} `json:"listData"`
+	Page      int `json:"page"`
+	PageSize  int `json:"pageSize"`
+	TotalPage int `json:"totalPage"`
+	TotalItem int `json:"totalItem"`
+}
+
+func (s *ListSecgroupResponse) ToListEntitySecgroups() *lsentity.ListSecgroups {
+	items := make([]*lsentity.Secgroup, 0)
+	for _, item := range s.ListData {
+		items = append(items, &lsentity.Secgroup{
+			Id:          item.ID,
+			Name:        item.Name,
+			Description: *item.Description,
+			Status:      item.Status,
+		})
+	}
+	return &lsentity.ListSecgroups{Items: items}
+}

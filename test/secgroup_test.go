@@ -122,3 +122,26 @@ func TestListAllServerBySecgroupIdSuccess(t *ltesting.T) {
 	t.Log("RESULT:", serbvers)
 	t.Log("PASS")
 }
+
+func TestListSecgroupSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnetworkSvcV2.NewListSecgroupRequest()
+	secgroups, err := vngcloud.VServerGateway().V2().NetworkService().ListSecgroup(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if secgroups == nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", secgroups)
+	if secgroups == nil || len(secgroups.Items) == 0 {
+		t.Log("No secgroup found")
+	}
+	for _, secgroup := range secgroups.Items {
+		t.Logf("Secgroup: %+v", secgroup)
+	}
+	t.Log("PASS")
+}
