@@ -55,6 +55,12 @@ type IUpdateListenerRequest interface {
 	ParseUserAgent() string
 }
 
+type IGetPoolHealthMonitorByIdRequest interface {
+	GetLoadBalancerId() string
+	GetPoolId() string
+	ParseUserAgent() string
+}
+
 type ICreatePoolRequest interface {
 	ToRequestBody() interface{}
 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest

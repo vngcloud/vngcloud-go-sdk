@@ -409,7 +409,7 @@ func TestListListenersByLoadBalancerId(t *ltesting.T) {
 
 func TestListPoolsByLoadBalancerId(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListPoolsByLoadBalancerIdRequest("lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb")
+	opt := lslbv2.NewListPoolsByLoadBalancerIdRequest("lb-4cc1add7-677f-4130-b71a-206940dad28e")
 	pools, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPoolsByLoadBalancerId(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -420,6 +420,9 @@ func TestListPoolsByLoadBalancerId(t *ltesting.T) {
 	}
 
 	t.Log("Result: ", pools)
+	for _, pool := range pools.Items {
+		t.Logf("Pool: %+v", pool)
+	}
 	t.Log("PASS")
 }
 
@@ -544,5 +547,21 @@ func TestUpdatePoolSuccess(t *ltesting.T) {
 	}
 
 	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestGetPoolHealthMonitorSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewGetPoolHealthMonitorByIdRequest("lb-d5501a8c-d40e-4e3d-b86a-3e4041c629f7", "pool-1c5dfb52-922a-4dac-9dc0-970980637199")
+	hm, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().GetPoolHealthMonitorById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if hm == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", hm)
 	t.Log("PASS")
 }

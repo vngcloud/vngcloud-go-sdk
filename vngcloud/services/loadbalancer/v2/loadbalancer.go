@@ -61,6 +61,25 @@ func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersReques
 	return resp.ToEntityListLoadBalancers(), nil
 }
 
+func (s *LoadBalancerServiceV2) GetPoolHealthMonitorById(popts IGetPoolHealthMonitorByIdRequest) (*lsentity.HealthMonitor, lserr.IError) {
+	url := getPoolHealthMonitorByIdUrl(s.VLBClient, popts)
+	resp := new(GetPoolHealthMonitorByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorPoolNotFound(errResp))
+	}
+
+	return resp.ToEntityHealthMonitor(), nil
+}
+
 func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.Pool, lserr.IError) {
 	url := createPoolUrl(s.VLBClient, popts)
 	resp := new(CreatePoolResponse)

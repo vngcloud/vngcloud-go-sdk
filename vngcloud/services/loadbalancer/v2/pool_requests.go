@@ -55,6 +55,14 @@ func NewUpdatePoolRequest(lbID, poolID string) IUpdatePoolRequest {
 	return opts
 }
 
+func NewGetPoolHealthMonitorByIdRequest(lbID, poolID string) IGetPoolHealthMonitorByIdRequest {
+	opts := new(GetPoolHealthMonitorByIdRequest)
+	opts.LoadBalancerId = lbID
+	opts.PoolId = poolID
+
+	return opts
+}
+
 func NewListPoolsByLoadBalancerIdRequest(plbId string) IListPoolsByLoadBalancerIdRequest {
 	opts := new(ListPoolsByLoadBalancerIdRequest)
 	opts.LoadBalancerId = plbId
@@ -136,6 +144,12 @@ type UpdatePoolRequest struct {
 	TLSEncryption *bool                 `json:"tlsEncryption,omitempty"` // only for l7, l4 doesn't have this field => nil
 	HealthMonitor IHealthMonitorRequest `json:"healthMonitor"`
 
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
+	lscommon.UserAgent
+}
+
+type GetPoolHealthMonitorByIdRequest struct {
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon
 	lscommon.UserAgent
