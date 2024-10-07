@@ -26,6 +26,12 @@ type ILoadBalancerServiceV2 interface {
 	ListTags(popts lslbSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 	CreateTags(popts lslbSvcV2.ICreateTagsRequest) lserr.IError
 	UpdateTags(popts lslbSvcV2.IUpdateTagsRequest) lserr.IError
+
+	ListPolicies(popts lslbSvcV2.IListPoliciesRequest) (*lsentity.ListPolicies, lserr.IError)
+	CreatePolicy(popts lslbSvcV2.ICreatePolicyRequest) (*lsentity.Policy, lserr.IError)
+	GetPolicyById(popts lslbSvcV2.IGetPolicyByIdRequest) (*lsentity.Policy, lserr.IError)
+	UpdatePolicy(popts lslbSvcV2.IUpdatePolicyRequest) lserr.IError
+	DeletePolicyById(popts lslbSvcV2.IDeletePolicyByIdRequest) lserr.IError
 }
 
 type ILoadBalancerServiceInternal interface {

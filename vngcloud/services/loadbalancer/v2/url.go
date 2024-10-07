@@ -152,3 +152,63 @@ func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string
 		"resource",
 		popts.GetLoadBalancerId())
 }
+
+// Policy
+
+func listPoliciesUrl(psc lsclient.IServiceClient, popts IListPoliciesRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+	)
+}
+
+func createPolicyUrl(psc lsclient.IServiceClient, popts ICreatePolicyRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+	)
+}
+
+func getPolicyByIdUrl(psc lsclient.IServiceClient, popts IGetPolicyByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
+}
+
+func updatePolicyUrl(psc lsclient.IServiceClient, popts IUpdatePolicyRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
+}
+
+func deletePolicyByIdUrl(psc lsclient.IServiceClient, popts IDeletePolicyByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
+}

@@ -164,3 +164,62 @@ type IUpdateTagsRequest interface {
 	WithTags(ptags ...string) IUpdateTagsRequest
 	ToMap() map[string]interface{}
 }
+
+// --------------------------------------------------------
+
+type IListPoliciesRequest interface {
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+}
+
+type ICreatePolicyRequest interface {
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+	ToMap() map[string]interface{}
+
+	WithName(pname string) ICreatePolicyRequest
+	WithRules(prules ...L7RuleRequest) ICreatePolicyRequest
+	WithAction(paction PolicyAction) ICreatePolicyRequest
+
+	// only for action redirect to pool
+	WithRedirectPoolId(predirectPoolId string) ICreatePolicyRequest
+
+	// only for action redirect to url
+	WithRedirectURL(predirectURL string) ICreatePolicyRequest
+	// only for action redirect to url
+	WithRedirectHTTPCode(predirectHTTPCode int) ICreatePolicyRequest
+	// only for action redirect to url
+	WithKeepQueryString(pkeepQueryString bool) ICreatePolicyRequest
+}
+
+type IGetPolicyByIdRequest interface {
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+	GetPolicyId() string
+}
+
+type IUpdatePolicyRequest interface {
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+	GetPolicyId() string
+
+	WithAction(paction PolicyAction) IUpdatePolicyRequest
+	WithRules(prules ...L7RuleRequest) IUpdatePolicyRequest
+	WithRedirectPoolID(predirectPoolId string) IUpdatePolicyRequest
+	WithRedirectURL(predirectURL string) IUpdatePolicyRequest
+	WithRedirectHTTPCode(predirectHTTPCode int) IUpdatePolicyRequest
+	WithKeepQueryString(pkeepQueryString bool) IUpdatePolicyRequest
+}
+
+type IDeletePolicyByIdRequest interface {
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+	GetPolicyId() string
+}
