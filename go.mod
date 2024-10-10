@@ -1,8 +1,6 @@
 module github.com/vngcloud/vngcloud-go-sdk/v2
 
-go 1.22
-
-toolchain go1.22.0
+go 1.22.2
 
 require (
 	github.com/cuongpiger/joat v1.0.14

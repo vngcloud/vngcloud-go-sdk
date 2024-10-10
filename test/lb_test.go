@@ -546,3 +546,22 @@ func TestUpdatePoolSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestGetPoolByIdSuccess(y *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewGetPoolByIdRequest("lb-12fd81bd-94a0-4741-b259-abfe1541bd6e", "pool-7e018220-e4e7-4ec9-9e52-b3c3b0e8c4fe")
+	pool, _ := vngcloud.VLBGateway().V2().LoadBalancerService().GetPoolById(opt)
+
+	y.Log("Result: ", pool)
+	y.Log("PASS")
+}
+
+
+func TestGetListenerByIdSuccess(t *ltesting.T) {
+    vngcloud := validSdkConfig()
+    opt := lslbv2.NewGetListenerByIdRequest("lb-12fd81bd-94a0-4741-b259-abfe1541bd6e", "lis-7a84c93f-f37b-46ea-99b2-7b49c66e2231")
+    listener, _ := vngcloud.VLBGateway().V2().LoadBalancerService().GetListenerById(opt)
+
+    t.Log("Result: ", listener)
+    t.Log("PASS")
+}

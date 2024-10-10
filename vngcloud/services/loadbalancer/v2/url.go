@@ -142,3 +142,21 @@ func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string
 		"resource",
 		popts.GetLoadBalancerId())
 }
+
+func getPoolByIdUrl(psc lsclient.IServiceClient, popts IGetPoolByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId())
+}
+
+func getListenerByIdUrl(psc lsclient.IServiceClient, popts IGetListenerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId())
+}

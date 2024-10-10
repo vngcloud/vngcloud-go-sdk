@@ -278,3 +278,47 @@ func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancer
 
 	return nil
 }
+
+func (s *LoadBalancerServiceV2) GetPoolById(popts IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError) {
+	url := getPoolByIdUrl(s.VLBClient, popts)
+	resp := new(GetPoolByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorPoolNotFound(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"poolId", popts.GetPoolId())
+	}
+
+	return resp.ToEntityPool(), nil
+}
+
+func (s *LoadBalancerServiceV2) GetListenerById(popts IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError) {
+	url := getListenerByIdUrl(s.VLBClient, popts)
+	resp := new(GetListenerByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"listenerId", popts.GetListenerId())
+	}
+
+	return resp.ToEntityListener(), nil
+}

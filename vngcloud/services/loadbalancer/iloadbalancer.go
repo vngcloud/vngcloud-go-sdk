@@ -25,6 +25,8 @@ type ILoadBalancerServiceV2 interface {
 	ListTags(popts lslbSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 	CreateTags(popts lslbSvcV2.ICreateTagsRequest) lserr.IError
 	UpdateTags(popts lslbSvcV2.IUpdateTagsRequest) lserr.IError
+	GetPoolById(popts lslbSvcV2.IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError)
+	GetListenerById(popts lslbSvcV2.IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError)
 }
 
 type ILoadBalancerServiceInternal interface {

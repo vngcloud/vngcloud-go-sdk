@@ -48,6 +48,14 @@ func NewDeleteListenerByIdRequest(plbId, plistenerId string) IDeleteListenerById
 	return opts
 }
 
+func NewGetListenerByIdRequest(plbId, plistenerId string) IGetListenerByIdRequest {
+	opts := new(GetListenerByIdRequest)
+	opts.LoadBalancerId = plbId
+	opts.ListenerId = plistenerId
+
+	return opts
+}
+
 type ListenerProtocol string
 
 type CreateListenerRequest struct {
@@ -88,6 +96,12 @@ type ListListenersByLoadBalancerIdRequest struct {
 }
 
 type DeleteListenerByIdRequest struct {
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
+	lscommon.UserAgent
+}
+
+type GetListenerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 	lscommon.ListenerCommon
 	lscommon.UserAgent

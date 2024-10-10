@@ -160,3 +160,15 @@ type IUpdateTagsRequest interface {
 	WithTags(ptags ...string) IUpdateTagsRequest
 	ToMap() map[string]interface{}
 }
+
+type IGetPoolByIdRequest interface {
+	GetLoadBalancerId() string
+	GetPoolId() string
+	ParseUserAgent() string
+}
+
+type IGetListenerByIdRequest interface {
+	GetLoadBalancerId() string
+	GetListenerId() string
+	ParseUserAgent() string
+}

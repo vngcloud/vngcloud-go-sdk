@@ -14,6 +14,10 @@ type ListPoolMembersResponse struct {
 	Data []PoolMember `json:"data"`
 }
 
+type GetPoolByIdResponse struct {
+	Data Pool `json:"data"`
+}
+
 type Pool struct {
 	UUID              string       `json:"uuid"`
 	Name              string       `json:"name"`
@@ -107,4 +111,8 @@ func (s *ListPoolMembersResponse) ToEntityListMembers() *lsentity.ListMembers {
 		listMembers.Add(member.toEntityMember())
 	}
 	return listMembers
+}
+
+func (s *GetPoolByIdResponse) ToEntityPool() *lsentity.Pool {
+	return s.Data.toEntityPool()
 }
