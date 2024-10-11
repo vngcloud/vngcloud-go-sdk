@@ -38,6 +38,7 @@ type CreateOpts struct {
 	Listener     *lsListener.CreateOpts `json:"listener"`
 	Pool         *lsPool.CreateOpts     `json:"pool"`
 	AutoScalable bool                   `json:"autoScalable"`
+	IsPoc        bool                   `json:"isPoc"`
 
 	lsCm.CommonOpts
 }
