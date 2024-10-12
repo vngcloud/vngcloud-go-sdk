@@ -270,6 +270,7 @@ func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancer
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
+            lserr.WithErrorLoadBalancerIsCreating(errResp),
 			lserr.WithErrorLoadBalancerIsDeleting(errResp)).
 			WithKVparameters(
 				"loadBalancerId", popts.GetLoadBalancerId(),
