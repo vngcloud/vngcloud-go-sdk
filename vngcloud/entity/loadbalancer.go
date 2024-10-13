@@ -33,7 +33,7 @@ func (s *LoadBalancer) GetId() string {
 	return s.UUID
 }
 
-func (S *LoadBalancer) GetName() string {
+func (s *LoadBalancer) GetName() string {
 	return s.Name
 }
 
