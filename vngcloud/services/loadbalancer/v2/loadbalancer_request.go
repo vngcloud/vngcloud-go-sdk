@@ -10,6 +10,7 @@ import (
 const (
 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
 	InternetLoadBalancerScheme LoadBalancerScheme = "Internet"
+	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
 )
 
 const (
@@ -24,9 +25,9 @@ type (
 
 func NewCreateLoadBalancerRequest(pname string) ICreateLoadBalancerRequest {
 	return &CreateLoadBalancerRequest{
-		Name:      pname,
-		Scheme:    InternetLoadBalancerScheme,
-		Type:      LoadBalancerTypeLayer4,
+		Name:   pname,
+		Scheme: InternetLoadBalancerScheme,
+		Type:   LoadBalancerTypeLayer4,
 	}
 }
 
