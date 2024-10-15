@@ -131,8 +131,8 @@ func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWit
 	return nil
 }
 
-func (s *NetworkServiceInternalV1) DeleteTagByEndpointId(popts IDeleteTagByEndpointIdRequest) lserr.IError {
-	url := deleteTagByEndpointIdUrl(s.VNetworkClient, popts)
+func (s *NetworkServiceInternalV1) DeleteTagOfEndpoint(popts IDeleteTagOfEndpointRequest) lserr.IError {
+	url := deleteTagOfEndpointUrl(s.VNetworkClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithMapHeaders(popts.GetMapHeaders()).
@@ -141,6 +141,25 @@ func (s *NetworkServiceInternalV1) DeleteTagByEndpointId(popts IDeleteTagByEndpo
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.GetParameters())
+	}
+
+	return nil
+}
+
+func (s *NetworkServiceInternalV1) UpdateTagValueOfEndpoint(popts IUpdateTagValueOfEndpointRequest) lserr.IError {
+	url := updateTagValueOfEndpointUrl(s.VNetworkClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithMapHeaders(popts.GetMapHeaders()).
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Put(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.GetParameters())

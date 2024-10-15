@@ -76,9 +76,18 @@ func NewCreateTagsWithEndpointIdRequest(ouserId, pendpointId string) ICreateTags
 	return opt
 }
 
-func NewDeleteTagByEndpointId(ouserId, ptagId string) IDeleteTagByEndpointIdRequest {
-	opt := new(DeleteTagByEndpointIdRequest)
+func NewDeleteTagOfEndpointRequest(ouserId, ptagId string) IDeleteTagOfEndpointRequest {
+	opt := new(DeleteTagOfEndpointRequest)
 	opt.TagId = ptagId
+	opt.SetPortalUserId(ouserId)
+
+	return opt
+}
+
+func NewUpdateTagValueOfEndpointRequest(ouserId, ptagId, pvalue string) IUpdateTagValueOfEndpointRequest {
+	opt := new(UpdateTagValueOfEndpointRequest)
+	opt.TagId = ptagId
+	opt.TagValue = pvalue
 	opt.SetPortalUserId(ouserId)
 
 	return opt
@@ -418,14 +427,14 @@ func (s *CreateTagsWithEndpointIdRequest) ToRequestBody() interface{} {
 
 // ____________________________________________________________________ DeleteTagByEndpointIdRequest
 
-type DeleteTagByEndpointIdRequest struct {
+type DeleteTagOfEndpointRequest struct {
 	lscommon.UserAgent
 	lscommon.PortalUser
 
 	TagId string
 }
 
-func (s *DeleteTagByEndpointIdRequest) GetParameters() map[string]interface{} {
+func (s *DeleteTagOfEndpointRequest) GetParameters() map[string]interface{} {
 	res := map[string]interface{}{
 		"tagId": s.TagId,
 	}
@@ -437,15 +446,55 @@ func (s *DeleteTagByEndpointIdRequest) GetParameters() map[string]interface{} {
 	return res
 }
 
-func (s *DeleteTagByEndpointIdRequest) AddUserAgent(pagent ...string) IDeleteTagByEndpointIdRequest {
+func (s *DeleteTagOfEndpointRequest) AddUserAgent(pagent ...string) IDeleteTagOfEndpointRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
 }
 
-func (s *DeleteTagByEndpointIdRequest) GetMapHeaders() map[string]string {
+func (s *DeleteTagOfEndpointRequest) GetMapHeaders() map[string]string {
 	return s.PortalUser.GetMapHeaders()
 }
 
-func (s *DeleteTagByEndpointIdRequest) GetTagId() string {
+func (s *DeleteTagOfEndpointRequest) GetTagId() string {
 	return s.TagId
+}
+
+// _________________________________________________________________ UpdateTagValueOfEndpointRequest
+
+type UpdateTagValueOfEndpointRequest struct {
+	lscommon.UserAgent
+	lscommon.PortalUser
+
+	TagId    string
+	TagValue string `json:"tagValue"`
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"tagId":    s.TagId,
+		"tagValue": s.TagValue,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
+func (s *UpdateTagValueOfEndpointRequest) AddUserAgent(pagent ...string) IUpdateTagValueOfEndpointRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetTagId() string {
+	return s.TagId
+}
+
+func (s *UpdateTagValueOfEndpointRequest) ToRequestBody() interface{} {
+	return s
 }

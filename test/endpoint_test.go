@@ -110,9 +110,22 @@ func TestCreateEndpointTags(t *ltesting.T) {
 
 func TestDeleteTagByEndpointId(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewDeleteTagByEndpointId("60108", "tag-6ceb41e1-47e9-43f0-94dd-521a1af870ee")
+	opt := lsnwv1.NewDeleteTagOfEndpointRequest("60108", "tag-6ceb41e1-47e9-43f0-94dd-521a1af870ee")
 
-	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().DeleteTagByEndpointId(opt)
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().DeleteTagOfEndpoint(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestUpdateEndpointTag(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewUpdateTagValueOfEndpointRequest("60108", "tag-c6d6e343-ed13-4bf1-bf2e-e63a1a5e0eab", "cuonghahahah")
+
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().UpdateTagValueOfEndpoint(opt)
 	if sdkerr != nil {
 		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
 	}
