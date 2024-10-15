@@ -58,10 +58,11 @@ func NewListEndpointsRequest(ppage, psize int) IListEndpointsRequest {
 	}
 }
 
-func NewListTagsByEndpointIdRequest(pendpointId string) IListTagsByEndpointIdRequest {
+func NewListTagsByEndpointIdRequest(puserId, pendpointId string) IListTagsByEndpointIdRequest {
 	opt := new(ListTagsByEndpointIdRequest)
 	opt.Id = pendpointId
 	opt.EndpointId = pendpointId
+	opt.SetPortalUserId(puserId)
 	return opt
 }
 
@@ -300,6 +301,7 @@ func (s *ListEndpointsRequest) AddUserAgent(pagent ...string) IListEndpointsRequ
 type ListTagsByEndpointIdRequest struct {
 	lscommon.UserAgent
 	lscommon.EndpointCommon
+	lscommon.PortalUser
 
 	Id string `q:"resourceUuid"`
 }
@@ -330,4 +332,13 @@ func (s *ListTagsByEndpointIdRequest) GetParameters() map[string]interface{} {
 	}
 
 	return res
+}
+
+func (s *ListTagsByEndpointIdRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *ListTagsByEndpointIdRequest) AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
 }

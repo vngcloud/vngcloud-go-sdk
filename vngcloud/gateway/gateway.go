@@ -135,3 +135,7 @@ func (s *vnetworkGateway) V1() IVNetworkGatewayV1 {
 func (s *vnetworkGateway) GetEndpoint() string {
 	return s.endpoint
 }
+
+func (s *vnetworkGateway) InternalV1() IVNetworkGatewayInternalV1 {
+	return s.vnetworkGatewayInternalV1
+}

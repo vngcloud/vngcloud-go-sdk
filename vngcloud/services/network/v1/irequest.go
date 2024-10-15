@@ -41,9 +41,11 @@ type IListEndpointsRequest interface {
 	GetParameters() map[string]interface{}
 }
 
-
 type IListTagsByEndpointIdRequest interface {
 	ToListQuery() (string, error)
 	GetDefaultQuery() string
 	GetParameters() map[string]interface{}
+	GetMapHeaders() map[string]string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest
 }

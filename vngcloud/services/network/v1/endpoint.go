@@ -97,6 +97,8 @@ func (s *NetworkServiceInternalV1) ListTagsByEndpointId(popts IListTagsByEndpoin
 	resp := new(ListTagsByEndpointIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
+		WithMapHeaders(popts.GetMapHeaders()).
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
