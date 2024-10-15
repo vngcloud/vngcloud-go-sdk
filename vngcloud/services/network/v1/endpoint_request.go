@@ -5,6 +5,8 @@ import (
 	lurl "net/url"
 	lstr "strings"
 
+	ljparser "github.com/cuongpiger/joat/parser"
+
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
@@ -54,6 +56,13 @@ func NewListEndpointsRequest(ppage, psize int) IListEndpointsRequest {
 		Page: ppage,
 		Size: psize,
 	}
+}
+
+func NewListTagsByEndpointIdRequest(pendpointId string) IListTagsByEndpointIdRequest {
+	opt := new(ListTagsByEndpointIdRequest)
+	opt.Id = pendpointId
+	opt.EndpointId = pendpointId
+	return opt
 }
 
 type GetEndpointByIdRequest struct {
@@ -284,4 +293,41 @@ func (s *ListEndpointsRequest) GetDefaultQuery() string {
 func (s *ListEndpointsRequest) AddUserAgent(pagent ...string) IListEndpointsRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
+}
+
+// _____________________________________________________________________ ListTagsByEndpointIdRequest
+
+type ListTagsByEndpointIdRequest struct {
+	lscommon.UserAgent
+	lscommon.EndpointCommon
+
+	Id string `q:"resourceUuid"`
+}
+
+func (s *ListTagsByEndpointIdRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
+}
+
+func (s *ListTagsByEndpointIdRequest) GetDefaultQuery() string {
+	query := lfmt.Sprintf(`{"page":%d,"size":%d}`, defaultListEndpointsRequestPage, defaultListEndpointsRequestSize)
+	query = "params=" + lurl.QueryEscape(query)
+	return query
+}
+
+func (s *ListTagsByEndpointIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"resourceUuid": s.Id,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
 }

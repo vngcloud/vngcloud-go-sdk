@@ -50,6 +50,9 @@ type IVNetworkGatewayV1 interface {
 	NetworkService() lsnetworkSvc.INetworkServiceV1
 }
 
+type IVNetworkGatewayInternalV1 interface {
+}
+
 type IVLBGatewayInternal interface {
 	LoadBalancerService() lslbSvc.ILoadBalancerServiceInternal
 }

@@ -40,3 +40,10 @@ type IListEndpointsRequest interface {
 	AddUserAgent(pagent ...string) IListEndpointsRequest
 	GetParameters() map[string]interface{}
 }
+
+
+type IListTagsByEndpointIdRequest interface {
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
+	GetParameters() map[string]interface{}
+}

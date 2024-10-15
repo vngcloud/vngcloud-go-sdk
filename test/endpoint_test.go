@@ -76,3 +76,20 @@ func TestEndpoint(t *ltesting.T) {
 
 	t.Log("Encode: ", encode)
 }
+
+func TestListEndpointTags(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsnwv1.NewListEndpointsRequest(1, 100).WithUuid("enp-9349271b-af44-4e39-8829-615d945fa6c2")
+
+	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().ListEndpoints(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb.At(0))
+	t.Log("PASS")
+}

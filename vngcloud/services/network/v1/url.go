@@ -33,3 +33,14 @@ func listEndpointsUrl(psc lsclient.IServiceClient, popts IListEndpointsRequest) 
 
 	return psc.ServiceURL(psc.GetZoneId(), psc.GetProjectId(), "endpoints?") + query
 }
+
+func listTagsByEndpointIdUrl(psc lsclient.IServiceClient, popts IListTagsByEndpointIdRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tags") + query
+}

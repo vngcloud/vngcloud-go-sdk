@@ -89,3 +89,23 @@ func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity
 
 	return resp.ToEntityListEndpoints(), nil
 }
+
+// ________________________________________________________________________ NetworkServiceInternalV1
+
+func (s *NetworkServiceInternalV1) ListTagsByEndpointId(popts IListTagsByEndpointIdRequest) (*lsentity.ListTags, lserr.IError) {
+	url := listTagsByEndpointIdUrl(s.VNetworkClient, popts)
+	resp := new(ListTagsByEndpointIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.GetParameters())
+	}
+
+	return resp.ToEntityListTags(), nil
+}
