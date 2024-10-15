@@ -16,6 +16,7 @@ type INetworkServiceV1 interface {
 
 type INetworkServiceInternalV1 interface {
 	ListTagsByEndpointId(popts lsnetworkSvcV1.IListTagsByEndpointIdRequest) (*lsentity.ListTags, lserr.IError)
+	CreateTagsWithEndpointId(popts lsnetworkSvcV1.ICreateTagsWithEndpointIdRequest) lserr.IError
 }
 
 type INetworkServiceV2 interface {

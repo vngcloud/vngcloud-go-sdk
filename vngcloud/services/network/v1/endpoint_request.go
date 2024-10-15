@@ -66,6 +66,16 @@ func NewListTagsByEndpointIdRequest(puserId, pendpointId string) IListTagsByEndp
 	return opt
 }
 
+func NewCreateTagsWithEndpointIdRequest(ouserId, pendpointId string) ICreateTagsWithEndpointIdRequest {
+	opt := new(CreateTagsWithEndpointIdRequest)
+	opt.ResourceUuid = pendpointId
+	opt.EndpointId = pendpointId
+	opt.SystemTag = true
+	opt.SetPortalUserId(ouserId)
+
+	return opt
+}
+
 type GetEndpointByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.EndpointCommon
@@ -340,5 +350,60 @@ func (s *ListTagsByEndpointIdRequest) GetMapHeaders() map[string]string {
 
 func (s *ListTagsByEndpointIdRequest) AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+// _________________________________________________________________ CreateTagsWithEndpointIdRequest
+
+type CreateTagsWithEndpointIdRequest struct {
+	lscommon.UserAgent
+	lscommon.EndpointCommon
+	lscommon.PortalUser
+
+	ResourceUuid string `json:"resourceUuid"`
+	Tags         []struct {
+		TagKey   string `json:"tagKey"`
+		TagValue string `json:"tagValue"`
+	} `json:"tags"`
+
+	SystemTag bool `json:"systemTag"`
+}
+
+func (s *CreateTagsWithEndpointIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"resourceUuid": s.Id,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	res["tags"] = s.Tags
+
+	return res
+}
+
+func (s *CreateTagsWithEndpointIdRequest) AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *CreateTagsWithEndpointIdRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *CreateTagsWithEndpointIdRequest) AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest {
+	s.Tags = append(s.Tags, struct {
+		TagKey   string `json:"tagKey"`
+		TagValue string `json:"tagValue"`
+	}{
+		TagKey:   pkey,
+		TagValue: pvalue,
+	})
+
+	return s
+}
+
+func (s *CreateTagsWithEndpointIdRequest) ToRequestBody() interface{} {
 	return s
 }

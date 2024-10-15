@@ -49,3 +49,12 @@ type IListTagsByEndpointIdRequest interface {
 	ParseUserAgent() string
 	AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest
 }
+
+type ICreateTagsWithEndpointIdRequest interface {
+	GetParameters() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest
+	GetMapHeaders() map[string]string
+	AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+}

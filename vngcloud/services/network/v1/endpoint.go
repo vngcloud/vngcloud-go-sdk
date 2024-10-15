@@ -111,3 +111,22 @@ func (s *NetworkServiceInternalV1) ListTagsByEndpointId(popts IListTagsByEndpoin
 
 	return resp.ToEntityListTags(), nil
 }
+
+func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWithEndpointIdRequest) lserr.IError {
+	url := createTagsWithEndpointIdUrl(s.VNetworkClient)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithMapHeaders(popts.GetMapHeaders()).
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.GetParameters())
+	}
+
+	return nil
+}

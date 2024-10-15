@@ -93,3 +93,20 @@ func TestListEndpointTags(t *ltesting.T) {
 	t.Log("Result: ", lb)
 	t.Log("PASS")
 }
+
+func TestCreateEndpointTags(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewCreateTagsWithEndpointIdRequest("60108", "enp-7e8e4476-feeb-414c-ac03-3501aae607d0").
+		AddTag("cuongdm3", "test")
+
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().CreateTagsWithEndpointId(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+
