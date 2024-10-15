@@ -76,6 +76,14 @@ func NewCreateTagsWithEndpointIdRequest(ouserId, pendpointId string) ICreateTags
 	return opt
 }
 
+func NewDeleteTagByEndpointId(ouserId, ptagId string) IDeleteTagByEndpointIdRequest {
+	opt := new(DeleteTagByEndpointIdRequest)
+	opt.TagId = ptagId
+	opt.SetPortalUserId(ouserId)
+
+	return opt
+}
+
 type GetEndpointByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.EndpointCommon
@@ -406,4 +414,38 @@ func (s *CreateTagsWithEndpointIdRequest) AddTag(pkey, pvalue string) ICreateTag
 
 func (s *CreateTagsWithEndpointIdRequest) ToRequestBody() interface{} {
 	return s
+}
+
+// ____________________________________________________________________ DeleteTagByEndpointIdRequest
+
+type DeleteTagByEndpointIdRequest struct {
+	lscommon.UserAgent
+	lscommon.PortalUser
+
+	TagId string
+}
+
+func (s *DeleteTagByEndpointIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"tagId": s.TagId,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
+func (s *DeleteTagByEndpointIdRequest) AddUserAgent(pagent ...string) IDeleteTagByEndpointIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *DeleteTagByEndpointIdRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *DeleteTagByEndpointIdRequest) GetTagId() string {
+	return s.TagId
 }

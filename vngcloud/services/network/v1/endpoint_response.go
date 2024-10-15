@@ -90,6 +90,7 @@ func (s *ListTagsByEndpointIdResponse) ToEntityListTags() *lsentity.ListTags {
 			Value:      item.TagValue,
 			SystemTag:  item.SystemTag,
 			ResourceId: item.ResourceUuid,
+			TagId:      item.Uuid,
 		})
 	}
 	return &lsentity.ListTags{

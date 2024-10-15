@@ -5,6 +5,7 @@ type Tag struct {
 	Value      string
 	SystemTag  bool
 	ResourceId string
+	TagId      string
 }
 
 type ListTags struct {

@@ -50,3 +50,10 @@ func createTagsWithEndpointIdUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"tags")
 }
+
+func deleteTagByEndpointIdUrl(psc lsclient.IServiceClient, popts IDeleteTagByEndpointIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tags",
+		popts.GetTagId())
+}

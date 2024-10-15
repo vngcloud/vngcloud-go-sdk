@@ -58,3 +58,11 @@ type ICreateTagsWithEndpointIdRequest interface {
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 }
+
+type IDeleteTagByEndpointIdRequest interface {
+	GetParameters() map[string]interface{}
+	AddUserAgent(pagent ...string) IDeleteTagByEndpointIdRequest
+	GetMapHeaders() map[string]string
+	ParseUserAgent() string
+	GetTagId() string
+}

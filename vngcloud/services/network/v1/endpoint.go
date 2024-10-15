@@ -130,3 +130,21 @@ func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWit
 
 	return nil
 }
+
+func (s *NetworkServiceInternalV1) DeleteTagByEndpointId(popts IDeleteTagByEndpointIdRequest) lserr.IError {
+	url := deleteTagByEndpointIdUrl(s.VNetworkClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithMapHeaders(popts.GetMapHeaders()).
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithParameters(popts.GetParameters())
+	}
+
+	return nil
+}
