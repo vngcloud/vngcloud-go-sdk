@@ -26,3 +26,21 @@ func (s *ListQuotas) FindQuotaByName(name string) *Quota {
 
 	return nil
 }
+
+type ListPortals struct {
+	Items []*Portal
+}
+
+func NewListPortals() *ListPortals {
+	return &ListPortals{
+		Items: make([]*Portal, 0),
+	}
+}
+
+func (s *ListPortals) At(pindex int) *Portal {
+	if pindex < 0 || pindex >= len(s.Items) {
+		return nil
+	}
+
+	return s.Items[pindex]
+}

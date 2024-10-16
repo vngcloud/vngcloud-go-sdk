@@ -132,3 +132,14 @@ func TestGetQuotaByNamePass(t *ltesting.T) {
 	t.Log("RESULT:", quota)
 	t.Log("PASS")
 }
+
+
+func TestListProjects(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects()
+	if err != nil {
+		t.Log("Error: ", err)
+	}
+
+	t.Log("Result: ", projects.At(0))
+}
