@@ -66,29 +66,29 @@ func NewListTagsByEndpointIdRequest(puserId, pendpointId string) IListTagsByEndp
 	return opt
 }
 
-func NewCreateTagsWithEndpointIdRequest(ouserId, pendpointId string) ICreateTagsWithEndpointIdRequest {
+func NewCreateTagsWithEndpointIdRequest(puserId, pendpointId string) ICreateTagsWithEndpointIdRequest {
 	opt := new(CreateTagsWithEndpointIdRequest)
 	opt.ResourceUuid = pendpointId
 	opt.EndpointId = pendpointId
 	opt.SystemTag = true
-	opt.SetPortalUserId(ouserId)
+	opt.SetPortalUserId(puserId)
 
 	return opt
 }
 
-func NewDeleteTagOfEndpointRequest(ouserId, ptagId string) IDeleteTagOfEndpointRequest {
+func NewDeleteTagOfEndpointRequest(puserId, ptagId string) IDeleteTagOfEndpointRequest {
 	opt := new(DeleteTagOfEndpointRequest)
 	opt.TagId = ptagId
-	opt.SetPortalUserId(ouserId)
+	opt.SetPortalUserId(puserId)
 
 	return opt
 }
 
-func NewUpdateTagValueOfEndpointRequest(ouserId, ptagId, pvalue string) IUpdateTagValueOfEndpointRequest {
+func NewUpdateTagValueOfEndpointRequest(puserId, ptagId, pvalue string) IUpdateTagValueOfEndpointRequest {
 	opt := new(UpdateTagValueOfEndpointRequest)
 	opt.TagId = ptagId
 	opt.TagValue = pvalue
-	opt.SetPortalUserId(ouserId)
+	opt.SetPortalUserId(puserId)
 
 	return opt
 }

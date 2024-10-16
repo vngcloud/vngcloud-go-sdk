@@ -79,7 +79,7 @@ func TestEndpoint(t *ltesting.T) {
 
 func TestListEndpointTags(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewListTagsByEndpointIdRequest("60108", "enp-7e8e4476-feeb-414c-ac03-3501aae607d0")
+	opt := lsnwv1.NewListTagsByEndpointIdRequest("54507", "enp-4457d867-6e3d-4a75-8ceb-d11a957afbe8")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().ListTagsByEndpointId(opt)
 	if sdkerr != nil {
