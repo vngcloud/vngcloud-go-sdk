@@ -123,7 +123,8 @@ func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWit
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp).
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.GetParameters())
 	}
@@ -141,7 +142,8 @@ func (s *NetworkServiceInternalV1) DeleteTagOfEndpoint(popts IDeleteTagOfEndpoin
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Delete(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp).
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.GetParameters())
 	}
@@ -160,7 +162,8 @@ func (s *NetworkServiceInternalV1) UpdateTagValueOfEndpoint(popts IUpdateTagValu
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VNetworkClient.Put(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp).
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.GetParameters())
 	}

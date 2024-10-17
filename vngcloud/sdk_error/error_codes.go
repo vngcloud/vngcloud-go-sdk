@@ -143,4 +143,5 @@ const (
 	EcVNetworkEndpointPackageNotBelongToEndpointService = ErrorCode("EndpointPackageNotBelongToEndpointService")
 	EcVNetworkContainInvalidCharacter                   = ErrorCode("ContainInvalidCharacter")
 	EcVNetworkLockOnProcess                             = ErrorCode("LockOnProcess")
+	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
 )
