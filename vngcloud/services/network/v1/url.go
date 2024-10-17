@@ -45,22 +45,22 @@ func listTagsByEndpointIdUrl(psc lsclient.IServiceClient, popts IListTagsByEndpo
 		"tags") + query
 }
 
-func createTagsWithEndpointIdUrl(psc lsclient.IServiceClient) string {
+func createTagsWithEndpointIdUrl(psc lsclient.IServiceClient, popts ICreateTagsWithEndpointIdRequest) string {
 	return psc.ServiceURL(
-		psc.GetProjectId(),
+		popts.GetProjectId(),
 		"tags")
 }
 
 func deleteTagOfEndpointUrl(psc lsclient.IServiceClient, popts IDeleteTagOfEndpointRequest) string {
 	return psc.ServiceURL(
-		psc.GetProjectId(),
+		popts.GetProjectId(),
 		"tags",
 		popts.GetTagId())
 }
 
 func updateTagValueOfEndpointUrl(psc lsclient.IServiceClient, popts IUpdateTagValueOfEndpointRequest) string {
 	return psc.ServiceURL(
-		psc.GetProjectId(),
+		popts.GetProjectId(),
 		"tags",
 		popts.GetTagId())
 }

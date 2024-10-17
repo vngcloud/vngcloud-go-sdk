@@ -113,7 +113,7 @@ func (s *NetworkServiceInternalV1) ListTagsByEndpointId(popts IListTagsByEndpoin
 }
 
 func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWithEndpointIdRequest) lserr.IError {
-	url := createTagsWithEndpointIdUrl(s.VNetworkClient)
+	url := createTagsWithEndpointIdUrl(s.VNetworkClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithMapHeaders(popts.GetMapHeaders()).
