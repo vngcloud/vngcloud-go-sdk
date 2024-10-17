@@ -90,7 +90,7 @@ func TestListEndpointTags(t *ltesting.T) {
 		t.Fatalf("Expect not nil but got nil")
 	}
 
-	t.Log("Result: ", lb)
+	t.Log("Result: ", lb.Items[1])
 	t.Log("PASS")
 }
 
