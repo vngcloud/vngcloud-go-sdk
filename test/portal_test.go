@@ -1,10 +1,11 @@
 package test
 
 import (
+	ltesting "testing"
+
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 	lsportalV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal/v1"
 	lsportalV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal/v2"
-	ltesting "testing"
 )
 
 func TestGetPortalInfoFailed(t *ltesting.T) {
@@ -133,9 +134,18 @@ func TestGetQuotaByNamePass(t *ltesting.T) {
 	t.Log("PASS")
 }
 
-
 func TestListProjects(t *ltesting.T) {
 	vngcloud := validSdkConfig()
+	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects()
+	if err != nil {
+		t.Log("Error: ", err)
+	}
+
+	t.Log("Result: ", projects.At(0))
+}
+
+func TestListPortalUser11412(t *ltesting.T) {
+	vngcloud := validUser11412()
 	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects()
 	if err != nil {
 		t.Log("Error: ", err)

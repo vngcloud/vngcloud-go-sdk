@@ -1,10 +1,10 @@
 package test
 
 import (
-	lsnwv1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
+	"net/url"
 	ltesting "testing"
 
-	"net/url"
+	lsnwv1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
 )
 
 func TestGetEndpointSuccess(t *ltesting.T) {
@@ -79,7 +79,7 @@ func TestEndpoint(t *ltesting.T) {
 
 func TestListEndpointTags(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewListTagsByEndpointIdRequest("54507", "enp-4457d867-6e3d-4a75-8ceb-d11a957afbe8")
+	opt := lsnwv1.NewListTagsByEndpointIdRequest("54507", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "enp-4457d867-6e3d-4a75-8ceb-d11a957afbe8")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().ListTagsByEndpointId(opt)
 	if sdkerr != nil {

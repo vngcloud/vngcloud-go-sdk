@@ -47,6 +47,7 @@ type IListTagsByEndpointIdRequest interface {
 	GetParameters() map[string]interface{}
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
+	GetProjectId() string
 	AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest
 }
 
@@ -56,6 +57,7 @@ type ICreateTagsWithEndpointIdRequest interface {
 	GetMapHeaders() map[string]string
 	AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest
 	ParseUserAgent() string
+	GetProjectId() string
 	ToRequestBody() interface{}
 }
 
@@ -65,6 +67,7 @@ type IDeleteTagOfEndpointRequest interface {
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
 	GetTagId() string
+	GetProjectId() string
 }
 
 type IUpdateTagValueOfEndpointRequest interface {
@@ -73,5 +76,6 @@ type IUpdateTagValueOfEndpointRequest interface {
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
 	GetTagId() string
+	GetProjectId() string
 	ToRequestBody() interface{}
 }

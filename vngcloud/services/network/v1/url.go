@@ -41,7 +41,7 @@ func listTagsByEndpointIdUrl(psc lsclient.IServiceClient, popts IListTagsByEndpo
 	}
 
 	return psc.ServiceURL(
-		psc.GetProjectId(),
+		popts.GetProjectId(),
 		"tags") + query
 }
 

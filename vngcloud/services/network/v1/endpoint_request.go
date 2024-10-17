@@ -24,75 +24,6 @@ const (
 	defaultListEndpointsRequestSize = 10
 )
 
-func NewGetEndpointByIdRequest(pendpointId string) IGetEndpointByIdRequest {
-	opt := new(GetEndpointByIdRequest)
-	opt.EndpointId = pendpointId
-	return opt
-}
-
-func NewCreateEndpointRequest(pname, pserviceId, pvpcId, psubnetId string) ICreateEndpointRequest {
-	opts := new(CreateEndpointRequest)
-	opts.ResourceInfo.EndpointName = pname
-	opts.ResourceInfo.ServiceUuid = pserviceId
-	opts.ResourceInfo.VpcUuid = pvpcId
-	opts.ResourceInfo.SubnetUuid = psubnetId
-	opts.ResourceInfo.PackageUuid = defaultPackageId
-
-	return opts
-}
-
-func NewDeleteEndpointByIdRequest(pendpointId, pvpcId, pendpointServiceId string) IDeleteEndpointByIdRequest {
-	opt := new(DeleteEndpointByIdRequest)
-	opt.EndpointId = pendpointId
-	opt.EndpointUuid = pendpointId
-	opt.VpcUuid = pvpcId
-	opt.EndpointServiceUuid = pendpointServiceId
-
-	return opt
-}
-
-func NewListEndpointsRequest(ppage, psize int) IListEndpointsRequest {
-	return &ListEndpointsRequest{
-		Page: ppage,
-		Size: psize,
-	}
-}
-
-func NewListTagsByEndpointIdRequest(puserId, pendpointId string) IListTagsByEndpointIdRequest {
-	opt := new(ListTagsByEndpointIdRequest)
-	opt.Id = pendpointId
-	opt.EndpointId = pendpointId
-	opt.SetPortalUserId(puserId)
-	return opt
-}
-
-func NewCreateTagsWithEndpointIdRequest(puserId, pendpointId string) ICreateTagsWithEndpointIdRequest {
-	opt := new(CreateTagsWithEndpointIdRequest)
-	opt.ResourceUuid = pendpointId
-	opt.EndpointId = pendpointId
-	opt.SystemTag = true
-	opt.SetPortalUserId(puserId)
-
-	return opt
-}
-
-func NewDeleteTagOfEndpointRequest(puserId, ptagId string) IDeleteTagOfEndpointRequest {
-	opt := new(DeleteTagOfEndpointRequest)
-	opt.TagId = ptagId
-	opt.SetPortalUserId(puserId)
-
-	return opt
-}
-
-func NewUpdateTagValueOfEndpointRequest(puserId, ptagId, pvalue string) IUpdateTagValueOfEndpointRequest {
-	opt := new(UpdateTagValueOfEndpointRequest)
-	opt.TagId = ptagId
-	opt.TagValue = pvalue
-	opt.SetPortalUserId(puserId)
-
-	return opt
-}
-
 type GetEndpointByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.EndpointCommon
@@ -330,7 +261,8 @@ type ListTagsByEndpointIdRequest struct {
 	lscommon.EndpointCommon
 	lscommon.PortalUser
 
-	Id string `q:"resourceUuid"`
+	ProjectId string
+	Id        string `q:"resourceUuid"`
 }
 
 func (s *ListTagsByEndpointIdRequest) ToListQuery() (string, error) {
@@ -341,6 +273,10 @@ func (s *ListTagsByEndpointIdRequest) ToListQuery() (string, error) {
 	}
 
 	return url.String(), err
+}
+
+func (s *ListTagsByEndpointIdRequest) GetProjectId() string {
+	return s.ProjectId
 }
 
 func (s *ListTagsByEndpointIdRequest) GetDefaultQuery() string {
@@ -377,6 +313,7 @@ type CreateTagsWithEndpointIdRequest struct {
 	lscommon.EndpointCommon
 	lscommon.PortalUser
 
+	ProjectId    string
 	ResourceUuid string `json:"resourceUuid"`
 	Tags         []struct {
 		TagKey   string `json:"tagKey"`
@@ -425,13 +362,18 @@ func (s *CreateTagsWithEndpointIdRequest) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *CreateTagsWithEndpointIdRequest) GetProjectId() string {
+	return s.ProjectId
+}
+
 // ____________________________________________________________________ DeleteTagByEndpointIdRequest
 
 type DeleteTagOfEndpointRequest struct {
 	lscommon.UserAgent
 	lscommon.PortalUser
 
-	TagId string
+	ProjectId string
+	TagId     string
 }
 
 func (s *DeleteTagOfEndpointRequest) GetParameters() map[string]interface{} {
@@ -459,14 +401,19 @@ func (s *DeleteTagOfEndpointRequest) GetTagId() string {
 	return s.TagId
 }
 
+func (s *DeleteTagOfEndpointRequest) GetProjectId() string {
+	return s.ProjectId
+}
+
 // _________________________________________________________________ UpdateTagValueOfEndpointRequest
 
 type UpdateTagValueOfEndpointRequest struct {
 	lscommon.UserAgent
 	lscommon.PortalUser
 
-	TagId    string
-	TagValue string `json:"tagValue"`
+	TagId     string
+	ProjectId string
+	TagValue  string `json:"tagValue"`
 }
 
 func (s *UpdateTagValueOfEndpointRequest) GetParameters() map[string]interface{} {
@@ -497,4 +444,8 @@ func (s *UpdateTagValueOfEndpointRequest) GetTagId() string {
 
 func (s *UpdateTagValueOfEndpointRequest) ToRequestBody() interface{} {
 	return s
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetProjectId() string {
+	return s.ProjectId
 }
