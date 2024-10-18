@@ -53,6 +53,10 @@ type IUpdateListenerRequest interface {
 	WithDefaultPoolId(ppoolId string) IUpdateListenerRequest
 	WithHeaders(pheaders ...string) IUpdateListenerRequest
 	ParseUserAgent() string
+
+	WithCertificateAuthorities(pca ...string) IUpdateListenerRequest
+	WithClientCertificate(pclientCert string) IUpdateListenerRequest
+	WithDefaultCertificateAuthority(pdefaultCA string) IUpdateListenerRequest
 }
 
 type IGetPoolHealthMonitorByIdRequest interface {

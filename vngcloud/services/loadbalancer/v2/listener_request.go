@@ -68,14 +68,15 @@ type CreateListenerRequest struct {
 }
 
 type UpdateListenerRequest struct {
-	AllowedCidrs                string   `json:"allowedCidrs"`
-	DefaultPoolId               string   `json:"defaultPoolId"`
-	TimeoutClient               int      `json:"timeoutClient"`
-	TimeoutConnection           int      `json:"timeoutConnection"`
-	TimeoutMember               int      `json:"timeoutMember"`
-	Headers                     []string `json:"headers"`
-	ClientCertificate           *string  `json:"clientCertificate"`
-	DefaultCertificateAuthority *string  `json:"defaultCertificateAuthority"`
+	AllowedCidrs                string    `json:"allowedCidrs"`
+	DefaultPoolId               string    `json:"defaultPoolId"`
+	TimeoutClient               int       `json:"timeoutClient"`
+	TimeoutConnection           int       `json:"timeoutConnection"`
+	TimeoutMember               int       `json:"timeoutMember"`
+	Headers                     []string  `json:"headers"`
+	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
+	ClientCertificate           *string   `json:"clientCertificate"`
+	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
 
 	lscommon.LoadBalancerCommon
 	lscommon.ListenerCommon
@@ -159,14 +160,17 @@ func (s *CreateListenerRequest) WithDefaultPoolId(ppoolId string) ICreateListene
 
 func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"listenerName":         s.ListenerName,
-		"listenerProtocol":     s.ListenerProtocol,
-		"listenerProtocolPort": s.ListenerProtocolPort,
-		"timeoutClient":        s.TimeoutClient,
-		"timeoutConnection":    s.TimeoutConnection,
-		"timeoutMember":        s.TimeoutMember,
-		"allowedCidrs":         s.AllowedCidrs,
-		"defaultPoolId":        s.DefaultPoolId,
+		"listenerName":                s.ListenerName,
+		"listenerProtocol":            s.ListenerProtocol,
+		"listenerProtocolPort":        s.ListenerProtocolPort,
+		"timeoutClient":               s.TimeoutClient,
+		"timeoutConnection":           s.TimeoutConnection,
+		"timeoutMember":               s.TimeoutMember,
+		"allowedCidrs":                s.AllowedCidrs,
+		"defaultPoolId":               s.DefaultPoolId,
+		"certificateAuthorities":      s.CertificateAuthorities,
+		"clientCertificate":           s.ClientCertificate,
+		"defaultCertificateAuthority": s.DefaultCertificateAuthority,
 	}
 }
 
@@ -209,5 +213,20 @@ func (s *UpdateListenerRequest) WithHeaders(pheaders ...string) IUpdateListenerR
 	}
 
 	s.Headers = pheaders
+	return s
+}
+
+func (s *UpdateListenerRequest) WithCertificateAuthorities(pca ...string) IUpdateListenerRequest {
+	s.CertificateAuthorities = &pca
+	return s
+}
+
+func (s *UpdateListenerRequest) WithClientCertificate(pclientCert string) IUpdateListenerRequest {
+	s.ClientCertificate = &pclientCert
+	return s
+}
+
+func (s *UpdateListenerRequest) WithDefaultCertificateAuthority(pdefaultCA string) IUpdateListenerRequest {
+	s.DefaultCertificateAuthority = &pdefaultCA
 	return s
 }
