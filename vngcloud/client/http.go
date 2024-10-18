@@ -3,7 +3,7 @@ package client
 import (
 	lctx "context"
 	lhttp "net/http"
-	"strings"
+	lstr "strings"
 	lsync "sync"
 	ltime "time"
 
@@ -112,7 +112,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 
 	var resp *lreq.Response
 	var err error
-	switch strings.ToUpper(preq.GetRequestMethod()) {
+	switch lstr.ToUpper(preq.GetRequestMethod()) {
 	case "POST":
 		resp, err = req.Post(purl)
 	case "GET":
