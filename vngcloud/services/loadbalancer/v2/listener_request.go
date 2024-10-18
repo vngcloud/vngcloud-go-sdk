@@ -58,6 +58,7 @@ type CreateListenerRequest struct {
 	TimeoutClient               int              `json:"timeoutClient"`
 	TimeoutConnection           int              `json:"timeoutConnection"`
 	TimeoutMember               int              `json:"timeoutMember"`
+	Headers                     []string         `json:"headers"`
 	DefaultPoolId               *string          `json:"defaultPoolId"`
 	CertificateAuthorities      *[]string        `json:"certificateAuthorities"`
 	ClientCertificate           *string          `json:"clientCertificate"`
