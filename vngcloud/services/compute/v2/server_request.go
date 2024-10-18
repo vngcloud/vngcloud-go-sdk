@@ -2,69 +2,6 @@ package v2
 
 import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 
-func NewCreateServerRequest(pname, pimageId, pflavorId, pnetworkId, psubnetId, prootDiskType string, prootDiskSize int) ICreateServerRequest {
-	opt := new(CreateServerRequest)
-	opt.Name = pname
-	opt.ImageId = pimageId
-	opt.FlavorId = pflavorId
-	opt.NetworkId = pnetworkId
-	opt.SubnetId = psubnetId
-	opt.RootDiskTypeId = prootDiskType
-	opt.RootDiskSize = prootDiskSize
-	return opt
-}
-
-func NewGetServerByIdRequest(pserverId string) IGetServerByIdRequest {
-	opt := new(GetServerByIdRequest)
-	opt.ServerId = pserverId
-	return opt
-}
-
-func NewDeleteServerByIdRequest(pserverId string) IDeleteServerByIdRequest {
-	opt := new(DeleteServerByIdRequest)
-	opt.ServerId = pserverId
-	opt.DeleteAllVolume = false
-	return opt
-}
-
-func NewUpdateServerSecgroupsRequest(pserverId string, psecgroups ...string) IUpdateServerSecgroupsByServerIdRequest {
-	opt := new(UpdateServerSecgroupsByServerIdRequest)
-	opt.ServerId = pserverId
-	opt.Secgroups = psecgroups
-	return opt
-}
-
-func NewAttachBlockVolumeRequest(pserverId, pvolumeId string) IAttachBlockVolumeRequest {
-	opt := new(AttachBlockVolumeRequest)
-	opt.ServerId = pserverId
-	opt.BlockVolumeId = pvolumeId
-	return opt
-}
-
-func NewDetachBlockVolumeRequest(pserverId, pvolumeId string) IDetachBlockVolumeRequest {
-	opt := new(DetachBlockVolumeRequest)
-	opt.ServerId = pserverId
-	opt.BlockVolumeId = pvolumeId
-	return opt
-}
-
-func NewAttachFloatingIpRequest(pserverId, pniid string) IAttachFloatingIpRequest {
-	opt := new(AttachFloatingIpRequest)
-	opt.ServerId = pserverId
-	opt.InternalNetworkInterfaceId = pniid
-	opt.NetworkInterfaceId = pniid
-	return opt
-}
-
-func NewDetachFloatingIpRequest(pserverId, pwanId, pniid string) IDetachFloatingIpRequest {
-	opt := new(DetachFloatingIpRequest)
-	opt.ServerId = pserverId
-	opt.InternalNetworkInterfaceId = pniid
-	opt.NetworkInterfaceId = pniid
-	opt.WanId = pwanId
-	return opt
-}
-
 const (
 	DataDiskEncryptionAesXts256Type DataDiskEncryptionType = "aes-xts-plain64_256"
 	DataDiskEncryptionAesXts128Type DataDiskEncryptionType = "aes-xts-plain64_128"
