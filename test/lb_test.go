@@ -245,6 +245,25 @@ func TestResizeLoadBalancerSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestListLoadBalancerPackagesSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewListLoadBalancerPackagesRequest()
+	packages, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancerPackages(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if packages == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", packages)
+	for _, pkg := range packages.Items {
+		t.Logf("Package: %+v", pkg)
+	}
+	t.Log("PASS")
+}
+
 func TestGetLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-10689014-4c30-415c-96f7-2293b137854f").

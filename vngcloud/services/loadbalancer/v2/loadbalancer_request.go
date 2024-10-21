@@ -41,6 +41,10 @@ func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRe
 	}
 }
 
+func NewListLoadBalancerPackagesRequest() IListLoadBalancerPackagesRequest {
+	return new(ListLoadBalancerPackagesRequest)
+}
+
 func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
 	opts := new(GetLoadBalancerByIdRequest)
 	opts.LoadBalancerId = plbId
@@ -78,6 +82,10 @@ type ResizeLoadBalancerRequest struct {
 	PackageID string `json:"packageId"`
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
+}
+
+type ListLoadBalancerPackagesRequest struct {
+	lscommon.UserAgent
 }
 
 type GetLoadBalancerByIdRequest struct {
@@ -167,6 +175,11 @@ func (s *ResizeLoadBalancerRequest) AddUserAgent(pagent ...string) IResizeLoadBa
 
 func (s *ResizeLoadBalancerRequest) WithPackageId(ppackageId string) IResizeLoadBalancerRequest {
 	s.PackageID = ppackageId
+	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

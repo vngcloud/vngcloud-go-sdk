@@ -23,6 +23,11 @@ type IResizeLoadBalancerRequest interface {
 	GetLoadBalancerId() string
 }
 
+type IListLoadBalancerPackagesRequest interface {
+	AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest
+	ParseUserAgent() string
+}
+
 type IGetLoadBalancerByIdRequest interface {
 	AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest
 	ParseUserAgent() string

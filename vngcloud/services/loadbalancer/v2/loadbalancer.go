@@ -45,6 +45,23 @@ func (s *LoadBalancerServiceV2) ResizeLoadBalancer(popts IResizeLoadBalancerRequ
 	return resp.ToEntityLoadBalancer(), nil
 }
 
+func (s *LoadBalancerServiceV2) ListLoadBalancerPackages(popts IListLoadBalancerPackagesRequest) (*lsentity.ListLoadBalancerPackages, lserr.IError) {
+	url := listLoadBalancerPackagesUrl(s.VLBClient)
+	resp := new(ListLoadBalancerPackagesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityListLoadBalancerPackages(), nil
+}
+
 func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError) {
 	url := getLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetLoadBalancerByIdResponse)

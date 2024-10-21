@@ -56,3 +56,18 @@ func (s *ListLoadBalancers) At(pidx int) *LoadBalancer {
 
 	return s.Items[pidx]
 }
+
+type ListLoadBalancerPackages struct {
+	Items []*LoadBalancerPackage
+}
+
+type LoadBalancerPackage struct {
+	UUID             string
+	Name             string
+	Type             string
+	ConnectionNumber int
+	DataTransfer     int
+	Mode             string
+	LbType           string
+	DisplayLbType    string
+}
