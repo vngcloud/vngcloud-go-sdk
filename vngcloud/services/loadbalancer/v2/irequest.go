@@ -14,6 +14,15 @@ type ICreateLoadBalancerRequest interface {
 	ParseUserAgent() string
 }
 
+type IResizeLoadBalancerRequest interface {
+	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IResizeLoadBalancerRequest
+	WithPackageId(ppackageId string) IResizeLoadBalancerRequest
+	ParseUserAgent() string
+
+	GetLoadBalancerId() string
+}
+
 type IGetLoadBalancerByIdRequest interface {
 	AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest
 	ParseUserAgent() string

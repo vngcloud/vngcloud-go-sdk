@@ -228,6 +228,23 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestResizeLoadBalancerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewResizeLoadBalancerRequest("lb-4d1508f9-8bb0-45a6-b55b-21a7412b4658", "").WithPackageId("lbp-71cc3022-5fee-426d-9509-3341053e2477")
+
+	lb, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ResizeLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
 func TestGetLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-10689014-4c30-415c-96f7-2293b137854f").

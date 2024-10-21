@@ -9,6 +9,7 @@ import (
 
 type ILoadBalancerServiceV2 interface {
 	CreateLoadBalancer(popts lslbSvcV2.ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError)
+	ResizeLoadBalancer(popts lslbSvcV2.IResizeLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError)
 	GetLoadBalancerById(popts lslbSvcV2.IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError)
 	ListLoadBalancers(popts lslbSvcV2.IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.IError)
 	GetPoolHealthMonitorById(popts lslbSvcV2.IGetPoolHealthMonitorByIdRequest) (*lsentity.HealthMonitor, lserr.IError)

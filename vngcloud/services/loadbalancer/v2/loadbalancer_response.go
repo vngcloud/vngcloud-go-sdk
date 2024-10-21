@@ -9,6 +9,16 @@ type CreateLoadBalancerResponse struct {
 	UUID string `json:"uuid"`
 }
 
+type ResizeLoadBalancerResponse struct {
+	UUID string `json:"uuid"`
+}
+
+func (s *ResizeLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalancer {
+	return &lsentity.LoadBalancer{
+		UUID: s.UUID,
+	}
+}
+
 type GetLoadBalancerByIdResponse struct {
 	Data LoadBalancer `json:"data"`
 }

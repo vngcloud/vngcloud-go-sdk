@@ -32,6 +32,15 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 	}
 }
 
+func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRequest {
+	return &ResizeLoadBalancerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		PackageID: packageID,
+	}
+}
+
 func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
 	opts := new(GetLoadBalancerByIdRequest)
 	opts.LoadBalancerId = plbId
@@ -63,6 +72,12 @@ type CreateLoadBalancerRequest struct {
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
 
 	lscommon.UserAgent
+}
+
+type ResizeLoadBalancerRequest struct {
+	PackageID string `json:"packageId"`
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
 }
 
 type GetLoadBalancerByIdRequest struct {
@@ -138,6 +153,20 @@ func (s *CreateLoadBalancerRequest) WithAutoScalable(pautoScalable bool) ICreate
 
 func (s *CreateLoadBalancerRequest) WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest {
 	s.Type = ptype
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) AddUserAgent(pagent ...string) IResizeLoadBalancerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) WithPackageId(ppackageId string) IResizeLoadBalancerRequest {
+	s.PackageID = ppackageId
 	return s
 }
 
