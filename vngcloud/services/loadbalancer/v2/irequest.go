@@ -11,6 +11,7 @@ type ICreateLoadBalancerRequest interface {
 	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
 	WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
+	WithPoc(poc bool) ICreateLoadBalancerRequest
 	ParseUserAgent() string
 }
 

@@ -74,6 +74,7 @@ type CreateLoadBalancerRequest struct {
 	Listener     ICreateListenerRequest `json:"listener"`
 	Pool         ICreatePoolRequest     `json:"pool"`
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
+	IsPoc        bool                   `json:"isPoc"`
 
 	lscommon.UserAgent
 }
@@ -161,6 +162,11 @@ func (s *CreateLoadBalancerRequest) WithAutoScalable(pautoScalable bool) ICreate
 
 func (s *CreateLoadBalancerRequest) WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest {
 	s.Type = ptype
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithPoc(isPoc bool) ICreateLoadBalancerRequest {
+	s.IsPoc = isPoc
 	return s
 }
 
