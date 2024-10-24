@@ -16,6 +16,7 @@ const (
 	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
 	patternServerExceedCpuQuota            = "exceeded vcpu quota. current used"
 	patternServerImageNotSupported         = "doesn't support image with id"
+	patternImageNotSupport                 = "don't support image"
 	patternServerCanNotAttachFloatingIp    = "the server only allows attaching 1 floating ip"
 )
 
@@ -118,7 +119,9 @@ func WithErrorServerImageNotSupported(perrResp IErrorRespone) func(sdkError IErr
 		}
 
 		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerImageNotSupported) {
+		lowerErrMsg := lstr.ToLower(lstr.TrimSpace(errMsg))
+		if lstr.Contains(lowerErrMsg, patternServerImageNotSupported) ||
+			lstr.Contains(lowerErrMsg, patternImageNotSupport) {
 			sdkError.WithErrorCode(EcVServerServerImageNotSupported).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
