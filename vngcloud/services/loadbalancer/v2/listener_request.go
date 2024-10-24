@@ -58,7 +58,7 @@ type CreateListenerRequest struct {
 	TimeoutClient               int              `json:"timeoutClient"`
 	TimeoutConnection           int              `json:"timeoutConnection"`
 	TimeoutMember               int              `json:"timeoutMember"`
-	Headers                     []string         `json:"headers"`
+	Headers                     *[]string        `json:"headers"`
 	DefaultPoolId               *string          `json:"defaultPoolId"`
 	CertificateAuthorities      *[]string        `json:"certificateAuthorities"`
 	ClientCertificate           *string          `json:"clientCertificate"`
@@ -74,7 +74,7 @@ type UpdateListenerRequest struct {
 	TimeoutClient               int       `json:"timeoutClient"`
 	TimeoutConnection           int       `json:"timeoutConnection"`
 	TimeoutMember               int       `json:"timeoutMember"`
-	Headers                     []string  `json:"headers"`
+	Headers                     *[]string `json:"headers"`
 	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
 	ClientCertificate           *string   `json:"clientCertificate"`
 	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
@@ -172,6 +172,7 @@ func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 		"certificateAuthorities":      s.CertificateAuthorities,
 		"clientCertificate":           s.ClientCertificate,
 		"defaultCertificateAuthority": s.DefaultCertificateAuthority,
+		"headers":                     s.Headers,
 	}
 }
 
@@ -213,7 +214,7 @@ func (s *UpdateListenerRequest) WithHeaders(pheaders ...string) IUpdateListenerR
 		return s
 	}
 
-	s.Headers = pheaders
+	s.Headers = &pheaders
 	return s
 }
 
