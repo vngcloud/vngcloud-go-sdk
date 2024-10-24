@@ -23,33 +23,6 @@ type (
 	LoadBalancerType   string
 )
 
-func NewCreateLoadBalancerRequest(pname string) ICreateLoadBalancerRequest {
-	return &CreateLoadBalancerRequest{
-		Name:   pname,
-		Scheme: InternetLoadBalancerScheme,
-		Type:   LoadBalancerTypeLayer4,
-	}
-}
-
-func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
-	opts := new(GetLoadBalancerByIdRequest)
-	opts.LoadBalancerId = plbId
-	return opts
-}
-
-func NewListLoadBalancersRequest(ppage, psize int) IListLoadBalancersRequest {
-	opts := new(ListLoadBalancersRequest)
-	opts.Page = ppage
-	opts.Size = psize
-	return opts
-}
-
-func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdRequest {
-	opts := new(DeleteLoadBalancerByIdRequest)
-	opts.LoadBalancerId = plbId
-	return opts
-}
-
 type CreateLoadBalancerRequest struct {
 	Name         string                 `json:"name"`
 	PackageID    string                 `json:"packageId"`
@@ -81,6 +54,20 @@ type ListLoadBalancersRequest struct {
 type DeleteLoadBalancerByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
+}
+
+func (S *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"name":         S.Name,
+		"packageId":    S.PackageID,
+		"scheme":       S.Scheme,
+		"autoScalable": S.AutoScalable,
+		"subnetId":     S.SubnetID,
+		"type":         S.Type,
+		"listener":     S.Listener.ToMap(),
+		"pool":         S.Pool.ToMap(),
+		"tags":         S.Tags,
+	}
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {

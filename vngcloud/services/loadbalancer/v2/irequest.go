@@ -14,6 +14,7 @@ type ICreateLoadBalancerRequest interface {
 	WithSubnetId(psubnetId string) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IGetLoadBalancerByIdRequest interface {
