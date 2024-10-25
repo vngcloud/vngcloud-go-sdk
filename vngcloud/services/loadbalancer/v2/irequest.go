@@ -173,3 +173,10 @@ type IGetListenerByIdRequest interface {
 	GetListenerId() string
 	ParseUserAgent() string
 }
+
+type IResizeLoadBalancerByIdRequest interface {
+	GetLoadBalancerId() string
+	ToMap() map[string]interface{}
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+}

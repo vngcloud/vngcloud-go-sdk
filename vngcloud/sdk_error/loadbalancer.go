@@ -22,6 +22,7 @@ const (
 	patternLoadBalancerExceedQuota         = "exceeded load_balancer quota. current used"
 	patternLoadBalancerIsDeleting          = `load balancer id [^.]+ is deleting`
 	patternLoadBalancerIsCreating          = `load balancer id [^.]+ is creating`
+	patternLoadBalancerResizeSamePackage   = "is the same as the current package"
 )
 
 var (
@@ -226,6 +227,21 @@ func WithErrorMemberMustIdentical(perrResp IErrorRespone) func(sdkError IError) 
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternMemberMustIdentical) {
 			sdkError.WithErrorCode(EcVLBMemberMustIdentical).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerResizeSamePackage(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerResizeSamePackage) {
+			sdkError.WithErrorCode(EcVLBLoadBalancerResizeSamePackage).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

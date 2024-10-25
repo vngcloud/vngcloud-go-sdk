@@ -160,3 +160,11 @@ func getListenerByIdUrl(psc lsclient.IServiceClient, popts IGetListenerByIdReque
 		"listeners",
 		popts.GetListenerId())
 }
+
+func resizeLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IResizeLoadBalancerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"resize")
+}

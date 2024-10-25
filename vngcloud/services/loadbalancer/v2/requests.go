@@ -26,3 +26,10 @@ func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdReque
 	opts.LoadBalancerId = plbId
 	return opts
 }
+
+func NewResizeLoadBalancerByIdRequest(plbId, ppackageId string) IResizeLoadBalancerByIdRequest {
+	opts := new(ResizeLoadBalancerByIdRequest)
+	opts.LoadBalancerId = plbId
+	opts.PackageId = ppackageId
+	return opts
+}

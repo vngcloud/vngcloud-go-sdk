@@ -56,17 +56,24 @@ type DeleteLoadBalancerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 }
 
-func (S *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
+type ResizeLoadBalancerByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+
+	PackageId string `json:"packageId"`
+}
+
+func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"name":         S.Name,
-		"packageId":    S.PackageID,
-		"scheme":       S.Scheme,
-		"autoScalable": S.AutoScalable,
-		"subnetId":     S.SubnetID,
-		"type":         S.Type,
-		"listener":     S.Listener.ToMap(),
-		"pool":         S.Pool.ToMap(),
-		"tags":         S.Tags,
+		"name":         s.Name,
+		"packageId":    s.PackageID,
+		"scheme":       s.Scheme,
+		"autoScalable": s.AutoScalable,
+		"subnetId":     s.SubnetID,
+		"type":         s.Type,
+		"listener":     s.Listener.ToMap(),
+		"pool":         s.Pool.ToMap(),
+		"tags":         s.Tags,
 	}
 }
 
@@ -192,4 +199,15 @@ func (s *ListLoadBalancersRequest) ToListQuery() (string, error) {
 
 func (s *ListLoadBalancersRequest) GetDefaultQuery() string {
 	return lfmt.Sprintf("name=&page=%d&size=%d", defaultPageListLoadBalancer, defaultSizeListLoadBalancer)
+}
+
+func (s *ResizeLoadBalancerByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"packageId":      s.PackageId,
+		"loadBalancerId": s.LoadBalancerId,
+	}
+}
+
+func (s *ResizeLoadBalancerByIdRequest) ToRequestBody() interface{} {
+	return s
 }

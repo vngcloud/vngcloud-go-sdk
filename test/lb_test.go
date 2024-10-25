@@ -556,12 +556,23 @@ func TestGetPoolByIdSuccess(y *ltesting.T) {
 	y.Log("PASS")
 }
 
-
 func TestGetListenerByIdSuccess(t *ltesting.T) {
-    vngcloud := validSdkConfig()
-    opt := lslbv2.NewGetListenerByIdRequest("lb-12fd81bd-94a0-4741-b259-abfe1541bd6e", "lis-7a84c93f-f37b-46ea-99b2-7b49c66e2231")
-    listener, _ := vngcloud.VLBGateway().V2().LoadBalancerService().GetListenerById(opt)
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewGetListenerByIdRequest("lb-12fd81bd-94a0-4741-b259-abfe1541bd6e", "lis-7a84c93f-f37b-46ea-99b2-7b49c66e2231")
+	listener, _ := vngcloud.VLBGateway().V2().LoadBalancerService().GetListenerById(opt)
 
-    t.Log("Result: ", listener)
-    t.Log("PASS")
+	t.Log("Result: ", listener)
+	t.Log("PASS")
+}
+
+func TestResizeLoadBalancer(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewResizeLoadBalancerByIdRequest("lb-8d11bcf3-d763-4716-adbc-74ba53fdf77f", "lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa")
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ResizeLoadBalancerById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
 }

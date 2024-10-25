@@ -339,3 +339,25 @@ func (s *LoadBalancerServiceV2) GetListenerById(popts IGetListenerByIdRequest) (
 
 	return resp.ToEntityListener(), nil
 }
+
+func (s *LoadBalancerServiceV2) ResizeLoadBalancerById(popts IResizeLoadBalancerByIdRequest) lserr.IError {
+	url := resizeLoadBalancerByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorLoadBalancerResizeSamePackage(errResp)).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return nil
+}
