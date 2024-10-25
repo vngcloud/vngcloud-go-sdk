@@ -133,6 +133,7 @@ const (
 	EcVLBLoadBalancerIsDeleting          = ErrorCode("VngCloudVLBLoadBalancerIsDeleting")
 	EcVLBLoadBalancerIsCreating          = ErrorCode("VngCloudVLBLoadBalancerIsCreating")
 	EcVLBLoadBalancerResizeSamePackage   = ErrorCode("VngCloudVLBLoadBalancerResizeSamePackage")
+	EcVLBLoadBalancerPackageNotFound     = ErrorCode("VngCloudVLBLoadBalancerPackageNotFound")
 )
 
 // Endpoint

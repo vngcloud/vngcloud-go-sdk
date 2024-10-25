@@ -23,6 +23,7 @@ const (
 	patternLoadBalancerIsDeleting          = `load balancer id [^.]+ is deleting`
 	patternLoadBalancerIsCreating          = `load balancer id [^.]+ is creating`
 	patternLoadBalancerResizeSamePackage   = "is the same as the current package"
+	patternLoadbalancerPackageNotFound     = "invalid package id"
 )
 
 var (
@@ -242,6 +243,21 @@ func WithErrorLoadBalancerResizeSamePackage(perrResp IErrorRespone) func(sdkErro
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerResizeSamePackage) {
 			sdkError.WithErrorCode(EcVLBLoadBalancerResizeSamePackage).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerPackageNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadbalancerPackageNotFound) {
+			sdkError.WithErrorCode(EcVLBLoadBalancerPackageNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

@@ -567,7 +567,7 @@ func TestGetListenerByIdSuccess(t *ltesting.T) {
 
 func TestResizeLoadBalancer(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewResizeLoadBalancerByIdRequest("lb-8d11bcf3-d763-4716-adbc-74ba53fdf77f", "lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa")
+	opt := lslbv2.NewResizeLoadBalancerByIdRequest("lb-ab3c3e19-16ea-40b9-bd83-ad700a690153", "lbp-96b6b073-aadb-4b58-9d5f-c16ad69d36aa")
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ResizeLoadBalancerById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)

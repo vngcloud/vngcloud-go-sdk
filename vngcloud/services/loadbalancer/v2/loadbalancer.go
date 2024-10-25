@@ -351,6 +351,7 @@ func (s *LoadBalancerServiceV2) ResizeLoadBalancerById(popts IResizeLoadBalancer
 
 	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerPackageNotFound(errResp),
 			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
