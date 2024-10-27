@@ -64,7 +64,7 @@ type ResizeLoadBalancerByIdRequest struct {
 }
 
 func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
-	return map[string]interface{}{
+	err := map[string]interface{}{
 		"name":         s.Name,
 		"packageId":    s.PackageID,
 		"scheme":       s.Scheme,
@@ -75,6 +75,16 @@ func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
 		"pool":         s.Pool.ToMap(),
 		"tags":         s.Tags,
 	}
+
+	if s.Listener != nil {
+		err["listener"] = s.Listener.ToMap()
+	}
+
+	if s.Pool != nil {
+		err["pool"] = s.Pool.ToMap()
+	}
+
+	return err
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
