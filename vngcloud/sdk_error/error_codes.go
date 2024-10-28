@@ -132,6 +132,7 @@ const (
 	EcVLBLoadBalancerExceedQuota         = ErrorCode("VngCloudVLBLoadBalancerExceedQuota")
 	EcVLBLoadBalancerIsDeleting          = ErrorCode("VngCloudVLBLoadBalancerIsDeleting")
 	EcVLBLoadBalancerIsCreating          = ErrorCode("VngCloudVLBLoadBalancerIsCreating")
+	EcVLBLoadBalancerIsUpdating          = ErrorCode("VngCloudVLBLoadBalancerIsUpdating")
 	EcVLBLoadBalancerResizeSamePackage   = ErrorCode("VngCloudVLBLoadBalancerResizeSamePackage")
 	EcVLBLoadBalancerPackageNotFound     = ErrorCode("VngCloudVLBLoadBalancerPackageNotFound")
 )
