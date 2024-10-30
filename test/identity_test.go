@@ -237,6 +237,7 @@ func TestAuthenPass(t *ltesting.T) {
 		t.Error("This testcase MUST pass")
 	}
 
+	fmt.Println("RESULT 2:", token.Token)
 	t.Log("RESULT:", token)
 	t.Log("PASS")
 }

@@ -71,8 +71,6 @@ func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
 		"autoScalable": s.AutoScalable,
 		"subnetId":     s.SubnetID,
 		"type":         s.Type,
-		"listener":     s.Listener.ToMap(),
-		"pool":         s.Pool.ToMap(),
 		"tags":         s.Tags,
 	}
 
