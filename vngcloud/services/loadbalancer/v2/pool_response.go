@@ -2,6 +2,49 @@ package v2
 
 import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 
+type GetPoolHealthMonitorByIdResponse struct {
+	Data struct {
+		UUID                string  `json:"uuid"`
+		Timeout             int     `json:"timeout"`
+		CreatedAt           string  `json:"createdAt"`
+		UpdatedAt           string  `json:"updatedAt"`
+		DomainName          *string `json:"domainName"`
+		HttpVersion         *string `json:"httpVersion"`
+		HealthCheckProtocol string  `json:"healthCheckProtocol"`
+		Interval            int     `json:"interval"`
+		HealthyThreshold    int     `json:"healthyThreshold"`
+		UnhealthyThreshold  int     `json:"unhealthyThreshold"`
+		HealthCheckMethod   *string `json:"healthCheckMethod"`
+		HealthCheckPath     *string `json:"healthCheckPath"`
+		SuccessCode         *string `json:"successCode"`
+		ProgressStatus      string  `json:"progressStatus"`
+		DisplayStatus       string  `json:"displayStatus"`
+	} `json:"data"`
+}
+
+func (s *GetPoolHealthMonitorByIdResponse) ToEntityHealthMonitor() *lsentity.HealthMonitor {
+	if s == nil {
+		return nil
+	}
+
+	return &lsentity.HealthMonitor{
+		Timeout:             s.Data.Timeout,
+		CreatedAt:           s.Data.CreatedAt,
+		UpdatedAt:           s.Data.UpdatedAt,
+		DomainName:          s.Data.DomainName,
+		HttpVersion:         s.Data.HttpVersion,
+		HealthCheckProtocol: s.Data.HealthCheckProtocol,
+		Interval:            s.Data.Interval,
+		HealthyThreshold:    s.Data.HealthyThreshold,
+		UnhealthyThreshold:  s.Data.UnhealthyThreshold,
+		HealthCheckMethod:   s.Data.HealthCheckMethod,
+		HealthCheckPath:     s.Data.HealthCheckPath,
+		SuccessCode:         s.Data.SuccessCode,
+		ProgressStatus:      s.Data.ProgressStatus,
+		DisplayStatus:       s.Data.DisplayStatus,
+	}
+}
+
 type CreatePoolResponse struct {
 	UUID string `json:"uuid"`
 }

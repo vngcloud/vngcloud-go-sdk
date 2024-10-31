@@ -30,6 +30,7 @@ type INetworkServiceV2 interface {
 
 	GetSecgroupById(popts lsnetworkSvcV2.IGetSecgroupByIdRequest) (*lsentity.Secgroup, lserr.IError)
 	CreateSecgroup(popts lsnetworkSvcV2.ICreateSecgroupRequest) (*lsentity.Secgroup, lserr.IError)
+	ListSecgroup(popts lsnetworkSvcV2.IListSecgroupRequest) (*lsentity.ListSecgroups, lserr.IError)
 	DeleteSecgroupById(popts lsnetworkSvcV2.IDeleteSecgroupByIdRequest) lserr.IError
 
 	// The group of SecgroupRule APIs

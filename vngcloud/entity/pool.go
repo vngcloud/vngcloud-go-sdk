@@ -1,5 +1,7 @@
 package entity
 
+import "encoding/json"
+
 type Pool struct {
 	UUID              string
 	Name              string
@@ -46,6 +48,15 @@ type HealthMonitor struct {
 	SuccessCode         *string `json:"successCode"`
 	ProgressStatus      string  `json:"progressStatus"`
 	DisplayStatus       string  `json:"displayStatus"`
+}
+
+func (s *HealthMonitor) String() string {
+	// parse to string and return
+	out, err := json.Marshal(s)
+	if err != nil {
+		return "Error parsing to string"
+	}
+	return string(out)
 }
 
 type ListPools struct {

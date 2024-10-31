@@ -9,8 +9,11 @@ import (
 
 type ILoadBalancerServiceV2 interface {
 	CreateLoadBalancer(popts lslbSvcV2.ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError)
+	ResizeLoadBalancer(popts lslbSvcV2.IResizeLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError)
+	ListLoadBalancerPackages(popts lslbSvcV2.IListLoadBalancerPackagesRequest) (*lsentity.ListLoadBalancerPackages, lserr.IError)
 	GetLoadBalancerById(popts lslbSvcV2.IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError)
 	ListLoadBalancers(popts lslbSvcV2.IListLoadBalancersRequest) (*lsentity.ListLoadBalancers, lserr.IError)
+	GetPoolHealthMonitorById(popts lslbSvcV2.IGetPoolHealthMonitorByIdRequest) (*lsentity.HealthMonitor, lserr.IError)
 	CreatePool(popts lslbSvcV2.ICreatePoolRequest) (*lsentity.Pool, lserr.IError)
 	UpdatePool(popts lslbSvcV2.IUpdatePoolRequest) lserr.IError
 	CreateListener(popts lslbSvcV2.ICreateListenerRequest) (*lsentity.Listener, lserr.IError)
@@ -25,6 +28,12 @@ type ILoadBalancerServiceV2 interface {
 	ListTags(popts lslbSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 	CreateTags(popts lslbSvcV2.ICreateTagsRequest) lserr.IError
 	UpdateTags(popts lslbSvcV2.IUpdateTagsRequest) lserr.IError
+
+	ListPolicies(popts lslbSvcV2.IListPoliciesRequest) (*lsentity.ListPolicies, lserr.IError)
+	CreatePolicy(popts lslbSvcV2.ICreatePolicyRequest) (*lsentity.Policy, lserr.IError)
+	GetPolicyById(popts lslbSvcV2.IGetPolicyByIdRequest) (*lsentity.Policy, lserr.IError)
+	UpdatePolicy(popts lslbSvcV2.IUpdatePolicyRequest) lserr.IError
+	DeletePolicyById(popts lslbSvcV2.IDeletePolicyByIdRequest) lserr.IError
 	GetPoolById(popts lslbSvcV2.IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError)
 	GetListenerById(popts lslbSvcV2.IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError)
 	ResizeLoadBalancerById(popts lslbSvcV2.IResizeLoadBalancerByIdRequest) lserr.IError

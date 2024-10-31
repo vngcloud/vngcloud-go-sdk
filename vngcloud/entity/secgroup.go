@@ -6,3 +6,7 @@ type Secgroup struct {
 	Description string
 	Status      string
 }
+
+type ListSecgroups struct {
+	Items []*Secgroup
+}

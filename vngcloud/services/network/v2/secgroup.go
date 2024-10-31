@@ -49,6 +49,22 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 	return resp.ToEntitySecgroup(), nil
 }
 
+func (s *NetworkServiceV2) ListSecgroup(popts IListSecgroupRequest) (*lsentity.ListSecgroups, lserr.IError) {
+	url := listSecgroupUrl(s.VserverClient, popts)
+	resp := new(ListSecgroupResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToListEntitySecgroups(), nil
+}
+
 func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) lserr.IError {
 	url := deleteSecgroupByIdUrl(s.VserverClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)

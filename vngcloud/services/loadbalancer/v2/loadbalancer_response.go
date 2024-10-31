@@ -9,6 +9,31 @@ type CreateLoadBalancerResponse struct {
 	UUID string `json:"uuid"`
 }
 
+type ResizeLoadBalancerResponse struct {
+	UUID string `json:"uuid"`
+}
+
+func (s *ResizeLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalancer {
+	return &lsentity.LoadBalancer{
+		UUID: s.UUID,
+	}
+}
+
+type ListLoadBalancerPackagesResponse struct {
+	ListData []LoadBalancerPackageResponse `json:"listData"`
+}
+
+type LoadBalancerPackageResponse struct {
+	UUID             string `json:"uuid"`
+	Name             string `json:"name"`
+	Type             string `json:"type"`
+	ConnectionNumber int    `json:"connectionNumber"`
+	DataTransfer     int    `json:"dataTransfer"`
+	Mode             string `json:"mode"`
+	LbType           string `json:"lbType"`
+	DisplayLbType    string `json:"displayLbType"`
+}
+
 type GetLoadBalancerByIdResponse struct {
 	Data LoadBalancer `json:"data"`
 }
@@ -51,6 +76,33 @@ func (s *CreateLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalanc
 	return &lsentity.LoadBalancer{
 		UUID: s.UUID,
 	}
+}
+
+func (s *ListLoadBalancerPackagesResponse) ToEntityListLoadBalancerPackages() *lsentity.ListLoadBalancerPackages {
+	if s == nil || s.ListData == nil || len(s.ListData) < 1 {
+		return &lsentity.ListLoadBalancerPackages{
+			Items: make([]*lsentity.LoadBalancerPackage, 0),
+		}
+	}
+
+	result := &lsentity.ListLoadBalancerPackages{
+		Items: make([]*lsentity.LoadBalancerPackage, 0),
+	}
+
+	for _, item := range s.ListData {
+		result.Items = append(result.Items, &lsentity.LoadBalancerPackage{
+			UUID:             item.UUID,
+			Name:             item.Name,
+			Type:             item.Type,
+			ConnectionNumber: item.ConnectionNumber,
+			DataTransfer:     item.DataTransfer,
+			Mode:             item.Mode,
+			LbType:           item.LbType,
+			DisplayLbType:    item.DisplayLbType,
+		})
+	}
+
+	return result
 }
 
 func (s *GetLoadBalancerByIdResponse) ToEntityLoadBalancer() *lsentity.LoadBalancer {

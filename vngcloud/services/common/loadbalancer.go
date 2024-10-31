@@ -23,3 +23,11 @@ type PoolCommon struct {
 func (s *PoolCommon) GetPoolId() string {
 	return s.PoolId
 }
+
+type PolicyCommon struct {
+	PolicyId string
+}
+
+func (s *PolicyCommon) GetPolicyId() string {
+	return s.PolicyId
+}

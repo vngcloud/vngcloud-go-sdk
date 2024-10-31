@@ -8,6 +8,20 @@ func createLoadBalancerUrl(psc lsclient.IServiceClient) string {
 		"loadBalancers")
 }
 
+func resizeLoadBalancerUrl(psc lsclient.IServiceClient, popts IResizeLoadBalancerRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"resize")
+}
+
+func listLoadBalancerPackagesUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers", "packages")
+}
+
 func getLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetLoadBalancerByIdRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
@@ -22,6 +36,16 @@ func listLoadBalancersUrl(psc lsclient.IServiceClient, popts IListLoadBalancersR
 	}
 
 	return psc.ServiceURL(psc.GetProjectId(), "loadBalancers") + query
+}
+
+func getPoolHealthMonitorByIdUrl(psc lsclient.IServiceClient, popts IGetPoolHealthMonitorByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId(),
+		"healthMonitor")
 }
 
 func createPoolUrl(psc lsclient.IServiceClient, popts ICreatePoolRequest) string {
@@ -141,6 +165,66 @@ func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string
 		"tag",
 		"resource",
 		popts.GetLoadBalancerId())
+}
+
+// Policy
+
+func listPoliciesUrl(psc lsclient.IServiceClient, popts IListPoliciesRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+	)
+}
+
+func createPolicyUrl(psc lsclient.IServiceClient, popts ICreatePolicyRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+	)
+}
+
+func getPolicyByIdUrl(psc lsclient.IServiceClient, popts IGetPolicyByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
+}
+
+func updatePolicyUrl(psc lsclient.IServiceClient, popts IUpdatePolicyRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
+}
+
+func deletePolicyByIdUrl(psc lsclient.IServiceClient, popts IDeletePolicyByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"l7policies",
+		popts.GetPolicyId(),
+	)
 }
 
 func getPoolByIdUrl(psc lsclient.IServiceClient, popts IGetPoolByIdRequest) string {

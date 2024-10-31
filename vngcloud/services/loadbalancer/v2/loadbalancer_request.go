@@ -23,6 +23,48 @@ type (
 	LoadBalancerType   string
 )
 
+func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLoadBalancerRequest {
+	return &CreateLoadBalancerRequest{
+		Name:      pname,
+		PackageID: ppackageId,
+		Scheme:    InternetLoadBalancerScheme,
+		SubnetID:  psubnetId,
+		Type:      LoadBalancerTypeLayer4,
+	}
+}
+
+func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRequest {
+	return &ResizeLoadBalancerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		PackageID: packageID,
+	}
+}
+
+func NewListLoadBalancerPackagesRequest() IListLoadBalancerPackagesRequest {
+	return new(ListLoadBalancerPackagesRequest)
+}
+
+func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
+	opts := new(GetLoadBalancerByIdRequest)
+	opts.LoadBalancerId = plbId
+	return opts
+}
+
+func NewListLoadBalancersRequest(ppage, psize int) IListLoadBalancersRequest {
+	opts := new(ListLoadBalancersRequest)
+	opts.Page = ppage
+	opts.Size = psize
+	return opts
+}
+
+func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdRequest {
+	opts := new(DeleteLoadBalancerByIdRequest)
+	opts.LoadBalancerId = plbId
+	return opts
+}
+
 type CreateLoadBalancerRequest struct {
 	Name         string                 `json:"name"`
 	PackageID    string                 `json:"packageId"`
@@ -33,7 +75,18 @@ type CreateLoadBalancerRequest struct {
 	Listener     ICreateListenerRequest `json:"listener"`
 	Pool         ICreatePoolRequest     `json:"pool"`
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
+	IsPoc        bool                   `json:"isPoc"`
 
+	lscommon.UserAgent
+}
+
+type ResizeLoadBalancerRequest struct {
+	PackageID string `json:"packageId"`
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
+
+type ListLoadBalancerPackagesRequest struct {
 	lscommon.UserAgent
 }
 
@@ -150,6 +203,34 @@ func (s *CreateLoadBalancerRequest) WithSubnetId(psubnetId string) ICreateLoadBa
 func (s *CreateLoadBalancerRequest) WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest {
 	s.Type = ptype
 	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithPoc(isPoc bool) ICreateLoadBalancerRequest {
+	s.IsPoc = isPoc
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) AddUserAgent(pagent ...string) IResizeLoadBalancerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ResizeLoadBalancerRequest) WithPackageId(ppackageId string) IResizeLoadBalancerRequest {
+	s.PackageID = ppackageId
+	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{}
 }
 
 func (s *GetLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest {

@@ -27,6 +27,43 @@ func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequ
 	return resp.ToEntityLoadBalancer(), nil
 }
 
+func (s *LoadBalancerServiceV2) ResizeLoadBalancer(popts IResizeLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError) {
+	url := resizeLoadBalancerUrl(s.VLBClient, popts)
+	resp := new(ResizeLoadBalancerResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp))
+	}
+
+	return resp.ToEntityLoadBalancer(), nil
+}
+
+func (s *LoadBalancerServiceV2) ListLoadBalancerPackages(popts IListLoadBalancerPackagesRequest) (*lsentity.ListLoadBalancerPackages, lserr.IError) {
+	url := listLoadBalancerPackagesUrl(s.VLBClient)
+	resp := new(ListLoadBalancerPackagesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityListLoadBalancerPackages(), nil
+}
+
 func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRequest) (*lsentity.LoadBalancer, lserr.IError) {
 	url := getLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetLoadBalancerByIdResponse)
@@ -63,6 +100,25 @@ func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersReques
 	}
 
 	return resp.ToEntityListLoadBalancers(), nil
+}
+
+func (s *LoadBalancerServiceV2) GetPoolHealthMonitorById(popts IGetPoolHealthMonitorByIdRequest) (*lsentity.HealthMonitor, lserr.IError) {
+	url := getPoolHealthMonitorByIdUrl(s.VLBClient, popts)
+	resp := new(GetPoolHealthMonitorByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorPoolNotFound(errResp))
+	}
+
+	return resp.ToEntityHealthMonitor(), nil
 }
 
 func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.Pool, lserr.IError) {
@@ -358,6 +414,103 @@ func (s *LoadBalancerServiceV2) ResizeLoadBalancerById(popts IResizeLoadBalancer
 			lserr.WithErrorLoadBalancerResizeSamePackage(errResp)).
 			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return nil
+}
+
+// policy
+
+func (s *LoadBalancerServiceV2) ListPolicies(popts IListPoliciesRequest) (*lsentity.ListPolicies, lserr.IError) {
+	url := listPoliciesUrl(s.VLBClient, popts)
+	resp := new(ListPoliciesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityListPolicies(), nil
+}
+
+func (s *LoadBalancerServiceV2) CreatePolicy(popts ICreatePolicyRequest) (*lsentity.Policy, lserr.IError) {
+	url := createPolicyUrl(s.VLBClient, popts)
+	resp := new(CreatePolicyResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+		).WithParameters(popts.ToMap())
+	}
+
+	return resp.ToEntityPolicy(), nil
+}
+
+func (s *LoadBalancerServiceV2) GetPolicyById(popts IGetPolicyByIdRequest) (*lsentity.Policy, lserr.IError) {
+	url := getPolicyByIdUrl(s.VLBClient, popts)
+	resp := new(GetPolicyResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+		).WithKVparameters("policyId", popts.GetPolicyId())
+	}
+
+	return resp.ToEntityPolicy(), nil
+}
+
+func (s *LoadBalancerServiceV2) UpdatePolicy(popts IUpdatePolicyRequest) lserr.IError {
+	url := updatePolicyUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+		)
+	}
+
+	return nil
+}
+
+func (s *LoadBalancerServiceV2) DeletePolicyById(popts IDeletePolicyByIdRequest) lserr.IError {
+	url := deletePolicyByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+		)
 	}
 
 	return nil
