@@ -14,6 +14,13 @@ type INetworkServiceV1 interface {
 	ListEndpoints(popts lsnetworkSvcV1.IListEndpointsRequest) (*lsentity.ListEndpoints, lserr.IError)
 }
 
+type INetworkServiceInternalV1 interface {
+	ListTagsByEndpointId(popts lsnetworkSvcV1.IListTagsByEndpointIdRequest) (*lsentity.ListTags, lserr.IError)
+	CreateTagsWithEndpointId(popts lsnetworkSvcV1.ICreateTagsWithEndpointIdRequest) lserr.IError
+	DeleteTagOfEndpoint(popts lsnetworkSvcV1.IDeleteTagOfEndpointRequest) lserr.IError
+	UpdateTagValueOfEndpoint(popts lsnetworkSvcV1.IUpdateTagValueOfEndpointRequest) lserr.IError
+}
+
 type INetworkServiceV2 interface {
 	// The group of Network APIs
 

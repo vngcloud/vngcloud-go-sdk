@@ -20,12 +20,20 @@ const (
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
 	patternLoadBalancerExceedQuota         = "exceeded load_balancer quota. current used"
+	patternLoadBalancerIsDeleting          = `load balancer id [^.]+ is deleting`
+	patternLoadBalancerIsCreating          = `load balancer id [^.]+ is creating`
+	patternLoadBalancerResizeSamePackage   = "is the same as the current package"
+	patternLoadbalancerPackageNotFound     = "invalid package id"
+	patternLoadBalancerIsUpdating          = `load balancer id [^.]+ is updating`
 )
 
 var (
-	regexErrorLoadBalancerNotReady = lregexp.MustCompile(patternLoadBalancerNotReady)
-	regexErrorListenerNotReady     = lregexp.MustCompile(patternListenerNotReady)
-	regexErrorPoolIsUpdating       = lregexp.MustCompile(patternPoolIsUpdating)
+	regexErrorLoadBalancerNotReady   = lregexp.MustCompile(patternLoadBalancerNotReady)
+	regexErrorListenerNotReady       = lregexp.MustCompile(patternListenerNotReady)
+	regexErrorPoolIsUpdating         = lregexp.MustCompile(patternPoolIsUpdating)
+	regexErrorLoadBalancerIsDeleting = lregexp.MustCompile(patternLoadBalancerIsDeleting)
+	regexErrorLoadBalancerIsCreating = lregexp.MustCompile(patternLoadBalancerIsCreating)
+	regexErrorLoadBalancerIsUpdating = lregexp.MustCompile(patternLoadBalancerIsUpdating)
 )
 
 func WithErrorLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -160,8 +168,54 @@ func WithErrorLoadBalancerNotReady(perrResp IErrorRespone) func(sdkError IError)
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
 		if regexErrorLoadBalancerNotReady.FindString(errMsg) != "" ||
 			regexErrorListenerNotReady.FindString(errMsg) != "" ||
-			regexErrorPoolIsUpdating.FindString(errMsg) != "" {
+			regexErrorPoolIsUpdating.FindString(errMsg) != "" ||
+			regexErrorLoadBalancerIsUpdating.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBLoadBalancerNotReady).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerIsDeleting(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorLoadBalancerIsDeleting.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVLBLoadBalancerIsDeleting).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerIsCreating(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorLoadBalancerIsCreating.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVLBLoadBalancerIsCreating).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerIsUpdating(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorLoadBalancerIsUpdating.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVLBLoadBalancerIsUpdating).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
@@ -192,6 +246,36 @@ func WithErrorMemberMustIdentical(perrResp IErrorRespone) func(sdkError IError) 
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternMemberMustIdentical) {
 			sdkError.WithErrorCode(EcVLBMemberMustIdentical).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerResizeSamePackage(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadBalancerResizeSamePackage) {
+			sdkError.WithErrorCode(EcVLBLoadBalancerResizeSamePackage).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorLoadBalancerPackageNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternLoadbalancerPackageNotFound) {
+			sdkError.WithErrorCode(EcVLBLoadBalancerPackageNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

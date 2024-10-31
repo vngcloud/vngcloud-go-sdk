@@ -117,6 +117,14 @@ func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberReq
 	}
 }
 
+func NewGetPoolByIdRequest(plbId, ppoolId string) IGetPoolByIdRequest {
+	opts := new(GetPoolByIdRequest)
+	opts.LoadBalancerId = plbId
+	opts.PoolId = ppoolId
+
+	return opts
+}
+
 type (
 	PoolAlgorithm          string
 	PoolProtocol           string
@@ -162,6 +170,12 @@ type ListPoolMembersRequest struct {
 }
 
 type DeletePoolByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
+}
+
+type GetPoolByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon

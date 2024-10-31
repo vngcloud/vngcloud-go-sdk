@@ -19,7 +19,9 @@ func (s *LoadBalancerServiceV2) CreateLoadBalancer(popts ICreateLoadBalancerRequ
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerExceedQuota(errResp))
+			lserr.WithErrorLoadBalancerExceedQuota(errResp)).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityLoadBalancer(), nil
@@ -75,7 +77,8 @@ func (s *LoadBalancerServiceV2) GetLoadBalancerById(popts IGetLoadBalancerByIdRe
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp)).
-			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId())
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityLoadBalancer(), nil
@@ -92,7 +95,8 @@ func (s *LoadBalancerServiceV2) ListLoadBalancers(popts IListLoadBalancersReques
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityListLoadBalancers(), nil
@@ -134,7 +138,8 @@ func (s *LoadBalancerServiceV2) CreatePool(popts ICreatePoolRequest) (*lsentity.
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp)).
-			WithParameters(popts.ToMap())
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityPool(), nil
@@ -153,7 +158,8 @@ func (s *LoadBalancerServiceV2) UpdatePool(popts IUpdatePoolRequest) lserr.IErro
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
-			lserr.WithErrorListenerNotFound(errResp))
+			lserr.WithErrorListenerNotFound(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 	return nil
 }
@@ -176,7 +182,8 @@ func (s *LoadBalancerServiceV2) CreateListener(popts ICreateListenerRequest) (*l
 			lserr.WithErrorListenerDuplicateName(errResp),
 			lserr.WithErrorPoolNotFound(errResp),
 			lserr.WithErrorListenerDuplicateProtocolOrPort(errResp)).
-			WithParameters(popts.ToMap())
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityListener(), nil
@@ -195,7 +202,8 @@ func (s *LoadBalancerServiceV2) UpdateListener(popts IUpdateListenerRequest) lse
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
-			lserr.WithErrorListenerNotFound(errResp))
+			lserr.WithErrorListenerNotFound(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -214,7 +222,8 @@ func (s *LoadBalancerServiceV2) ListListenersByLoadBalancerId(popts IListListene
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp)).
-			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId())
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityListListeners(), nil
@@ -233,7 +242,8 @@ func (s *LoadBalancerServiceV2) ListPoolsByLoadBalancerId(popts IListPoolsByLoad
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp)).
-			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId())
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityListPools(), nil
@@ -253,7 +263,7 @@ func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersReques
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorPoolNotFound(errResp),
-			lserr.WithErrorMemberMustIdentical(errResp))
+			lserr.WithErrorMemberMustIdentical(errResp)).AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -272,7 +282,8 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorPoolNotFound(errResp))
+			lserr.WithErrorPoolNotFound(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityListMembers(), nil
@@ -290,7 +301,8 @@ func (s *LoadBalancerServiceV2) DeletePoolById(popts IDeletePoolByIdRequest) lse
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorPoolInUse(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
-			lserr.WithErrorPoolNotFound(errResp))
+			lserr.WithErrorPoolNotFound(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -308,7 +320,8 @@ func (s *LoadBalancerServiceV2) DeleteListenerById(popts IDeleteListenerByIdRequ
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorListenerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp))
+			lserr.WithErrorLoadBalancerNotReady(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -325,7 +338,82 @@ func (s *LoadBalancerServiceV2) DeleteLoadBalancerById(popts IDeleteLoadBalancer
 	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp))
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorLoadBalancerIsCreating(errResp),
+			lserr.WithErrorLoadBalancerIsDeleting(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"projectId", s.getProjectId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return nil
+}
+
+func (s *LoadBalancerServiceV2) GetPoolById(popts IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError) {
+	url := getPoolByIdUrl(s.VLBClient, popts)
+	resp := new(GetPoolByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorPoolNotFound(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"poolId", popts.GetPoolId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityPool(), nil
+}
+
+func (s *LoadBalancerServiceV2) GetListenerById(popts IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError) {
+	url := getListenerByIdUrl(s.VLBClient, popts)
+	resp := new(GetListenerByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp)).
+			WithKVparameters(
+				"loadBalancerId", popts.GetLoadBalancerId(),
+				"listenerId", popts.GetListenerId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityListener(), nil
+}
+
+func (s *LoadBalancerServiceV2) ResizeLoadBalancerById(popts IResizeLoadBalancerByIdRequest) lserr.IError {
+	url := resizeLoadBalancerByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerPackageNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+			lserr.WithErrorLoadBalancerResizeSamePackage(errResp)).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil

@@ -226,3 +226,29 @@ func deletePolicyByIdUrl(psc lsclient.IServiceClient, popts IDeletePolicyByIdReq
 		popts.GetPolicyId(),
 	)
 }
+
+func getPoolByIdUrl(psc lsclient.IServiceClient, popts IGetPoolByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"pools",
+		popts.GetPoolId())
+}
+
+func getListenerByIdUrl(psc lsclient.IServiceClient, popts IGetListenerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId())
+}
+
+func resizeLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IResizeLoadBalancerByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"resize")
+}

@@ -26,6 +26,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorVolumeExceedQuota(errResp),
+			lserr.WithErrorSecgroupNotFound(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithKVparameters("projectId", s.getProjectId())
@@ -66,7 +67,8 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerDeleteDeletingServer(errResp),
 			lserr.WithErrorServerDeleteBillingServer(errResp),
-			lserr.WithErrorServerDeleteCreatingServer(errResp)).
+			lserr.WithErrorServerDeleteCreatingServer(errResp),
+			lserr.WithErrorVolumeInProcess(errResp)).
 			WithKVparameters("projectId", s.getProjectId(),
 				"serverId", popts.GetServerId())
 	}

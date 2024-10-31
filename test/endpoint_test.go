@@ -1,10 +1,10 @@
 package test
 
 import (
-	lsnwv1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
+	"net/url"
 	ltesting "testing"
 
-	"net/url"
+	lsnwv1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v1"
 )
 
 func TestGetEndpointSuccess(t *ltesting.T) {
@@ -75,4 +75,61 @@ func TestEndpoint(t *ltesting.T) {
 	encode := url.QueryEscape(raw)
 
 	t.Log("Encode: ", encode)
+}
+
+func TestListEndpointTags(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewListTagsByEndpointIdRequest("54507", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "enp-4457d867-6e3d-4a75-8ceb-d11a957afbe8")
+
+	lb, sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().ListTagsByEndpointId(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb.Items[1])
+	t.Log("PASS")
+}
+
+func TestCreateEndpointTags(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewCreateTagsWithEndpointIdRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "enp-7e8e4476-feeb-414c-ac03-3501aae607d0").
+		AddTag("cuongdm3", "test")
+
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().CreateTagsWithEndpointId(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestDeleteTagByEndpointId(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewDeleteTagOfEndpointRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "tag-6ceb41e1-47e9-43f0-94dd-521a1af870ee")
+
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().DeleteTagOfEndpoint(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}
+
+func TestUpdateEndpointTag(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewUpdateTagValueOfEndpointRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "tag-c6d6e343-ed13-4bf1-bf2e-e63a1a5e0eab", "cuonghahahah")
+
+	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().UpdateTagValueOfEndpoint(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
 }

@@ -12,6 +12,17 @@ type Endpoint struct {
 	Status            string `json:"status,omitempty"`
 }
 
+type EndpointTag struct {
+	Uuid         string `json:"uuid,omitempty"`
+	TagKey       string `json:"tagKey,omitempty"`
+	TagValue     string `json:"tagValue,omitempty"`
+	ResourceUuid string `json:"resourceUuid,omitempty"`
+	ResourceType string `json:"resourceType,omitempty"`
+	SystemTag    bool   `json:"systemTag,omitempty"`
+	CreatedAt    string `json:"createdAt,omitempty"`
+	UpdatedAt    string `json:"updatedAt,omitempty"`
+}
+
 func (s *Endpoint) toEntityEndpoint() *lsentity.Endpoint {
 	return &lsentity.Endpoint{
 		Id:          s.Uuid,
@@ -64,5 +75,25 @@ func (s *ListEndpointsResponse) ToEntityListEndpoints() *lsentity.ListEndpoints 
 		PageSize:  s.Size,
 		TotalPage: s.TotalPage,
 		TotalItem: s.Total,
+	}
+}
+
+type ListTagsByEndpointIdResponse struct {
+	Data []EndpointTag `json:"data"`
+}
+
+func (s *ListTagsByEndpointIdResponse) ToEntityListTags() *lsentity.ListTags {
+	var items []*lsentity.Tag
+	for _, item := range s.Data {
+		items = append(items, &lsentity.Tag{
+			Key:        item.TagKey,
+			Value:      item.TagValue,
+			SystemTag:  item.SystemTag,
+			ResourceId: item.ResourceUuid,
+			TagId:      item.Uuid,
+		})
+	}
+	return &lsentity.ListTags{
+		Items: items,
 	}
 }

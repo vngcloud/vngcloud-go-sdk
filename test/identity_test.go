@@ -2,6 +2,7 @@ package test
 
 import (
 	lctx "context"
+	"fmt"
 	ltesting "testing"
 
 	lgodotenv "github.com/joho/godotenv"
@@ -38,6 +39,7 @@ func validSdkConfig() lsclient.IClient {
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
+		WithUserId(getValueOfEnv("VNGCLOUD_USER_ID")).
 		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
@@ -121,10 +123,12 @@ func validSuperSdkConfig() lsclient.IClient {
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
+		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
-		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03-api.vngcloud.vn/vnetwork-gateway")
 
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
@@ -138,6 +142,20 @@ func validUser11412SdkConfig() lsclient.IClient {
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func validUser11412() lsclient.IClient {
+	clientId, clientSecret := getValueOfEnv("USER_11412_CLIENT_ID"), getValueOfEnv("USER_11412_CLIENT_SECRET")
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId(getValueOfEnv("USER_11412_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03-api.vngcloud.vn/vnetwork-gateway")
 
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
@@ -219,9 +237,12 @@ func TestAuthenPass(t *ltesting.T) {
 		t.Error("This testcase MUST pass")
 	}
 
+	fmt.Println("RESULT 2:", token.Token)
 	t.Log("RESULT:", token)
 	t.Log("PASS")
 }
+
+
 
 func TestASuperuthenPass(t *ltesting.T) {
 	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")
@@ -233,7 +254,8 @@ func TestASuperuthenPass(t *ltesting.T) {
 		t.Error("This testcase MUST pass")
 	}
 
-	t.Log("RESULT:", token)
+	fmt.Println("RESULT 2:", token.Token)
+	t.Log("RESULT:", token.Token)
 	t.Log("PASS")
 }
 

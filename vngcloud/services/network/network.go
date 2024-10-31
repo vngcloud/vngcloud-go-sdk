@@ -17,3 +17,9 @@ func NewNetworkServiceV1(psvcClient lsclient.IServiceClient) INetworkServiceV1 {
 		VNetworkClient: psvcClient,
 	}
 }
+
+func NewNetworkServiceInternalV1(psvcClient lsclient.IServiceClient) INetworkServiceInternalV1 {
+	return &lsnetworkSvcV1.NetworkServiceInternalV1{
+		VNetworkClient: psvcClient,
+	}
+}

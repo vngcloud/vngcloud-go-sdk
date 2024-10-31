@@ -10,9 +10,12 @@ type ICreateLoadBalancerRequest interface {
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
 	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
 	WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest
+	WithPackageId(ppackageId string) ICreateLoadBalancerRequest
+	WithSubnetId(psubnetId string) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	WithPoc(poc bool) ICreateLoadBalancerRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IResizeLoadBalancerRequest interface {
@@ -27,6 +30,7 @@ type IResizeLoadBalancerRequest interface {
 type IListLoadBalancerPackagesRequest interface {
 	AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IGetLoadBalancerByIdRequest interface {
@@ -241,4 +245,23 @@ type IDeletePolicyByIdRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	GetPolicyId() string
+}
+
+type IGetPoolByIdRequest interface {
+	GetLoadBalancerId() string
+	GetPoolId() string
+	ParseUserAgent() string
+}
+
+type IGetListenerByIdRequest interface {
+	GetLoadBalancerId() string
+	GetListenerId() string
+	ParseUserAgent() string
+}
+
+type IResizeLoadBalancerByIdRequest interface {
+	GetLoadBalancerId() string
+	ToMap() map[string]interface{}
+	ParseUserAgent() string
+	ToRequestBody() interface{}
 }

@@ -10,6 +10,10 @@ type ListListenersByLoadBalancerIdResponse struct {
 	Data []Listener `json:"data"`
 }
 
+type GetListenerByIdResponse struct {
+	Data Listener `json:"data"`
+}
+
 type Listener struct {
 	UUID                            string   `json:"uuid"`
 	Name                            string   `json:"name"`
@@ -70,4 +74,8 @@ func (s *Listener) toEntityListener() *lsentity.Listener {
 		ClientCertificateAuthentication: s.ClientCertificateAuthentication,
 		ProgressStatus:                  s.ProgressStatus,
 	}
+}
+
+func (s *GetListenerByIdResponse) ToEntityListener() *lsentity.Listener {
+	return s.Data.toEntityListener()
 }

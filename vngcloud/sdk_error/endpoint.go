@@ -71,3 +71,17 @@ func WithErrorLockOnProcess(perrResp IErrorRespone) func(sdkError IError) {
 		}
 	}
 }
+
+func WithErrorEndpointTagNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "TAG_RESOURCE_WAS_DELETED" {
+			sdkError.WithErrorCode(EcVNetworkEndpointTagNotFound).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}

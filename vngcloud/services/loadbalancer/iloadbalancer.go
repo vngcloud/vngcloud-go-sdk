@@ -34,6 +34,9 @@ type ILoadBalancerServiceV2 interface {
 	GetPolicyById(popts lslbSvcV2.IGetPolicyByIdRequest) (*lsentity.Policy, lserr.IError)
 	UpdatePolicy(popts lslbSvcV2.IUpdatePolicyRequest) lserr.IError
 	DeletePolicyById(popts lslbSvcV2.IDeletePolicyByIdRequest) lserr.IError
+	GetPoolById(popts lslbSvcV2.IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError)
+	GetListenerById(popts lslbSvcV2.IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError)
+	ResizeLoadBalancerById(popts lslbSvcV2.IResizeLoadBalancerByIdRequest) lserr.IError
 }
 
 type ILoadBalancerServiceInternal interface {

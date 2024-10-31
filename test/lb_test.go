@@ -141,10 +141,9 @@ func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
 
 func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreateLoadBalancerRequest(
-		"cuongdm3-testlb-tags",
-		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
+	opt := lslbv2.NewCreateLoadBalancerRequest("cuongdm3-testlb-tags", "", "").
+		WithPackageId("lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa").
+		WithSubnetId("sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
 		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
@@ -167,9 +166,9 @@ func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 func TestCreateLoadBalancerEmptyMemberSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateLoadBalancerRequest(
-		"cuongdm3-testlb-empty-members",
-		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
+		"cuongdm3-testlb-empty-members", "", "").
+		WithPackageId("lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa").
+		WithSubnetId("sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
 		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
@@ -429,7 +428,7 @@ func TestUpdateListenerSuccess(t *ltesting.T) {
 
 func TestListListenersByLoadBalancerId(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListListenersByLoadBalancerIdRequest("lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb")
+	opt := lslbv2.NewListListenersByLoadBalancerIdRequest("lb-1d3a92bb-6ebd-4b19-ad4b-5f47f5953144")
 	listeners, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListListenersByLoadBalancerId(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -439,7 +438,7 @@ func TestListListenersByLoadBalancerId(t *ltesting.T) {
 		t.Fatalf("Expect not nil but got nil")
 	}
 
-	t.Log("Result: ", listeners)
+	t.Log("Result: ", listeners.At(0).DefaultPoolId)
 	t.Log("PASS")
 }
 
@@ -546,8 +545,8 @@ func TestListTagsSuccess(t *ltesting.T) {
 
 func TestCreateTagsSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreateTagsRequest("lb-0d9bc46b-66db-4c57-8270-cd380226839d").
-		WithTags("cuongdm4", "cuongdm4", "vinhnt9", "vinhnt9")
+	opt := lslbv2.NewCreateTagsRequest("lb-3b53db2e-357a-406b-9c56-499f1c21a48c").
+		WithTags("vks-owned-cluster2", "none")
 	sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateTags(opt)
 	if sdkErr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
@@ -559,8 +558,8 @@ func TestCreateTagsSuccess(t *ltesting.T) {
 
 func TestUpdateTagsSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewUpdateTagsRequest("lb-0d9bc46b-66db-4c57-8270-cd380226839d").
-		WithTags("cuongdm4", "cuongdm5")
+	opt := lslbv2.NewUpdateTagsRequest("lb-39e1750b-7141-455e-a668-a03d53b0328b").
+		WithTags("vks-user", "cuongdm4")
 	sdkErr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdateTags(opt)
 	if sdkErr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())

@@ -3,12 +3,13 @@ package client
 import (
 	lctx "context"
 	lhttp "net/http"
-	"strings"
+	lstr "strings"
 	lsync "sync"
 	ltime "time"
 
 	ljtime "github.com/cuongpiger/joat/timer"
 	lreq "github.com/imroc/req/v3"
+
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -96,7 +97,7 @@ func (s *httpClient) WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkA
 }
 
 func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.IError) {
-	req := s.client.R().SetContext(s.context).SetHeaders(s.defaultHeaders).SetHeaders(preq.GetMoreHeaders())
+	req := s.client.R().SetContext(s.context).SetHeaders(s.getDefaultHeaders()).SetHeaders(preq.GetMoreHeaders())
 	if opt := preq.GetRequestBody(); opt != nil {
 		req.SetBodyJsonMarshal(opt)
 	}
@@ -111,7 +112,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 
 	var resp *lreq.Response
 	var err error
-	switch strings.ToUpper(preq.GetRequestMethod()) {
+	switch lstr.ToUpper(preq.GetRequestMethod()) {
 	case "POST":
 		resp, err = req.Post(purl)
 	case "GET":
@@ -214,6 +215,16 @@ func (s *httpClient) setAccessToken(pnewToken ISdkAuthentication) IHttpClient {
 	}
 
 	return s
+}
+
+func (s *httpClient) getDefaultHeaders() map[string]string {
+	s.mut.RLock()
+	defer s.mut.RUnlock()
+	if s.defaultHeaders == nil {
+		s.defaultHeaders = make(map[string]string)
+	}
+
+	return s.defaultHeaders
 }
 
 func newReauthFuture() *reauthFuture {

@@ -18,18 +18,6 @@ type (
 	LoadBalancerType   string
 )
 
-func NewCreateLoadBalancerRequest(puserId, pname, ppackageId, pbeSubnetId, psubnetId string) ICreateLoadBalancerRequest {
-	opt := new(CreateLoadBalancerRequest)
-	opt.SetPortalUserId(puserId)
-	opt.Name = pname
-	opt.PackageID = ppackageId
-	opt.Scheme = InterVpcLoadBalancerScheme
-	opt.BackEndSubnetId = pbeSubnetId
-	opt.SubnetID = psubnetId
-	opt.Type = CreateOptsTypeOptLayer4
-	return opt
-}
-
 type CreateLoadBalancerRequest struct {
 	Name            string                 `json:"name"`
 	PackageID       string                 `json:"packageId"`
@@ -44,6 +32,19 @@ type CreateLoadBalancerRequest struct {
 
 	lscommon.PortalUser
 	lscommon.UserAgent
+}
+
+func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"name":            s.Name,
+		"packageId":       s.PackageID,
+		"scheme":          s.Scheme,
+		"subnetId":        s.SubnetID,
+		"backendSubnetId": s.BackEndSubnetId,
+		"projectId":       s.ProjectId,
+		"type":            s.Type,
+		"tags":            s.Tags,
+	}
 }
 
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {

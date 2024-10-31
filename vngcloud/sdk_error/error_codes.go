@@ -130,6 +130,11 @@ const (
 	EcVLBListenerNotFound                = ErrorCode("VngCloudVLBListenerNotFound")
 	EcVLBMemberMustIdentical             = ErrorCode("VngCloudVLBMemberMustIdentical")
 	EcVLBLoadBalancerExceedQuota         = ErrorCode("VngCloudVLBLoadBalancerExceedQuota")
+	EcVLBLoadBalancerIsDeleting          = ErrorCode("VngCloudVLBLoadBalancerIsDeleting")
+	EcVLBLoadBalancerIsCreating          = ErrorCode("VngCloudVLBLoadBalancerIsCreating")
+	EcVLBLoadBalancerIsUpdating          = ErrorCode("VngCloudVLBLoadBalancerIsUpdating")
+	EcVLBLoadBalancerResizeSamePackage   = ErrorCode("VngCloudVLBLoadBalancerResizeSamePackage")
+	EcVLBLoadBalancerPackageNotFound     = ErrorCode("VngCloudVLBLoadBalancerPackageNotFound")
 )
 
 // Endpoint
@@ -141,4 +146,5 @@ const (
 	EcVNetworkEndpointPackageNotBelongToEndpointService = ErrorCode("EndpointPackageNotBelongToEndpointService")
 	EcVNetworkContainInvalidCharacter                   = ErrorCode("ContainInvalidCharacter")
 	EcVNetworkLockOnProcess                             = ErrorCode("LockOnProcess")
+	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
 )

@@ -25,3 +25,7 @@ const (
 const (
 	ErrCatAll ErrorCategory = "all"
 )
+
+const (
+	ErrCatProductVlb ErrorCategory = "vlb"
+)

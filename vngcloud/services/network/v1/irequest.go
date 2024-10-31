@@ -40,3 +40,42 @@ type IListEndpointsRequest interface {
 	AddUserAgent(pagent ...string) IListEndpointsRequest
 	GetParameters() map[string]interface{}
 }
+
+type IListTagsByEndpointIdRequest interface {
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
+	GetParameters() map[string]interface{}
+	GetMapHeaders() map[string]string
+	ParseUserAgent() string
+	GetProjectId() string
+	AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest
+}
+
+type ICreateTagsWithEndpointIdRequest interface {
+	GetParameters() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest
+	GetMapHeaders() map[string]string
+	AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest
+	ParseUserAgent() string
+	GetProjectId() string
+	ToRequestBody() interface{}
+}
+
+type IDeleteTagOfEndpointRequest interface {
+	GetParameters() map[string]interface{}
+	AddUserAgent(pagent ...string) IDeleteTagOfEndpointRequest
+	GetMapHeaders() map[string]string
+	ParseUserAgent() string
+	GetTagId() string
+	GetProjectId() string
+}
+
+type IUpdateTagValueOfEndpointRequest interface {
+	GetParameters() map[string]interface{}
+	AddUserAgent(pagent ...string) IUpdateTagValueOfEndpointRequest
+	GetMapHeaders() map[string]string
+	ParseUserAgent() string
+	GetTagId() string
+	GetProjectId() string
+	ToRequestBody() interface{}
+}

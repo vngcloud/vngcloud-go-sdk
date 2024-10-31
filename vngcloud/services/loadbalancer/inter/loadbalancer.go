@@ -20,7 +20,9 @@ func (s *LoadBalancerServiceInternal) CreateLoadBalancer(popts ICreateLoadBalanc
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerExceedQuota(errResp))
+			lserr.WithErrorLoadBalancerExceedQuota(errResp)).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityLoadBalancer(), nil

@@ -13,3 +13,15 @@ func (s *NetworkServiceV1) getProjectId() string {
 func (s *NetworkServiceV1) getUserId() string {
 	return s.VNetworkClient.GetUserId()
 }
+
+type NetworkServiceInternalV1 struct {
+	VNetworkClient lsclient.IServiceClient
+}
+
+func (s *NetworkServiceInternalV1) getProjectId() string {
+	return s.VNetworkClient.GetProjectId()
+}
+
+func (s *NetworkServiceInternalV1) getUserId() string {
+	return s.VNetworkClient.GetUserId()
+}

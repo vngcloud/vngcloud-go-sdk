@@ -9,6 +9,7 @@ type ICreateLoadBalancerRequest interface {
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type ICreateListenerRequest interface {

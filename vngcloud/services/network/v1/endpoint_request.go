@@ -5,6 +5,8 @@ import (
 	lurl "net/url"
 	lstr "strings"
 
+	ljparser "github.com/cuongpiger/joat/parser"
+
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
@@ -21,40 +23,6 @@ const (
 	defaultListEndpointsRequestPage = 1
 	defaultListEndpointsRequestSize = 10
 )
-
-func NewGetEndpointByIdRequest(pendpointId string) IGetEndpointByIdRequest {
-	opt := new(GetEndpointByIdRequest)
-	opt.EndpointId = pendpointId
-	return opt
-}
-
-func NewCreateEndpointRequest(pname, pserviceId, pvpcId, psubnetId string) ICreateEndpointRequest {
-	opts := new(CreateEndpointRequest)
-	opts.ResourceInfo.EndpointName = pname
-	opts.ResourceInfo.ServiceUuid = pserviceId
-	opts.ResourceInfo.VpcUuid = pvpcId
-	opts.ResourceInfo.SubnetUuid = psubnetId
-	opts.ResourceInfo.PackageUuid = defaultPackageId
-
-	return opts
-}
-
-func NewDeleteEndpointByIdRequest(pendpointId, pvpcId, pendpointServiceId string) IDeleteEndpointByIdRequest {
-	opt := new(DeleteEndpointByIdRequest)
-	opt.EndpointId = pendpointId
-	opt.EndpointUuid = pendpointId
-	opt.VpcUuid = pvpcId
-	opt.EndpointServiceUuid = pendpointServiceId
-
-	return opt
-}
-
-func NewListEndpointsRequest(ppage, psize int) IListEndpointsRequest {
-	return &ListEndpointsRequest{
-		Page: ppage,
-		Size: psize,
-	}
-}
 
 type GetEndpointByIdRequest struct {
 	lscommon.UserAgent
@@ -284,4 +252,200 @@ func (s *ListEndpointsRequest) GetDefaultQuery() string {
 func (s *ListEndpointsRequest) AddUserAgent(pagent ...string) IListEndpointsRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
+}
+
+// _____________________________________________________________________ ListTagsByEndpointIdRequest
+
+type ListTagsByEndpointIdRequest struct {
+	lscommon.UserAgent
+	lscommon.EndpointCommon
+	lscommon.PortalUser
+
+	ProjectId string
+	Id        string `q:"resourceUuid"`
+}
+
+func (s *ListTagsByEndpointIdRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
+}
+
+func (s *ListTagsByEndpointIdRequest) GetProjectId() string {
+	return s.ProjectId
+}
+
+func (s *ListTagsByEndpointIdRequest) GetDefaultQuery() string {
+	query := lfmt.Sprintf(`{"page":%d,"size":%d}`, defaultListEndpointsRequestPage, defaultListEndpointsRequestSize)
+	query = "params=" + lurl.QueryEscape(query)
+	return query
+}
+
+func (s *ListTagsByEndpointIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"resourceUuid": s.Id,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
+func (s *ListTagsByEndpointIdRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *ListTagsByEndpointIdRequest) AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+// _________________________________________________________________ CreateTagsWithEndpointIdRequest
+
+type CreateTagsWithEndpointIdRequest struct {
+	lscommon.UserAgent
+	lscommon.EndpointCommon
+	lscommon.PortalUser
+
+	ProjectId    string
+	ResourceUuid string `json:"resourceUuid"`
+	Tags         []struct {
+		TagKey   string `json:"tagKey"`
+		TagValue string `json:"tagValue"`
+	} `json:"tags"`
+
+	SystemTag bool `json:"systemTag"`
+}
+
+func (s *CreateTagsWithEndpointIdRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"resourceUuid": s.Id,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	res["tags"] = s.Tags
+
+	return res
+}
+
+func (s *CreateTagsWithEndpointIdRequest) AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *CreateTagsWithEndpointIdRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *CreateTagsWithEndpointIdRequest) AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest {
+	s.Tags = append(s.Tags, struct {
+		TagKey   string `json:"tagKey"`
+		TagValue string `json:"tagValue"`
+	}{
+		TagKey:   pkey,
+		TagValue: pvalue,
+	})
+
+	return s
+}
+
+func (s *CreateTagsWithEndpointIdRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateTagsWithEndpointIdRequest) GetProjectId() string {
+	return s.ProjectId
+}
+
+// ____________________________________________________________________ DeleteTagByEndpointIdRequest
+
+type DeleteTagOfEndpointRequest struct {
+	lscommon.UserAgent
+	lscommon.PortalUser
+
+	ProjectId string
+	TagId     string
+}
+
+func (s *DeleteTagOfEndpointRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"tagId": s.TagId,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
+func (s *DeleteTagOfEndpointRequest) AddUserAgent(pagent ...string) IDeleteTagOfEndpointRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *DeleteTagOfEndpointRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *DeleteTagOfEndpointRequest) GetTagId() string {
+	return s.TagId
+}
+
+func (s *DeleteTagOfEndpointRequest) GetProjectId() string {
+	return s.ProjectId
+}
+
+// _________________________________________________________________ UpdateTagValueOfEndpointRequest
+
+type UpdateTagValueOfEndpointRequest struct {
+	lscommon.UserAgent
+	lscommon.PortalUser
+
+	TagId     string
+	ProjectId string
+	TagValue  string `json:"tagValue"`
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetParameters() map[string]interface{} {
+	res := map[string]interface{}{
+		"tagId":    s.TagId,
+		"tagValue": s.TagValue,
+	}
+
+	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
+		res["userAgent"] = s.UserAgent.Agent
+	}
+
+	return res
+}
+
+func (s *UpdateTagValueOfEndpointRequest) AddUserAgent(pagent ...string) IUpdateTagValueOfEndpointRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetMapHeaders() map[string]string {
+	return s.PortalUser.GetMapHeaders()
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetTagId() string {
+	return s.TagId
+}
+
+func (s *UpdateTagValueOfEndpointRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *UpdateTagValueOfEndpointRequest) GetProjectId() string {
+	return s.ProjectId
 }

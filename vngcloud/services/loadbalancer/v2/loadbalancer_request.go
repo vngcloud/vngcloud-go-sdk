@@ -10,6 +10,7 @@ import (
 const (
 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
 	InternetLoadBalancerScheme LoadBalancerScheme = "Internet"
+	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
 )
 
 const (
@@ -108,6 +109,35 @@ type DeleteLoadBalancerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 }
 
+type ResizeLoadBalancerByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+
+	PackageId string `json:"packageId"`
+}
+
+func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
+	err := map[string]interface{}{
+		"name":         s.Name,
+		"packageId":    s.PackageID,
+		"scheme":       s.Scheme,
+		"autoScalable": s.AutoScalable,
+		"subnetId":     s.SubnetID,
+		"type":         s.Type,
+		"tags":         s.Tags,
+	}
+
+	if s.Listener != nil {
+		err["listener"] = s.Listener.ToMap()
+	}
+
+	if s.Pool != nil {
+		err["pool"] = s.Pool.ToMap()
+	}
+
+	return err
+}
+
 func (s *CreateLoadBalancerRequest) ToRequestBody() interface{} {
 	if s.Pool != nil {
 		s.Pool = s.Pool.ToRequestBody().(*CreatePoolRequest)
@@ -160,6 +190,16 @@ func (s *CreateLoadBalancerRequest) WithAutoScalable(pautoScalable bool) ICreate
 	return s
 }
 
+func (s *CreateLoadBalancerRequest) WithPackageId(ppackageId string) ICreateLoadBalancerRequest {
+	s.PackageID = ppackageId
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithSubnetId(psubnetId string) ICreateLoadBalancerRequest {
+	s.SubnetID = psubnetId
+	return s
+}
+
 func (s *CreateLoadBalancerRequest) WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest {
 	s.Type = ptype
 	return s
@@ -187,6 +227,10 @@ func (s *ResizeLoadBalancerRequest) WithPackageId(ppackageId string) IResizeLoad
 func (s *ListLoadBalancerPackagesRequest) AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{}
 }
 
 func (s *GetLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest {
@@ -244,4 +288,15 @@ func (s *ListLoadBalancersRequest) ToListQuery() (string, error) {
 
 func (s *ListLoadBalancersRequest) GetDefaultQuery() string {
 	return lfmt.Sprintf("name=&page=%d&size=%d", defaultPageListLoadBalancer, defaultSizeListLoadBalancer)
+}
+
+func (s *ResizeLoadBalancerByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"packageId":      s.PackageId,
+		"loadBalancerId": s.LoadBalancerId,
+	}
+}
+
+func (s *ResizeLoadBalancerByIdRequest) ToRequestBody() interface{} {
+	return s
 }
