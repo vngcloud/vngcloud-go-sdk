@@ -8,37 +8,47 @@ const (
 )
 
 type CreateServerRequest struct {
-	AttachFloating         bool                   `json:"attachFloating,omitempty"`
-	BackupInstancePointId  string                 `json:"backupInstancePointId,omitempty"`
-	DataDiskEncryptionType DataDiskEncryptionType `json:"dataDiskEncryptionType,omitempty"`
-	DataDiskName           string                 `json:"dataDiskName,omitempty"`
-	DataDiskSize           int                    `json:"dataDiskSize,omitempty"`
-	DataDiskTypeId         string                 `json:"dataDiskTypeId,omitempty"`
-	EnableBackup           bool                   `json:"enableBackup,omitempty"`
-	EncryptionVolume       bool                   `json:"encryptionVolume"`
-	ExpirePassword         bool                   `json:"expirePassword,omitempty"`
-	FlavorId               string                 `json:"flavorId"`
-	ImageId                string                 `json:"imageId"`
-	Name                   string                 `json:"name"`
-	NetworkId              string                 `json:"networkId"`
-	OsLicence              bool                   `json:"osLicence,omitempty"`
-	RestoreBackup          bool                   `json:"restoreBackup,omitempty"`
-	RootDiskEncryptionType DataDiskEncryptionType `json:"rootDiskEncryptionType,omitempty"`
-	RootDiskSize           int                    `json:"rootDiskSize"`
-	RootDiskTypeId         string                 `json:"rootDiskTypeId"`
-	SecurityGroup          []string               `json:"securityGroup,omitempty"`
-	ServerGroupId          string                 `json:"serverGroupId,omitempty"`
-	SshKeyId               string                 `json:"sshKeyId,omitempty"`
-	SubnetId               string                 `json:"subnetId"`
-	UserData               string                 `json:"userData,omitempty"`
-	UserDataBase64Encoded  bool                   `json:"userDataBase64Encoded,omitempty"`
-	UserName               string                 `json:"userName,omitempty"`
-	UserPassword           string                 `json:"userPassword,omitempty"`
-	IsPoc                  bool                   `json:"isPoc,omitempty"`
-	Product                string                 `json:"product,omitempty"`
-	Type                   string                 `json:"type,omitempty"`
-	Tags                   []ServerTag            `json:"tags,omitempty"`
-	AutoRenew              bool                   `json:"isEnableAutoRenew,omitempty"`
+	AttachFloating         bool                     `json:"attachFloating,omitempty"`
+	BackupInstancePointId  string                   `json:"backupInstancePointId,omitempty"`
+	DataDiskEncryptionType DataDiskEncryptionType   `json:"dataDiskEncryptionType,omitempty"`
+	DataDiskName           string                   `json:"dataDiskName,omitempty"`
+	DataDiskSize           int                      `json:"dataDiskSize,omitempty"`
+	DataDiskTypeId         string                   `json:"dataDiskTypeId,omitempty"`
+	EnableBackup           bool                     `json:"enableBackup,omitempty"`
+	EncryptionVolume       bool                     `json:"encryptionVolume"`
+	ExpirePassword         bool                     `json:"expirePassword,omitempty"`
+	FlavorId               string                   `json:"flavorId"`
+	ImageId                string                   `json:"imageId"`
+	Name                   string                   `json:"name"`
+	NetworkId              *string                  `json:"networkId,omitempty"`
+	SubnetId               *string                  `json:"subnetId,omitempty"`
+	OsLicence              bool                     `json:"osLicence,omitempty"`
+	RestoreBackup          bool                     `json:"restoreBackup,omitempty"`
+	RootDiskEncryptionType DataDiskEncryptionType   `json:"rootDiskEncryptionType,omitempty"`
+	RootDiskSize           int                      `json:"rootDiskSize"`
+	RootDiskTypeId         string                   `json:"rootDiskTypeId"`
+	SecurityGroup          []string                 `json:"securityGroup,omitempty"`
+	ServerGroupId          string                   `json:"serverGroupId,omitempty"`
+	SshKeyId               string                   `json:"sshKeyId,omitempty"`
+	UserData               string                   `json:"userData,omitempty"`
+	UserDataBase64Encoded  bool                     `json:"userDataBase64Encoded,omitempty"`
+	UserName               string                   `json:"userName,omitempty"`
+	UserPassword           string                   `json:"userPassword,omitempty"`
+	IsPoc                  bool                     `json:"isPoc,omitempty"`
+	Product                string                   `json:"product,omitempty"`
+	Type                   string                   `json:"type,omitempty"`
+	Tags                   []ServerTag              `json:"tags,omitempty"`
+	AutoRenew              bool                     `json:"isEnableAutoRenew,omitempty"`
+	Networks               []ServerNetworkInterface `json:"networks,omitempty"`
+
+	lscommon.UserAgent
+}
+
+type ServerNetworkInterface struct {
+	ProjectId      string `json:"projectId"`
+	NetworkId      string `json:"networkId"`
+	SubnetId       string `json:"subnetId"`
+	AttachFloating bool   `json:"attachFloating"`
 }
 
 type AttachBlockVolumeRequest struct {
@@ -59,6 +69,17 @@ type ServerTag struct {
 }
 
 func (s *CreateServerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateServerRequest) WithServerNetworkInterface(pprojectId, pnetworkId, psubnetId string, pattachFloating bool) ICreateServerRequest {
+	s.Networks = append(s.Networks, ServerNetworkInterface{
+		ProjectId:      pprojectId,
+		NetworkId:      pnetworkId,
+		SubnetId:       psubnetId,
+		AttachFloating: pattachFloating,
+	})
+
 	return s
 }
 
@@ -121,6 +142,18 @@ func (s *CreateServerRequest) WithType(ptype string) ICreateServerRequest {
 
 func (s *CreateServerRequest) WithProduct(pproduct string) ICreateServerRequest {
 	s.Product = pproduct
+	return s
+}
+
+func (s *CreateServerRequest) WithNetwork(pnetworkId, psubnetId string) ICreateServerRequest {
+	s.NetworkId = &pnetworkId
+	s.SubnetId = &psubnetId
+
+	return s
+}
+
+func (s *CreateServerRequest) AddUserAgent(pagent ...string) ICreateServerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

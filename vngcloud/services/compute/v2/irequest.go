@@ -11,7 +11,11 @@ type ICreateServerRequest interface {
 	WithSecgroups(psecgroups ...string) ICreateServerRequest
 	WithPoc(pisPoc bool) ICreateServerRequest
 	WithType(ptype string) ICreateServerRequest
+	WithNetwork(pnetworkId, psubnetId string) ICreateServerRequest
 	WithProduct(pproduct string) ICreateServerRequest
+	WithServerNetworkInterface(pprojectId, pnetworkId, psubnetId string, pattachFloating bool) ICreateServerRequest
+	AddUserAgent(pagent ...string) ICreateServerRequest
+	ParseUserAgent() string
 }
 
 type IGetServerByIdRequest interface {

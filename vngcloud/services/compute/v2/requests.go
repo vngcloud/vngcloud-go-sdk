@@ -1,12 +1,10 @@
 package v2
 
-func NewCreateServerRequest(pname, pimageId, pflavorId, pnetworkId, psubnetId, prootDiskType string, prootDiskSize int) ICreateServerRequest {
+func NewCreateServerRequest(pname, pimageId, pflavorId, prootDiskType string, prootDiskSize int) ICreateServerRequest {
 	opt := new(CreateServerRequest)
 	opt.Name = pname
 	opt.ImageId = pimageId
 	opt.FlavorId = pflavorId
-	opt.NetworkId = pnetworkId
-	opt.SubnetId = psubnetId
 	opt.RootDiskTypeId = prootDiskType
 	opt.RootDiskSize = prootDiskSize
 	return opt
