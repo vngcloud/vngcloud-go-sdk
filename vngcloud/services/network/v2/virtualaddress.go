@@ -35,7 +35,8 @@ func (s *NetworkServiceV2) DeleteVirtualAddressById(popts IDeleteVirtualAddressB
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp).
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVirtualAddressNotFound(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}
@@ -54,7 +55,8 @@ func (s *NetworkServiceV2) GetVirtualAddressById(popts IGetVirtualAddressByIdReq
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVirtualAddressNotFound(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}
@@ -73,7 +75,8 @@ func (s *NetworkServiceV2) ListAddressPairsByVirtualAddressId(popts IListAddress
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVirtualAddressNotFound(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}

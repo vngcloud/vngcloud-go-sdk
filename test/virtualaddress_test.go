@@ -45,7 +45,7 @@ func TestDeleteVirtualAddressById(t *ltesting.T) {
 }
 
 func TestGetVirtualAddessById(t *ltesting.T) {
-	virtualAddressId := "vip-0d2402cf-49e8-43bf-abbe-b707597320e9"
+	virtualAddressId := "vip-0d2402cf-49e8-43bf-abbe-b707597320e0"
 
 	vngcloud := validSdkConfigHanRegion()
 	opt := lsnetworkSvcV2.NewGetVirtualAddressByIdRequest(virtualAddressId).

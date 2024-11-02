@@ -106,6 +106,11 @@ const (
 	EcVServerServerCanNotAttachFloatingIp         = ErrorCode("VngCloudVServerServerCanNotAttachFloatingIp")
 )
 
+// vServer virtual address
+const (
+	EcVServerVirtualAddressNotFound = ErrorCode("VngCloudVServerVirtualAddressNotFound")
+)
+
 // vServer quota
 
 const (
