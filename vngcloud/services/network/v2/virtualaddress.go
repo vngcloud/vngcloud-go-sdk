@@ -25,3 +25,20 @@ func (s *NetworkServiceV2) CreateVirtualAddressCrossProject(popts ICreateVirtual
 
 	return resp.ToEntityVirtualAddress(), nil
 }
+
+func (s *NetworkServiceV2) DeleteVirtualAddressById(popts IDeleteVirtualAddressByIdRequest) lserr.IError {
+	url := deleteVirtualAddressByIdUrl(s.VserverClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
+	}
+
+	return nil
+}

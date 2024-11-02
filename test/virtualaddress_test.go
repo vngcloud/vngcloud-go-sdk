@@ -28,3 +28,18 @@ func TestCreateVirtualAddressCrossProject(t *ltesting.T) {
 	t.Log("RESULT:", vaddr)
 	t.Log("PASS")
 }
+
+func TestDeleteVirtualAddressById(t *ltesting.T) {
+	virtualAddressId := "vip-1a17ffb3-28e5-4a7a-a4e0-17af09de28aa"
+
+	vngcloud := validSdkConfigHanRegion()
+	opt := lsnetworkSvcV2.NewDeleteVirtualAddressByIdRequest(virtualAddressId).
+		AddUserAgent(vngcloud.GetUserAgent())
+	err := vngcloud.VServerGateway().V2().NetworkService().DeleteVirtualAddressById(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	t.Log("PASS")
+}

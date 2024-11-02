@@ -7,3 +7,9 @@ func NewCreateVirtualAddressCrossProjectRequest(pname, pprojectId, psubnetId str
 	opts.CrossProjectRequest.SubnetId = psubnetId
 	return opts
 }
+
+func NewDeleteVirtualAddressByIdRequest(pvirtualAddressId string) IDeleteVirtualAddressByIdRequest {
+	opts := new(DeleteVirtualAddressByIdRequest)
+	opts.VirtualAddressId = pvirtualAddressId
+	return opts
+}

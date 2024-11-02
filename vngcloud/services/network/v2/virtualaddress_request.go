@@ -55,3 +55,20 @@ func (s *CreateVirtualAddressCrossProjectRequest) WithDescription(pdescription s
 	s.Description = pdescription
 	return s
 }
+
+// API Delete virtual address by ID
+type DeleteVirtualAddressByIdRequest struct {
+	lscommon.VirtualAddressCommon
+	lscommon.UserAgent
+}
+
+func (s *DeleteVirtualAddressByIdRequest) AddUserAgent(pagent ...string) IDeleteVirtualAddressByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *DeleteVirtualAddressByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"virtualAddressId": s.VirtualAddressId,
+	}
+}

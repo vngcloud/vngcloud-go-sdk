@@ -115,3 +115,10 @@ func createVirtualAddressCrossProjectUrl(psc lsclient.IServiceClient) string {
 		psc.GetProjectId(),
 		"virtualIpAddress")
 }
+
+func deleteVirtualAddressByIdUrl(psc lsclient.IServiceClient, popts IDeleteVirtualAddressByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtualIpAddress",
+		popts.GetVirtualAddressId())
+}
