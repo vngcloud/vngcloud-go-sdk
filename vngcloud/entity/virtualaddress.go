@@ -9,6 +9,7 @@ type VirtualAddress struct {
 	Description     string
 	SubnetCidr      string
 	VpcCidr         string
+	AddressPairIps  []string
 }
 
 func (s *VirtualAddress) GetId() string {
@@ -41,4 +42,8 @@ func (s *VirtualAddress) GetSubnetCidr() string {
 
 func (s *VirtualAddress) GetVpcCidr() string {
 	return s.VpcCidr
+}
+
+func (s *VirtualAddress) GetAddressPairIps() []string {
+	return s.AddressPairIps
 }

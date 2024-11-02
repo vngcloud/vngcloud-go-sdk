@@ -53,4 +53,5 @@ type INetworkServiceV2 interface {
 	// Virtual Address API group
 	CreateVirtualAddressCrossProject(popts lsnetworkSvcV2.ICreateVirtualAddressCrossProjectRequest) (*lsentity.VirtualAddress, lserr.IError)
 	DeleteVirtualAddressById(popts lsnetworkSvcV2.IDeleteVirtualAddressByIdRequest) lserr.IError
+	GetVirtualAddressById(popts lsnetworkSvcV2.IGetVirtualAddressByIdRequest) (*lsentity.VirtualAddress, lserr.IError)
 }

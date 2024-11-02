@@ -72,3 +72,21 @@ func (s *DeleteVirtualAddressByIdRequest) ToMap() map[string]interface{} {
 		"virtualAddressId": s.VirtualAddressId,
 	}
 }
+
+// Api Get virtual address by ID
+
+type GetVirtualAddressByIdRequest struct {
+	lscommon.VirtualAddressCommon
+	lscommon.UserAgent
+}
+
+func (s *GetVirtualAddressByIdRequest) AddUserAgent(pagent ...string) IGetVirtualAddressByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *GetVirtualAddressByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"virtualAddressId": s.VirtualAddressId,
+	}
+}

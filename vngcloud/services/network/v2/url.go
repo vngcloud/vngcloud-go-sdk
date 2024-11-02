@@ -122,3 +122,10 @@ func deleteVirtualAddressByIdUrl(psc lsclient.IServiceClient, popts IDeleteVirtu
 		"virtualIpAddress",
 		popts.GetVirtualAddressId())
 }
+
+func getVirtualAddressByIdUrl(psc lsclient.IServiceClient, popts IGetVirtualAddressByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtualIpAddress",
+		popts.GetVirtualAddressId())
+}

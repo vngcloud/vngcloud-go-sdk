@@ -13,3 +13,9 @@ func NewDeleteVirtualAddressByIdRequest(pvirtualAddressId string) IDeleteVirtual
 	opts.VirtualAddressId = pvirtualAddressId
 	return opts
 }
+
+func NewGetVirtualAddressByIdRequest(pvirtualAddressId string) IGetVirtualAddressByIdRequest {
+	opts := new(GetVirtualAddressByIdRequest)
+	opts.VirtualAddressId = pvirtualAddressId
+	return opts
+}

@@ -96,3 +96,11 @@ type IDeleteVirtualAddressByIdRequest interface {
 	AddUserAgent(pagent ...string) IDeleteVirtualAddressByIdRequest
 	ToMap() map[string]interface{}
 }
+
+
+type IGetVirtualAddressByIdRequest interface {
+	GetVirtualAddressId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IGetVirtualAddressByIdRequest
+	ToMap() map[string]interface{}
+}
