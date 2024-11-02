@@ -21,6 +21,7 @@ type (
 		zoneId     string
 		userId     string
 		httpClient lsclient.IHttpClient
+		userAgent  string
 
 		iamGateway      lsgateway.IIamGateway
 		vserverGateway  lsgateway.IVServerGateway
@@ -150,6 +151,7 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
+	s.userAgent = psdkCfg.GetUserAgent()
 
 	return s
 }
@@ -186,4 +188,8 @@ func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (l
 	}
 
 	return authFunc
+}
+
+func (s *client) GetUserAgent() string {
+	return s.userAgent
 }

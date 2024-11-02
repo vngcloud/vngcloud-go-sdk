@@ -19,7 +19,8 @@ func (s *NetworkServiceV2) CreateVirtualAddressCrossProject(popts ICreateVirtual
 
 	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
-			WithKVparameters(popts.ToMap())
+			WithKVparameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}
 
 	return resp.ToEntityVirtualAddress(), nil

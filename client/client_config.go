@@ -13,10 +13,12 @@ type (
 		GetVServerEndpoint() string
 		GetVLBEndpoint() string
 		GetVNetworkEndpoint() string
+		GetUserAgent() string
 		WithUserId(puserId string) ISdkConfigure
 		WithZoneId(pzoneId string) ISdkConfigure
 		WithClientId(pclientId string) ISdkConfigure
 		WithClientSecret(pclientSecret string) ISdkConfigure
+		WithUserAgent(puserAgent string) ISdkConfigure
 		WithProjectId(pprojectId string) ISdkConfigure
 		WithIamEndpoint(piamEndpoint string) ISdkConfigure
 		WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure
@@ -35,6 +37,7 @@ type sdkConfigure struct {
 	vserverEndpoint  string
 	vlbEndpoint      string
 	vnetworkEndpoint string
+	userAgent        string
 }
 
 func (s *sdkConfigure) GetClientId() string {
@@ -71,6 +74,15 @@ func (s *sdkConfigure) GetVLBEndpoint() string {
 
 func (s *sdkConfigure) GetVNetworkEndpoint() string {
 	return s.vnetworkEndpoint
+}
+
+func (s *sdkConfigure) GetUserAgent() string {
+	return s.userAgent
+}
+
+func (s *sdkConfigure) WithUserAgent(puserAgent string) ISdkConfigure {
+	s.userAgent = puserAgent
+	return s
 }
 
 func (s *sdkConfigure) WithClientId(pclientId string) ISdkConfigure {

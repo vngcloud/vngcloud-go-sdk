@@ -29,3 +29,9 @@ const (
 const (
 	ErrCatProductVlb ErrorCategory = "vlb"
 )
+
+const (
+	ErrCatVServer ErrorCategory = "vserver"
+
+	ErrCatVirtualAddress ErrorCategory = "virtualaddress"
+)

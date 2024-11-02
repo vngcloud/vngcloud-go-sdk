@@ -20,6 +20,7 @@ type IClient interface {
 
 	// List of functional methods
 	Configure(psdkCfg ISdkConfigure) IClient
+	GetUserAgent() string
 
 	// List of gateways
 	IamGateway() lsgateway.IIamGateway

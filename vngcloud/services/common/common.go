@@ -49,7 +49,7 @@ type UserAgent struct {
 
 func (s *UserAgent) ParseUserAgent() string {
 	// Parse the array into string
-	return lstr.Join(s.Agent, " ")
+	return lstr.Join(s.Agent, "; ")
 }
 
 func (s *UserAgent) AddUserAgent(pagent ...string) *UserAgent {
