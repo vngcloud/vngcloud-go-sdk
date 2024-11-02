@@ -102,7 +102,6 @@ func deleteAddressPairUrl(psc lsclient.IServiceClient, popts IDeleteAddressPairR
 		popts.GetAddressPairID())
 }
 
-
 func createAddressPairUrl(psc lsclient.IServiceClient, popts ICreateAddressPairRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
