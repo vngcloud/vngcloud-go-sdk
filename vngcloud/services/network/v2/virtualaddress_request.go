@@ -90,3 +90,22 @@ func (s *GetVirtualAddressByIdRequest) ToMap() map[string]interface{} {
 		"virtualAddressId": s.VirtualAddressId,
 	}
 }
+
+
+// Api list address pairs by virtual address ID
+
+type ListAddressPairsByVirtualAddressIdRequest struct {
+	lscommon.VirtualAddressCommon
+	lscommon.UserAgent
+}
+
+func (s *ListAddressPairsByVirtualAddressIdRequest) AddUserAgent(pagent ...string) IListAddressPairsByVirtualAddressIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ListAddressPairsByVirtualAddressIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"virtualAddressId": s.VirtualAddressId,
+	}
+}

@@ -129,3 +129,11 @@ func getVirtualAddressByIdUrl(psc lsclient.IServiceClient, popts IGetVirtualAddr
 		"virtualIpAddress",
 		popts.GetVirtualAddressId())
 }
+
+func listAddressPairsByVirtualAddressIdUrl(psc lsclient.IServiceClient, popts IListAddressPairsByVirtualAddressIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtualIpAddress",
+		popts.GetVirtualAddressId(),
+		"addressPairs")
+}

@@ -61,3 +61,22 @@ func (s *NetworkServiceV2) GetVirtualAddressById(popts IGetVirtualAddressByIdReq
 
 	return resp.ToEntityVirtualAddress(), nil
 }
+
+func (s *NetworkServiceV2) ListAddressPairsByVirtualAddressId(popts IListAddressPairsByVirtualAddressIdRequest) (*lsentity.ListAddressPairs, lserr.IError) {
+	url := listAddressPairsByVirtualAddressIdUrl(s.VserverClient, popts)
+	resp := new(ListAddressPairsByVirtualAddressIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithJsonResponse(resp).
+		WithOkCodes(200).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
+	}
+
+	return resp.ToEntityListAddressPairs(), nil
+}

@@ -49,3 +49,23 @@ type GetVirtualAddressByIdResponse struct {
 func (s *GetVirtualAddressByIdResponse) ToEntityVirtualAddress() *lsentity.VirtualAddress {
 	return s.Data.toEntityVirtualAddress()
 }
+
+// Response struct for API list address pair by virtual address ID
+type ListAddressPairsByVirtualAddressIdResponse struct {
+	Data []AddressPairResponse `json:"data"`
+}
+
+func (s *ListAddressPairsByVirtualAddressIdResponse) ToEntityListAddressPairs() *lsentity.ListAddressPairs {
+	addressPairs := make([]*lsentity.AddressPair, 0)
+	for _, addressPair := range s.Data {
+		addressPairs = append(addressPairs, &lsentity.AddressPair{
+			Id:                 addressPair.UUID,
+			VirtualIpAddressId: addressPair.VirtualIpAddressId,
+			VirtualSubnetId:    addressPair.VirtualSubnetId,
+			NetworkInterfaceIp: addressPair.NetworkInterfaceIp,
+			NetworkInterfaceId: addressPair.NetworkInterfaceId,
+			CIDR:               addressPair.CIDR,
+		})
+	}
+	return &lsentity.ListAddressPairs{Items: addressPairs}
+}

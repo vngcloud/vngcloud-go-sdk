@@ -44,7 +44,6 @@ func TestDeleteVirtualAddressById(t *ltesting.T) {
 	t.Log("PASS")
 }
 
-
 func TestGetVirtualAddessById(t *ltesting.T) {
 	virtualAddressId := "vip-0d2402cf-49e8-43bf-abbe-b707597320e9"
 
@@ -62,5 +61,25 @@ func TestGetVirtualAddessById(t *ltesting.T) {
 	}
 
 	t.Log("RESULT:", vaddr)
+	t.Log("PASS")
+}
+
+func TestListAddressPairsByVirtualAddressId(t *ltesting.T) {
+	virtualAddressId := "vip-0d2402cf-49e8-43bf-abbe-b707597320e9"
+
+	vngcloud := validSdkConfigHanRegion()
+	opt := lsnetworkSvcV2.NewListAddressPairsByVirtualAddressIdRequest(virtualAddressId).
+		AddUserAgent(vngcloud.GetUserAgent())
+	pairs, err := vngcloud.VServerGateway().V2().NetworkService().ListAddressPairsByVirtualAddressId(opt)
+
+	if err != nil {
+		t.Errorf("Expect error to be nil but got %+v", err)
+	}
+
+	if pairs == nil {
+		t.Errorf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", pairs.At(0))
 	t.Log("PASS")
 }

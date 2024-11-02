@@ -19,3 +19,9 @@ func NewGetVirtualAddressByIdRequest(pvirtualAddressId string) IGetVirtualAddres
 	opts.VirtualAddressId = pvirtualAddressId
 	return opts
 }
+
+func NewListAddressPairsByVirtualAddressIdRequest(pvirtualAddressId string) IListAddressPairsByVirtualAddressIdRequest {
+	opts := new(ListAddressPairsByVirtualAddressIdRequest)
+	opts.VirtualAddressId = pvirtualAddressId
+	return opts
+}
