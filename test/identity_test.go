@@ -51,6 +51,23 @@ func validSdkConfig() lsclient.IClient {
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }
 
+func validSdkConfigHanRegion() lsclient.IClient {
+	clientId, clientSecret := getEnv()
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithUserId(getValueOfEnv("VNGCLOUD_USER_ID")).
+		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
+		WithProjectId(getValueOfEnv("HAN01_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://han-1.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://han-1.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
 func validHcm3bSdkConfig() lsclient.IClient {
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(getValueOfEnv("HCM3B_CLIENT_ID")).
@@ -241,8 +258,6 @@ func TestAuthenPass(t *ltesting.T) {
 	t.Log("RESULT:", token)
 	t.Log("PASS")
 }
-
-
 
 func TestASuperuthenPass(t *ltesting.T) {
 	clientId, clientSecret := getValueOfEnv("VNGCLOUD_SUPER_CLIENT_ID"), getValueOfEnv("VNGCLOUD_SUPER_CLIENT_SECRET")

@@ -23,7 +23,6 @@ type INetworkServiceInternalV1 interface {
 
 type INetworkServiceV2 interface {
 	// The group of Network APIs
-
 	GetNetworkById(popts lsnetworkSvcV2.IGetNetworkByIdRequest) (*lsentity.Network, lserr.IError)
 
 	// The group of Secgroup APIs
@@ -50,4 +49,7 @@ type INetworkServiceV2 interface {
 
 	// Servers
 	ListAllServersBySecgroupId(popts lsnetworkSvcV2.IListAllServersBySecgroupIdRequest) (*lsentity.ListServers, lserr.IError)
+
+	// Virtual Address API group
+	CreateVirtualAddressCrossProject(popts lsnetworkSvcV2.ICreateVirtualAddressCrossProjectRequest) (*lsentity.VirtualAddress, lserr.IError)
 }

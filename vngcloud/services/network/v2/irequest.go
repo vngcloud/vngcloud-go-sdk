@@ -75,3 +75,12 @@ type IDeleteAddressPairRequest interface {
 type IListAllServersBySecgroupIdRequest interface {
 	GetSecgroupId() string
 }
+
+// The interface request group of Virtual Address API
+type ICreateVirtualAddressCrossProjectRequest interface {
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateVirtualAddressCrossProjectRequest
+	WithDescription(pdescription string) ICreateVirtualAddressCrossProjectRequest
+}

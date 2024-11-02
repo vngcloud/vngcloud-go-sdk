@@ -109,3 +109,9 @@ func listAllServersBySecgroupIdUrl(psc lsclient.IServiceClient, popts IListAllSe
 		popts.GetSecgroupId(),
 		"servers")
 }
+
+func createVirtualAddressCrossProjectUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"virtualIpAddress")
+}
