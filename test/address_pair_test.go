@@ -53,3 +53,24 @@ func TestDeleteAddressPair(t *ltesting.T) {
 
 	t.Log("PASS")
 }
+
+func TestCreateAddressPair(t *ltesting.T) {
+	vngcloud := validSdkConfigHanRegion()
+
+	virtualAddressId := "vip-0d2402cf-49e8-43bf-abbe-b707597320e9"
+	internalNicId := "net-in-3b076753-6561-4e3e-8a66-e10dc79cab2d"
+
+	opt := lsnetworkSvcV2.NewCreateAddressPairRequest(virtualAddressId, internalNicId).
+		WithMode(lsnetworkSvcV2.AddressPairModeActiveActive)
+
+	ap, err := vngcloud.VServerGateway().V2().NetworkService().CreateAddressPair(opt)
+	if err != nil {
+		t.Fatalf("Expect error to be nil but got %+v", err)
+	}
+
+	if ap == nil {
+		t.Fatalf("Expect portal not to be nil but got nil")
+	}
+
+	t.Log("RESULT:", ap)
+}

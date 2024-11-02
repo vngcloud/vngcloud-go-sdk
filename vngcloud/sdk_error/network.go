@@ -9,7 +9,7 @@ const (
 	patternNetworkNotFound                  = "is not found"
 	patternSubnetNotFound                   = `subnet with id [^.]+ is not found`
 	patternSubnetNotBelongNetwork           = `subnet id: [^.]+ belong to network id: [^.]+ not found`
-	patternInternalNetworkInterfaceNotFound = `interface network interface with id [^.]+ is not found`
+	patternInternalNetworkInterfaceNotFound = `internal network interface with id [^.]+ is not found`
 	patternWanIpAvailable                   = "wan ip is available"
 	pattermWapIdNotFound                    = "cannot get wan ip with id"
 )

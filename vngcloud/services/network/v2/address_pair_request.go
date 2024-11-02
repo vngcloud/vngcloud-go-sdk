@@ -66,3 +66,49 @@ func (s *DeleteAddressPairRequest) GetAddressPairID() string {
 }
 
 // --------------------------------------------------------
+
+// Api create address pair
+
+type AddressPairMode string
+
+const (
+	AddressPairModeActiveActive AddressPairMode = "active-active"
+)
+
+type CreateAddressPairRequest struct {
+	// Is the ID of the network interface that the address pair will be attached to.
+	InternalNetworkInterfaceId string `json:"internalNetworkInterfaceId"` // required
+
+	// Is the pair mode of the address pair.
+	Mode *AddressPairMode `json:"mode,omitempty"`
+
+	lscommon.InternalNetworkInterfaceCommon
+	lscommon.UserAgent
+	lscommon.VirtualAddressCommon
+}
+
+func (s *CreateAddressPairRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateAddressPairRequest) ToMap() map[string]interface{} {
+	mode := "active-standby"
+	if s.Mode != nil {
+		mode = string(*s.Mode)
+	}
+
+	return map[string]interface{}{
+		"internalNetworkInterfaceId": s.InternalNetworkInterfaceId,
+		"mode":                       mode,
+	}
+}
+
+func (s *CreateAddressPairRequest) AddUserAgent(pagent ...string) ICreateAddressPairRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *CreateAddressPairRequest) WithMode(pmode AddressPairMode) ICreateAddressPairRequest {
+	s.Mode = &pmode
+	return s
+}

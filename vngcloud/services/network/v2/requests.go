@@ -25,3 +25,10 @@ func NewListAddressPairsByVirtualAddressIdRequest(pvirtualAddressId string) ILis
 	opts.VirtualAddressId = pvirtualAddressId
 	return opts
 }
+
+func NewCreateAddressPairRequest(pvirtualAddressId, pinternalNicId string) ICreateAddressPairRequest {
+	opts := new(CreateAddressPairRequest)
+	opts.VirtualAddressId = pvirtualAddressId
+	opts.InternalNetworkInterfaceId = pinternalNicId
+	return opts
+}

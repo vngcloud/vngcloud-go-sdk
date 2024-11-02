@@ -54,7 +54,9 @@ type IUpdateSubnetByIdRequest interface {
 	ToRequestBody() interface{}
 }
 
-// Address Pair
+/**
+ * The interface request group of Address Pair API
+ */
 
 type IGetAllAddressPairByVirtualSubnetIdRequest interface {
 	GetVirtualSubnetId() string
@@ -74,6 +76,15 @@ type IDeleteAddressPairRequest interface {
 
 type IListAllServersBySecgroupIdRequest interface {
 	GetSecgroupId() string
+}
+
+type ICreateAddressPairRequest interface {
+	GetVirtualAddressId() string
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateAddressPairRequest
+	WithMode(pmode AddressPairMode) ICreateAddressPairRequest
 }
 
 /**
@@ -97,7 +108,6 @@ type IDeleteVirtualAddressByIdRequest interface {
 	ToMap() map[string]interface{}
 }
 
-
 // Request interface for getting virtual address by ID
 type IGetVirtualAddressByIdRequest interface {
 	GetVirtualAddressId() string
@@ -105,7 +115,6 @@ type IGetVirtualAddressByIdRequest interface {
 	AddUserAgent(pagent ...string) IGetVirtualAddressByIdRequest
 	ToMap() map[string]interface{}
 }
-
 
 // Request interface for listing address pairs of virtual address by ID
 

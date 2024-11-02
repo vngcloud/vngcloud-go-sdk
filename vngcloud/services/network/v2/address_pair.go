@@ -58,3 +58,23 @@ func (s *NetworkServiceV2) DeleteAddressPair(popts IDeleteAddressPairRequest) ls
 	}
 	return nil
 }
+
+func (s *NetworkServiceV2) CreateAddressPair(popts ICreateAddressPairRequest) (*lsentity.AddressPair, lserr.IError) {
+	url := createAddressPairUrl(s.VserverClient, popts)
+	resp := new(CreateAddressPairResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(201).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
+			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
+	}
+
+	return resp.ToAddressPair(), nil
+}
