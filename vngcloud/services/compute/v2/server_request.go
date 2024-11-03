@@ -20,8 +20,8 @@ type CreateServerRequest struct {
 	FlavorId               string                   `json:"flavorId"`
 	ImageId                string                   `json:"imageId"`
 	Name                   string                   `json:"name"`
-	NetworkId              *string                  `json:"networkId,omitempty"`
-	SubnetId               *string                  `json:"subnetId,omitempty"`
+	NetworkId              string                  `json:"networkId,omitempty"`
+	SubnetId               string                  `json:"subnetId,omitempty"`
 	OsLicence              bool                     `json:"osLicence,omitempty"`
 	RestoreBackup          bool                     `json:"restoreBackup,omitempty"`
 	RootDiskEncryptionType DataDiskEncryptionType   `json:"rootDiskEncryptionType,omitempty"`
@@ -80,7 +80,7 @@ func (s *CreateServerRequest) WithServerNetworkInterface(pprojectId, pnetworkId,
 		AttachFloating: pattachFloating,
 	})
 
-	return s
+	return s.WithNetwork(s.Networks[0].NetworkId, s.Networks[0].SubnetId)
 }
 
 func (s *CreateServerRequest) WithRootDiskEncryptionType(pdataDisk DataDiskEncryptionType) ICreateServerRequest {
@@ -146,8 +146,8 @@ func (s *CreateServerRequest) WithProduct(pproduct string) ICreateServerRequest 
 }
 
 func (s *CreateServerRequest) WithNetwork(pnetworkId, psubnetId string) ICreateServerRequest {
-	s.NetworkId = &pnetworkId
-	s.SubnetId = &psubnetId
+	s.NetworkId = pnetworkId
+	s.SubnetId = psubnetId
 
 	return s
 }
