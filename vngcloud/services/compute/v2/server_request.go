@@ -20,8 +20,8 @@ type CreateServerRequest struct {
 	FlavorId               string                   `json:"flavorId"`
 	ImageId                string                   `json:"imageId"`
 	Name                   string                   `json:"name"`
-	NetworkId              string                  `json:"networkId,omitempty"`
-	SubnetId               string                  `json:"subnetId,omitempty"`
+	NetworkId              string                   `json:"networkId,omitempty"`
+	SubnetId               string                   `json:"subnetId,omitempty"`
 	OsLicence              bool                     `json:"osLicence,omitempty"`
 	RestoreBackup          bool                     `json:"restoreBackup,omitempty"`
 	RootDiskEncryptionType DataDiskEncryptionType   `json:"rootDiskEncryptionType,omitempty"`
@@ -159,6 +159,12 @@ func (s *CreateServerRequest) AddUserAgent(pagent ...string) ICreateServerReques
 
 type GetServerByIdRequest struct {
 	lscommon.ServerCommon
+	lscommon.UserAgent
+}
+
+func (s *GetServerByIdRequest) AddUserAgent(pagent ...string) IGetServerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type DeleteServerByIdRequest struct {

@@ -37,6 +37,8 @@ type IListSecgroupRulesBySecgroupIdRequest interface {
 
 type IGetNetworkByIdRequest interface {
 	GetNetworkId() string
+	AddUserAgent(pagent ...string) IGetNetworkByIdRequest
+	ParseUserAgent() string
 }
 
 // Subnet

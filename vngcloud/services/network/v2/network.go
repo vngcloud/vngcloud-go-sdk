@@ -11,6 +11,7 @@ func (s *NetworkServiceV2) GetNetworkById(popts IGetNetworkByIdRequest) (*lsenti
 	resp := new(GetNetworkByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

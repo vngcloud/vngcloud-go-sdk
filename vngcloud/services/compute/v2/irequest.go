@@ -20,6 +20,8 @@ type ICreateServerRequest interface {
 
 type IGetServerByIdRequest interface {
 	GetServerId() string
+	AddUserAgent(pagent ...string) IGetServerByIdRequest
+	ParseUserAgent() string
 }
 
 type IDeleteServerByIdRequest interface {

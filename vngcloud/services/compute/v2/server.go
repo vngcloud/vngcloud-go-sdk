@@ -41,6 +41,7 @@ func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity
 	resp := new(GetServerByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

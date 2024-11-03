@@ -10,4 +10,11 @@ func NewGetNetworkByIdRequest(pnetworkId string) IGetNetworkByIdRequest {
 
 type GetNetworkByIdRequest struct {
 	lscommon.NetworkCommon
+	lscommon.UserAgent
 }
+
+func (s *GetNetworkByIdRequest) AddUserAgent(pagent ...string) IGetNetworkByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
