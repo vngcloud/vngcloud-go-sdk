@@ -12,12 +12,14 @@ const (
 	patternInternalNetworkInterfaceNotFound = `internal network interface with id [^.]+ is not found`
 	patternWanIpAvailable                   = "wan ip is available"
 	pattermWapIdNotFound                    = "cannot get wan ip with id"
+	patternAddressPairExisted               = `address pair with internal network interface  id [^.]+ already exists`
 )
 
 var (
 	regexErrorSubnetNotFound                   = lregexp.MustCompile(patternSubnetNotFound)
 	regexErrorSubnetNotBelongNetwork           = lregexp.MustCompile(patternSubnetNotBelongNetwork)
 	regexErrorInternalNetworkInterfaceNotFound = lregexp.MustCompile(patternInternalNetworkInterfaceNotFound)
+	regexErrorAddressPairExisted               = lregexp.MustCompile(patternAddressPairExisted)
 )
 
 func WithErrorNetworkNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -76,6 +78,22 @@ func WithErrorInternalNetworkInterfaceNotFound(perrResp IErrorRespone) func(sdkE
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
 		if regexErrorInternalNetworkInterfaceNotFound.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVServerInternalNetworkInterfaceNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+
+func WithErrorAddressPairExisted(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorAddressPairExisted.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVServerAddressPairExisted).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

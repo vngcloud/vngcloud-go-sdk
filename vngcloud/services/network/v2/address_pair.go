@@ -72,7 +72,8 @@ func (s *NetworkServiceV2) CreateAddressPair(popts ICreateAddressPairRequest) (*
 
 	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
+			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp),
+			lserr.WithErrorAddressPairExisted(errResp)).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}
 
