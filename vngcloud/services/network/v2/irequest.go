@@ -74,6 +74,7 @@ type ISetAddressPairInVirtualSubnetRequest interface {
 type IDeleteAddressPairRequest interface {
 	ParseUserAgent() string
 	GetAddressPairID() string
+	AddUserAgent(pagent ...string) IDeleteAddressPairRequest
 }
 
 type IListAllServersBySecgroupIdRequest interface {
