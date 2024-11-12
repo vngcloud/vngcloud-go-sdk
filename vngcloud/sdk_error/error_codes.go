@@ -154,4 +154,5 @@ const (
 	EcVNetworkContainInvalidCharacter                   = ErrorCode("ContainInvalidCharacter")
 	EcVNetworkLockOnProcess                             = ErrorCode("LockOnProcess")
 	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
+	EcVNetworkEndpointTagExisted                        = ErrorCode("EndpointTagExisted")
 )

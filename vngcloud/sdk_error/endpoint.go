@@ -85,3 +85,17 @@ func WithErrorEndpointTagNotFound(perrResp IErrorRespone) func(sdkError IError) 
 		}
 	}
 }
+
+func WithErrorEndpointTagExisted(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		if lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "TAG_EXISTED" {
+			sdkError.WithErrorCode(EcVNetworkEndpointTagExisted).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}

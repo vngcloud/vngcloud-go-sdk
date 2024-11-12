@@ -124,6 +124,7 @@ func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWit
 
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointTagExisted(errResp),
 			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
 			WithParameters(popts.GetParameters())
