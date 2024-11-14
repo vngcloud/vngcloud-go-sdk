@@ -13,7 +13,7 @@ import (
 )
 
 func getEnv() (string, string) {
-	envFile, _ := lgodotenv.Read("/mnt/vayne/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
 	clientId := envFile["VNGCLOUD_CLIENT_ID"]
 	clientSecret := envFile["VNGCLOUD_CLIENT_SECRET"]
 
@@ -21,7 +21,7 @@ func getEnv() (string, string) {
 }
 
 func getEnvDevOps() (string, string) {
-	envFile, _ := lgodotenv.Read("/mnt/vayne/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
 	clientId := envFile["CLIENT_ID_DEVOPS"]
 	clientSecret := envFile["CLIENT_SECRET_DEVOPS"]
 
@@ -29,7 +29,7 @@ func getEnvDevOps() (string, string) {
 }
 
 func getValueOfEnv(pkey string) string {
-	envFile, _ := lgodotenv.Read("/mnt/vayne/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
 	value := envFile[pkey]
 	return value
 }
@@ -42,6 +42,23 @@ func validSdkConfig() lsclient.IClient {
 		WithUserId(getValueOfEnv("VNGCLOUD_USER_ID")).
 		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
 		WithProjectId(getValueOfEnv("VNGCLOUD_PROJECT_ID")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func validUserSdkConfig() lsclient.IClient {
+	clientId, clientSecret := getValueOfEnv("USER_CLIENT_ID"), getValueOfEnv("USER_CLIENT_SECRET")
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithUserId(getValueOfEnv("VNGCLOUD_USER_ID")).
+		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
+		WithProjectId(getValueOfEnv("USER_PROJECT")).
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
