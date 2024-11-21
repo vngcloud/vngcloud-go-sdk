@@ -110,7 +110,8 @@ const (
 
 // vServer virtual address
 const (
-	EcVServerVirtualAddressNotFound = ErrorCode("VngCloudVServerVirtualAddressNotFound")
+	EcVServerVirtualAddressNotFound    = ErrorCode("VngCloudVServerVirtualAddressNotFound")
+	EcVServerVirtualAddressExceedQuota = ErrorCode("VngCloudVServerVirtualAddressExceedQuota")
 )
 
 // vServer quota
