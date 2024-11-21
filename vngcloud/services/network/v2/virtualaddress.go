@@ -38,7 +38,8 @@ func (s *NetworkServiceV2) DeleteVirtualAddressById(popts IDeleteVirtualAddressB
 
 	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorVirtualAddressNotFound(errResp)).
+			lserr.WithErrorVirtualAddressNotFound(errResp),
+			lserr.WithErrorVirtualAddressInUse(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}

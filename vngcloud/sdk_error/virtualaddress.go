@@ -9,6 +9,7 @@ const (
 	patternVirtualAddressNotFound    = `virtual ip address with id [^.]+ is not found`
 	patternAddressPairNotFound       = `address pair with uuid: [^.]+ was not existing`
 	patternVirtualAddressExceedQuota = "exceeded virtual_ip_address quota"
+	patternVirtualAddressInUse       = "ip address is already in use"
 )
 
 var (
@@ -55,6 +56,22 @@ func WithErrorVirtualAddressExceedQuota(perrResp IErrorRespone) func(sdkError IE
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVirtualAddressExceedQuota) {
 			sdkError.WithErrorCode(EcVServerVirtualAddressExceedQuota).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
+		}
+	}
+}
+
+func WithErrorVirtualAddressInUse(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternVirtualAddressInUse) {
+			sdkError.WithErrorCode(EcVServerVirtualAddressInUse).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError()).
 				WithErrorCategories(ErrCatQuota)
