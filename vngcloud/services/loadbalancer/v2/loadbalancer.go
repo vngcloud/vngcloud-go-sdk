@@ -263,7 +263,8 @@ func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersReques
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorPoolNotFound(errResp),
-			lserr.WithErrorMemberMustIdentical(errResp)).AppendCategories(lserr.ErrCatProductVlb)
+			lserr.WithErrorMemberMustIdentical(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -283,6 +284,7 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorPoolNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId(), "poolId", popts.GetPoolId()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 

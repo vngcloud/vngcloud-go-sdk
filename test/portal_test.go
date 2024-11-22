@@ -136,7 +136,7 @@ func TestGetQuotaByNamePass(t *ltesting.T) {
 
 func TestListProjects(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects()
+	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects(lsportalV1.NewListProjectsRequest())
 	if err != nil {
 		t.Log("Error: ", err)
 	}
@@ -146,7 +146,7 @@ func TestListProjects(t *ltesting.T) {
 
 func TestListPortalUser11412(t *ltesting.T) {
 	vngcloud := validUser11412()
-	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects()
+	projects, err := vngcloud.VServerGateway().V1().PortalService().ListProjects(lsportalV1.NewListProjectsRequest())
 	if err != nil {
 		t.Log("Error: ", err)
 	}
