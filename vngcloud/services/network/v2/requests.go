@@ -41,9 +41,9 @@ func NewCreateSecgroupRequest(pname, pdescription string) ICreateSecgroupRequest
 }
 
 func NewDeleteSecgroupByIdRequest(psecgroupId string) IDeleteSecgroupByIdRequest {
-	return &DeleteSecgroupByIdRequest{
-		SecgroupId: psecgroupId,
-	}
+	opts := new(DeleteSecgroupByIdRequest)
+	opts.SecgroupId = psecgroupId
+	return opts
 }
 
 func NewGetSecgroupByIdRequest(psecgroupId string) IGetSecgroupByIdRequest {

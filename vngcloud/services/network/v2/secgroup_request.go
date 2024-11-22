@@ -6,11 +6,13 @@ type ListSecgroupRequest struct {
 }
 
 type DeleteSecgroupByIdRequest struct { //__________________________________________________________________________________
-	SecgroupId string
+	lscommon.UserAgent
+	lscommon.SecgroupCommon
 }
 
-func (s *DeleteSecgroupByIdRequest) GetSecgroupId() string {
-	return s.SecgroupId
+func (s *DeleteSecgroupByIdRequest) AddUserAgent(pagent ...string) IDeleteSecgroupByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type CreateSecgroupRequest struct { //__________________________________________________________________________________

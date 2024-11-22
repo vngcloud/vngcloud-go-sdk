@@ -10,4 +10,10 @@ func NewListAllServersBySecgroupIdRequest(psecgroupId string) IListAllServersByS
 
 type ListAllServersBySecgroupIdRequest struct {
 	lscommon.SecgroupCommon
+	lscommon.UserAgent
+}
+
+func (s *ListAllServersBySecgroupIdRequest) AddUserAgent(pagent ...string) IListAllServersBySecgroupIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }

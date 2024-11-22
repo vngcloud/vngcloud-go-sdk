@@ -156,6 +156,7 @@ type IDeleteListenerByIdRequest interface {
 type IDeleteLoadBalancerByIdRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IDeleteLoadBalancerByIdRequest
 }
 
 type IHealthMonitorRequest interface {
@@ -261,12 +262,14 @@ type IGetPoolByIdRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IGetPoolByIdRequest
 }
 
 type IGetListenerByIdRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IGetListenerByIdRequest
 }
 
 type IResizeLoadBalancerByIdRequest interface {

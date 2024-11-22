@@ -210,10 +210,16 @@ func (s *GetServerByIdRequest) ToMap() map[string]interface{} {
 type DeleteServerByIdRequest struct {
 	DeleteAllVolume bool `json:"deleteAllVolume"`
 	lscommon.ServerCommon
+	lscommon.UserAgent
 }
 
 func (s *DeleteServerByIdRequest) WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest {
 	s.DeleteAllVolume = pok
+	return s
+}
+
+func (s *DeleteServerByIdRequest) AddUserAgent(pagent ...string) IDeleteServerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

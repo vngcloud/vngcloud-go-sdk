@@ -109,6 +109,11 @@ type DeleteLoadBalancerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 }
 
+func (s *DeleteLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IDeleteLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type ResizeLoadBalancerByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon

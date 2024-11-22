@@ -30,6 +30,8 @@ type IDeleteServerByIdRequest interface {
 	GetServerId() string
 	WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest
 	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IDeleteServerByIdRequest
+	ParseUserAgent() string
 }
 
 type IUpdateServerSecgroupsByServerIdRequest interface {

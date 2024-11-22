@@ -71,6 +71,7 @@ func (s *NetworkServiceV2) DeleteSecgroupById(popts IDeleteSecgroupByIdRequest) 
 	url := deleteSecgroupByIdUrl(s.VserverClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(204).
 		WithJsonError(errResp)
 

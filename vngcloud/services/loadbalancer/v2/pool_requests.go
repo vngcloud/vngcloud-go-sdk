@@ -196,6 +196,11 @@ type GetPoolByIdRequest struct {
 	lscommon.PoolCommon
 }
 
+func (s *GetPoolByIdRequest) AddUserAgent(pagent ...string) IGetPoolByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type HealthMonitor struct {
 	HealthCheckProtocol HealthCheckProtocol     `json:"healthCheckProtocol"`
 	HealthyThreshold    int                     `json:"healthyThreshold"`

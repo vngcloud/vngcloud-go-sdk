@@ -55,6 +55,7 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 	url := deleteEndpointByIdUrl(s.VNetworkClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
 		//WithUserId(s.getUserId()).
@@ -76,6 +77,7 @@ func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity
 	resp := new(ListEndpointsResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		//WithUserId(s.getUserId()).
 		WithJsonResponse(resp).

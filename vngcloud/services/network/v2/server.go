@@ -11,6 +11,7 @@ func (s *NetworkServiceV2) ListAllServersBySecgroupId(popts IListAllServersBySec
 	resp := new(ListAllServersBySecgroupIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

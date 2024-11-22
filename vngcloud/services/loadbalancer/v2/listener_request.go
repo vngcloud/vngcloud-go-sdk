@@ -129,6 +129,11 @@ type GetListenerByIdRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *GetListenerByIdRequest) AddUserAgent(pagent ...string) IGetListenerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func (s *CreateListenerRequest) ToRequestBody() interface{} {
 	if s == nil {
 		return nil

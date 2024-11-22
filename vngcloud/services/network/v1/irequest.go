@@ -26,6 +26,7 @@ type ICreateEndpointRequest interface {
 type IDeleteEndpointByIdRequest interface {
 	GetEndpointId() string
 	AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest
+	ParseUserAgent() string
 	ToRequestBody(psvc lsclient.IServiceClient) interface{}
 	ToMap() map[string]interface{}
 }
@@ -38,6 +39,7 @@ type IListEndpointsRequest interface {
 	ToListQuery() (string, error)
 	GetDefaultQuery() string
 	AddUserAgent(pagent ...string) IListEndpointsRequest
+	ParseUserAgent() string
 	ToMap() map[string]interface{}
 }
 

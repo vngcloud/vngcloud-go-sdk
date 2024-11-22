@@ -17,6 +17,8 @@ type ICreateSecgroupRequest interface {
 
 type IDeleteSecgroupByIdRequest interface {
 	GetSecgroupId() string
+	AddUserAgent(pagent ...string) IDeleteSecgroupByIdRequest
+	ParseUserAgent() string
 }
 
 type IListSecgroupRequest interface {
@@ -88,6 +90,8 @@ type IDeleteAddressPairRequest interface {
 
 type IListAllServersBySecgroupIdRequest interface {
 	GetSecgroupId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListAllServersBySecgroupIdRequest
 }
 
 type ICreateAddressPairRequest interface {
