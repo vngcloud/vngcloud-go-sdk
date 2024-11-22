@@ -59,6 +59,7 @@ type ICreateListenerRequest interface {
 	ParseUserAgent() string
 	GetLoadBalancerId() string
 	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateListenerRequest
 }
 
 type IUpdateListenerRequest interface {
@@ -72,6 +73,7 @@ type IUpdateListenerRequest interface {
 	WithDefaultPoolId(ppoolId string) IUpdateListenerRequest
 	WithHeaders(pheaders ...string) IUpdateListenerRequest
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IUpdateListenerRequest
 
 	WithCertificateAuthorities(pca ...string) IUpdateListenerRequest
 	WithClientCertificate(pclientCert string) IUpdateListenerRequest
@@ -93,6 +95,7 @@ type ICreatePoolRequest interface {
 	ToMap() map[string]interface{}
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) ICreatePoolRequest
 }
 
 type IUpdatePoolRequest interface {
@@ -111,11 +114,13 @@ type IUpdatePoolRequest interface {
 type IListListenersByLoadBalancerIdRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListListenersByLoadBalancerIdRequest
 }
 
 type IListPoolsByLoadBalancerIdRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListPoolsByLoadBalancerIdRequest
 }
 
 type IUpdatePoolMembersRequest interface {
@@ -124,24 +129,28 @@ type IUpdatePoolMembersRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IUpdatePoolMembersRequest
 }
 
 type IListPoolMembersRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListPoolMembersRequest
 }
 
 type IDeletePoolByIdRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IDeletePoolByIdRequest
 }
 
 type IDeleteListenerByIdRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IDeleteListenerByIdRequest
 }
 
 type IDeleteLoadBalancerByIdRequest interface {
@@ -178,6 +187,7 @@ type ICreateTagsRequest interface {
 	ToRequestBody() interface{}
 	ParseUserAgent() string
 	WithTags(ptags ...string) ICreateTagsRequest
+	AddUserAgent(pagent ...string) ICreateTagsRequest
 }
 
 type IUpdateTagsRequest interface {
@@ -264,4 +274,5 @@ type IResizeLoadBalancerByIdRequest interface {
 	ToMap() map[string]interface{}
 	ParseUserAgent() string
 	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest
 }

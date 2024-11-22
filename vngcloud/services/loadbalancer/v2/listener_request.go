@@ -76,6 +76,11 @@ type CreateListenerRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *CreateListenerRequest) AddUserAgent(pagent ...string) ICreateListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type UpdateListenerRequest struct {
 	AllowedCidrs                string    `json:"allowedCidrs"`
 	DefaultPoolId               string    `json:"defaultPoolId"`
@@ -92,15 +97,30 @@ type UpdateListenerRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *UpdateListenerRequest) AddUserAgent(pagent ...string) IUpdateListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type ListListenersByLoadBalancerIdRequest struct {
 	lscommon.LoadBalancerCommon
 	lscommon.UserAgent
+}
+
+func (s *ListListenersByLoadBalancerIdRequest) AddUserAgent(pagent ...string) IListListenersByLoadBalancerIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type DeleteListenerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 	lscommon.ListenerCommon
 	lscommon.UserAgent
+}
+
+func (s *DeleteListenerByIdRequest) AddUserAgent(pagent ...string) IDeleteListenerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type GetListenerByIdRequest struct {

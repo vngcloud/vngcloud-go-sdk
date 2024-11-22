@@ -116,6 +116,11 @@ type ResizeLoadBalancerByIdRequest struct {
 	PackageId string `json:"packageId"`
 }
 
+func (s *ResizeLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
 	err := map[string]interface{}{
 		"name":         s.Name,

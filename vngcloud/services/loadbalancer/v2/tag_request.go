@@ -45,6 +45,11 @@ type CreateTagsRequest struct {
 	lscommon.LoadBalancerCommon
 }
 
+func (s *CreateTagsRequest) AddUserAgent(pagent ...string) ICreateTagsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type UpdateTagsRequest struct {
 	ResourceID     string         `json:"resourceId"`
 	ResourceType   string         `json:"resourceType"`
