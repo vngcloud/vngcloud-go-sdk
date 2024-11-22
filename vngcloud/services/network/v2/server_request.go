@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 func NewListAllServersBySecgroupIdRequest(psecgroupId string) IListAllServersBySecgroupIdRequest {
 	opt := new(ListAllServersBySecgroupIdRequest)
 	opt.SecgroupId = psecgroupId
@@ -7,5 +9,5 @@ func NewListAllServersBySecgroupIdRequest(psecgroupId string) IListAllServersByS
 }
 
 type ListAllServersBySecgroupIdRequest struct {
-	SecgroupCommon
+	lscommon.SecgroupCommon
 }

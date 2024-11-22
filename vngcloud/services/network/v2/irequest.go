@@ -3,12 +3,16 @@ package v2
 // Secgroup
 
 type IGetSecgroupByIdRequest interface {
+	AddUserAgent(pagent ...string) IGetSecgroupByIdRequest
+	ParseUserAgent() string
 	GetSecgroupId() string
 }
 
 type ICreateSecgroupRequest interface {
 	ToRequestBody() interface{}
 	GetSecgroupName() string
+	AddUserAgent(pagent ...string) ICreateSecgroupRequest
+	ParseUserAgent() string
 }
 
 type IDeleteSecgroupByIdRequest interface {
@@ -22,6 +26,9 @@ type IListSecgroupRequest interface {
 type ICreateSecgroupRuleRequest interface {
 	GetSecgroupId() string
 	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) ICreateSecgroupRuleRequest
+	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IDeleteSecgroupRuleByIdRequest interface {
@@ -31,6 +38,8 @@ type IDeleteSecgroupRuleByIdRequest interface {
 
 type IListSecgroupRulesBySecgroupIdRequest interface {
 	GetSecgroupId() string
+	AddUserAgent(pagent ...string) IListSecgroupRulesBySecgroupIdRequest
+	ParseUserAgent() string
 }
 
 // Network

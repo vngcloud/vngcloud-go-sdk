@@ -55,7 +55,7 @@ type CreateEndpointRequest struct {
 	lscommon.UserAgent
 }
 
-func (s *CreateEndpointRequest) GetParameters() map[string]interface{} {
+func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"resourceType":      s.ResourceType,
 		"action":            s.Action,
@@ -167,7 +167,7 @@ func (s *DeleteEndpointByIdRequest) ToRequestBody(psvc lsclient.IServiceClient) 
 	return s
 }
 
-func (s *DeleteEndpointByIdRequest) GetParameters() map[string]interface{} {
+func (s *DeleteEndpointByIdRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"serviceId":  s.EndpointServiceUuid,
 		"endpointId": s.EndpointId,
@@ -191,7 +191,7 @@ type ListEndpointsRequest struct {
 	lscommon.UserAgent
 }
 
-func (s *ListEndpointsRequest) GetParameters() map[string]interface{} {
+func (s *ListEndpointsRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"page":  s.Page,
 		"size":  s.Size,
@@ -285,7 +285,7 @@ func (s *ListTagsByEndpointIdRequest) GetDefaultQuery() string {
 	return query
 }
 
-func (s *ListTagsByEndpointIdRequest) GetParameters() map[string]interface{} {
+func (s *ListTagsByEndpointIdRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"resourceUuid": s.Id,
 	}
@@ -323,7 +323,7 @@ type CreateTagsWithEndpointIdRequest struct {
 	SystemTag bool `json:"systemTag"`
 }
 
-func (s *CreateTagsWithEndpointIdRequest) GetParameters() map[string]interface{} {
+func (s *CreateTagsWithEndpointIdRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"resourceUuid": s.Id,
 	}
@@ -376,7 +376,7 @@ type DeleteTagOfEndpointRequest struct {
 	TagId     string
 }
 
-func (s *DeleteTagOfEndpointRequest) GetParameters() map[string]interface{} {
+func (s *DeleteTagOfEndpointRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"tagId": s.TagId,
 	}
@@ -416,7 +416,7 @@ type UpdateTagValueOfEndpointRequest struct {
 	TagValue  string `json:"tagValue"`
 }
 
-func (s *UpdateTagValueOfEndpointRequest) GetParameters() map[string]interface{} {
+func (s *UpdateTagValueOfEndpointRequest) ToMap() map[string]interface{} {
 	res := map[string]interface{}{
 		"tagId":    s.TagId,
 		"tagValue": s.TagValue,

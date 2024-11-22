@@ -11,6 +11,7 @@ func (s *NetworkServiceV2) GetSecgroupById(popts IGetSecgroupByIdRequest) (*lsen
 	resp := new(GetSecgroupByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
@@ -31,6 +32,7 @@ func (s *NetworkServiceV2) CreateSecgroup(popts ICreateSecgroupRequest) (*lsenti
 	resp := new(CreateSecgroupResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(201).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).

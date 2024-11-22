@@ -20,14 +20,14 @@ type ICreateEndpointRequest interface {
 	WithBuyMorePoc(pyes bool) ICreateEndpointRequest
 	WithEnableAutoRenew(pyes bool) ICreateEndpointRequest
 	AddUserAgent(pagent ...string) ICreateEndpointRequest
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 }
 
 type IDeleteEndpointByIdRequest interface {
 	GetEndpointId() string
 	AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest
 	ToRequestBody(psvc lsclient.IServiceClient) interface{}
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 }
 
 type IListEndpointsRequest interface {
@@ -38,13 +38,13 @@ type IListEndpointsRequest interface {
 	ToListQuery() (string, error)
 	GetDefaultQuery() string
 	AddUserAgent(pagent ...string) IListEndpointsRequest
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 }
 
 type IListTagsByEndpointIdRequest interface {
 	ToListQuery() (string, error)
 	GetDefaultQuery() string
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
 	GetProjectId() string
@@ -52,7 +52,7 @@ type IListTagsByEndpointIdRequest interface {
 }
 
 type ICreateTagsWithEndpointIdRequest interface {
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 	AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest
 	GetMapHeaders() map[string]string
 	AddTag(pkey, pvalue string) ICreateTagsWithEndpointIdRequest
@@ -62,7 +62,7 @@ type ICreateTagsWithEndpointIdRequest interface {
 }
 
 type IDeleteTagOfEndpointRequest interface {
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 	AddUserAgent(pagent ...string) IDeleteTagOfEndpointRequest
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
@@ -71,7 +71,7 @@ type IDeleteTagOfEndpointRequest interface {
 }
 
 type IUpdateTagValueOfEndpointRequest interface {
-	GetParameters() map[string]interface{}
+	ToMap() map[string]interface{}
 	AddUserAgent(pagent ...string) IUpdateTagValueOfEndpointRequest
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string

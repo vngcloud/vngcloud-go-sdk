@@ -30,6 +30,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorSecgroupNotFound(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
+			WithParameters(popts.ToMap()).
 			WithKVparameters("projectId", s.getProjectId())
 	}
 
@@ -49,8 +50,8 @@ func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity
 	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp)).
-			WithKVparameters("projectId", s.getProjectId(),
-				"serverId", popts.GetServerId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return resp.ToEntityServer(), nil
@@ -83,6 +84,7 @@ func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSe
 	resp := new(UpdateServerSecgroupsByServerIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).
@@ -165,10 +167,8 @@ func (s *ComputeServiceV2) AttachFloatingIp(popts IAttachFloatingIpRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerCanNotAttachFloatingIp(errResp),
 			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
-			WithKVparameters(
-				"projectId", s.getProjectId(),
-				"serverId", popts.GetServerId(),
-				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return nil
@@ -189,10 +189,8 @@ func (s *ComputeServiceV2) DetachFloatingIp(popts IDetachFloatingIpRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorWanIdNotFound(errResp),
 			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
-			WithKVparameters(
-				"projectId", s.getProjectId(),
-				"wanId", popts.GetWanId(),
-				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return nil

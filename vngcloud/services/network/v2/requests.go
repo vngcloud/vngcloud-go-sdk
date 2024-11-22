@@ -32,3 +32,26 @@ func NewCreateAddressPairRequest(pvirtualAddressId, pinternalNicId string) ICrea
 	opts.InternalNetworkInterfaceId = pinternalNicId
 	return opts
 }
+
+func NewCreateSecgroupRequest(pname, pdescription string) ICreateSecgroupRequest {
+	return &CreateSecgroupRequest{
+		Name:        pname,
+		Description: pdescription,
+	}
+}
+
+func NewDeleteSecgroupByIdRequest(psecgroupId string) IDeleteSecgroupByIdRequest {
+	return &DeleteSecgroupByIdRequest{
+		SecgroupId: psecgroupId,
+	}
+}
+
+func NewGetSecgroupByIdRequest(psecgroupId string) IGetSecgroupByIdRequest {
+	opt := new(GetSecgroupByIdRequest)
+	opt.SecgroupId = psecgroupId
+	return opt
+}
+
+func NewListSecgroupRequest() IListSecgroupRequest {
+	return &ListSecgroupRequest{}
+}

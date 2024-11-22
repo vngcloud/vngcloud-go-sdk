@@ -1,27 +1,6 @@
 package v2
 
-func NewCreateSecgroupRequest(pname, pdescription string) ICreateSecgroupRequest {
-	return &CreateSecgroupRequest{
-		Name:        pname,
-		Description: pdescription,
-	}
-}
-
-func NewDeleteSecgroupByIdRequest(psecgroupId string) IDeleteSecgroupByIdRequest {
-	return &DeleteSecgroupByIdRequest{
-		SecgroupId: psecgroupId,
-	}
-}
-
-func NewGetSecgroupByIdRequest(psecgroupId string) IGetSecgroupByIdRequest {
-	opt := new(GetSecgroupByIdRequest)
-	opt.SecgroupId = psecgroupId
-	return opt
-}
-
-func NewListSecgroupRequest() IListSecgroupRequest {
-	return &ListSecgroupRequest{}
-}
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 
 type ListSecgroupRequest struct {
 }
@@ -37,9 +16,16 @@ func (s *DeleteSecgroupByIdRequest) GetSecgroupId() string {
 type CreateSecgroupRequest struct { //__________________________________________________________________________________
 	Name        string `json:"name"`
 	Description string `json:"description"`
+
+	lscommon.UserAgent
 }
 
 func (s *CreateSecgroupRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateSecgroupRequest) AddUserAgent(pagent ...string) ICreateSecgroupRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 
@@ -48,5 +34,11 @@ func (s *CreateSecgroupRequest) GetSecgroupName() string {
 }
 
 type GetSecgroupByIdRequest struct { //_________________________________________________________________________________
-	SecgroupCommon
+	lscommon.SecgroupCommon
+	lscommon.UserAgent
+}
+
+func (s *GetSecgroupByIdRequest) AddUserAgent(pagent ...string) IGetSecgroupByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }

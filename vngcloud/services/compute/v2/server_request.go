@@ -157,6 +157,40 @@ func (s *CreateServerRequest) AddUserAgent(pagent ...string) ICreateServerReques
 	return s
 }
 
+func (s *CreateServerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"attachFloating":         s.AttachFloating,
+		"backupInstancePointId":  s.BackupInstancePointId,
+		"dataDiskEncryptionType": s.DataDiskEncryptionType,
+		"dataDiskName":           s.DataDiskName,
+		"dataDiskSize":           s.DataDiskSize,
+		"dataDiskTypeId":         s.DataDiskTypeId,
+		"enableBackup":           s.EnableBackup,
+		"encryptionVolume":       s.EncryptionVolume,
+		"expirePassword":         s.ExpirePassword,
+		"flavorId":               s.FlavorId,
+		"imageId":                s.ImageId,
+		"name":                   s.Name,
+		"networkId":              s.NetworkId,
+		"subnetId":               s.SubnetId,
+		"osLicence":              s.OsLicence,
+		"restoreBackup":          s.RestoreBackup,
+		"rootDiskEncryptionType": s.RootDiskEncryptionType,
+		"rootDiskSize":           s.RootDiskSize,
+		"rootDiskTypeId":         s.RootDiskTypeId,
+		"securityGroup":          s.SecurityGroup,
+		"serverGroupId":          s.ServerGroupId,
+		"sshKeyId":               s.SshKeyId,
+		"userName":               s.UserName,
+		"isPoc":                  s.IsPoc,
+		"product":                s.Product,
+		"type":                   s.Type,
+		"tags":                   s.Tags,
+		"autoRenew":              s.AutoRenew,
+		"networks":               s.Networks,
+	}
+}
+
 type GetServerByIdRequest struct {
 	lscommon.ServerCommon
 	lscommon.UserAgent
@@ -165,6 +199,12 @@ type GetServerByIdRequest struct {
 func (s *GetServerByIdRequest) AddUserAgent(pagent ...string) IGetServerByIdRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
+}
+
+func (s *GetServerByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"serverId": s.ServerId,
+	}
 }
 
 type DeleteServerByIdRequest struct {
@@ -185,6 +225,12 @@ type UpdateServerSecgroupsByServerIdRequest struct {
 	Secgroups []string `json:"securityGroup"`
 
 	lscommon.ServerCommon
+	lscommon.UserAgent
+}
+
+func (s *UpdateServerSecgroupsByServerIdRequest) AddUserAgent(pagent ...string) IUpdateServerSecgroupsByServerIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func (s *UpdateServerSecgroupsByServerIdRequest) ToRequestBody() interface{} {
@@ -212,6 +258,14 @@ func (s *AttachFloatingIpRequest) AddUserAgent(pagent ...string) IAttachFloating
 	return s
 }
 
+func (s *AttachFloatingIpRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"serverId":                   s.ServerId,
+		"internalNetworkInterfaceId": s.InternalNetworkInterfaceId,
+		"networkId":                  s.NetworkInterfaceId,
+	}
+}
+
 type DetachFloatingIpRequest struct {
 	NetworkInterfaceId string `json:"networkInterfaceId"`
 
@@ -228,4 +282,13 @@ func (s *DetachFloatingIpRequest) ToRequestBody() interface{} {
 func (s *DetachFloatingIpRequest) AddUserAgent(pagent ...string) IDetachFloatingIpRequest {
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
+}
+
+func (s *DetachFloatingIpRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"serverId":                   s.ServerId,
+		"internalNetworkInterfaceId": s.InternalNetworkInterfaceId,
+		"networkId":                  s.NetworkInterfaceId,
+		"wanId":                      s.WanId,
+	}
 }
