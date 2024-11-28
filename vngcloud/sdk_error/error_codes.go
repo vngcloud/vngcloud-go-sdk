@@ -82,6 +82,7 @@ const (
 	EcVServerVolumeMigrateBeingMigrating     = ErrorCode("VngCloudVServerVolumeMigrateBeingMigrating")
 	EcVServerVolumeMigrateInSameZone         = ErrorCode("VngCloudVServerVolumeMigrateInSameZone")
 	EcVServerVolumeIsMigrating               = ErrorCode("VngCloudVServerVolumeIsMigrating")
+	EcVServerFlavorNotSupported              = ErrorCode("VngCloudVServerFlavorNotSupported")
 )
 
 // Billing

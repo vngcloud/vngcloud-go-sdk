@@ -1,6 +1,9 @@
 package sdk_error
 
-import lstr "strings"
+import (
+	lregexp "regexp"
+	lstr "strings"
+)
 
 const (
 	patternServerNotFound                  = "cannot get server with id"                 // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184b5927"
@@ -18,7 +21,27 @@ const (
 	patternServerImageNotSupported         = "doesn't support image with id"
 	patternImageNotSupport                 = "don't support image"
 	patternServerCanNotAttachFloatingIp    = "the server only allows attaching 1 floating ip"
+	patternServerFlavorNotSupported        = `flavor [^.]+ don't support image [^.]+`
 )
+
+var (
+	regexErrorServerFlavorNotSupported = lregexp.MustCompile(patternLoadBalancerIsUpdating)
+)
+
+func WithErrorServerFlavorNotSupported(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorServerFlavorNotSupported.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcVServerFlavorNotSupported).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
 
 func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
 	return func(sdkError IError) {

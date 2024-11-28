@@ -29,6 +29,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorVolumeExceedQuota(errResp),
 			lserr.WithErrorSecgroupNotFound(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
+			lserr.WithErrorServerFlavorNotSupported(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithParameters(popts.ToMap()).
 			WithKVparameters("projectId", s.getProjectId())
