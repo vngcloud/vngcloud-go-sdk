@@ -16,7 +16,7 @@ const (
 	patternListenerDuplicateProtocolOrPort = "duplicated listener protocol port"
 	patternPoolNotFound                    = "cannot get pool with id"
 	patternPoolInUse                       = "is used in listener"
-	patternLoadBalancerNotReady            = `the load balancer id [^.]+ is not ready`
+	patternLoadBalancerNotReady            = `(?:the )?load balancer id [^.]+ is not ready`
 	patternListenerNotReady                = `listener id [^.]+ is not ready`
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
