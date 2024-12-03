@@ -25,7 +25,7 @@ const (
 )
 
 var (
-	regexErrorServerFlavorNotSupported = lregexp.MustCompile(patternLoadBalancerIsUpdating)
+	regexErrorServerFlavorNotSupported = lregexp.MustCompile(patternServerFlavorNotSupported)
 )
 
 func WithErrorServerFlavorNotSupported(perrResp IErrorRespone) func(sdkError IError) {
