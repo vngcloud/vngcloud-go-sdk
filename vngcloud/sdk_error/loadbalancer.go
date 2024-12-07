@@ -230,8 +230,8 @@ func WithErrorListenerNotFound(perrResp IErrorRespone) func(sdkError IError) {
 			return
 		}
 
-		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) ||
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, patternListenerNotFound) ||
 			regexErrorListenerNotBelongToLoadBalancer.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBListenerNotFound).
 				WithMessage(errMsg).
