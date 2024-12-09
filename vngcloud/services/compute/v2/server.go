@@ -27,6 +27,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorVolumeExceedQuota(errResp),
+			lserr.WithErrorVolumeSizeExceedGlobalQuota(errResp),
 			lserr.WithErrorSecgroupNotFound(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerFlavorNotSupported(errResp),
