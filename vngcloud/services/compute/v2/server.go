@@ -72,6 +72,7 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerDeleteDeletingServer(errResp),
+			lserr.WithErrorServerUpdatingSecgroups(errResp),
 			lserr.WithErrorServerDeleteBillingServer(errResp),
 			lserr.WithErrorServerDeleteCreatingServer(errResp),
 			lserr.WithErrorVolumeInProcess(errResp)).

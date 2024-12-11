@@ -6,22 +6,23 @@ import (
 )
 
 const (
-	patternServerNotFound                  = "cannot get server with id"                 // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184b5927"
-	patternServerCreating                  = "cannot delete server with status creating" // "Server is creating"
-	patternServerExceedQuota               = "exceeded vm quota"                         // "The number of servers exceeds the quota"
-	patternServerDeleting                  = "cannot delete server with status deleting" // "Server is deleting"
-	patternServerBilling                   = "cannot delete server with status creating-billing"
-	patternBillingPaymentMethodNotAllowed  = "payment method is not allowed for the user"
-	patternServerAttachVolumeQuotaExceeded = "exceeded volume_per_server quota"
-	patternServerAttachEncryptedVolume     = "cannot attach encryption volume"
-	patternServerExpired                   = "server is expired"
-	patternServerFlavorSystemExceedQuota   = "there are no more remaining flavor with id"
-	patternServerUpdatingSecgroups         = "cannot change security group of server with status changing-security-group"
-	patternServerExceedCpuQuota            = "exceeded vcpu quota. current used"
-	patternServerImageNotSupported         = "doesn't support image with id"
-	patternImageNotSupport                 = "don't support image"
-	patternServerCanNotAttachFloatingIp    = "the server only allows attaching 1 floating ip"
-	patternServerFlavorNotSupported        = `flavor [^.]+ don't support image [^.]+`
+	patternServerNotFound                      = "cannot get server with id"                 // "Cannot get volume type with id vtype-6790f903-38d2-454d-919e-5b49184b5927"
+	patternServerCreating                      = "cannot delete server with status creating" // "Server is creating"
+	patternServerExceedQuota                   = "exceeded vm quota"                         // "The number of servers exceeds the quota"
+	patternServerDeleting                      = "cannot delete server with status deleting" // "Server is deleting"
+	patternServerBilling                       = "cannot delete server with status creating-billing"
+	patternBillingPaymentMethodNotAllowed      = "payment method is not allowed for the user"
+	patternServerAttachVolumeQuotaExceeded     = "exceeded volume_per_server quota"
+	patternServerAttachEncryptedVolume         = "cannot attach encryption volume"
+	patternServerExpired                       = "server is expired"
+	patternServerFlavorSystemExceedQuota       = "there are no more remaining flavor with id"
+	patternServerUpdatingSecgroups             = "cannot change security group of server with status changing-security-group"
+	patternServerExceedCpuQuota                = "exceeded vcpu quota. current used"
+	patternServerImageNotSupported             = "doesn't support image with id"
+	patternImageNotSupport                     = "don't support image"
+	patternServerCanNotAttachFloatingIp        = "the server only allows attaching 1 floating ip"
+	patternServerFlavorNotSupported            = `flavor [^.]+ don't support image [^.]+`
+	patternServerDeleteServerUpdatingSecgroups = "cannot delete server with status changing-security-group"
 )
 
 var (
@@ -111,7 +112,9 @@ func WithErrorServerUpdatingSecgroups(perrResp IErrorRespone) func(sdkError IErr
 		}
 
 		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerUpdatingSecgroups) {
+		stdErrMsg := lstr.ToLower(lstr.TrimSpace(errMsg))
+		if lstr.Contains(stdErrMsg, patternServerUpdatingSecgroups) ||
+			lstr.Contains(stdErrMsg, patternServerDeleteServerUpdatingSecgroups) {
 			sdkError.WithErrorCode(EcVServerServerUpdatingSecgroups).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
