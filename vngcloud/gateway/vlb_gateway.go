@@ -13,6 +13,14 @@ type vlbGatewayInternal struct {
 	lbService lslbSvc.ILoadBalancerServiceInternal
 }
 
+type vlbGatewayGlobal struct {
+	lbService lslbSvc.ILoadBalancerServiceGlobal
+}
+
+func (s *vlbGatewayGlobal) LoadBalancerService() lslbSvc.ILoadBalancerServiceGlobal {
+	return s.lbService
+}
+
 func NewVLBGatewayV2(plbSvcClient, pserverSvcClient lsclient.IServiceClient) IVLBGatewayV2 {
 	return &vlbGatewayV2{
 		lbService: lslbSvc.NewLoadBalancerServiceV2(plbSvcClient, pserverSvcClient),
@@ -22,6 +30,12 @@ func NewVLBGatewayV2(plbSvcClient, pserverSvcClient lsclient.IServiceClient) IVL
 func NewVLBGatewayInternal(psvcClient lsclient.IServiceClient) IVLBGatewayInternal {
 	return &vlbGatewayInternal{
 		lbService: lslbSvc.NewLoadBalancerServiceInternal(psvcClient),
+	}
+}
+
+func NewVLBGatewayGlobal(psvcClient lsclient.IServiceClient) IVLBGatewayGlobal {
+	return &vlbGatewayGlobal{
+		lbService: lslbSvc.NewLoadBalancerServiceGlobal(psvcClient),
 	}
 }
 

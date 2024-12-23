@@ -47,6 +47,10 @@ type IVLBGatewayV2 interface {
 	LoadBalancerService() lslbSvc.ILoadBalancerServiceV2
 }
 
+type IVLBGatewayGlobal interface {
+	LoadBalancerService() lslbSvc.ILoadBalancerServiceGlobal
+}
+
 type IVNetworkGatewayV1 interface {
 	NetworkService() lsnetworkSvc.INetworkServiceV1
 }
@@ -62,6 +66,7 @@ type IVLBGatewayInternal interface {
 type IVLBGateway interface {
 	Internal() IVLBGatewayInternal
 	V2() IVLBGatewayV2
+	Global() IVLBGatewayGlobal
 	GetEndpoint() string
 }
 
