@@ -8,260 +8,177 @@ type IListGlobalLoadBalancersRequest interface {
 	GetDefaultQuery() string
 }
 
-// import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+// --------------------------------------------------------
 
-// type ICreateLoadBalancerRequest interface {
-// 	ToRequestBody() interface{}
-// 	AddUserAgent(pagent ...string) ICreateLoadBalancerRequest
-// 	WithListener(plistener ICreateListenerRequest) ICreateLoadBalancerRequest
-// 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
-// 	WithTags(ptags ...string) ICreateLoadBalancerRequest
-// 	WithScheme(pscheme LoadBalancerScheme) ICreateLoadBalancerRequest
-// 	WithAutoScalable(pautoScalable bool) ICreateLoadBalancerRequest
-// 	WithPackageId(ppackageId string) ICreateLoadBalancerRequest
-// 	WithSubnetId(psubnetId string) ICreateLoadBalancerRequest
-// 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
-// 	WithPoc(poc bool) ICreateLoadBalancerRequest
-// 	ParseUserAgent() string
-// 	ToMap() map[string]interface{}
-// }
+type IListGlobalPoolsRequest interface {
+	WithLoadBalancerId(plbId string) IListGlobalPoolsRequest
+	GetLoadBalancerId() string
+	ParseUserAgent() string
+}
 
-// type IResizeLoadBalancerRequest interface {
-// 	ToRequestBody() interface{}
-// 	AddUserAgent(pagent ...string) IResizeLoadBalancerRequest
-// 	WithPackageId(ppackageId string) IResizeLoadBalancerRequest
-// 	ParseUserAgent() string
+// --------------------------------------------------------
 
-// 	GetLoadBalancerId() string
-// }
+type ICreateGlobalLoadBalancerRequest interface {
+	WithDescription(pdesc string) ICreateGlobalLoadBalancerRequest
+	WithName(pname string) ICreateGlobalLoadBalancerRequest
+	WithType(ptype GlobalLoadBalancerType) ICreateGlobalLoadBalancerRequest
+	WithGlobalListener(plistener ICreateGlobalListenerRequest) ICreateGlobalLoadBalancerRequest
+	WithGlobalPool(ppool ICreateGlobalPoolRequest) ICreateGlobalLoadBalancerRequest
 
-// type IListLoadBalancerPackagesRequest interface {
-// 	AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest
-// 	ParseUserAgent() string
-// 	ToMap() map[string]interface{}
-// }
+	// WithTags(ptags ...string) ICreateGlobalLoadBalancerRequest
+	// WithScheme(pscheme LoadBalancerScheme) ICreateGlobalLoadBalancerRequest
+	// WithAutoScalable(pautoScalable bool) ICreateGlobalLoadBalancerRequest
+	// WithPackageId(ppackageId string) ICreateGlobalLoadBalancerRequest
+	// WithSubnetId(psubnetId string) ICreateGlobalLoadBalancerRequest
+	// WithPoc(poc bool) ICreateGlobalLoadBalancerRequest
 
-// type IGetLoadBalancerByIdRequest interface {
-// 	AddUserAgent(pagent ...string) IGetLoadBalancerByIdRequest
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// }
+	AddUserAgent(pagent ...string) ICreateGlobalLoadBalancerRequest
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+	ParseUserAgent() string
+}
 
-// type ICreateListenerRequest interface {
-// 	ToRequestBody() interface{}
-// 	WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest
-// 	WithLoadBalancerId(plbid string) ICreateListenerRequest
-// 	WithDefaultPoolId(ppoolId string) ICreateListenerRequest
-// 	WithTimeoutClient(ptoc int) ICreateListenerRequest
-// 	WithTimeoutConnection(ptoc int) ICreateListenerRequest
-// 	WithTimeoutMember(ptom int) ICreateListenerRequest
-// 	AddCidrs(pcidrs ...string) ICreateListenerRequest
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	ToMap() map[string]interface{}
-// }
+type ICreateGlobalListenerRequest interface {
+	WithAllowedCidrs(pcidrs ...string) ICreateGlobalListenerRequest
+	WithDescription(pdesc string) ICreateGlobalListenerRequest
+	WithHeaders(pheaders ...string) ICreateGlobalListenerRequest
+	WithName(pname string) ICreateGlobalListenerRequest
+	WithPort(pport int) ICreateGlobalListenerRequest
+	WithProtocol(pprotocol GlobalListenerProtocol) ICreateGlobalListenerRequest
+	WithTimeoutClient(ptoc int) ICreateGlobalListenerRequest
+	WithTimeoutConnection(ptoc int) ICreateGlobalListenerRequest
+	WithTimeoutMember(ptom int) ICreateGlobalListenerRequest
+	WithDefaultPoolId(ppoolId string) ICreateGlobalListenerRequest
 
-// type IUpdateListenerRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	ToRequestBody() interface{}
-// 	WithCidrs(pcidrs ...string) IUpdateListenerRequest
-// 	WithTimeoutClient(ptoc int) IUpdateListenerRequest
-// 	WithTimeoutConnection(ptoc int) IUpdateListenerRequest
-// 	WithTimeoutMember(ptom int) IUpdateListenerRequest
-// 	WithDefaultPoolId(ppoolId string) IUpdateListenerRequest
-// 	WithHeaders(pheaders ...string) IUpdateListenerRequest
-// 	ParseUserAgent() string
+	WithLoadBalancerId(plbid string) ICreateGlobalListenerRequest
+	// AddCidrs(pcidrs ...string) ICreateGlobalListenerRequest
+	// GetLoadBalancerId() string
 
-// 	WithCertificateAuthorities(pca ...string) IUpdateListenerRequest
-// 	WithClientCertificate(pclientCert string) IUpdateListenerRequest
-// 	WithDefaultCertificateAuthority(pdefaultCA string) IUpdateListenerRequest
-// }
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IGetPoolHealthMonitorByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetPoolId() string
-// 	ParseUserAgent() string
-// }
+type ICreateGlobalPoolRequest interface {
+	WithAlgorithm(palgorithm GlobalPoolAlgorithm) ICreateGlobalPoolRequest
+	WithDescription(pdesc string) ICreateGlobalPoolRequest
+	WithName(pname string) ICreateGlobalPoolRequest
+	WithProtocol(pprotocol GlobalPoolProtocol) ICreateGlobalPoolRequest
+	WithHealthMonitor(pmonitor IGlobalHealthMonitorRequest) ICreateGlobalPoolRequest
+	WithMembers(pmembers ...ICreateGlobalPoolMemberRequest) ICreateGlobalPoolRequest
 
-// type ICreatePoolRequest interface {
-// 	ToRequestBody() interface{}
-// 	WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest
-// 	WithMembers(pmembers ...IMemberRequest) ICreatePoolRequest
-// 	WithLoadBalancerId(plbId string) ICreatePoolRequest
-// 	WithAlgorithm(palgorithm PoolAlgorithm) ICreatePoolRequest
-// 	ToMap() map[string]interface{}
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+	WithLoadBalancerId(plbId string) ICreateGlobalPoolRequest
+	GetLoadBalancerId() string // to use in request url
 
-// type IUpdatePoolRequest interface {
-// 	GetPoolId() string
-// 	ToRequestBody() interface{}
-// 	WithHealthMonitor(pmonitor IHealthMonitorRequest) IUpdatePoolRequest
-// 	WithLoadBalancerId(plbId string) IUpdatePoolRequest
-// 	WithAlgorithm(palgorithm PoolAlgorithm) IUpdatePoolRequest
-// 	WithStickiness(v *bool) IUpdatePoolRequest
-// 	WithTLSEncryption(v *bool) IUpdatePoolRequest
-// 	ToMap() map[string]interface{}
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IListListenersByLoadBalancerIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+type IGlobalHealthMonitorRequest interface {
+	WithHealthyThreshold(pht int) IGlobalHealthMonitorRequest
+	WithInterval(pinterval int) IGlobalHealthMonitorRequest
+	WithProtocol(pprotocol GlobalPoolHealthCheckProtocol) IGlobalHealthMonitorRequest
+	WithTimeout(pto int) IGlobalHealthMonitorRequest
+	WithUnhealthyThreshold(puht int) IGlobalHealthMonitorRequest
 
-// type IListPoolsByLoadBalancerIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+	// http, https
+	WithHealthCheckMethod(pmethod GlobalPoolHealthCheckMethod) IGlobalHealthMonitorRequest
+	WithHttpVersion(pversion GlobalPoolHealthCheckHttpVersion) IGlobalHealthMonitorRequest
+	WithPath(ppath string) IGlobalHealthMonitorRequest
+	WithSuccessCode(pcode string) IGlobalHealthMonitorRequest
+	WithDomainName(pdomain string) IGlobalHealthMonitorRequest
 
-// type IUpdatePoolMembersRequest interface {
-// 	WithMembers(pmembers ...IMemberRequest) IUpdatePoolMembersRequest
-// 	ToRequestBody() interface{}
-// 	GetLoadBalancerId() string
-// 	GetPoolId() string
-// 	ParseUserAgent() string
-// }
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
+type ICreateGlobalPoolMemberRequest interface {
+	WithName(pname string) ICreateGlobalPoolMemberRequest
+	WithDescription(pdesc string) ICreateGlobalPoolMemberRequest
+	WithRegion(pregion string) ICreateGlobalPoolMemberRequest
+	WithVPCID(pvpcID string) ICreateGlobalPoolMemberRequest
+	WithTrafficDial(pdial int) ICreateGlobalPoolMemberRequest
+	WithMembers(pmembers ...IGlobalMemberRequest) ICreateGlobalPoolMemberRequest
 
-// type IListPoolMembersRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetPoolId() string
-// 	ParseUserAgent() string
-// }
+	WithLoadBalancerId(plbId string) ICreateGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) ICreateGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string         // to use in request url
 
-// type IDeletePoolByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetPoolId() string
-// 	ParseUserAgent() string
-// }
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IDeleteListenerByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	ParseUserAgent() string
-// }
+type IGlobalMemberRequest interface {
+	WithAddress(paddr string) IGlobalMemberRequest
+	WithBackupRole(pbackup bool) IGlobalMemberRequest
+	WithDescription(pdesc string) IGlobalMemberRequest
+	WithMonitorPort(pport int) IGlobalMemberRequest
+	WithName(pname string) IGlobalMemberRequest
+	WithPort(pport int) IGlobalMemberRequest
+	WithSubnetID(psubnetID string) IGlobalMemberRequest
+	WithWeight(pweight int) IGlobalMemberRequest
 
-// type IDeleteLoadBalancerByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IHealthMonitorRequest interface {
-// 	ToRequestBody() interface{}
-// 	ToMap() map[string]interface{}
-// 	WithHealthyThreshold(pht int) IHealthMonitorRequest
-// 	WithUnhealthyThreshold(puht int) IHealthMonitorRequest
-// 	WithInterval(pinterval int) IHealthMonitorRequest
-// 	WithTimeout(pto int) IHealthMonitorRequest
-// 	WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest
-// 	WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest
-// 	WithHealthCheckPath(ppath string) IHealthMonitorRequest
-// 	WithSuccessCode(pcode string) IHealthMonitorRequest
-// 	WithDomainName(pdomain string) IHealthMonitorRequest
-// }
+// --------------------------------------------------------
 
-// type IMemberRequest interface {
-// 	ToRequestBody() interface{}
-// 	ToMap() map[string]interface{}
-// }
+type IUpdateGlobalPoolRequest interface {
+	WithAlgorithm(palgorithm GlobalPoolAlgorithm) IUpdateGlobalPoolRequest
+	WithHealthMonitor(pmonitor IGlobalHealthMonitorRequest) IUpdateGlobalPoolRequest
 
-// type IListTagsRequest interface {
-// 	GetLoadBalancerId() string
-// 	ParseUserAgent() string
-// }
+	WithLoadBalancerId(plbId string) IUpdateGlobalPoolRequest
+	WithPoolId(ppoolId string) IUpdateGlobalPoolRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
 
-// type ICreateTagsRequest interface {
-// 	GetLoadBalancerId() string
-// 	ToRequestBody() interface{}
-// 	ParseUserAgent() string
-// 	WithTags(ptags ...string) ICreateTagsRequest
-// }
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IUpdateTagsRequest interface {
-// 	GetLoadBalancerId() string
-// 	ToRequestBody(plstTags *lsentity.ListTags) interface{}
-// 	ParseUserAgent() string
-// 	WithTags(ptags ...string) IUpdateTagsRequest
-// 	ToMap() map[string]interface{}
-// }
+// --------------------------------------------------------
 
-// // --------------------------------------------------------
+type IDeleteGlobalPoolRequest interface {
+	WithLoadBalancerId(plbId string) IDeleteGlobalPoolRequest
+	WithPoolId(ppoolId string) IDeleteGlobalPoolRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
 
-// type IListPoliciesRequest interface {
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// }
+	ParseUserAgent() string
+}
 
-// type ICreatePolicyRequest interface {
-// 	ToRequestBody() interface{}
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	ToMap() map[string]interface{}
+// --------------------------------------------------------
 
-// 	WithName(pname string) ICreatePolicyRequest
-// 	WithRules(prules ...L7RuleRequest) ICreatePolicyRequest
-// 	WithAction(paction PolicyAction) ICreatePolicyRequest
+type IListGlobalPoolMembersRequest interface {
+	WithLoadBalancerId(plbId string) IListGlobalPoolMembersRequest
+	WithPoolId(ppoolId string) IListGlobalPoolMembersRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
 
-// 	// only for action redirect to pool
-// 	WithRedirectPoolId(predirectPoolId string) ICreatePolicyRequest
+	ParseUserAgent() string
+}
 
-// 	// only for action redirect to url
-// 	WithRedirectURL(predirectURL string) ICreatePolicyRequest
-// 	// only for action redirect to url
-// 	WithRedirectHTTPCode(predirectHTTPCode int) ICreatePolicyRequest
-// 	// only for action redirect to url
-// 	WithKeepQueryString(pkeepQueryString bool) ICreatePolicyRequest
-// }
+// --------------------------------------------------------
 
-// type IGetPolicyByIdRequest interface {
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	GetPolicyId() string
-// }
+type IPatchGlobalPoolMemberRequest interface {
+	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMemberRequest
 
-// type IUpdatePolicyRequest interface {
-// 	ToRequestBody() interface{}
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	GetPolicyId() string
+	WithLoadBalancerId(plbId string) IPatchGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) IPatchGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
 
-// 	WithAction(paction PolicyAction) IUpdatePolicyRequest
-// 	WithRules(prules ...L7RuleRequest) IUpdatePolicyRequest
-// 	WithRedirectPoolID(predirectPoolId string) IUpdatePolicyRequest
-// 	WithRedirectURL(predirectURL string) IUpdatePolicyRequest
-// 	WithRedirectHTTPCode(predirectHTTPCode int) IUpdatePolicyRequest
-// 	WithKeepQueryString(pkeepQueryString bool) IUpdatePolicyRequest
-// }
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IDeletePolicyByIdRequest interface {
-// 	ParseUserAgent() string
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	GetPolicyId() string
-// }
+type IBulkActionRequest interface {
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
 
-// type IGetPoolByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetPoolId() string
-// 	ParseUserAgent() string
-// }
-
-// type IGetListenerByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	GetListenerId() string
-// 	ParseUserAgent() string
-// }
-
-// type IResizeLoadBalancerByIdRequest interface {
-// 	GetLoadBalancerId() string
-// 	ToMap() map[string]interface{}
-// 	ParseUserAgent() string
-// 	ToRequestBody() interface{}
-// }
+// --------------------------------------------------------

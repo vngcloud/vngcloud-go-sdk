@@ -8,9 +8,12 @@ import (
 )
 
 func NewListGlobalLoadBalancersRequest(offset, limit int) IListGlobalLoadBalancersRequest {
-	opts := new(ListGlobalLoadBalancersRequest)
-	opts.Offset = offset
-	opts.Limit = limit
+	opts := &ListGlobalLoadBalancersRequest{
+		Name:   "",
+		Offset: offset,
+		Limit:  limit,
+		Tags:   make([]lscommon.Tag, 0),
+	}
 	return opts
 }
 
@@ -75,21 +78,18 @@ func (s *ListGlobalLoadBalancersRequest) GetDefaultQuery() string {
 	return lfmt.Sprintf("offset=%d&limit=%d", defaultOffsetListGlobalLoadBalancer, defaultLimitListGlobalLoadBalancer)
 }
 
-// const (
-// 	InternalLoadBalancerScheme LoadBalancerScheme = "Internal"
-// 	InternetLoadBalancerScheme LoadBalancerScheme = "Internet"
-// 	InterVpcLoadBalancerScheme LoadBalancerScheme = "InterVPC"
-// )
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
-// const (
-// 	LoadBalancerTypeLayer4 LoadBalancerType = "Layer 4"
-// 	LoadBalancerTypeLayer7 LoadBalancerType = "Layer 7"
-// )
+type (
+	GlobalLoadBalancerType string
+)
 
-// type (
-// 	LoadBalancerScheme string
-// 	LoadBalancerType   string
-// )
+const (
+	GlobalLoadBalancerTypeLayer4 GlobalLoadBalancerType = "Layer 4"
+)
 
 // func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLoadBalancerRequest {
 // 	return &CreateLoadBalancerRequest{
