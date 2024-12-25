@@ -6,31 +6,6 @@ import (
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/global"
 )
 
-func TestListGlobalLoadBalancerSuccess(t *ltesting.T) {
-	vngcloud := validSdkConfig()
-	opt := global.NewListGlobalLoadBalancersRequest(0, 10)
-	lbs, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().ListGlobalLoadBalancers(opt)
-	if sdkerr != nil {
-		t.Fatalf("Expect nil but got %+v", sdkerr)
-	}
-
-	if lbs == nil {
-		t.Fatalf("Expect not nil but got nil")
-	}
-
-	t.Logf("Result: %+v", lbs)
-	for _, lb := range lbs.Items {
-		t.Logf("LB: %+v", lb)
-		for _, vip := range lb.Vips {
-			t.Logf("  - VIP: %+v", vip)
-		}
-		for _, domain := range lb.Domains {
-			t.Logf("  - Domain: %+v", domain)
-		}
-	}
-	t.Log("PASS")
-}
-
 func TestListGlobalPoolsSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := global.NewListGlobalPoolsRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933")
@@ -270,6 +245,87 @@ func TestDeleteGlobalListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := global.NewDeleteGlobalListenerRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "glis-7ffc4f19-7218-4d38-8016-e3ad2401e3bd")
 	sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().DeleteGlobalListener(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("PASS")
+}
+
+// --------------------------------------------------
+
+func TestListGlobalLoadBalancerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewListGlobalLoadBalancersRequest(0, 10)
+	lbs, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().ListGlobalLoadBalancers(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lbs == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", lbs)
+	for _, lb := range lbs.Items {
+		t.Logf("LB: %+v", lb)
+		for _, vip := range lb.Vips {
+			t.Logf("  - VIP: %+v", vip)
+		}
+		for _, domain := range lb.Domains {
+			t.Logf("  - Domain: %+v", domain)
+		}
+	}
+	t.Log("PASS")
+}
+
+func TestCreateGlobalLoadBalancerSuccess(t *ltesting.T) {
+	pool := global.NewCreateGlobalPoolRequest("annd2-test-pool-5", global.GlobalPoolProtocolTCP).
+		WithLoadBalancerId("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933").
+		WithHealthMonitor(
+			global.NewGlobalHealthMonitor(global.GlobalPoolHealthCheckProtocolHTTPs).
+				WithHealthCheckMethod("GET").
+				WithPath("/sfdsaf").
+				WithHttpVersion("1.1").
+				WithSuccessCode("200").
+				WithDomainName("example.com"),
+		).
+		WithMembers(
+			global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100).
+				WithMembers(
+					global.NewGlobalMemberRequest("p_name", "10.105.0.4", "sub-8aa727dd-9857-472f-8766-ece41282d437", 80, 80, 1, false),
+				),
+		)
+	listener := global.NewCreateGlobalListenerRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "annd2-test").
+		WithDescription("hihi").
+		WithPort(85).
+		WithTimeoutClient(50).
+		WithTimeoutConnection(5).
+		WithTimeoutMember(50).
+		WithGlobalPoolId("gpool-7000d491-b441-40a0-af01-8039baa8e346")
+	vngcloud := validSdkConfig()
+	opt := global.NewCreateGlobalLoadBalancerRequest("annd2-testtt").
+		WithDescription("hihi").
+		WithGlobalListener(listener).
+		WithGlobalPool(pool)
+
+	lb, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().CreateGlobalLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", lb)
+	t.Log("PASS")
+}
+
+func TestDeleteGlobalLoadBalancerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewDeleteGlobalLoadBalancerRequest("glb-3fd57a7e-7bb3-4152-a329-adba6d779c4a")
+	sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().DeleteGlobalLoadBalancer(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
 	}

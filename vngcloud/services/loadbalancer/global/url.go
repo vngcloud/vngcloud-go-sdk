@@ -2,15 +2,6 @@ package global
 
 import lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 
-func listGlobalLoadBalancersUrl(psc lsclient.IServiceClient, popts IListGlobalLoadBalancersRequest) string {
-	query, err := popts.ToListQuery()
-	if err != nil {
-		query = popts.GetDefaultQuery()
-	}
-
-	return psc.ServiceURL("global-load-balancers") + query
-}
-
 // ------------------------------------------------------------
 
 func createGlobalPoolUrl(psc lsclient.IServiceClient, popts ICreateGlobalPoolRequest) string {
@@ -98,5 +89,27 @@ func deleteGlobalListenerUrl(psc lsclient.IServiceClient, popts IDeleteGlobalLis
 		popts.GetLoadBalancerId(),
 		"global-listeners",
 		popts.GetListenerId(),
+	)
+}
+
+// --------------------------------------------------------
+
+func listGlobalLoadBalancersUrl(psc lsclient.IServiceClient, popts IListGlobalLoadBalancersRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL("global-load-balancers") + query
+}
+
+func createGlobalLoadBalancerUrl(psc lsclient.IServiceClient, popts ICreateGlobalLoadBalancerRequest) string {
+	return psc.ServiceURL("global-load-balancers")
+}
+
+func deleteGlobalLoadBalancerUrl(psc lsclient.IServiceClient, popts IDeleteGlobalLoadBalancerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
 	)
 }

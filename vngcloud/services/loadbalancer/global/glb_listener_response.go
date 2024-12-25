@@ -2,7 +2,7 @@ package global
 
 import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 
-type GlobalListenersResponse struct {
+type GlobalListenerResponse struct {
 	CreatedAt            string  `json:"createdAt"`
 	UpdatedAt            string  `json:"updatedAt"`
 	DeletedAt            *string `json:"deletedAt"`
@@ -21,7 +21,7 @@ type GlobalListenersResponse struct {
 	Status               string  `json:"status"`
 }
 
-func (s *GlobalListenersResponse) ToEntityGlobalListener() *lsentity.GlobalListener {
+func (s *GlobalListenerResponse) ToEntityGlobalListener() *lsentity.GlobalListener {
 	return &lsentity.GlobalListener{
 		CreatedAt:            s.CreatedAt,
 		UpdatedAt:            s.UpdatedAt,
@@ -42,7 +42,7 @@ func (s *GlobalListenersResponse) ToEntityGlobalListener() *lsentity.GlobalListe
 	}
 }
 
-type ListGlobalListenersResponse []GlobalListenersResponse
+type ListGlobalListenersResponse []GlobalListenerResponse
 
 func (s ListGlobalListenersResponse) ToEntityListGlobalListeners() *lsentity.ListGlobalListeners {
 	listeners := &lsentity.ListGlobalListeners{}
@@ -54,7 +54,7 @@ func (s ListGlobalListenersResponse) ToEntityListGlobalListeners() *lsentity.Lis
 
 // --------------------------------------------------
 
-type CreateGlobalListenerResponse GlobalListenersResponse
+type CreateGlobalListenerResponse GlobalListenerResponse
 
 func (s *CreateGlobalListenerResponse) ToEntityGlobalListener() *lsentity.GlobalListener {
 	return &lsentity.GlobalListener{
@@ -79,7 +79,7 @@ func (s *CreateGlobalListenerResponse) ToEntityGlobalListener() *lsentity.Global
 
 // --------------------------------------------------
 
-type UpdateGlobalListenerResponse GlobalListenersResponse
+type UpdateGlobalListenerResponse GlobalListenerResponse
 
 func (s *UpdateGlobalListenerResponse) ToEntityGlobalListener() *lsentity.GlobalListener {
 	return &lsentity.GlobalListener{
