@@ -204,3 +204,75 @@ func TestPatchGlobalPoolMemberSuccess(t *ltesting.T) {
 
 	t.Log("PASS")
 }
+
+func TestListGlobalListenersSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewListGlobalListenersRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933")
+	listeners, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().ListGlobalListeners(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listeners == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", listeners)
+	for _, listener := range listeners.Items {
+		t.Logf("Listener: %+v", listener)
+	}
+	t.Log("PASS")
+}
+
+func TestCreateGlobalListenerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewCreateGlobalListenerRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "annd2-test").
+		WithDescription("hihi").
+		WithPort(85).
+		WithTimeoutClient(50).
+		WithTimeoutConnection(5).
+		WithTimeoutMember(50).
+		WithGlobalPoolId("gpool-7000d491-b441-40a0-af01-8039baa8e346")
+	listener, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().CreateGlobalListener(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listener == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", listener)
+	t.Log("PASS")
+}
+
+func TestUpdateGlobalListenerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewUpdateGlobalListenerRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "glis-7ffc4f19-7218-4d38-8016-e3ad2401e3bd").
+		WithTimeoutClient(60).
+		WithTimeoutConnection(6).
+		WithTimeoutMember(60).
+		WithGlobalPoolId("gpool-7000d491-b441-40a0-af01-8039baa8e346")
+	listener, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().UpdateGlobalListener(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listener == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", listener)
+	t.Log("PASS")
+}
+
+func TestDeleteGlobalListenerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewDeleteGlobalListenerRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "glis-7ffc4f19-7218-4d38-8016-e3ad2401e3bd")
+	sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().DeleteGlobalListener(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("PASS")
+}

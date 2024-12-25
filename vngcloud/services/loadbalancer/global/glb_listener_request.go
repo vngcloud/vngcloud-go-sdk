@@ -1,9 +1,11 @@
 package global
 
-// import (
-// 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
-// 	lstr "strings"
-// )
+import (
+	"strings"
+
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+	// lstr "strings"
+)
 
 type GlobalListenerProtocol string
 
@@ -11,235 +13,266 @@ const (
 	GlobalListenerProtocolTCP GlobalListenerProtocol = "TCP"
 )
 
-// func NewCreateListenerRequest(pname string, pprotocol ListenerProtocol, pport int) ICreateListenerRequest {
-// 	opts := new(CreateListenerRequest)
-// 	opts.ListenerName = pname
-// 	opts.ListenerProtocol = pprotocol
-// 	opts.ListenerProtocolPort = pport
-// 	opts.AllowedCidrs = "0.0.0.0/0"
-// 	opts.TimeoutClient = 50
-// 	opts.TimeoutMember = 50
-// 	opts.TimeoutConnection = 5
+var _ IListGlobalListenersRequest = &ListGlobalListenersRequest{}
 
-// 	return opts
-// }
+type ListGlobalListenersRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
 
-// func NewUpdateListenerRequest(plbId, plistenerId string) IUpdateListenerRequest {
-// 	opts := new(UpdateListenerRequest)
-// 	opts.LoadBalancerId = plbId
-// 	opts.ListenerId = plistenerId
+func (s *ListGlobalListenersRequest) WithLoadBalancerId(plbId string) IListGlobalListenersRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
 
-// 	return opts
-// }
+func NewListGlobalListenersRequest(plbId string) IListGlobalListenersRequest {
+	opts := &ListGlobalListenersRequest{}
+	opts.LoadBalancerId = plbId
+	return opts
+}
 
-// func NewListListenersByLoadBalancerIdRequest(plbId string) IListListenersByLoadBalancerIdRequest {
-// 	opts := new(ListListenersByLoadBalancerIdRequest)
-// 	opts.LoadBalancerId = plbId
+// --------------------------------------------------
 
-// 	return opts
-// }
+var _ ICreateGlobalListenerRequest = &CreateGlobalListenerRequest{}
 
-// func NewDeleteListenerByIdRequest(plbId, plistenerId string) IDeleteListenerByIdRequest {
-// 	opts := new(DeleteListenerByIdRequest)
-// 	opts.LoadBalancerId = plbId
-// 	opts.ListenerId = plistenerId
+// WithAllowedCidrs(pcidrs ...string) ICreateGlobalListenerRequest
+// WithDescription(pdesc string) ICreateGlobalListenerRequest
+// WithHeaders(pheaders ...string) ICreateGlobalListenerRequest
+// WithName(pname string) ICreateGlobalListenerRequest
+// WithPort(pport int) ICreateGlobalListenerRequest
+// WithProtocol(pprotocol GlobalListenerProtocol) ICreateGlobalListenerRequest
+// WithTimeoutClient(ptoc int) ICreateGlobalListenerRequest
+// WithTimeoutConnection(ptoc int) ICreateGlobalListenerRequest
+// WithTimeoutMember(ptom int) ICreateGlobalListenerRequest
+// WithDefaultPoolId(ppoolId string) ICreateGlobalListenerRequest
+type CreateGlobalListenerRequest struct {
+	AllowedCidrs      string                 `json:"allowedCidrs"`
+	Description       string                 `json:"description"`
+	Headers           []string               `json:"headers"`
+	Name              string                 `json:"name"`
+	Port              int                    `json:"port"`
+	Protocol          GlobalListenerProtocol `json:"protocol"`
+	TimeoutClient     int                    `json:"timeoutClient"`
+	TimeoutConnection int                    `json:"timeoutConnection"`
+	TimeoutMember     int                    `json:"timeoutMember"`
+	GlobalPoolId      string                 `json:"globalPoolId"`
 
-// 	return opts
-// }
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
 
-// func NewGetListenerByIdRequest(plbId, plistenerId string) IGetListenerByIdRequest {
-// 	opts := new(GetListenerByIdRequest)
-// 	opts.LoadBalancerId = plbId
-// 	opts.ListenerId = plistenerId
+func (s *CreateGlobalListenerRequest) WithAllowedCidrs(pcidrs ...string) ICreateGlobalListenerRequest {
+	s.AllowedCidrs = strings.Join(pcidrs, ",")
+	return s
+}
 
-// 	return opts
-// }
+func (s *CreateGlobalListenerRequest) WithDescription(pdesc string) ICreateGlobalListenerRequest {
+	s.Description = pdesc
+	return s
+}
 
-// type CreateListenerRequest struct {
-// 	AllowedCidrs                string           `json:"allowedCidrs"`
-// 	ListenerName                string           `json:"listenerName"`
-// 	ListenerProtocol            ListenerProtocol `json:"listenerProtocol"`
-// 	ListenerProtocolPort        int              `json:"listenerProtocolPort"`
-// 	TimeoutClient               int              `json:"timeoutClient"`
-// 	TimeoutConnection           int              `json:"timeoutConnection"`
-// 	TimeoutMember               int              `json:"timeoutMember"`
-// 	Headers                     *[]string        `json:"headers"`
-// 	DefaultPoolId               *string          `json:"defaultPoolId"`
-// 	CertificateAuthorities      *[]string        `json:"certificateAuthorities"`
-// 	ClientCertificate           *string          `json:"clientCertificate"`
-// 	DefaultCertificateAuthority *string          `json:"defaultCertificateAuthority"`
+func (s *CreateGlobalListenerRequest) WithHeaders(pheaders ...string) ICreateGlobalListenerRequest {
+	s.Headers = pheaders
+	return s
+}
 
-// 	lscommon.LoadBalancerCommon
-// 	lscommon.UserAgent
-// }
+func (s *CreateGlobalListenerRequest) WithName(pname string) ICreateGlobalListenerRequest {
+	s.Name = pname
+	return s
+}
 
-// type UpdateListenerRequest struct {
-// 	AllowedCidrs                string    `json:"allowedCidrs"`
-// 	DefaultPoolId               string    `json:"defaultPoolId"`
-// 	TimeoutClient               int       `json:"timeoutClient"`
-// 	TimeoutConnection           int       `json:"timeoutConnection"`
-// 	TimeoutMember               int       `json:"timeoutMember"`
-// 	Headers                     *[]string `json:"headers"`
-// 	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
-// 	ClientCertificate           *string   `json:"clientCertificate"`
-// 	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
+func (s *CreateGlobalListenerRequest) WithPort(pport int) ICreateGlobalListenerRequest {
+	s.Port = pport
+	return s
+}
 
-// 	lscommon.LoadBalancerCommon
-// 	lscommon.ListenerCommon
-// 	lscommon.UserAgent
-// }
+func (s *CreateGlobalListenerRequest) WithProtocol(pprotocol GlobalListenerProtocol) ICreateGlobalListenerRequest {
+	s.Protocol = pprotocol
+	return s
+}
 
-// type ListListenersByLoadBalancerIdRequest struct {
-// 	lscommon.LoadBalancerCommon
-// 	lscommon.UserAgent
-// }
+func (s *CreateGlobalListenerRequest) WithTimeoutClient(ptoc int) ICreateGlobalListenerRequest {
+	s.TimeoutClient = ptoc
+	return s
+}
 
-// type DeleteListenerByIdRequest struct {
-// 	lscommon.LoadBalancerCommon
-// 	lscommon.ListenerCommon
-// 	lscommon.UserAgent
-// }
+func (s *CreateGlobalListenerRequest) WithTimeoutConnection(ptoc int) ICreateGlobalListenerRequest {
+	s.TimeoutConnection = ptoc
+	return s
+}
 
-// type GetListenerByIdRequest struct {
-// 	lscommon.LoadBalancerCommon
-// 	lscommon.ListenerCommon
-// 	lscommon.UserAgent
-// }
+func (s *CreateGlobalListenerRequest) WithTimeoutMember(ptom int) ICreateGlobalListenerRequest {
+	s.TimeoutMember = ptom
+	return s
+}
 
-// func (s *CreateListenerRequest) ToRequestBody() interface{} {
-// 	if s == nil {
-// 		return nil
-// 	}
+func (s *CreateGlobalListenerRequest) WithGlobalPoolId(ppoolId string) ICreateGlobalListenerRequest {
+	s.GlobalPoolId = ppoolId
+	return s
+}
 
-// 	if s.ListenerProtocol == ListenerProtocolHTTPS {
-// 		return s
-// 	}
+func (s *CreateGlobalListenerRequest) WithLoadBalancerId(plbid string) ICreateGlobalListenerRequest {
+	s.LoadBalancerId = plbid
+	return s
+}
 
-// 	s.CertificateAuthorities = nil
-// 	s.ClientCertificate = nil
-// 	s.DefaultCertificateAuthority = nil
+func (s *CreateGlobalListenerRequest) ToRequestBody() interface{} {
+	return s
+}
 
-// 	return s
-// }
+func (s *CreateGlobalListenerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"allowedCidrs":      s.AllowedCidrs,
+		"description":       s.Description,
+		"headers":           s.Headers,
+		"name":              s.Name,
+		"port":              s.Port,
+		"protocol":          s.Protocol,
+		"timeoutClient":     s.TimeoutClient,
+		"timeoutConnection": s.TimeoutConnection,
+		"timeoutMember":     s.TimeoutMember,
+		"globalPoolId":      s.GlobalPoolId,
+	}
+}
 
-// func (s *CreateListenerRequest) WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest {
-// 	if len(pcidrs) < 1 {
-// 		return s
-// 	}
+func NewCreateGlobalListenerRequest(plbId, name string) ICreateGlobalListenerRequest {
+	opts := &CreateGlobalListenerRequest{
+		AllowedCidrs:      "0.0.0.0/0",
+		Description:       "",
+		Headers:           nil,
+		Name:              name,
+		Port:              80,
+		Protocol:          GlobalListenerProtocolTCP,
+		TimeoutClient:     50,
+		TimeoutConnection: 5,
+		TimeoutMember:     50,
+		GlobalPoolId:      "",
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+	}
+	return opts
+}
 
-// 	s.AllowedCidrs = lstr.Join(pcidrs, ",")
-// 	return s
-// }
+// --------------------------------------------------
 
-// func (s *CreateListenerRequest) WithTimeoutClient(ptoc int) ICreateListenerRequest {
-// 	s.TimeoutClient = ptoc
-// 	return s
-// }
+var _ IUpdateGlobalListenerRequest = &UpdateGlobalListenerRequest{}
 
-// func (s *CreateListenerRequest) WithTimeoutConnection(ptoc int) ICreateListenerRequest {
-// 	s.TimeoutConnection = ptoc
-// 	return s
-// }
+type UpdateGlobalListenerRequest struct {
+	AllowedCidrs      string  `json:"allowedCidrs"`
+	TimeoutClient     int     `json:"timeoutClient"`
+	TimeoutMember     int     `json:"timeoutMember"`
+	TimeoutConnection int     `json:"timeoutConnection"`
+	Headers           *string `json:"headers"`
+	GlobalPoolId      string  `json:"globalPoolId"`
 
-// func (s *CreateListenerRequest) WithTimeoutMember(ptom int) ICreateListenerRequest {
-// 	s.TimeoutMember = ptom
-// 	return s
-// }
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
+}
 
-// func (s *CreateListenerRequest) AddCidrs(pcidrs ...string) ICreateListenerRequest {
-// 	if len(pcidrs) < 1 {
-// 		return s
-// 	}
+func (s *UpdateGlobalListenerRequest) WithAllowedCidrs(pcidrs ...string) IUpdateGlobalListenerRequest {
+	s.AllowedCidrs = strings.Join(pcidrs, ",")
+	return s
+}
 
-// 	if s.AllowedCidrs == "" {
-// 		return s.WithAllowedCidrs(pcidrs...)
-// 	} else {
-// 		s.AllowedCidrs = s.AllowedCidrs + "," + lstr.Join(pcidrs, ",")
-// 	}
+func (s *UpdateGlobalListenerRequest) WithTimeoutClient(ptoc int) IUpdateGlobalListenerRequest {
+	s.TimeoutClient = ptoc
+	return s
+}
 
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) WithTimeoutMember(ptom int) IUpdateGlobalListenerRequest {
+	s.TimeoutMember = ptom
+	return s
+}
 
-// func (s *CreateListenerRequest) WithLoadBalancerId(plbid string) ICreateListenerRequest {
-// 	s.LoadBalancerId = plbid
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) WithTimeoutConnection(ptoc int) IUpdateGlobalListenerRequest {
+	s.TimeoutConnection = ptoc
+	return s
+}
 
-// func (s *CreateListenerRequest) WithDefaultPoolId(ppoolId string) ICreateListenerRequest {
-// 	s.DefaultPoolId = &ppoolId
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) WithHeaders(pheaders ...string) IUpdateGlobalListenerRequest {
+	h := strings.Join(pheaders, ",")
+	s.Headers = &h
+	return s
+}
 
-// func (s *CreateListenerRequest) ToMap() map[string]interface{} {
-// 	return map[string]interface{}{
-// 		"listenerName":                s.ListenerName,
-// 		"listenerProtocol":            s.ListenerProtocol,
-// 		"listenerProtocolPort":        s.ListenerProtocolPort,
-// 		"timeoutClient":               s.TimeoutClient,
-// 		"timeoutConnection":           s.TimeoutConnection,
-// 		"timeoutMember":               s.TimeoutMember,
-// 		"allowedCidrs":                s.AllowedCidrs,
-// 		"defaultPoolId":               s.DefaultPoolId,
-// 		"certificateAuthorities":      s.CertificateAuthorities,
-// 		"clientCertificate":           s.ClientCertificate,
-// 		"defaultCertificateAuthority": s.DefaultCertificateAuthority,
-// 		"headers":                     s.Headers,
-// 	}
-// }
+func (s *UpdateGlobalListenerRequest) WithGlobalPoolId(ppoolId string) IUpdateGlobalListenerRequest {
+	s.GlobalPoolId = ppoolId
+	return s
+}
 
-// func (s *UpdateListenerRequest) ToRequestBody() interface{} {
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) WithLoadBalancerId(plbid string) IUpdateGlobalListenerRequest {
+	s.LoadBalancerId = plbid
+	return s
+}
 
-// func (s *UpdateListenerRequest) WithCidrs(pcidrs ...string) IUpdateListenerRequest {
-// 	if len(pcidrs) < 1 {
-// 		return s
-// 	}
+func (s *UpdateGlobalListenerRequest) WithListenerId(plid string) IUpdateGlobalListenerRequest {
+	s.ListenerId = plid
+	return s
+}
 
-// 	s.AllowedCidrs = lstr.Join(pcidrs, ",")
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) ToRequestBody() interface{} {
+	return s
+}
 
-// func (s *UpdateListenerRequest) WithTimeoutClient(ptoc int) IUpdateListenerRequest {
-// 	s.TimeoutClient = ptoc
-// 	return s
-// }
+func (s *UpdateGlobalListenerRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"allowedCidrs":      s.AllowedCidrs,
+		"timeoutClient":     s.TimeoutClient,
+		"timeoutMember":     s.TimeoutMember,
+		"timeoutConnection": s.TimeoutConnection,
+		"headers":           s.Headers,
+		"globalPoolId":      s.GlobalPoolId,
+	}
+}
 
-// func (s *UpdateListenerRequest) WithTimeoutConnection(ptoc int) IUpdateListenerRequest {
-// 	s.TimeoutConnection = ptoc
-// 	return s
-// }
+func NewUpdateGlobalListenerRequest(plbId, plId string) IUpdateGlobalListenerRequest {
+	opts := &UpdateGlobalListenerRequest{
+		AllowedCidrs:      "0.0.0.0/0",
+		TimeoutClient:     50,
+		TimeoutMember:     50,
+		TimeoutConnection: 5,
+		Headers:           nil,
+		GlobalPoolId:      "",
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		ListenerCommon: lscommon.ListenerCommon{
+			ListenerId: plId,
+		},
+	}
+	return opts
+}
 
-// func (s *UpdateListenerRequest) WithTimeoutMember(ptom int) IUpdateListenerRequest {
-// 	s.TimeoutMember = ptom
-// 	return s
-// }
+// --------------------------------------------------
 
-// func (s *UpdateListenerRequest) WithDefaultPoolId(ppoolId string) IUpdateListenerRequest {
-// 	s.DefaultPoolId = ppoolId
-// 	return s
-// }
+var _ IDeleteGlobalListenerRequest = &DeleteGlobalListenerRequest{}
 
-// func (s *UpdateListenerRequest) WithHeaders(pheaders ...string) IUpdateListenerRequest {
-// 	if len(pheaders) < 1 {
-// 		return s
-// 	}
+type DeleteGlobalListenerRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
+}
 
-// 	s.Headers = &pheaders
-// 	return s
-// }
+func (s *DeleteGlobalListenerRequest) WithLoadBalancerId(plbid string) IDeleteGlobalListenerRequest {
+	s.LoadBalancerId = plbid
+	return s
+}
 
-// func (s *UpdateListenerRequest) WithCertificateAuthorities(pca ...string) IUpdateListenerRequest {
-// 	s.CertificateAuthorities = &pca
-// 	return s
-// }
+func (s *DeleteGlobalListenerRequest) WithListenerId(plid string) IDeleteGlobalListenerRequest {
+	s.ListenerId = plid
+	return s
+}
 
-// func (s *UpdateListenerRequest) WithClientCertificate(pclientCert string) IUpdateListenerRequest {
-// 	s.ClientCertificate = &pclientCert
-// 	return s
-// }
-
-// func (s *UpdateListenerRequest) WithDefaultCertificateAuthority(pdefaultCA string) IUpdateListenerRequest {
-// 	s.DefaultCertificateAuthority = &pdefaultCA
-// 	return s
-// }
+func NewDeleteGlobalListenerRequest(plbId, plId string) IDeleteGlobalListenerRequest {
+	opts := &DeleteGlobalListenerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		ListenerCommon: lscommon.ListenerCommon{
+			ListenerId: plId,
+		},
+	}
+	return opts
+}

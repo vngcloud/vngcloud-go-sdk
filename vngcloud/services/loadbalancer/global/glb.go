@@ -164,3 +164,101 @@ func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPool
 
 	return nil
 }
+
+// --------------------------------------------------
+
+func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError) {
+	url := listGlobalListenersUrl(s.VLBClient, popts)
+	resp := new(ListGlobalListenersResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityListGlobalListeners(), nil
+}
+
+// --------------------------------------------------
+
+func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
+	url := createGlobalListenerUrl(s.VLBClient, popts)
+	resp := new(CreateGlobalListenerResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+		// lserr.WithErrorLoadBalancerDuplicateListenerName(errResp)).
+		// WithParameters(popts.ToMap()).
+		// AppendCategories(lserr.ErrCatProductVlb
+		)
+	}
+
+	return resp.ToEntityGlobalListener(), nil
+}
+
+// --------------------------------------------------
+
+func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
+	url := updateGlobalListenerUrl(s.VLBClient, popts)
+	resp := new(UpdateGlobalListenerResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp),
+		// lserr.WithErrorLoadBalancerDuplicateListenerName(errResp)
+		).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
+
+	}
+
+	return resp.ToEntityGlobalListener(), nil
+}
+
+// --------------------------------------------------
+
+func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalListenerRequest) lserr.IError {
+	url := deleteGlobalListenerUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorLoadBalancerNotFound2(errResp),
+			lserr.WithErrorLoadBalancerNotReady(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return nil
+}

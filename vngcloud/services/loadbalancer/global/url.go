@@ -66,3 +66,37 @@ func patchGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IPatchGlobalPoo
 		"pool-members",
 	)
 }
+
+func listGlobalListenersUrl(psc lsclient.IServiceClient, popts IListGlobalListenersRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+	)
+}
+
+func createGlobalListenerUrl(psc lsclient.IServiceClient, popts ICreateGlobalListenerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+	)
+}
+
+func updateGlobalListenerUrl(psc lsclient.IServiceClient, popts IUpdateGlobalListenerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+		popts.GetListenerId(),
+	)
+}
+
+func deleteGlobalListenerUrl(psc lsclient.IServiceClient, popts IDeleteGlobalListenerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+		popts.GetListenerId(),
+	)
+}

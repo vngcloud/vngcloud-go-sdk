@@ -125,3 +125,28 @@ type ListGlobalPools struct {
 type ListGlobalPoolMembers struct {
 	Items []*GlobalPoolMember
 }
+
+// --------------------------------------------------------
+
+type GlobalListener struct {
+	CreatedAt            string  `json:"createdAt"`
+	UpdatedAt            string  `json:"updatedAt"`
+	DeletedAt            *string `json:"deletedAt"`
+	ID                   string  `json:"id"`
+	Name                 string  `json:"name"`
+	Description          string  `json:"description"`
+	Protocol             string  `json:"protocol"`
+	Port                 int     `json:"port"`
+	GlobalLoadBalancerID string  `json:"globalLoadBalancerId"`
+	GlobalPoolID         string  `json:"globalPoolId"`
+	TimeoutClient        int     `json:"timeoutClient"`
+	TimeoutMember        int     `json:"timeoutMember"`
+	TimeoutConnection    int     `json:"timeoutConnection"`
+	AllowedCidrs         string  `json:"allowedCidrs"`
+	Headers              *string `json:"headers"`
+	Status               string  `json:"status"`
+}
+
+type ListGlobalListeners struct {
+	Items []*GlobalListener
+}

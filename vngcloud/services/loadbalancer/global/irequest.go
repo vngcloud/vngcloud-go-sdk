@@ -48,11 +48,11 @@ type ICreateGlobalListenerRequest interface {
 	WithTimeoutClient(ptoc int) ICreateGlobalListenerRequest
 	WithTimeoutConnection(ptoc int) ICreateGlobalListenerRequest
 	WithTimeoutMember(ptom int) ICreateGlobalListenerRequest
-	WithDefaultPoolId(ppoolId string) ICreateGlobalListenerRequest
+	WithGlobalPoolId(ppoolId string) ICreateGlobalListenerRequest
 
 	WithLoadBalancerId(plbid string) ICreateGlobalListenerRequest
+	GetLoadBalancerId() string
 	// AddCidrs(pcidrs ...string) ICreateGlobalListenerRequest
-	// GetLoadBalancerId() string
 
 	ParseUserAgent() string
 	ToRequestBody() interface{}
@@ -182,3 +182,41 @@ type IBulkActionRequest interface {
 }
 
 // --------------------------------------------------------
+
+type IListGlobalListenersRequest interface {
+	WithLoadBalancerId(plbId string) IListGlobalListenersRequest
+	GetLoadBalancerId() string // to use in request url
+
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IUpdateGlobalListenerRequest interface {
+	WithAllowedCidrs(pcidrs ...string) IUpdateGlobalListenerRequest
+	WithTimeoutClient(ptoc int) IUpdateGlobalListenerRequest
+	WithTimeoutMember(ptom int) IUpdateGlobalListenerRequest
+	WithTimeoutConnection(ptoc int) IUpdateGlobalListenerRequest
+	WithHeaders(pheaders ...string) IUpdateGlobalListenerRequest
+	WithGlobalPoolId(ppoolId string) IUpdateGlobalListenerRequest
+
+	WithLoadBalancerId(plbId string) IUpdateGlobalListenerRequest
+	WithListenerId(plistenerId string) IUpdateGlobalListenerRequest
+	GetLoadBalancerId() string // to use in request url
+	GetListenerId() string
+
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}
+
+// --------------------------------------------------------
+
+type IDeleteGlobalListenerRequest interface {
+	WithLoadBalancerId(plbId string) IDeleteGlobalListenerRequest
+	WithListenerId(plistenerId string) IDeleteGlobalListenerRequest
+	GetLoadBalancerId() string // to use in request url
+	GetListenerId() string
+
+	ParseUserAgent() string
+}
