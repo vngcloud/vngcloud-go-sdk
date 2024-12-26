@@ -33,7 +33,7 @@ func (s *GlobalPoolResponse) ToEntityPool() *lsentity.GlobalPool {
 		TLSEnabled:           s.TLSEnabled,
 		Protocol:             s.Protocol,
 		Status:               s.Status,
-		// Health:               s.Health.ToEntityHealthMonitor(),
+		Health:               s.Health.ToEntityGlobalPoolHealthMonitor(),
 	}
 }
 
@@ -55,6 +55,28 @@ type HealthResponse struct {
 	DomainName           *string `json:"domainName"`
 	SuccessCode          *string `json:"successCode"`
 	Status               string  `json:"status"`
+}
+
+func (s *HealthResponse) ToEntityGlobalPoolHealthMonitor() *lsentity.GlobalPoolHealthMonitor {
+	return &lsentity.GlobalPoolHealthMonitor{
+		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
+		DeletedAt:            s.DeletedAt,
+		ID:                   s.ID,
+		GlobalPoolID:         s.GlobalPoolID,
+		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
+		Protocol:             s.Protocol,
+		Path:                 s.Path,
+		Timeout:              s.Timeout,
+		IntervalTime:         s.IntervalTime,
+		HealthyThreshold:     s.HealthyThreshold,
+		UnhealthyThreshold:   s.UnhealthyThreshold,
+		DomainName:           s.DomainName,
+		HTTPVersion:          s.HttpVersion,
+		HTTPMethod:           s.HttpMethod,
+		SuccessCode:          s.SuccessCode,
+		Status:               s.Status,
+	}
 }
 
 type GlobalPoolMemberResponse struct {

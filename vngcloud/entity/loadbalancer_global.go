@@ -46,18 +46,19 @@ type ListGlobalLoadBalancers struct {
 }
 
 type GlobalPool struct {
-	CreatedAt            string  `json:"createdAt"`
-	UpdatedAt            string  `json:"updatedAt"`
-	DeletedAt            *string `json:"deletedAt"`
-	ID                   string  `json:"id"`
-	Name                 string  `json:"name"`
-	Description          string  `json:"description"`
-	GlobalLoadBalancerID string  `json:"globalLoadBalancerId"`
-	Algorithm            string  `json:"algorithm"`
-	StickySession        *string `json:"stickySession"`
-	TLSEnabled           *string `json:"tlsEnabled"`
-	Protocol             string  `json:"protocol"`
-	Status               string  `json:"status"`
+	CreatedAt            string                   `json:"createdAt"`
+	UpdatedAt            string                   `json:"updatedAt"`
+	DeletedAt            *string                  `json:"deletedAt"`
+	ID                   string                   `json:"id"`
+	Name                 string                   `json:"name"`
+	Description          string                   `json:"description"`
+	GlobalLoadBalancerID string                   `json:"globalLoadBalancerId"`
+	Algorithm            string                   `json:"algorithm"`
+	StickySession        *string                  `json:"stickySession"`
+	TLSEnabled           *string                  `json:"tlsEnabled"`
+	Protocol             string                   `json:"protocol"`
+	Status               string                   `json:"status"`
+	Health               *GlobalPoolHealthMonitor `json:"health"`
 }
 
 type GlobalPoolHealthMonitor struct {

@@ -21,6 +21,7 @@ func TestListGlobalPoolsSuccess(t *ltesting.T) {
 	t.Logf("Result: %+v", pools)
 	for _, pool := range pools.Items {
 		t.Logf("Pool: %+v", pool)
+		t.Logf("Health: %+v", pool.Health)
 	}
 	t.Log("PASS")
 }
