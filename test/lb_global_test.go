@@ -332,3 +332,25 @@ func TestDeleteGlobalLoadBalancerSuccess(t *ltesting.T) {
 
 	t.Log("PASS")
 }
+
+func TestGetGlobalLoadBalancerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := global.NewGetGlobalLoadBalancerByIdRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933")
+	lb, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().GetGlobalLoadBalancerById(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Result: %+v", lb)
+	for _, vip := range lb.Vips {
+		t.Logf("  - VIP: %+v", vip)
+	}
+	for _, domain := range lb.Domains {
+		t.Logf("  - Domain: %+v", domain)
+	}
+	t.Log("PASS")
+}

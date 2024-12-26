@@ -174,3 +174,26 @@ func NewDeleteGlobalLoadBalancerRequest(lbId string) IDeleteGlobalLoadBalancerRe
 	}
 	return opts
 }
+
+// --------------------------------------------------------------------------
+
+var _ IGetGlobalLoadBalancerByIdRequest = &GetGlobalLoadBalancerByIdRequest{}
+
+type GetGlobalLoadBalancerByIdRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
+
+func (s *GetGlobalLoadBalancerByIdRequest) WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerByIdRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func NewGetGlobalLoadBalancerByIdRequest(lbId string) IGetGlobalLoadBalancerByIdRequest {
+	opts := &GetGlobalLoadBalancerByIdRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: lbId,
+		},
+	}
+	return opts
+}

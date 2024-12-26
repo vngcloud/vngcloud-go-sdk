@@ -113,3 +113,10 @@ func deleteGlobalLoadBalancerUrl(psc lsclient.IServiceClient, popts IDeleteGloba
 		popts.GetLoadBalancerId(),
 	)
 }
+
+func getGlobalLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetGlobalLoadBalancerByIdRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+	)
+}

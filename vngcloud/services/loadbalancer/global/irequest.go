@@ -232,3 +232,12 @@ type IDeleteGlobalLoadBalancerRequest interface {
 
 	ParseUserAgent() string
 }
+
+// --------------------------------------------------------
+
+type IGetGlobalLoadBalancerByIdRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerByIdRequest
+	GetLoadBalancerId() string // to use in request url
+
+	ParseUserAgent() string
+}

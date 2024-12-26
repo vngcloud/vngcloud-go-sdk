@@ -178,3 +178,11 @@ type CreateGlobalLoadBalancerResponse struct {
 func (s *CreateGlobalLoadBalancerResponse) ToEntityGlobalLoadBalancer() *lsentity.GlobalLoadBalancer {
 	return s.GlobalLoadBalancer.ToEntityGlobalLoadBalancer()
 }
+
+// --------------------------------------------------
+
+type GetGlobalLoadBalancerByIdResponse GlobalLoadBalancerResponse
+
+func (s *GetGlobalLoadBalancerByIdResponse) ToEntityGlobalLoadBalancer() *lsentity.GlobalLoadBalancer {
+	return (*GlobalLoadBalancerResponse)(s).ToEntityGlobalLoadBalancer()
+}

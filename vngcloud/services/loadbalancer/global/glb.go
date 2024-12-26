@@ -310,3 +310,23 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobal
 
 	return nil
 }
+
+// --------------------------------------------------
+
+func (s *LoadBalancerServiceGlobal) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
+	url := getGlobalLoadBalancerByIdUrl(s.VLBClient, popts)
+	resp := new(GetGlobalLoadBalancerByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityGlobalLoadBalancer(), nil
+}

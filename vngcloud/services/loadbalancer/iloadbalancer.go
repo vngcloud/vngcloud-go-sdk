@@ -62,13 +62,13 @@ type ILoadBalancerServiceGlobal interface {
 	ListGlobalLoadBalancers(popts global.IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError)
 	CreateGlobalLoadBalancer(popts global.ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
 	DeleteGlobalLoadBalancer(popts global.IDeleteGlobalLoadBalancerRequest) lserr.IError
+	GetGlobalLoadBalancerById(popts global.IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
 
 	// GetGlobalLoadBalancerPoolById(popts global.IGetGlobalLoadBalancerPoolByIdRequest) (*lsentity.GlobalLoadBalancerPool, lserr.IError)
 	// GetGlobalLoadBalancerPoolMemberById(popts global.IGetGlobalLoadBalancerPoolMemberByIdRequest) (*lsentity.GlobalLoadBalancerPoolMember, lserr.IError)
 	// UpdateGlobalLoadBalancerPoolMember(popts global.IUpdateGlobalLoadBalancerPoolMemberRequest) lserr.IError
 	// DeleteGlobalLoadBalancerPoolMemberById(popts global.IDeleteGlobalLoadBalancerPoolMemberByIdRequest) lserr.IError
 	// UpdateGlobalLoadBalancer(popts global.IUpdateGlobalLoadBalancerRequest) lserr.IError
-	// GetGlobalLoadBalancerById(popts global.IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
 	// ListGlobalLoadBalancerHealthMonitors(popts global.IListGlobalLoadBalancerHealthMonitorsRequest) (*lsentity.ListGlobalLoadBalancerHealthMonitors, lserr.IError)
 	// GetGlobalLoadBalancerHealthMonitorById(popts global.IGetGlobalLoadBalancerHealthMonitorByIdRequest) (*lsentity.GlobalLoadBalancerHealthMonitor, lserr.IError)
 	// CreateGlobalLoadBalancerHealthMonitor(popts global.ICreateGlobalLoadBalancerHealthMonitorRequest) (*lsentity.GlobalLoadBalancerHealthMonitor, lserr.IError)
