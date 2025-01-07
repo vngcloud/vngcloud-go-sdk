@@ -21,7 +21,7 @@ func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
 		message:   "Unknown error",
 	}
 
-	if lstr.Contains(lstr.ToLower(lstr.TrimSpace(perr.Error())), patternServiceMaintenance) {
+	if perr != nil && lstr.Contains(lstr.ToLower(lstr.TrimSpace(perr.Error())), patternServiceMaintenance) {
 		sdkErr.errorCode = EcServiceMaintenance
 		sdkErr.message = "Service Maintenance"
 		sdkErr.error = lfmt.Errorf("service is under maintenance")
