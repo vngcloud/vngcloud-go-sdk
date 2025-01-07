@@ -8,9 +8,10 @@ import (
 )
 
 const (
-	patternPurchaseIssue = "you do not have sufficient credits to complete the purchase"
-	patternPagingInvalid = "page or size invalid"
-	patternTagKeyInvalid = "the value for the tag key contains illegal characters"
+	patternPurchaseIssue      = "you do not have sufficient credits to complete the purchase"
+	patternPagingInvalid      = "page or size invalid"
+	patternTagKeyInvalid      = "the value for the tag key contains illegal characters"
+	patternServiceMaintenance = "this service is in maintenance"
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
@@ -18,6 +19,14 @@ func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
 		error:     perr,
 		errorCode: EcUnknownError,
 		message:   "Unknown error",
+	}
+
+	if lstr.Contains(lstr.ToLower(lstr.TrimSpace(perr.Error())), patternServiceMaintenance) {
+		sdkErr.errorCode = EcServiceMaintenance
+		sdkErr.message = "Service Maintenance"
+		sdkErr.error = lfmt.Errorf("service is under maintenance")
+
+		return sdkErr
 	}
 
 	for _, opt := range popts {
