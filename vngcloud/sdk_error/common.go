@@ -164,3 +164,33 @@ func WithErrorUnexpected(presponse *lreq.Response) func(IError) {
 			})
 	}
 }
+
+func WithErrorPaymentMethodNotAllow(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, "ext_pm_payment_method_not_allow") {
+			sdkError.WithErrorCode(EcPaymentMethodNotAllow).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorCreditNotEnough(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, "ext_pm_credit_not_enough") {
+			sdkError.WithErrorCode(EcCreditNotEnough).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}

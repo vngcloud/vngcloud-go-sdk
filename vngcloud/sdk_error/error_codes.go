@@ -5,12 +5,14 @@ package sdk_error
 const (
 	EcUnknownError = ErrorCode("UnknownError")
 
-	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
-	EcServiceMaintenance  = ErrorCode("VngCloudServiceMaintenance")
-	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
-	EcTagKeyInvalid       = ErrorCode("VngCloudApiTagKeyInvalid")
-	EcPermissionDenied    = ErrorCode("VngCloudApiPermissionDenied")
-	EcUnexpectedError     = ErrorCode("VngCloudApiUnexpectedError")
+	EcInternalServerError   = ErrorCode("VngCloudApiInternalServerError")
+	EcServiceMaintenance    = ErrorCode("VngCloudServiceMaintenance")
+	EcPagingInvalid         = ErrorCode("VngCloudApiPagingInvalid")
+	EcTagKeyInvalid         = ErrorCode("VngCloudApiTagKeyInvalid")
+	EcPermissionDenied      = ErrorCode("VngCloudApiPermissionDenied")
+	EcUnexpectedError       = ErrorCode("VngCloudApiUnexpectedError")
+	EcPaymentMethodNotAllow = ErrorCode("VngCloudPaymentMethodNotAllow")
+	EcCreditNotEnough       = ErrorCode("VngCloudCredtNotEnough")
 )
 
 // Internal SDK error
@@ -107,6 +109,7 @@ const (
 	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
 	EcVServerServerCanNotAttachFloatingIp         = ErrorCode("VngCloudVServerServerCanNotAttachFloatingIp")
+	EcVServerServerExceedFloatingIpQuota          = ErrorCode("VngCloudVServerServerExceedFloatingIpQuota")
 )
 
 // vServer virtual address

@@ -23,6 +23,7 @@ const (
 	patternServerCanNotAttachFloatingIp        = "the server only allows attaching 1 floating ip"
 	patternServerFlavorNotSupported            = `flavor [^.]+ don't support image [^.]+`
 	patternServerDeleteServerUpdatingSecgroups = "cannot delete server with status changing-security-group"
+	patternServerExceedFloatingIpQuota         = "exceeded floating_ip quota"
 )
 
 var (
@@ -138,6 +139,22 @@ func WithErrorServerExceedCpuQuota(perrResp IErrorRespone) func(sdkError IError)
 	}
 }
 
+func WithErrorServerExceedFloatingIpQuota(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerExceedFloatingIpQuota) {
+			sdkError.WithErrorCode(EcVServerServerExceedFloatingIpQuota).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError()).
+				WithErrorCategories(ErrCatQuota)
+		}
+	}
+}
+
 func WithErrorServerImageNotSupported(perrResp IErrorRespone) func(sdkError IError) {
 	return func(sdkError IError) {
 		if perrResp == nil {
@@ -207,10 +224,10 @@ func WithErrorServerCreateBillingPaymentMethodNotAllowed(perrResp IErrorRespone)
 			return
 		}
 
-		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternBillingPaymentMethodNotAllowed) {
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, patternBillingPaymentMethodNotAllowed) {
 			sdkError.WithErrorCode(EcVServerCreateBillingPaymentMethodNotAllowed).
-				WithMessage(errMsg).
+				WithMessage(perrResp.GetMessage()).
 				WithErrors(perrResp.GetError())
 		}
 	}
