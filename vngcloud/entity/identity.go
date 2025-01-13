@@ -10,5 +10,7 @@ type AccessToken struct {
 }
 
 func (s *AccessToken) ToSdkAuthentication() lsvcClient.ISdkAuthentication {
-	return new(lsvcClient.SdkAuthentication).WithAccessToken(s.Token)
+	return new(lsvcClient.SdkAuthentication).
+		WithAccessToken(s.Token).
+		WithExpiresAt(s.ExpiresAt)
 }

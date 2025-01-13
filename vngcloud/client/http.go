@@ -111,22 +111,33 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 	}
 
 	var resp *lreq.Response
-	var err error
-	switch lstr.ToUpper(preq.GetRequestMethod()) {
-	case "POST":
-		resp, err = req.Post(purl)
-	case "GET":
-		resp, err = req.Get(purl)
-	case "DELETE":
-		resp, err = req.Delete(purl)
-	case "PUT":
-		resp, err = req.Put(purl)
-	case "PATCH":
-		resp, err = req.Patch(purl)
-	}
+	if !s.needReauth(preq) {
+		var err error
 
-	if err != nil && resp == nil {
-		return resp, lserr.ErrorHandler(err)
+		switch lstr.ToUpper(preq.GetRequestMethod()) {
+		case "POST":
+			resp, err = req.Post(purl)
+		case "GET":
+			resp, err = req.Get(purl)
+		case "DELETE":
+			resp, err = req.Delete(purl)
+		case "PUT":
+			resp, err = req.Put(purl)
+		case "PATCH":
+			resp, err = req.Patch(purl)
+		}
+
+		if err != nil && resp == nil {
+			return resp, lserr.ErrorHandler(err)
+		}
+	} else {
+		if !preq.SkipAuthentication() && s.reauthFunc != nil {
+			if sdkErr := s.reauthenticate(); sdkErr != nil {
+				return nil, sdkErr
+			}
+
+			return s.DoRequest(purl, preq)
+		}
 	}
 
 	if resp.Response != nil {

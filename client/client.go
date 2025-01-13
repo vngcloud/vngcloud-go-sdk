@@ -22,6 +22,7 @@ type (
 		userId     string
 		httpClient lsclient.IHttpClient
 		userAgent  string
+		authOpt    lsclient.AuthOpts
 
 		iamGateway      lsgateway.IIamGateway
 		vserverGateway  lsgateway.IVServerGateway
@@ -56,6 +57,8 @@ func (s *client) WithAuthOption(pauthOpts lsclient.AuthOpts, pauthConfig ISdkCon
 	if s.httpClient == nil {
 		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
+
+	s.authOpt = pauthOpts  // Assign the auth option to the client
 
 	switch pauthOpts {
 	case lsclient.IamOauth2:
