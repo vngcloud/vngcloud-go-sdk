@@ -22,7 +22,7 @@
   go get github.com/vngcloud/vngcloud-go-sdk
   ```
 
-- Now for example, imagine you want to list all your loadbalancer instances. You can implement this code in your Go Application:
+- Now for example, imagine you want to list all available VngCloud load-balancer packages. You can implement this code in your Go Application:
   ```go
   package main
 
