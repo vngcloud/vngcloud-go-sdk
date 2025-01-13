@@ -30,7 +30,7 @@
     "fmt"
     lctx "context"
 
-	  lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
+    lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/client"
     lslbv2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/v2"
   )
 
