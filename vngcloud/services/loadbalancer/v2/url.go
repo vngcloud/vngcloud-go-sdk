@@ -252,3 +252,31 @@ func resizeLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IResizeLoadBal
 		popts.GetLoadBalancerId(),
 		"resize")
 }
+
+// --------------------------------------------------------
+
+func listCertificatesUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"cas")
+}
+
+func createCertificateUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"cas")
+}
+
+func getCertificateByIdUrl(psc lsclient.IServiceClient, popts IGetCertificateByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"cas",
+		popts.GetCertificateId())
+}
+
+func deleteCertificateByIdUrl(psc lsclient.IServiceClient, popts IDeleteCertificateByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"cas",
+		popts.GetCertificateId())
+}
