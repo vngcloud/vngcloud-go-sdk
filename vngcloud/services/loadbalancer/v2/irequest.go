@@ -279,3 +279,29 @@ type IResizeLoadBalancerByIdRequest interface {
 	ToRequestBody() interface{}
 	AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest
 }
+
+// --------------------------------------------------------
+
+type IListCertificatesRequest interface {
+	ParseUserAgent() string
+}
+
+type IGetCertificateByIdRequest interface {
+	GetCertificateId() string
+	ParseUserAgent() string
+}
+
+type ICreateCertificateRequest interface {
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	ToMap() map[string]interface{}
+
+	WithCertificateChain(pchain string) ICreateCertificateRequest
+	WithPassphrase(ppassphrase string) ICreateCertificateRequest
+	WithPrivateKey(pprivateKey string) ICreateCertificateRequest
+}
+
+type IDeleteCertificateByIdRequest interface {
+	GetCertificateId() string
+	ParseUserAgent() string
+}
