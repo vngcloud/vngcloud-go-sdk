@@ -21,6 +21,7 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorPurchaseIssue(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
+			lserr.WithErrorImageNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
 			lserr.WithErrorServerExceedCpuQuota(errResp),
 			lserr.WithErrorServerFlavorSystemExceedQuota(errResp),

@@ -24,6 +24,7 @@ const (
 	patternServerFlavorNotSupported            = `flavor [^.]+ don't support image [^.]+`
 	patternServerDeleteServerUpdatingSecgroups = "cannot delete server with status changing-security-group"
 	patternServerExceedFloatingIpQuota         = "exceeded floating_ip quota"
+	patternImageNotFound                       = "cannot get image with id"
 )
 
 var (
@@ -55,6 +56,21 @@ func WithErrorServerNotFound(perrResp IErrorRespone) func(sdkError IError) {
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerNotFound) {
 			sdkError.WithErrorCode(EcVServerServerNotFound).
 				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorImageNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, patternImageNotFound) {
+			sdkError.WithErrorCode(EcVServerImageNotFound).
+				WithMessage(perrResp.GetMessage()).
 				WithErrors(perrResp.GetError())
 		}
 	}

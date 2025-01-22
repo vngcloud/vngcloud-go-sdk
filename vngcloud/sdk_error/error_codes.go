@@ -95,6 +95,7 @@ const (
 
 // vServer server
 const (
+	EcVServerImageNotFound                        = ErrorCode("VngCloudVServerImageNotFound")
 	EcVServerServerNotFound                       = ErrorCode("VngCloudVServerServerNotFound")
 	EcVServerServerDeleteCreatingServer           = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
 	EcVServerServerExpired                        = ErrorCode("VngCloudVServerServerExpired")
