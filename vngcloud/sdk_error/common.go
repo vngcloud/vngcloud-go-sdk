@@ -2,6 +2,7 @@ package sdk_error
 
 import (
 	lfmt "fmt"
+	lregexp "regexp"
 	lstr "strings"
 
 	lreq "github.com/imroc/req/v3"
@@ -12,6 +13,11 @@ const (
 	patternPagingInvalid      = "page or size invalid"
 	patternTagKeyInvalid      = "the value for the tag key contains illegal characters"
 	patternServiceMaintenance = "this service is in maintenance"
+	patternProjectConflict    = `project [^.]+ is not belong to user`
+)
+
+var (
+	regexErrorProjectConflict = lregexp.MustCompile(patternProjectConflict)
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
@@ -190,6 +196,21 @@ func WithErrorCreditNotEnough(perrResp IErrorRespone) func(sdkError IError) {
 		if lstr.Contains(errMsg, "ext_pm_credit_not_enough") {
 			sdkError.WithErrorCode(EcCreditNotEnough).
 				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorProjectConflict(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorProjectConflict.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcProjectConflict).
+				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}
 	}

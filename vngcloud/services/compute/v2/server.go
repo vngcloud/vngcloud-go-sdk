@@ -33,9 +33,11 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 			lserr.WithErrorServerExceedFloatingIpQuota(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
 			lserr.WithErrorServerFlavorNotSupported(errResp),
+			lserr.WithErrorProjectConflict(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
 			WithParameters(popts.ToMap()).
-			WithKVparameters("projectId", s.getProjectId())
+			WithKVparameters("projectId", s.getProjectId()).
+			WithErrorCategories(lserr.ErrCatVServer)
 	}
 
 	return resp.ToEntityServer(), nil

@@ -13,6 +13,7 @@ const (
 	EcUnexpectedError       = ErrorCode("VngCloudApiUnexpectedError")
 	EcPaymentMethodNotAllow = ErrorCode("VngCloudPaymentMethodNotAllow")
 	EcCreditNotEnough       = ErrorCode("VngCloudCredtNotEnough")
+	EcProjectConflict       = ErrorCode("VngCloudProjectConflict")
 )
 
 // Internal SDK error
