@@ -11,7 +11,7 @@ import (
 func (s *LoadBalancerServiceGlobal) ListGlobalPools(popts IListGlobalPoolsRequest) (*lsentity.ListGlobalPools, lserr.IError) {
 	url := listGlobalPoolsUrl(s.VLBClient, popts)
 	resp := new(ListGlobalPoolsResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -20,7 +20,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPools(popts IListGlobalPoolsReques
 
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
@@ -33,7 +33,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPools(popts IListGlobalPoolsReques
 func (s *LoadBalancerServiceGlobal) CreateGlobalPool(popts ICreateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
 	url := createGlobalPoolUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalPoolResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -44,10 +44,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalPool(popts ICreateGlobalPoolRequ
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		fmt.Println("sdkErr: ", sdkErr)
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp),
-			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
@@ -60,7 +57,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalPool(popts ICreateGlobalPoolRequ
 func (s *LoadBalancerServiceGlobal) UpdateGlobalPool(popts IUpdateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
 	url := updateGlobalPoolUrl(s.VLBClient, popts)
 	resp := new(UpdateGlobalPoolResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -70,10 +67,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalPool(popts IUpdateGlobalPoolRequ
 
 	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp),
-			lserr.WithErrorLoadBalancerDuplicatePoolName(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
@@ -85,7 +79,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalPool(popts IUpdateGlobalPoolRequ
 
 func (s *LoadBalancerServiceGlobal) DeleteGlobalPool(popts IDeleteGlobalPoolRequest) lserr.IError {
 	url := deleteGlobalPoolUrl(s.VLBClient, popts)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -93,9 +87,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalPool(popts IDeleteGlobalPoolRequ
 
 	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -107,7 +99,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalPool(popts IDeleteGlobalPoolRequ
 func (s *LoadBalancerServiceGlobal) ListGlobalPoolMembers(popts IListGlobalPoolMembersRequest) (*lsentity.ListGlobalPoolMembers, lserr.IError) {
 	url := listGlobalPoolMembersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalPoolMembersResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -116,8 +108,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPoolMembers(popts IListGlobalPoolM
 
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -128,7 +119,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPoolMembers(popts IListGlobalPoolM
 
 func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPoolMemberRequest) lserr.IError {
 	url := patchGlobalPoolMemberUrl(s.VLBClient, popts)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -137,8 +128,8 @@ func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPool
 
 	if _, sdkErr := s.VLBClient.Patch(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -150,7 +141,7 @@ func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPool
 func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError) {
 	url := listGlobalListenersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalListenersResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -159,8 +150,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListene
 
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -172,7 +162,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListene
 func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
 	url := createGlobalListenerUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalListenerResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -182,13 +172,9 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalList
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp),
-		// lserr.WithErrorLoadBalancerDuplicateListenerName(errResp)).
-		// WithParameters(popts.ToMap()).
-		// AppendCategories(lserr.ErrCatProductVlb
-		)
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			WithParameters(popts.ToMap()).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return resp.ToEntityGlobalListener(), nil
@@ -199,7 +185,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalList
 func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
 	url := updateGlobalListenerUrl(s.VLBClient, popts)
 	resp := new(UpdateGlobalListenerResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -209,11 +195,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalList
 
 	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp),
-		// lserr.WithErrorLoadBalancerDuplicateListenerName(errResp)
-		).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
 
@@ -226,7 +208,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalList
 
 func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalListenerRequest) lserr.IError {
 	url := deleteGlobalListenerUrl(s.VLBClient, popts)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -234,9 +216,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalList
 
 	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -248,7 +228,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalList
 func (s *LoadBalancerServiceGlobal) ListGlobalLoadBalancers(popts IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError) {
 	url := listGlobalLoadBalancersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalLoadBalancersResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -268,7 +248,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalLoadBalancers(popts IListGlobalLoa
 func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := createGlobalLoadBalancerUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalLoadBalancerResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -277,12 +257,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobal
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp),
-		// lserr.WithErrorLoadBalancerDuplicateName(errResp)
-		).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
 			WithParameters(popts.ToMap()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
@@ -294,7 +269,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobal
 
 func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobalLoadBalancerRequest) lserr.IError {
 	url := deleteGlobalLoadBalancerUrl(s.VLBClient, popts)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
@@ -302,9 +277,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobal
 
 	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp)).
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -316,7 +289,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobal
 func (s *LoadBalancerServiceGlobal) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := getGlobalLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetGlobalLoadBalancerByIdResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
@@ -324,7 +297,8 @@ func (s *LoadBalancerServiceGlobal) GetGlobalLoadBalancerById(popts IGetGlobalLo
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 

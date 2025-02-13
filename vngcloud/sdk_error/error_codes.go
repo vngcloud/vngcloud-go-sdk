@@ -155,3 +155,9 @@ const (
 	EcVNetworkLockOnProcess                             = ErrorCode("LockOnProcess")
 	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
 )
+
+// Global Load Balancer
+
+const (
+	EcGlobalLoadBalancerNotFound = ErrorCode("VngCloudGlobalLoadBalancerNotFound")
+)
