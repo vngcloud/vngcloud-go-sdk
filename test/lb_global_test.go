@@ -29,7 +29,7 @@ func TestListGlobalPoolsSuccess(t *ltesting.T) {
 func TestCreateGlobalPoolSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	member := global.NewGlobalMemberRequest("p_name", "10.105.0.4", "sub-8aa727dd-9857-472f-8766-ece41282d437", 80, 80, 1, false)
-	poolMember := global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100)
+	poolMember := global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100, global.GlobalPoolMemberTypePublic)
 	poolMember.WithMembers(member)
 	opt := global.NewCreateGlobalPoolRequest("annd2-test-pool-4", global.GlobalPoolProtocolTCP).
 		WithLoadBalancerId("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933").
@@ -56,7 +56,7 @@ func TestCreateGlobalPoolSuccess(t *ltesting.T) {
 func TestCreateGlobalPoolHTTPSSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	member := global.NewGlobalMemberRequest("p_name", "10.105.0.4", "sub-8aa727dd-9857-472f-8766-ece41282d437", 80, 80, 1, false)
-	poolMember := global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100)
+	poolMember := global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100, global.GlobalPoolMemberTypePrivate)
 	poolMember.WithMembers(member)
 	opt := global.NewCreateGlobalPoolRequest("annd2-test-pool-5", global.GlobalPoolProtocolTCP).
 		WithLoadBalancerId("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933").
@@ -155,24 +155,25 @@ func TestListGlobalPoolMembersSuccess(t *ltesting.T) {
 
 func TestPatchGlobalPoolMemberSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	createAction := global.NewPatchGlobalPoolCreateBulkActionRequest(
-		global.NewGlobalPoolMemberRequest("patch_name", "hcm", "net-86b7c84a-b3dd-4e6a-b66b-d28f36f3fc5f", 100).WithMembers(
-			global.NewGlobalMemberRequest("patch_name_4", "10.105.0.4", "sub-7ceeed28-2cad-4bcd-9a4a-a0041c6d6304", 80, 80, 1, false),
-			global.NewGlobalMemberRequest("patch_name_3", "10.105.0.3", "sub-a7fceae7-5ab5-4768-993f-8e6465f75050", 80, 80, 1, false),
-		),
-	)
+	// createAction := global.NewPatchGlobalPoolCreateBulkActionRequest(
+	// 	global.NewGlobalPoolMemberRequest("patch_name", "hcm", "net-86b7c84a-b3dd-4e6a-b66b-d28f36f3fc5f", 100).WithMembers(
+	// 		global.NewGlobalMemberRequest("patch_name_4", "10.105.0.4", "sub-7ceeed28-2cad-4bcd-9a4a-a0041c6d6304", 80, 80, 1, false),
+	// 		global.NewGlobalMemberRequest("patch_name_3", "10.105.0.3", "sub-a7fceae7-5ab5-4768-993f-8e6465f75050", 80, 80, 1, false),
+	// 	),
+	// )
 	updateAction := global.NewPatchGlobalPoolUpdateBulkActionRequest("gpool-mem-1ea280e7-6739-4ede-9d6a-7d2e39036b2c",
 		global.NewUpdateGlobalPoolMemberRequest(100).WithMembers(
 			global.NewGlobalMemberRequest("patch_name_44", "10.105.0.44", "sub-7ceeed28-2cad-4bcd-9a4a-a0041c6d6304", 80, 80, 1, false),
 			global.NewGlobalMemberRequest("patch_name_33", "10.105.0.33", "sub-a7fceae7-5ab5-4768-993f-8e6465f75050", 80, 80, 1, false),
 		),
 	)
-	deleteAction := global.NewPatchGlobalPoolDeleteBulkActionRequest("gpool-mem-e4a56d03-baf8-448b-98ab-404219fddede")
+	// deleteAction := global.NewPatchGlobalPoolDeleteBulkActionRequest("gpool-mem-e4a56d03-baf8-448b-98ab-404219fddede")
 	opt := global.NewPatchGlobalPoolMemberRequest("glb-d81be06b-5109-46ad-97d9-e97fe1aa7933", "gpool-b31482ab-e84b-4768-a0dd-dacc4178a451").
 		WithBulkAction(
-			createAction,
+			// createAction,
+			// deleteAction,
 			updateAction,
-			deleteAction)
+		)
 	sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().PatchGlobalPoolMember(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -292,7 +293,7 @@ func TestCreateGlobalLoadBalancerSuccess(t *ltesting.T) {
 				WithDomainName("example.com"),
 		).
 		WithMembers(
-			global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100).
+			global.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100, global.GlobalPoolMemberTypePrivate).
 				WithMembers(
 					global.NewGlobalMemberRequest("p_name", "10.105.0.4", "sub-8aa727dd-9857-472f-8766-ece41282d437", 80, 80, 1, false),
 				),

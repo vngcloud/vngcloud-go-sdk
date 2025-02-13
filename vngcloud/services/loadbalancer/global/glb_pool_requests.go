@@ -12,6 +12,8 @@ type (
 	GlobalPoolHealthCheckProtocol    string
 	GlobalPoolHealthCheckMethod      string
 	GlobalPoolHealthCheckHttpVersion string
+
+	GlobalPoolMemberType string
 )
 
 const (
@@ -40,6 +42,11 @@ const (
 const (
 	GlobalPoolHealthCheckHttpVersionHttp1       GlobalPoolHealthCheckHttpVersion = "1.0"
 	GlobalPoolHealthCheckHttpVersionHttp1Minor1 GlobalPoolHealthCheckHttpVersion = "1.1"
+)
+
+const (
+	GlobalPoolMemberTypePublic  GlobalPoolMemberType = "PUBLIC"
+	GlobalPoolMemberTypePrivate GlobalPoolMemberType = "PRIVATE"
 )
 
 // --------------------------------------------------------------------------
@@ -273,7 +280,8 @@ type GlobalPoolMemberRequest struct {
 	Description string                 `json:"description,omitempty"`
 	Region      string                 `json:"region"`
 	TrafficDial int                    `json:"trafficDial"`
-	VPCID       string                 `json:"vpcId"`
+	VPCID       string                 `json:"vpcId"` // only need for private type
+	Type        GlobalPoolMemberType   `json:"type"`
 	Members     []IGlobalMemberRequest `json:"members"`
 
 	lscommon.LoadBalancerCommon
@@ -303,6 +311,11 @@ func (s *GlobalPoolMemberRequest) WithTrafficDial(pdial int) ICreateGlobalPoolMe
 
 func (s *GlobalPoolMemberRequest) WithVPCID(pvpcId string) ICreateGlobalPoolMemberRequest {
 	s.VPCID = pvpcId
+	return s
+}
+
+func (s *GlobalPoolMemberRequest) WithType(ptype GlobalPoolMemberType) ICreateGlobalPoolMemberRequest {
+	s.Type = ptype
 	return s
 }
 
@@ -342,12 +355,13 @@ func (s *GlobalPoolMemberRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func NewGlobalPoolMemberRequest(pname, pregion, pvpcId string, pdial int) ICreateGlobalPoolMemberRequest {
+func NewGlobalPoolMemberRequest(pname, pregion, pvpcId string, pdial int, pType GlobalPoolMemberType) ICreateGlobalPoolMemberRequest {
 	opts := &GlobalPoolMemberRequest{
 		Name:        pname,
 		Description: "",
 		Region:      pregion,
 		TrafficDial: pdial,
+		Type:        pType,
 		VPCID:       pvpcId,
 		Members:     make([]IGlobalMemberRequest, 0),
 	}

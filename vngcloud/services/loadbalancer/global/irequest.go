@@ -48,6 +48,7 @@ type ICreateGlobalPoolMemberRequest interface {
 	WithVPCID(pvpcID string) ICreateGlobalPoolMemberRequest
 	WithTrafficDial(pdial int) ICreateGlobalPoolMemberRequest
 	WithMembers(pmembers ...IGlobalMemberRequest) ICreateGlobalPoolMemberRequest
+	WithType(ptype GlobalPoolMemberType) ICreateGlobalPoolMemberRequest
 
 	WithLoadBalancerId(plbId string) ICreateGlobalPoolMemberRequest
 	WithPoolId(ppoolId string) ICreateGlobalPoolMemberRequest
