@@ -251,7 +251,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobal
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithOkCodes(200).
+		WithOkCodes(202).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

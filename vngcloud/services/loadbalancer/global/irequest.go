@@ -212,6 +212,8 @@ type ICreateGlobalLoadBalancerRequest interface {
 	WithType(ptype GlobalLoadBalancerType) ICreateGlobalLoadBalancerRequest
 	WithGlobalListener(plistener ICreateGlobalListenerRequest) ICreateGlobalLoadBalancerRequest
 	WithGlobalPool(ppool ICreateGlobalPoolRequest) ICreateGlobalLoadBalancerRequest
+	WithPackage(ppackageId string) ICreateGlobalLoadBalancerRequest
+	WithPaymentFlow(ppaymentFlow GlobalLoadBalancerPaymentFlow) ICreateGlobalLoadBalancerRequest
 
 	// WithTags(ptags ...string) ICreateGlobalLoadBalancerRequest
 	// WithScheme(pscheme LoadBalancerScheme) ICreateGlobalLoadBalancerRequest

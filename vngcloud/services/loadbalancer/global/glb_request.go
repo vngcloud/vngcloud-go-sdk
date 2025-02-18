@@ -8,11 +8,13 @@ import (
 )
 
 type (
-	GlobalLoadBalancerType string
+	GlobalLoadBalancerType        string
+	GlobalLoadBalancerPaymentFlow string
 )
 
 const (
-	GlobalLoadBalancerTypeLayer4 GlobalLoadBalancerType = "Layer 4"
+	GlobalLoadBalancerTypeLayer4           GlobalLoadBalancerType        = "Layer 4"
+	GlobalLoadBalancerPaymentFlowAutomated GlobalLoadBalancerPaymentFlow = "automated"
 )
 
 // --------------------------------------------------------------------------
@@ -93,11 +95,13 @@ func (s *ListGlobalLoadBalancersRequest) GetDefaultQuery() string {
 var _ ICreateGlobalLoadBalancerRequest = &CreateGlobalLoadBalancerRequest{}
 
 type CreateGlobalLoadBalancerRequest struct {
-	Description    string                       `json:"description"`
-	Name           string                       `json:"name"`
-	Type           GlobalLoadBalancerType       `json:"type"`
-	GlobalListener ICreateGlobalListenerRequest `json:"globalListener"`
-	GlobalPool     ICreateGlobalPoolRequest     `json:"globalPool"`
+	Description    string                        `json:"description"`
+	Name           string                        `json:"name"`
+	Type           GlobalLoadBalancerType        `json:"type"`
+	Package        string                        `json:"package"`
+	PaymentFlow    GlobalLoadBalancerPaymentFlow `json:"paymentFlow"`
+	GlobalListener ICreateGlobalListenerRequest  `json:"globalListener"`
+	GlobalPool     ICreateGlobalPoolRequest      `json:"globalPool"`
 
 	lscommon.UserAgent
 }
@@ -114,6 +118,16 @@ func (s *CreateGlobalLoadBalancerRequest) WithName(pname string) ICreateGlobalLo
 
 func (s *CreateGlobalLoadBalancerRequest) WithType(ptype GlobalLoadBalancerType) ICreateGlobalLoadBalancerRequest {
 	s.Type = ptype
+	return s
+}
+
+func (s *CreateGlobalLoadBalancerRequest) WithPackage(ppackageId string) ICreateGlobalLoadBalancerRequest {
+	s.Package = ppackageId
+	return s
+}
+
+func (s *CreateGlobalLoadBalancerRequest) WithPaymentFlow(ppaymentFlow GlobalLoadBalancerPaymentFlow) ICreateGlobalLoadBalancerRequest {
+	s.PaymentFlow = ppaymentFlow
 	return s
 }
 
@@ -146,6 +160,8 @@ func NewCreateGlobalLoadBalancerRequest(name string) ICreateGlobalLoadBalancerRe
 		Description:    "",
 		Name:           name,
 		Type:           GlobalLoadBalancerTypeLayer4,
+		Package:        "",
+		PaymentFlow:    GlobalLoadBalancerPaymentFlowAutomated,
 		GlobalListener: nil,
 		GlobalPool:     nil,
 	}

@@ -309,7 +309,7 @@ func TestCreateGlobalLoadBalancerSuccess(t *ltesting.T) {
 	opt := global.NewCreateGlobalLoadBalancerRequest("annd2-testtt").
 		WithDescription("hihi").
 		WithGlobalListener(listener).
-		WithGlobalPool(pool)
+		WithGlobalPool(pool).WithPackage("pkg-b02e62ab-a282-4faf-8732-a172ef497a7b")
 
 	lb, sdkerr := vngcloud.VLBGateway().Global().LoadBalancerService().CreateGlobalLoadBalancer(opt)
 	if sdkerr != nil {
