@@ -12,6 +12,7 @@ type (
 		GetIamEndpoint() string
 		GetVServerEndpoint() string
 		GetVLBEndpoint() string
+		GetVLBGlobalEndpoint() string
 		GetVNetworkEndpoint() string
 		GetUserAgent() string
 		WithUserId(puserId string) ISdkConfigure
@@ -72,6 +73,10 @@ func (s *sdkConfigure) GetVServerEndpoint() string {
 
 func (s *sdkConfigure) GetVLBEndpoint() string {
 	return s.vlbEndpoint
+}
+
+func (s *sdkConfigure) GetVLBGlobalEndpoint() string {
+	return s.vlbGlobalEndpoint
 }
 
 func (s *sdkConfigure) GetVNetworkEndpoint() string {

@@ -108,7 +108,7 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 	}
 
 	if s.vlbGateway != nil {
-		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.vlbGateway.GetGlobalEndpoint(), s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
 	}
 
 	if s.vnetworkGateway != nil {
@@ -143,7 +143,7 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	if s.vlbGateway == nil && psdkCfg.GetVLBEndpoint() != "" && psdkCfg.GetVServerEndpoint() != "" {
-		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), psdkCfg.GetVLBGlobalEndpoint(), psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
 	}
 
 	if s.vnetworkGateway == nil && psdkCfg.GetVNetworkEndpoint() != "" {

@@ -68,6 +68,7 @@ type IVLBGateway interface {
 	V2() IVLBGatewayV2
 	Global() IVLBGatewayGlobal
 	GetEndpoint() string
+	GetGlobalEndpoint() string
 }
 
 type IVBackUpGateway interface{}

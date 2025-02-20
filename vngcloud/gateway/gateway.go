@@ -16,6 +16,7 @@ type vserverGateway struct {
 
 type vlbGateway struct {
 	endpoint           string // Hold the endpoint of the vLB service
+	globalEndpoint     string // Hold the endpoint of the global vLB service
 	vlbGatewayInternal IVLBGatewayInternal
 	vlbGatewayV2       IVLBGatewayV2
 	globalLBGateway    IVLBGatewayGlobal
@@ -56,7 +57,7 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 	}
 }
 
-func NewVLBGateway(plbEndpoint, pserverEndpoint, pprojectId string, phc lsclient.IHttpClient) IVLBGateway {
+func NewVLBGateway(plbEndpoint, pglbEndpoint, pserverEndpoint, pprojectId string, phc lsclient.IHttpClient) IVLBGateway {
 	vlbSvcV2 := lsclient.NewServiceClient().
 		WithEndpoint(plbEndpoint + "v2").
 		WithClient(phc).
@@ -68,7 +69,7 @@ func NewVLBGateway(plbEndpoint, pserverEndpoint, pprojectId string, phc lsclient
 		WithProjectId(pprojectId)
 
 	vlbSvcGlobal := lsclient.NewServiceClient().
-		WithEndpoint(plbEndpoint + "v1").
+		WithEndpoint(pglbEndpoint + "v1").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
@@ -79,6 +80,7 @@ func NewVLBGateway(plbEndpoint, pserverEndpoint, pprojectId string, phc lsclient
 
 	return &vlbGateway{
 		endpoint:           plbEndpoint,
+		globalEndpoint:     pglbEndpoint,
 		vlbGatewayV2:       NewVLBGatewayV2(vlbSvcV2, vserverSvcV2),
 		vlbGatewayInternal: NewVLBGatewayInternal(vlbSvcIn),
 		globalLBGateway:    NewVLBGatewayGlobal(vlbSvcGlobal),
@@ -137,6 +139,10 @@ func (s *vserverGateway) GetEndpoint() string {
 
 func (s *vlbGateway) GetEndpoint() string {
 	return s.endpoint
+}
+
+func (s *vlbGateway) GetGlobalEndpoint() string {
+	return s.globalEndpoint
 }
 
 func (s *vnetworkGateway) V1() IVNetworkGatewayV1 {
