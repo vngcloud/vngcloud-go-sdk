@@ -133,6 +133,6 @@ func (s *sdkConfigure) WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfig
 }
 
 func (s *sdkConfigure) WithVLBGlobalEndpoint(pvlbEndpoint string) ISdkConfigure {
-	s.vlbEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
+	s.vlbGlobalEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
 	return s
 }
