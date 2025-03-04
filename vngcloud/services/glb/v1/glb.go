@@ -1,4 +1,4 @@
-package global
+package v1
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *LoadBalancerServiceGlobal) ListGlobalPools(popts IListGlobalPoolsRequest) (*lsentity.ListGlobalPools, lserr.IError) {
+func (s *GLBServiceV1) ListGlobalPools(popts IListGlobalPoolsRequest) (*lsentity.ListGlobalPools, lserr.IError) {
 	url := listGlobalPoolsUrl(s.VLBClient, popts)
 	resp := new(ListGlobalPoolsResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -30,7 +30,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPools(popts IListGlobalPoolsReques
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) CreateGlobalPool(popts ICreateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
+func (s *GLBServiceV1) CreateGlobalPool(popts ICreateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
 	url := createGlobalPoolUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalPoolResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -54,7 +54,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalPool(popts ICreateGlobalPoolRequ
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) UpdateGlobalPool(popts IUpdateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
+func (s *GLBServiceV1) UpdateGlobalPool(popts IUpdateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError) {
 	url := updateGlobalPoolUrl(s.VLBClient, popts)
 	resp := new(UpdateGlobalPoolResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -77,7 +77,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalPool(popts IUpdateGlobalPoolRequ
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) DeleteGlobalPool(popts IDeleteGlobalPoolRequest) lserr.IError {
+func (s *GLBServiceV1) DeleteGlobalPool(popts IDeleteGlobalPoolRequest) lserr.IError {
 	url := deleteGlobalPoolUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
@@ -96,7 +96,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalPool(popts IDeleteGlobalPoolRequ
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) ListGlobalPoolMembers(popts IListGlobalPoolMembersRequest) (*lsentity.ListGlobalPoolMembers, lserr.IError) {
+func (s *GLBServiceV1) ListGlobalPoolMembers(popts IListGlobalPoolMembersRequest) (*lsentity.ListGlobalPoolMembers, lserr.IError) {
 	url := listGlobalPoolMembersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalPoolMembersResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -117,7 +117,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalPoolMembers(popts IListGlobalPoolM
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPoolMemberRequest) lserr.IError {
+func (s *GLBServiceV1) PatchGlobalPoolMember(popts IPatchGlobalPoolMemberRequest) lserr.IError {
 	url := patchGlobalPoolMemberUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
@@ -138,7 +138,7 @@ func (s *LoadBalancerServiceGlobal) PatchGlobalPoolMember(popts IPatchGlobalPool
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError) {
+func (s *GLBServiceV1) ListGlobalListeners(popts IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError) {
 	url := listGlobalListenersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalListenersResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -159,7 +159,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalListeners(popts IListGlobalListene
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
+func (s *GLBServiceV1) CreateGlobalListener(popts ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
 	url := createGlobalListenerUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalListenerResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -182,7 +182,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalListener(popts ICreateGlobalList
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
+func (s *GLBServiceV1) UpdateGlobalListener(popts IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
 	url := updateGlobalListenerUrl(s.VLBClient, popts)
 	resp := new(UpdateGlobalListenerResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -206,7 +206,7 @@ func (s *LoadBalancerServiceGlobal) UpdateGlobalListener(popts IUpdateGlobalList
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalListenerRequest) lserr.IError {
+func (s *GLBServiceV1) DeleteGlobalListener(popts IDeleteGlobalListenerRequest) lserr.IError {
 	url := deleteGlobalListenerUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
@@ -225,7 +225,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalListener(popts IDeleteGlobalList
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) ListGlobalLoadBalancers(popts IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError) {
+func (s *GLBServiceV1) ListGlobalLoadBalancers(popts IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError) {
 	url := listGlobalLoadBalancersUrl(s.VLBClient, popts)
 	resp := new(ListGlobalLoadBalancersResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -245,7 +245,7 @@ func (s *LoadBalancerServiceGlobal) ListGlobalLoadBalancers(popts IListGlobalLoa
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
+func (s *GLBServiceV1) CreateGlobalLoadBalancer(popts ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := createGlobalLoadBalancerUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalLoadBalancerResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -267,7 +267,7 @@ func (s *LoadBalancerServiceGlobal) CreateGlobalLoadBalancer(popts ICreateGlobal
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobalLoadBalancerRequest) lserr.IError {
+func (s *GLBServiceV1) DeleteGlobalLoadBalancer(popts IDeleteGlobalLoadBalancerRequest) lserr.IError {
 	url := deleteGlobalLoadBalancerUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
@@ -286,7 +286,7 @@ func (s *LoadBalancerServiceGlobal) DeleteGlobalLoadBalancer(popts IDeleteGlobal
 
 // --------------------------------------------------
 
-func (s *LoadBalancerServiceGlobal) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
+func (s *GLBServiceV1) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := getGlobalLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetGlobalLoadBalancerByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)

@@ -2,6 +2,7 @@ package gateway
 
 import (
 	lscomputeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
+	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb"
 	lsidentitySvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
@@ -47,10 +48,6 @@ type IVLBGatewayV2 interface {
 	LoadBalancerService() lslbSvc.ILoadBalancerServiceV2
 }
 
-type IVLBGatewayGlobal interface {
-	LoadBalancerService() lslbSvc.ILoadBalancerServiceGlobal
-}
-
 type IVNetworkGatewayV1 interface {
 	NetworkService() lsnetworkSvc.INetworkServiceV1
 }
@@ -66,9 +63,15 @@ type IVLBGatewayInternal interface {
 type IVLBGateway interface {
 	Internal() IVLBGatewayInternal
 	V2() IVLBGatewayV2
-	Global() IVLBGatewayGlobal
 	GetEndpoint() string
-	GetGlobalEndpoint() string
 }
 
 type IVBackUpGateway interface{}
+
+type IGLBGateway interface {
+	V1() IGLBGatewayV1
+}
+
+type IGLBGatewayV1 interface {
+	GLBService() glb.IGLBServiceV1
+}

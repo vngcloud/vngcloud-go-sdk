@@ -28,4 +28,5 @@ type IClient interface {
 	VLBGateway() lsgateway.IVLBGateway
 	VBackUpGateway() lsgateway.IVBackUpGateway
 	VNetworkGateway() lsgateway.IVNetworkGateway
+	GLBGateway() lsgateway.IGLBGateway
 }

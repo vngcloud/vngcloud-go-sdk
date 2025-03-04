@@ -24,3 +24,4 @@ TestResults.xml
 /tmp/
 .idea
 /secret/
+test/env.yaml

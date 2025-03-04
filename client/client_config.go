@@ -12,7 +12,7 @@ type (
 		GetIamEndpoint() string
 		GetVServerEndpoint() string
 		GetVLBEndpoint() string
-		GetVLBGlobalEndpoint() string
+		GetGLBEndpoint() string
 		GetVNetworkEndpoint() string
 		GetUserAgent() string
 		WithUserId(puserId string) ISdkConfigure
@@ -25,22 +25,22 @@ type (
 		WithVServerEndpoint(pvserverEndpoint string) ISdkConfigure
 		WithVLBEndpoint(pvlbEndpoint string) ISdkConfigure
 		WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfigure
-		WithVLBGlobalEndpoint(pvlbEndpoint string) ISdkConfigure
+		WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure
 	}
 )
 
 type sdkConfigure struct {
-	clientId          string
-	clientSecret      string
-	projectId         string
-	zoneId            string
-	userId            string
-	iamEndpoint       string
-	vserverEndpoint   string
-	vlbEndpoint       string
-	vlbGlobalEndpoint string
-	vnetworkEndpoint  string
-	userAgent         string
+	clientId         string
+	clientSecret     string
+	projectId        string
+	zoneId           string
+	userId           string
+	iamEndpoint      string
+	vserverEndpoint  string
+	vlbEndpoint      string
+	glbEndpoint      string
+	vnetworkEndpoint string
+	userAgent        string
 }
 
 func (s *sdkConfigure) GetClientId() string {
@@ -75,8 +75,8 @@ func (s *sdkConfigure) GetVLBEndpoint() string {
 	return s.vlbEndpoint
 }
 
-func (s *sdkConfigure) GetVLBGlobalEndpoint() string {
-	return s.vlbGlobalEndpoint
+func (s *sdkConfigure) GetGLBEndpoint() string {
+	return s.glbEndpoint
 }
 
 func (s *sdkConfigure) GetVNetworkEndpoint() string {
@@ -137,7 +137,7 @@ func (s *sdkConfigure) WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfig
 	return s
 }
 
-func (s *sdkConfigure) WithVLBGlobalEndpoint(pvlbEndpoint string) ISdkConfigure {
-	s.vlbGlobalEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
+func (s *sdkConfigure) WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure {
+	s.glbEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
 	return s
 }

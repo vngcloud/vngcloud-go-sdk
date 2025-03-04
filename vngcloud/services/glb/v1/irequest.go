@@ -1,4 +1,4 @@
-package global
+package v1
 
 type IListGlobalPoolsRequest interface {
 	WithLoadBalancerId(plbId string) IListGlobalPoolsRequest

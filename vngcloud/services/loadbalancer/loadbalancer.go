@@ -2,7 +2,6 @@ package loadbalancer
 
 import (
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
-	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/global"
 	lsloadbalancerInternal "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/inter"
 	lsloadbalancerV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/v2"
 )
@@ -16,12 +15,6 @@ func NewLoadBalancerServiceV2(plbSvcClient, pserverSvcClient lsclient.IServiceCl
 
 func NewLoadBalancerServiceInternal(psvcClient lsclient.IServiceClient) ILoadBalancerServiceInternal {
 	return &lsloadbalancerInternal.LoadBalancerServiceInternal{
-		VLBClient: psvcClient,
-	}
-}
-
-func NewLoadBalancerServiceGlobal(psvcClient lsclient.IServiceClient) ILoadBalancerServiceGlobal {
-	return &global.LoadBalancerServiceGlobal{
 		VLBClient: psvcClient,
 	}
 }

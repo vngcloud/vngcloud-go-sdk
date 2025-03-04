@@ -3,7 +3,6 @@ package loadbalancer
 import (
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
-	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/global"
 	lslbSvcIn "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/inter"
 	lslbSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/v2"
 )
@@ -42,49 +41,4 @@ type ILoadBalancerServiceV2 interface {
 
 type ILoadBalancerServiceInternal interface {
 	CreateLoadBalancer(popts lslbSvcIn.ICreateLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError)
-}
-
-type ILoadBalancerServiceGlobal interface {
-	ListGlobalPools(popts global.IListGlobalPoolsRequest) (*lsentity.ListGlobalPools, lserr.IError)
-	CreateGlobalPool(popts global.ICreateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError)
-	UpdateGlobalPool(popts global.IUpdateGlobalPoolRequest) (*lsentity.GlobalPool, lserr.IError)
-	DeleteGlobalPool(popts global.IDeleteGlobalPoolRequest) lserr.IError
-
-	ListGlobalPoolMembers(popts global.IListGlobalPoolMembersRequest) (*lsentity.ListGlobalPoolMembers, lserr.IError)
-	PatchGlobalPoolMember(popts global.IPatchGlobalPoolMemberRequest) lserr.IError
-
-	ListGlobalListeners(popts global.IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError)
-	CreateGlobalListener(popts global.ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError)
-	UpdateGlobalListener(popts global.IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError)
-	DeleteGlobalListener(popts global.IDeleteGlobalListenerRequest) lserr.IError
-	// GetGlobalListenerById(popts global.IGetGlobalListenerByIdRequest) (*lsentity.GlobalListener, lserr.IError)
-
-	ListGlobalLoadBalancers(popts global.IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError)
-	CreateGlobalLoadBalancer(popts global.ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
-	DeleteGlobalLoadBalancer(popts global.IDeleteGlobalLoadBalancerRequest) lserr.IError
-	GetGlobalLoadBalancerById(popts global.IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
-
-	// GetGlobalLoadBalancerPoolById(popts global.IGetGlobalLoadBalancerPoolByIdRequest) (*lsentity.GlobalLoadBalancerPool, lserr.IError)
-	// GetGlobalLoadBalancerPoolMemberById(popts global.IGetGlobalLoadBalancerPoolMemberByIdRequest) (*lsentity.GlobalLoadBalancerPoolMember, lserr.IError)
-	// UpdateGlobalLoadBalancerPoolMember(popts global.IUpdateGlobalLoadBalancerPoolMemberRequest) lserr.IError
-	// DeleteGlobalLoadBalancerPoolMemberById(popts global.IDeleteGlobalLoadBalancerPoolMemberByIdRequest) lserr.IError
-	// UpdateGlobalLoadBalancer(popts global.IUpdateGlobalLoadBalancerRequest) lserr.IError
-	// ListGlobalLoadBalancerHealthMonitors(popts global.IListGlobalLoadBalancerHealthMonitorsRequest) (*lsentity.ListGlobalLoadBalancerHealthMonitors, lserr.IError)
-	// GetGlobalLoadBalancerHealthMonitorById(popts global.IGetGlobalLoadBalancerHealthMonitorByIdRequest) (*lsentity.GlobalLoadBalancerHealthMonitor, lserr.IError)
-	// CreateGlobalLoadBalancerHealthMonitor(popts global.ICreateGlobalLoadBalancerHealthMonitorRequest) (*lsentity.GlobalLoadBalancerHealthMonitor, lserr.IError)
-	// UpdateGlobalLoadBalancerHealthMonitor(popts global.IUpdateGlobalLoadBalancerHealthMonitorRequest) lserr.IError
-	// DeleteGlobalLoadBalancerHealthMonitorById(popts global.IDeleteGlobalLoadBalancerHealthMonitorByIdRequest) lserr.IError
-	// ListGlobalLoadBalancerTags(popts global.IListGlobalLoadBalancerTagsRequest) (*lsentity.ListGlobalLoadBalancerTags, lserr.IError)
-	// CreateGlobalLoadBalancerTags(popts global.ICreateGlobalLoadBalancerTagsRequest) lserr.IError
-	// UpdateGlobalLoadBalancerTags(popts global.IUpdateGlobalLoadBalancerTagsRequest) lserr.IError
-	// ListGlobalLoadBalancerPolicies(popts global.IListGlobalLoadBalancerPoliciesRequest) (*lsentity.ListGlobalLoadBalancerPolicies, lserr.IError)
-	// GetGlobalLoadBalancerPolicyById(popts global.IGetGlobalLoadBalancerPolicyByIdRequest) (*lsentity.GlobalLoadBalancerPolicy, lserr.IError)
-	// CreateGlobalLoadBalancerPolicy(popts global.ICreateGlobalLoadBalancerPolicyRequest) (*lsentity.GlobalLoadBalancerPolicy, lserr.IError)
-	// UpdateGlobalLoadBalancerPolicy(popts global.IUpdateGlobalLoadBalancerPolicyRequest) lserr.IError
-	// DeleteGlobalLoadBalancerPolicyById(popts global.IDeleteGlobalLoadBalancerPolicyByIdRequest) lserr.IError
-	// GetGlobalLoadBalancerPoolById(popts global.IGetGlobalLoadBalancerPoolByIdRequest) (*lsentity.GlobalLoadBalancerPool, lserr.IError)
-	// GetGlobalLoadBalancerListenerById(popts global.IGetGlobalLoadBalancerListenerByIdRequest) (*lsentity.GlobalLoadBalancerListener, lserr.IError)
-	// GetGlobalLoadBalancerHealthMonitorById(popts global.IGetGlobalLoadBalancerHealthMonitorByIdRequest) (*lsentity.GlobalLoadBalancerHealthMonitor, lserr.IError)
-	// GetGlobalLoadBalancerPolicyById(popts global.IGetGlobalLoadBalancerPolicyByIdRequest) (*lsentity.GlobalLoadBalancerPolicy, lserr.IError)
-	// GetGlobalLoadBalancerPoolMemberById(popts global.IGetGlobalLoadBalancerPoolMemberByIdRequest) (*lsentity.GlobalLoadBalancerPoolMember, lserr.IError)
 }

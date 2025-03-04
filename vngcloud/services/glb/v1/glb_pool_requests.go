@@ -1,4 +1,4 @@
-package global
+package v1
 
 import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 
