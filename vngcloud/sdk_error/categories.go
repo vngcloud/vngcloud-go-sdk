@@ -27,7 +27,8 @@ const (
 )
 
 const (
-	ErrCatProductVlb ErrorCategory = "vlb"
+	ErrCatProductVlb      ErrorCategory = "vlb"
+	ErrCatProductVNetwork ErrorCategory = "vnetwork"
 )
 
 const (

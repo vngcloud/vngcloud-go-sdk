@@ -54,7 +54,9 @@ func (s *NetworkServiceV2) DeleteAddressPair(popts IDeleteAddressPairRequest) ls
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp)
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorAddressPairNotFound(errResp)).
+			WithKVparameters("addressPairId", popts.GetAddressPairID())
 	}
 	return nil
 }

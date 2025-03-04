@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 func NewCreateSecgroupRuleRequest(
 	pdirection SecgroupRuleDirection,
 	petherType SecgroupRuleEtherType,
@@ -63,7 +65,8 @@ type ( //_______________________________________________________________________
 		RemoteIPPrefix  string                `json:"remoteIpPrefix"`
 		SecurityGroupID string                `json:"securityGroupId"`
 
-		SecgroupCommon
+		lscommon.SecgroupCommon
+		lscommon.UserAgent
 	}
 
 	SecgroupRuleDirection string
@@ -75,9 +78,27 @@ func (s *CreateSecgroupRuleRequest) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *CreateSecgroupRuleRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"description":     s.Description,
+		"direction":       s.Direction,
+		"etherType":       s.EtherType,
+		"portRangeMax":    s.PortRangeMax,
+		"portRangeMin":    s.PortRangeMin,
+		"protocol":        s.Protocol,
+		"remoteIpPrefix":  s.RemoteIPPrefix,
+		"securityGroupId": s.SecurityGroupID,
+	}
+}
+
+func (s *CreateSecgroupRuleRequest) AddUserAgent(pagent ...string) ICreateSecgroupRuleRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type DeleteSecgroupRuleByIdRequest struct { //__________________________________________________________________________
 	SecgroupRuleId string
-	SecgroupCommon
+	lscommon.SecgroupCommon
 }
 
 func (s *DeleteSecgroupRuleByIdRequest) GetSecgroupRuleId() string {
@@ -85,5 +106,11 @@ func (s *DeleteSecgroupRuleByIdRequest) GetSecgroupRuleId() string {
 }
 
 type ListSecgroupRulesBySecgroupIdRequest struct { //___________________________________________________________________
-	SecgroupCommon
+	lscommon.SecgroupCommon
+	lscommon.UserAgent
+}
+
+func (s *ListSecgroupRulesBySecgroupIdRequest) AddUserAgent(pagent ...string) IListSecgroupRulesBySecgroupIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }

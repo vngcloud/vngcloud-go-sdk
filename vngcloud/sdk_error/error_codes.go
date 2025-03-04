@@ -5,12 +5,15 @@ package sdk_error
 const (
 	EcUnknownError = ErrorCode("UnknownError")
 
-	EcInternalServerError = ErrorCode("VngCloudApiInternalServerError")
-	EcServiceMaintenance  = ErrorCode("VngCloudServiceMaintenance")
-	EcPagingInvalid       = ErrorCode("VngCloudApiPagingInvalid")
-	EcTagKeyInvalid       = ErrorCode("VngCloudApiTagKeyInvalid")
-	EcPermissionDenied    = ErrorCode("VngCloudApiPermissionDenied")
-	EcUnexpectedError     = ErrorCode("VngCloudApiUnexpectedError")
+	EcInternalServerError   = ErrorCode("VngCloudApiInternalServerError")
+	EcServiceMaintenance    = ErrorCode("VngCloudServiceMaintenance")
+	EcPagingInvalid         = ErrorCode("VngCloudApiPagingInvalid")
+	EcTagKeyInvalid         = ErrorCode("VngCloudApiTagKeyInvalid")
+	EcPermissionDenied      = ErrorCode("VngCloudApiPermissionDenied")
+	EcUnexpectedError       = ErrorCode("VngCloudApiUnexpectedError")
+	EcPaymentMethodNotAllow = ErrorCode("VngCloudPaymentMethodNotAllow")
+	EcCreditNotEnough       = ErrorCode("VngCloudCredtNotEnough")
+	EcProjectConflict       = ErrorCode("VngCloudProjectConflict")
 )
 
 // Internal SDK error
@@ -82,6 +85,7 @@ const (
 	EcVServerVolumeMigrateBeingMigrating     = ErrorCode("VngCloudVServerVolumeMigrateBeingMigrating")
 	EcVServerVolumeMigrateInSameZone         = ErrorCode("VngCloudVServerVolumeMigrateInSameZone")
 	EcVServerVolumeIsMigrating               = ErrorCode("VngCloudVServerVolumeIsMigrating")
+	EcVServerFlavorNotSupported              = ErrorCode("VngCloudVServerFlavorNotSupported")
 )
 
 // Billing
@@ -92,6 +96,7 @@ const (
 
 // vServer server
 const (
+	EcVServerImageNotFound                        = ErrorCode("VngCloudVServerImageNotFound")
 	EcVServerServerNotFound                       = ErrorCode("VngCloudVServerServerNotFound")
 	EcVServerServerDeleteCreatingServer           = ErrorCode("VngCloudVServerServerDeleteCreatingServer")
 	EcVServerServerExpired                        = ErrorCode("VngCloudVServerServerExpired")
@@ -106,11 +111,14 @@ const (
 	EcVServerCreateBillingPaymentMethodNotAllowed = ErrorCode("VngCloudVServerCreateBillingPaymentMethodNotAllowed")
 	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
 	EcVServerServerCanNotAttachFloatingIp         = ErrorCode("VngCloudVServerServerCanNotAttachFloatingIp")
+	EcVServerServerExceedFloatingIpQuota          = ErrorCode("VngCloudVServerServerExceedFloatingIpQuota")
 )
 
 // vServer virtual address
 const (
-	EcVServerVirtualAddressNotFound = ErrorCode("VngCloudVServerVirtualAddressNotFound")
+	EcVServerVirtualAddressNotFound    = ErrorCode("VngCloudVServerVirtualAddressNotFound")
+	EcVServerVirtualAddressExceedQuota = ErrorCode("VngCloudVServerVirtualAddressExceedQuota")
+	EcVServerVirtualAddressInUse       = ErrorCode("VngCloudVServerVirtualAddressInUse")
 )
 
 // vServer quota
@@ -154,6 +162,7 @@ const (
 	EcVNetworkContainInvalidCharacter                   = ErrorCode("ContainInvalidCharacter")
 	EcVNetworkLockOnProcess                             = ErrorCode("LockOnProcess")
 	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
+	EcVNetworkEndpointTagExisted                        = ErrorCode("EndpointTagExisted")
 )
 
 // Global Load Balancer

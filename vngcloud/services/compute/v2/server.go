@@ -21,16 +21,23 @@ func (s *ComputeServiceV2) CreateServer(popts ICreateServerRequest) (*lsentity.S
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorPurchaseIssue(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
+			lserr.WithErrorImageNotFound(errResp),
 			lserr.WithErrorServerExceedQuota(errResp),
 			lserr.WithErrorServerExceedCpuQuota(errResp),
 			lserr.WithErrorServerFlavorSystemExceedQuota(errResp),
 			lserr.WithErrorVolumeTypeNotFound(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorVolumeExceedQuota(errResp),
+			lserr.WithErrorVolumeSizeExceedGlobalQuota(errResp),
 			lserr.WithErrorSecgroupNotFound(errResp),
+			lserr.WithErrorServerExceedFloatingIpQuota(errResp),
 			lserr.WithErrorServerImageNotSupported(errResp),
+			lserr.WithErrorServerFlavorNotSupported(errResp),
+			lserr.WithErrorProjectConflict(errResp),
 			lserr.WithErrorServerCreateBillingPaymentMethodNotAllowed(errResp)).
-			WithKVparameters("projectId", s.getProjectId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId()).
+			WithErrorCategories(lserr.ErrCatVServer)
 	}
 
 	return resp.ToEntityServer(), nil
@@ -49,8 +56,8 @@ func (s *ComputeServiceV2) GetServerById(popts IGetServerByIdRequest) (*lsentity
 	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp)).
-			WithKVparameters("projectId", s.getProjectId(),
-				"serverId", popts.GetServerId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return resp.ToEntityServer(), nil
@@ -60,6 +67,7 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 	url := deleteServerByIdUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonError(errResp)
@@ -68,6 +76,7 @@ func (s *ComputeServiceV2) DeleteServerById(popts IDeleteServerByIdRequest) lser
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerDeleteDeletingServer(errResp),
+			lserr.WithErrorServerUpdatingSecgroups(errResp),
 			lserr.WithErrorServerDeleteBillingServer(errResp),
 			lserr.WithErrorServerDeleteCreatingServer(errResp),
 			lserr.WithErrorVolumeInProcess(errResp)).
@@ -83,6 +92,7 @@ func (s *ComputeServiceV2) UpdateServerSecgroupsByServerId(popts IUpdateServerSe
 	resp := new(UpdateServerSecgroupsByServerIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(202).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).
@@ -165,10 +175,8 @@ func (s *ComputeServiceV2) AttachFloatingIp(popts IAttachFloatingIpRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorServerCanNotAttachFloatingIp(errResp),
 			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
-			WithKVparameters(
-				"projectId", s.getProjectId(),
-				"serverId", popts.GetServerId(),
-				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return nil
@@ -189,10 +197,8 @@ func (s *ComputeServiceV2) DetachFloatingIp(popts IDetachFloatingIpRequest) lser
 			lserr.WithErrorServerNotFound(errResp),
 			lserr.WithErrorWanIdNotFound(errResp),
 			lserr.WithErrorInternalNetworkInterfaceNotFound(errResp)).
-			WithKVparameters(
-				"projectId", s.getProjectId(),
-				"wanId", popts.GetWanId(),
-				"internalNetworkInterfaceId", popts.GetInternalNetworkInterfaceId())
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
 	}
 
 	return nil

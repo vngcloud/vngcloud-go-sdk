@@ -20,7 +20,8 @@ func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsen
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters(
 				"endpointId", popts.GetEndpointId(),
-				"projectId", s.getProjectId())
+				"projectId", s.getProjectId()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return resp.ToEntityEndpoint(), nil
@@ -42,10 +43,13 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 			lserr.WithErrorEndpointOfVpcExists(errResp),
 			lserr.WithErrorLockOnProcess(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorPaymentMethodNotAllow(errResp),
+			lserr.WithErrorCreditNotEnough(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
 			lserr.WithErrorEndpointPackageNotBelongToEndpointService(errResp),
 			lserr.WithErrorContainInvalidCharacter(errResp)).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return resp.ToEntityEndpoint(), nil
@@ -55,6 +59,7 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 	url := deleteEndpointByIdUrl(s.VNetworkClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
 		//WithUserId(s.getUserId()).
@@ -65,7 +70,8 @@ func (s *NetworkServiceV1) DeleteEndpointById(popts IDeleteEndpointByIdRequest) 
 			lserr.WithErrorEndpointStatusInvalid(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
 			lserr.WithErrorSubnetNotFound(errResp)).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return nil
@@ -76,6 +82,7 @@ func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity
 	resp := new(ListEndpointsResponse)
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		//WithUserId(s.getUserId()).
 		WithJsonResponse(resp).
@@ -84,7 +91,8 @@ func (s *NetworkServiceV1) ListEndpoints(popts IListEndpointsRequest) (*lsentity
 	if _, sdkErr := s.VNetworkClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters("projectId", s.getProjectId()).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return resp.ToEntityListEndpoints(), nil
@@ -106,7 +114,8 @@ func (s *NetworkServiceInternalV1) ListTagsByEndpointId(popts IListTagsByEndpoin
 	if _, sdkErr := s.VNetworkClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
 			WithKVparameters("projectId", s.getProjectId()).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return resp.ToEntityListTags(), nil
@@ -124,9 +133,11 @@ func (s *NetworkServiceInternalV1) CreateTagsWithEndpointId(popts ICreateTagsWit
 
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointTagExisted(errResp),
 			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return nil
@@ -145,7 +156,8 @@ func (s *NetworkServiceInternalV1) DeleteTagOfEndpoint(popts IDeleteTagOfEndpoin
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return nil
@@ -165,7 +177,8 @@ func (s *NetworkServiceInternalV1) UpdateTagValueOfEndpoint(popts IUpdateTagValu
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorEndpointTagNotFound(errResp)).
 			WithKVparameters("projectId", s.getProjectId()).
-			WithParameters(popts.GetParameters())
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
 	}
 
 	return nil

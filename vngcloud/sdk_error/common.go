@@ -2,15 +2,22 @@ package sdk_error
 
 import (
 	lfmt "fmt"
+	lregexp "regexp"
 	lstr "strings"
 
 	lreq "github.com/imroc/req/v3"
 )
 
 const (
-	patternPurchaseIssue = "you do not have sufficient credits to complete the purchase"
-	patternPagingInvalid = "page or size invalid"
-	patternTagKeyInvalid = "the value for the tag key contains illegal characters"
+	patternPurchaseIssue      = "you do not have sufficient credits to complete the purchase"
+	patternPagingInvalid      = "page or size invalid"
+	patternTagKeyInvalid      = "the value for the tag key contains illegal characters"
+	patternServiceMaintenance = "this service is in maintenance"
+	patternProjectConflict    = `project [^.]+ is not belong to user`
+)
+
+var (
+	regexErrorProjectConflict = lregexp.MustCompile(patternProjectConflict)
 )
 
 func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
@@ -18,6 +25,14 @@ func ErrorHandler(perr error, popts ...func(psdkErr IError)) IError {
 		error:     perr,
 		errorCode: EcUnknownError,
 		message:   "Unknown error",
+	}
+
+	if perr != nil && lstr.Contains(lstr.ToLower(lstr.TrimSpace(perr.Error())), patternServiceMaintenance) {
+		sdkErr.errorCode = EcServiceMaintenance
+		sdkErr.message = "Service Maintenance"
+		sdkErr.error = lfmt.Errorf("service is under maintenance")
+
+		return sdkErr
 	}
 
 	for _, opt := range popts {
@@ -153,5 +168,50 @@ func WithErrorUnexpected(presponse *lreq.Response) func(IError) {
 				"statusCode": statusCode,
 				"url":        url,
 			})
+	}
+}
+
+func WithErrorPaymentMethodNotAllow(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, "ext_pm_payment_method_not_allow") {
+			sdkError.WithErrorCode(EcPaymentMethodNotAllow).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorCreditNotEnough(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, "ext_pm_credit_not_enough") {
+			sdkError.WithErrorCode(EcCreditNotEnough).
+				WithMessage(perrResp.GetMessage()).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorProjectConflict(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if regexErrorProjectConflict.FindString(errMsg) != "" {
+			sdkError.WithErrorCode(EcProjectConflict).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
 	}
 }

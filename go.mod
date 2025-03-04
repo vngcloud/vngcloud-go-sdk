@@ -3,7 +3,7 @@ module github.com/vngcloud/vngcloud-go-sdk/v2
 go 1.22.2
 
 require (
-	github.com/cuongpiger/joat v1.0.14
+	github.com/cuongpiger/joat v1.0.17
 	github.com/imroc/req/v3 v3.44.0
 	github.com/joho/godotenv v1.5.1
 )

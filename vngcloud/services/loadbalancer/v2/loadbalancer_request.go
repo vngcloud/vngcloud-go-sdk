@@ -109,11 +109,21 @@ type DeleteLoadBalancerByIdRequest struct {
 	lscommon.LoadBalancerCommon
 }
 
+func (s *DeleteLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IDeleteLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type ResizeLoadBalancerByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
 
 	PackageId string `json:"packageId"`
+}
+
+func (s *ResizeLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {

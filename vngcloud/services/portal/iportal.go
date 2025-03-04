@@ -9,7 +9,7 @@ import (
 
 type IPortalServiceV1 interface {
 	GetPortalInfo(popts lsportalV1.IGetPortalInfoRequest) (*lsentity.Portal, lserr.IError)
-	ListProjects() (*lsentity.ListPortals, lserr.IError)
+	ListProjects(popts lsportalV1.IListProjectsRequest) (*lsentity.ListPortals, lserr.IError)
 }
 
 type IPortalServiceV2 interface {

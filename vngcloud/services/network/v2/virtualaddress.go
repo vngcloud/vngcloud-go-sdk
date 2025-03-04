@@ -18,7 +18,9 @@ func (s *NetworkServiceV2) CreateVirtualAddressCrossProject(popts ICreateVirtual
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VserverClient.Post(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorSubnetNotFound(errResp),
+			lserr.WithErrorVirtualAddressExceedQuota(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}
@@ -36,7 +38,8 @@ func (s *NetworkServiceV2) DeleteVirtualAddressById(popts IDeleteVirtualAddressB
 
 	if _, sdkErr := s.VserverClient.Delete(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorVirtualAddressNotFound(errResp)).
+			lserr.WithErrorVirtualAddressNotFound(errResp),
+			lserr.WithErrorVirtualAddressInUse(errResp)).
 			WithKVparameters(popts.ToMap()).
 			WithErrorCategories(lserr.ErrCatVServer, lserr.ErrCatVirtualAddress)
 	}

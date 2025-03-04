@@ -3,6 +3,7 @@ package sdk_error
 import (
 	lerrors "errors"
 	lfmt "fmt"
+	lsync "sync"
 
 	ljset "github.com/cuongpiger/joat/data-structure/set"
 )
@@ -17,7 +18,7 @@ type (
 		errorCode  ErrorCode
 		message    string
 		categories ljset.Set[ErrorCategory]
-		parameters map[string]interface{}
+		parameters *lsync.Map
 	}
 
 	ErrorCode string
@@ -94,12 +95,12 @@ func (s *SdkError) WithErrorCategories(pcategories ...ErrorCategory) IError {
 
 func (s *SdkError) WithParameters(pparams map[string]interface{}) IError {
 	if s.parameters == nil {
-		s.parameters = pparams
+		s.parameters = new(lsync.Map)
 		return s
 	}
 
 	for key, val := range pparams {
-		s.parameters[key] = val
+		s.parameters.Store(key, val)
 	}
 
 	return s
@@ -107,7 +108,7 @@ func (s *SdkError) WithParameters(pparams map[string]interface{}) IError {
 
 func (s *SdkError) WithKVparameters(pparams ...interface{}) IError {
 	if s.parameters == nil {
-		s.parameters = make(map[string]interface{})
+		s.parameters = new(lsync.Map)
 	}
 
 	// Always make sure that the length of pparams is even
@@ -121,7 +122,7 @@ func (s *SdkError) WithKVparameters(pparams ...interface{}) IError {
 			continue
 		}
 
-		s.parameters[key] = pparams[i+1]
+		s.parameters.Store(key, pparams[i+1])
 	}
 
 	return s
@@ -144,7 +145,15 @@ func (s *SdkError) GetStringErrorCode() string {
 }
 
 func (s *SdkError) GetParameters() map[string]interface{} {
-	return s.parameters
+	res := make(map[string]interface{})
+	if s.parameters != nil {
+		s.parameters.Range(func(key, val interface{}) bool {
+			res[key.(string)] = val
+			return true
+		})
+	}
+
+	return res
 }
 
 func (s *SdkError) GetErrorCategories() ljset.Set[ErrorCategory] {
@@ -161,13 +170,14 @@ func (s *SdkError) GetErrorMessages() string {
 
 func (s *SdkError) GetListParameters() []interface{} {
 	var result []interface{}
-	if s.parameters == nil || len(s.parameters) < 1 {
+	if s.parameters == nil {
 		return result
 	}
 
-	for key, val := range s.parameters {
+	s.parameters.Range(func(key, val interface{}) bool {
 		result = append(result, key, val)
-	}
+		return true
+	})
 
 	return result
 }

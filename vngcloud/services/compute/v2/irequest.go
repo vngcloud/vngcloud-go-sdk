@@ -16,24 +16,30 @@ type ICreateServerRequest interface {
 	WithServerNetworkInterface(pprojectId, pnetworkId, psubnetId string, pattachFloating bool) ICreateServerRequest
 	AddUserAgent(pagent ...string) ICreateServerRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IGetServerByIdRequest interface {
 	GetServerId() string
 	AddUserAgent(pagent ...string) IGetServerByIdRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IDeleteServerByIdRequest interface {
 	GetServerId() string
 	WithDeleteAllVolume(pok bool) IDeleteServerByIdRequest
 	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IDeleteServerByIdRequest
+	ParseUserAgent() string
 }
 
 type IUpdateServerSecgroupsByServerIdRequest interface {
 	GetServerId() string
 	ToRequestBody() interface{}
 	GetListSecgroupsIds() []string
+	AddUserAgent(pagent ...string) IUpdateServerSecgroupsByServerIdRequest
+	ParseUserAgent() string
 }
 
 type IAttachBlockVolumeRequest interface {
@@ -52,6 +58,7 @@ type IAttachFloatingIpRequest interface {
 	ToRequestBody() interface{}
 	AddUserAgent(pagent ...string) IAttachFloatingIpRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }
 
 type IDetachFloatingIpRequest interface {
@@ -61,4 +68,5 @@ type IDetachFloatingIpRequest interface {
 	ToRequestBody() interface{}
 	AddUserAgent(pagent ...string) IDetachFloatingIpRequest
 	ParseUserAgent() string
+	ToMap() map[string]interface{}
 }

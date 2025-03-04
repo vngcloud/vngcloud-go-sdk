@@ -12,10 +12,11 @@ const (
 	patternLoadBalancerNotFound2           = "could not find resource"
 	patternListenerDuplicateName           = "duplicated listener name"
 	patternListenerNotFound                = "cannot get listener with id"
+	patternListenerNotBelongToLoadBalancer = `listener id [^.]+ is not belong to load balancer id [^.]+`
 	patternListenerDuplicateProtocolOrPort = "duplicated listener protocol port"
 	patternPoolNotFound                    = "cannot get pool with id"
 	patternPoolInUse                       = "is used in listener"
-	patternLoadBalancerNotReady            = `the load balancer id [^.]+ is not ready`
+	patternLoadBalancerNotReady            = `(?:the )?load balancer id [^.]+ is not ready`
 	patternListenerNotReady                = `listener id [^.]+ is not ready`
 	patternMemberMustIdentical             = "the members provided are identical to the existing members in the pool"
 	patternPoolIsUpdating                  = `pool id [^.]+ is updating`
@@ -28,12 +29,13 @@ const (
 )
 
 var (
-	regexErrorLoadBalancerNotReady   = lregexp.MustCompile(patternLoadBalancerNotReady)
-	regexErrorListenerNotReady       = lregexp.MustCompile(patternListenerNotReady)
-	regexErrorPoolIsUpdating         = lregexp.MustCompile(patternPoolIsUpdating)
-	regexErrorLoadBalancerIsDeleting = lregexp.MustCompile(patternLoadBalancerIsDeleting)
-	regexErrorLoadBalancerIsCreating = lregexp.MustCompile(patternLoadBalancerIsCreating)
-	regexErrorLoadBalancerIsUpdating = lregexp.MustCompile(patternLoadBalancerIsUpdating)
+	regexErrorLoadBalancerNotReady            = lregexp.MustCompile(patternLoadBalancerNotReady)
+	regexErrorListenerNotReady                = lregexp.MustCompile(patternListenerNotReady)
+	regexErrorPoolIsUpdating                  = lregexp.MustCompile(patternPoolIsUpdating)
+	regexErrorLoadBalancerIsDeleting          = lregexp.MustCompile(patternLoadBalancerIsDeleting)
+	regexErrorLoadBalancerIsCreating          = lregexp.MustCompile(patternLoadBalancerIsCreating)
+	regexErrorLoadBalancerIsUpdating          = lregexp.MustCompile(patternLoadBalancerIsUpdating)
+	regexErrorListenerNotBelongToLoadBalancer = lregexp.MustCompile(patternListenerNotBelongToLoadBalancer)
 )
 
 func WithErrorLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError IError) {
@@ -228,8 +230,9 @@ func WithErrorListenerNotFound(perrResp IErrorRespone) func(sdkError IError) {
 			return
 		}
 
-		errMsg := perrResp.GetMessage()
-		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternListenerNotFound) {
+		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
+		if lstr.Contains(errMsg, patternListenerNotFound) ||
+			regexErrorListenerNotBelongToLoadBalancer.FindString(errMsg) != "" {
 			sdkError.WithErrorCode(EcVLBListenerNotFound).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())

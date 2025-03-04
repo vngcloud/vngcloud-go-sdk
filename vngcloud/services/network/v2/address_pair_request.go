@@ -65,6 +65,11 @@ func (s *DeleteAddressPairRequest) GetAddressPairID() string {
 	return s.AddressPairID
 }
 
+func (s *DeleteAddressPairRequest) AddUserAgent(pagent ...string) IDeleteAddressPairRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // --------------------------------------------------------
 
 // Api create address pair

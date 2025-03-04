@@ -146,6 +146,11 @@ type CreatePoolRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *CreatePoolRequest) AddUserAgent(pagent ...string) ICreatePoolRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type UpdatePoolRequest struct {
 	Algorithm     PoolAlgorithm         `json:"algorithm"`
 	Stickiness    *bool                 `json:"stickiness,omitempty"`    // only for l7, l4 doesn't have this field => nil
@@ -169,16 +174,31 @@ type ListPoolMembersRequest struct {
 	lscommon.PoolCommon
 }
 
+func (s *ListPoolMembersRequest) AddUserAgent(pagent ...string) IListPoolMembersRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type DeletePoolByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon
 }
 
+func (s *DeletePoolByIdRequest) AddUserAgent(pagent ...string) IDeletePoolByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type GetPoolByIdRequest struct {
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon
+}
+
+func (s *GetPoolByIdRequest) AddUserAgent(pagent ...string) IGetPoolByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type HealthMonitor struct {
@@ -208,12 +228,22 @@ type ListPoolsByLoadBalancerIdRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *ListPoolsByLoadBalancerIdRequest) AddUserAgent(pagent ...string) IListPoolsByLoadBalancerIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type UpdatePoolMembersRequest struct {
 	Members []IMemberRequest `json:"members"`
 
 	lscommon.UserAgent
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon
+}
+
+func (s *UpdatePoolMembersRequest) AddUserAgent(pagent ...string) IUpdatePoolMembersRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func (s *CreatePoolRequest) ToRequestBody() interface{} {

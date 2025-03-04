@@ -263,7 +263,8 @@ func (s *LoadBalancerServiceV2) UpdatePoolMembers(popts IUpdatePoolMembersReques
 			lserr.WithErrorLoadBalancerNotFound2(errResp),
 			lserr.WithErrorLoadBalancerNotReady(errResp),
 			lserr.WithErrorPoolNotFound(errResp),
-			lserr.WithErrorMemberMustIdentical(errResp)).AppendCategories(lserr.ErrCatProductVlb)
+			lserr.WithErrorMemberMustIdentical(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
 	return nil
@@ -283,6 +284,7 @@ func (s *LoadBalancerServiceV2) ListPoolMembers(popts IListPoolMembersRequest) (
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorPoolNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId(), "poolId", popts.GetPoolId()).
 			AppendCategories(lserr.ErrCatProductVlb)
 	}
 
@@ -511,6 +513,75 @@ func (s *LoadBalancerServiceV2) DeletePolicyById(popts IDeletePolicyByIdRequest)
 			lserr.WithErrorLoadBalancerNotFound(errResp),
 			lserr.WithErrorListenerNotFound(errResp),
 		)
+	}
+
+	return nil
+}
+
+// --------------------------------------------------------
+
+func (s *LoadBalancerServiceV2) ListCertificates(popts IListCertificatesRequest) (*lsentity.ListCertificates, lserr.IError) {
+	url := listCertificatesUrl(s.VLBClient)
+	resp := new(ListCertificatesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityListCertificates(), nil
+}
+
+func (s *LoadBalancerServiceV2) GetCertificateById(popts IGetCertificateByIdRequest) (*lsentity.Certificate, lserr.IError) {
+	url := getCertificateByIdUrl(s.VLBClient, popts)
+	resp := new(GetCertificateByIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityCertificate(), nil
+}
+
+func (s *LoadBalancerServiceV2) CreateCertificate(popts ICreateCertificateRequest) (*lsentity.Certificate, lserr.IError) {
+	url := createCertificateUrl(s.VLBClient)
+	resp := new(CreateCertificateResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(201).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp)
+	}
+
+	return resp.ToEntityCertificate(), nil
+}
+
+func (s *LoadBalancerServiceV2) DeleteCertificateById(popts IDeleteCertificateByIdRequest) lserr.IError {
+	url := deleteCertificateByIdUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp)
 	}
 
 	return nil

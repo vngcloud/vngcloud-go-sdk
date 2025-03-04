@@ -23,12 +23,12 @@ func (s *PortalServiceV1) GetPortalInfo(popts IGetPortalInfoRequest) (*lsentity.
 	return resp.ToEntityPortal(), nil
 }
 
-
-func (s *PortalServiceV1) ListProjects() (*lsentity.ListPortals, lserr.IError) {
+func (s *PortalServiceV1) ListProjects(popts IListProjectsRequest) (*lsentity.ListPortals, lserr.IError) {
 	url := listProjectsUrl(s.PortalClient)
 	resp := new(ListProjectsResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

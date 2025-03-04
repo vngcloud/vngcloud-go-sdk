@@ -8,6 +8,7 @@ import (
 const (
 	patternNetworkNotFound                  = "is not found"
 	patternSubnetNotFound                   = `subnet with id [^.]+ is not found`
+	patternSubnetNotFound2                  = `subnet id: [^.]+ not found`
 	patternSubnetNotBelongNetwork           = `subnet id: [^.]+ belong to network id: [^.]+ not found`
 	patternInternalNetworkInterfaceNotFound = `internal network interface with id [^.]+ is not found`
 	patternWanIpAvailable                   = "wan ip is available"
@@ -17,6 +18,7 @@ const (
 
 var (
 	regexErrorSubnetNotFound                   = lregexp.MustCompile(patternSubnetNotFound)
+	regexErrorSubnetNotFound2                  = lregexp.MustCompile(patternSubnetNotFound2)
 	regexErrorSubnetNotBelongNetwork           = lregexp.MustCompile(patternSubnetNotBelongNetwork)
 	regexErrorInternalNetworkInterfaceNotFound = lregexp.MustCompile(patternInternalNetworkInterfaceNotFound)
 	regexErrorAddressPairExisted               = lregexp.MustCompile(patternAddressPairExisted)
@@ -61,6 +63,7 @@ func WithErrorSubnetNotFound(perrResp IErrorRespone) func(sdkError IError) {
 
 		errMsg := lstr.ToLower(lstr.TrimSpace(perrResp.GetMessage()))
 		if regexErrorSubnetNotFound.FindString(errMsg) != "" ||
+			regexErrorSubnetNotFound2.FindString(errMsg) != "" ||
 			lstr.ToUpper(lstr.TrimSpace(perrResp.GetError().Error())) == "SUBNET_IS_NOT_FOUND" {
 			sdkError.WithErrorCode(EcVServerSubnetNotFound).
 				WithMessage(errMsg).
@@ -83,7 +86,6 @@ func WithErrorInternalNetworkInterfaceNotFound(perrResp IErrorRespone) func(sdkE
 		}
 	}
 }
-
 
 func WithErrorAddressPairExisted(perrResp IErrorRespone) func(sdkError IError) {
 	return func(sdkError IError) {

@@ -23,3 +23,11 @@ type WanCommon struct {
 func (s *WanCommon) GetWanId() string {
 	return s.WanId
 }
+
+type SecgroupCommon struct {
+	SecgroupId string
+}
+
+func (s *SecgroupCommon) GetSecgroupId() string {
+	return s.SecgroupId
+}

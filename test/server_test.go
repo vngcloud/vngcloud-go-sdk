@@ -315,3 +315,29 @@ func TestCreateDnsServer(t *ltesting.T) {
 	t.Log("Result: ", server)
 	t.Log("PASS")
 }
+
+
+func TestCreateServerVks(t *ltesting.T) {
+	vngcloud := validUserSdkConfig()
+
+	opt := lscomputeSvcV2.NewCreateServerRequest(
+		"vsadad04f42",
+		"img-e9e4240f-6534-47c3-b922-9489fdd30aa3",
+		"flav-8066e9ff-5d80-4e8f-aeae-9e8a934bfc44",
+		"vtype-7a7a8610-34f5-11ee-be56-0242ac120002",
+		140).
+		WithAttachFloating(true).
+		WithNetwork("net-7c072f8cdb", "sub-07d3bf64684").
+		WithPoc(true).
+		WithAutoRenew(false).
+		WithType("VKS").
+		WithProduct("VKS")
+
+	server, sdkerr := vngcloud.VServerGateway().V2().ComputeService().CreateServer(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Logf("Result: %v", server)
+	t.Logf("PASS")
+}

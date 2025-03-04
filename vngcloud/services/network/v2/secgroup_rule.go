@@ -11,6 +11,7 @@ func (s *NetworkServiceV2) CreateSecgroupRule(popts ICreateSecgroupRuleRequest) 
 	resp := new(CreateSecgroupRuleResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(201).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(resp).
@@ -21,6 +22,7 @@ func (s *NetworkServiceV2) CreateSecgroupRule(popts ICreateSecgroupRuleRequest) 
 			lserr.WithErrorSecgroupNotFound(errResp),
 			lserr.WithErrorSecgroupRuleExceedQuota(errResp),
 			lserr.WithErrorSecgroupRuleAlreadyExists(errResp)).
+			WithParameters(popts.ToMap()).
 			WithKVparameters("projectId", s.getProjectId())
 	}
 
@@ -52,6 +54,7 @@ func (s *NetworkServiceV2) ListSecgroupRulesBySecgroupId(popts IListSecgroupRule
 	resp := new(ListSecgroupRulesBySecgroupIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
@@ -59,7 +62,7 @@ func (s *NetworkServiceV2) ListSecgroupRulesBySecgroupId(popts IListSecgroupRule
 	if _, sdkErr := s.VserverClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorSecgroupNotFound(errResp)).
-			WithKVparameters("projectId", s.getProjectId())
+			WithKVparameters("projectId", s.getProjectId(), "secgroupId", popts.GetSecgroupId())
 	}
 
 	return resp.ToEntityListSecgroupRules(), nil
