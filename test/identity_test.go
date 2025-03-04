@@ -13,7 +13,7 @@ import (
 )
 
 func getEnv() (string, string) {
-	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("./env.yaml")
 	clientId := envFile["VNGCLOUD_CLIENT_ID"]
 	clientSecret := envFile["VNGCLOUD_CLIENT_SECRET"]
 
@@ -21,7 +21,7 @@ func getEnv() (string, string) {
 }
 
 func getEnvDevOps() (string, string) {
-	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("./env.yaml")
 	clientId := envFile["CLIENT_ID_DEVOPS"]
 	clientSecret := envFile["CLIENT_SECRET_DEVOPS"]
 
@@ -29,7 +29,7 @@ func getEnvDevOps() (string, string) {
 }
 
 func getValueOfEnv(pkey string) string {
-	envFile, _ := lgodotenv.Read("/mnt/kalista/git-vngcloud/vngcloud-go-sdk/secret/env")
+	envFile, _ := lgodotenv.Read("./env.yaml")
 	value := envFile[pkey]
 	return value
 }
@@ -46,7 +46,8 @@ func validSdkConfig() lsclient.IClient {
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
 		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
-		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork").
+		WithGLBEndpoint("https://glb.console.vngcloud.vn/glb-controller/")
 
 	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
 }

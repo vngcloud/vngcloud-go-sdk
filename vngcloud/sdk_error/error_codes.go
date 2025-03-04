@@ -164,3 +164,9 @@ const (
 	EcVNetworkEndpointTagNotFound                       = ErrorCode("EndpointTagNotFound")
 	EcVNetworkEndpointTagExisted                        = ErrorCode("EndpointTagExisted")
 )
+
+// Global Load Balancer
+
+const (
+	EcGlobalLoadBalancerNotFound = ErrorCode("VngCloudGlobalLoadBalancerNotFound")
+)

@@ -284,3 +284,18 @@ func WithErrorLoadBalancerPackageNotFound(perrResp IErrorRespone) func(sdkError 
 		}
 	}
 }
+
+func WithErrorGlobalLoadBalancerNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), lstr.ToLower("Global load balancer is not found")) {
+			sdkError.WithErrorCode(EcGlobalLoadBalancerNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}

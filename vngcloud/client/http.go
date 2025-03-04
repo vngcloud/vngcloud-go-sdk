@@ -2,6 +2,7 @@ package client
 
 import (
 	lctx "context"
+	"fmt"
 	lhttp "net/http"
 	lstr "strings"
 	lsync "sync"
@@ -100,6 +101,7 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 	req := s.client.R().SetContext(s.context).SetHeaders(s.getDefaultHeaders()).SetHeaders(preq.GetMoreHeaders())
 	if opt := preq.GetRequestBody(); opt != nil {
 		req.SetBodyJsonMarshal(opt)
+		fmt.Println("RRRRRRRRRRRR: ", string(req.Body))
 	}
 
 	if opt := preq.GetJsonResponse(); opt != nil {
