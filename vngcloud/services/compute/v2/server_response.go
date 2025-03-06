@@ -79,6 +79,18 @@ type (
 		Name string `json:"name"`
 		Uuid string `json:"uuid"`
 	}
+
+	ServerSecgroupPolicy struct {
+		Name          string `json:"name"`
+		UUID          string `json:"uuid"`
+		Status        string `json:"status"`
+		Description   string `json:"description"`
+		DescriptionVi string `json:"descriptionVi"`
+	}
+
+	ListServerGroupPoliciesResponse struct {
+		Data []ServerSecgroupPolicy `json:"data"`
+	}
 )
 
 func (s Image) toEntityImage() lsentity.Image {
@@ -92,6 +104,18 @@ func (s Image) toEntityImage() lsentity.Image {
 			Cpu:      s.PackageLimit.Cpu,
 			DiskSize: s.PackageLimit.DiskSize,
 			Memory:   s.PackageLimit.Memory,
+		},
+	}
+}
+
+func (s ServerSecgroupPolicy) toEntityServerGroupPolicy() *lsentity.ServerGroupPolicy {
+	return &lsentity.ServerGroupPolicy{
+		Name:   s.Name,
+		UUID:   s.UUID,
+		Status: s.Status,
+		Descriptions: map[string]string{
+			"en": s.Description,
+			"vi": s.DescriptionVi,
 		},
 	}
 }
@@ -198,4 +222,12 @@ type UpdateServerSecgroupsByServerIdResponse struct {
 
 func (s *UpdateServerSecgroupsByServerIdResponse) ToEntityServer() *lsentity.Server {
 	return s.Data.toEntityServer()
+}
+
+func (s *ListServerGroupPoliciesResponse) ToEntityListServerGroupPolicies() *lsentity.ListServerGroupPolicies {
+	serverGroupPolicies := &lsentity.ListServerGroupPolicies{}
+	for _, itemServerGroupPolicy := range s.Data {
+		serverGroupPolicies.Add(itemServerGroupPolicy.toEntityServerGroupPolicy())
+	}
+	return serverGroupPolicies
 }

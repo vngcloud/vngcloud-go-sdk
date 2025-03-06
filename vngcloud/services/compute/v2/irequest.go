@@ -70,3 +70,8 @@ type IDetachFloatingIpRequest interface {
 	ParseUserAgent() string
 	ToMap() map[string]interface{}
 }
+
+type IListServerGroupPoliciesRequest interface {
+	AddUserAgent(pagent ...string) IListServerGroupPoliciesRequest
+	ParseUserAgent() string
+}

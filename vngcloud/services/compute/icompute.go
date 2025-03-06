@@ -15,4 +15,5 @@ type IComputeServiceV2 interface {
 	DetachBlockVolume(popts lscomputeSvcV2.IDetachBlockVolumeRequest) lserr.IError
 	AttachFloatingIp(popts lscomputeSvcV2.IAttachFloatingIpRequest) lserr.IError
 	DetachFloatingIp(popts lscomputeSvcV2.IDetachFloatingIpRequest) lserr.IError
+	ListServerGroupPolicies(popts lscomputeSvcV2.IListServerGroupPoliciesRequest) (*lsentity.ListServerGroupPolicies, lserr.IError)
 }

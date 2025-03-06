@@ -71,3 +71,11 @@ func detachFloatingIpUrl(psc lsclient.IServiceClient, popts IDetachFloatingIpReq
 		popts.GetWanId(),
 		"detach")
 }
+
+func listServerGroupPolicies(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"serverGroups",
+		"policies",
+	)
+}

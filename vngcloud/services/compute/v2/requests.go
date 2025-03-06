@@ -60,3 +60,7 @@ func NewDetachFloatingIpRequest(pserverId, pwanId, pniid string) IDetachFloating
 	opt.WanId = pwanId
 	return opt
 }
+
+func NewListServerGroupPoliciesRequest() IListServerGroupPoliciesRequest {
+	return new(ListServerGroupPoliciesRequest)
+}

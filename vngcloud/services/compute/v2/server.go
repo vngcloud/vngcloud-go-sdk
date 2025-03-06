@@ -203,3 +203,24 @@ func (s *ComputeServiceV2) DetachFloatingIp(popts IDetachFloatingIpRequest) lser
 
 	return nil
 }
+
+func (s *ComputeServiceV2) ListServerGroupPolicies(popts IListServerGroupPoliciesRequest) (*lsentity.ListServerGroupPolicies, lserr.IError) {
+	url := listServerGroupPolicies(s.VServerClient)
+	resp := new(ListServerGroupPoliciesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if popts != nil {
+		req = req.WithHeader("User-Agent", popts.ParseUserAgent())
+	}
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityListServerGroupPolicies(), nil
+}

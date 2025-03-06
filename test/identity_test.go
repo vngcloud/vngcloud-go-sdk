@@ -20,6 +20,14 @@ func getEnv() (string, string) {
 	return clientId, clientSecret
 }
 
+func getEnvCuongDm4() (string, string) {
+	envFile, _ := lgodotenv.Read("/Users/cuongdm8499/Me/git-cuongpiger/secret/work/vngcloud/iam/env")
+	clientId := envFile["CUONGDM4_CLIENT_ID"]
+	clientSecret := envFile["CUONGDM4_CLIENT_SECRET"]
+
+	return clientId, clientSecret
+}
+
 func getEnvDevOps() (string, string) {
 	envFile, _ := lgodotenv.Read("./env.yaml")
 	clientId := envFile["CLIENT_ID_DEVOPS"]
@@ -60,6 +68,21 @@ func validUserSdkConfig() lsclient.IClient {
 		WithUserId(getValueOfEnv("VNGCLOUD_USER_ID")).
 		WithZoneId(getValueOfEnv("VNGCLOUD_ZONE_ID")).
 		WithProjectId(getValueOfEnv("USER_PROJECT")).
+		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
+		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
+		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").
+		WithVNetworkEndpoint("https://vnetwork-hcm03.vngcloud.vn/vnetwork-gateway/vnetwork").
+		WithVNetworkEndpoint("https://hcm-3.console.vngcloud.vn/vserver/vnetwork-gateway/vnetwork")
+
+	return lsclient.NewClient(lctx.TODO()).WithRetryCount(1).WithSleep(10).Configure(sdkConfig)
+}
+
+func validUserSdkConfigForCuongDm4() lsclient.IClient {
+	clientId, clientSecret := getEnvCuongDm4()
+	sdkConfig := lsclient.NewSdkConfigure().
+		WithClientId(clientId).
+		WithClientSecret(clientSecret).
+		WithProjectId("pro-462803f3-6858-466f-bf05-df2b33faa360").
 		WithIamEndpoint("https://iamapis.vngcloud.vn/accounts-api").
 		WithVServerEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vserver-gateway").
 		WithVLBEndpoint("https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway").

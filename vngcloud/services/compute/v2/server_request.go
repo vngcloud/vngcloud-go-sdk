@@ -298,3 +298,12 @@ func (s *DetachFloatingIpRequest) ToMap() map[string]interface{} {
 		"wanId":                      s.WanId,
 	}
 }
+
+type ListServerGroupPoliciesRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListServerGroupPoliciesRequest) AddUserAgent(pagent ...string) IListServerGroupPoliciesRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}

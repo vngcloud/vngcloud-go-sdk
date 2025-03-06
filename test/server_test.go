@@ -316,7 +316,6 @@ func TestCreateDnsServer(t *ltesting.T) {
 	t.Log("PASS")
 }
 
-
 func TestCreateServerVks(t *ltesting.T) {
 	vngcloud := validUserSdkConfig()
 
@@ -340,4 +339,15 @@ func TestCreateServerVks(t *ltesting.T) {
 
 	t.Logf("Result: %v", server)
 	t.Logf("PASS")
+}
+
+func TestListServerGroupPolicies(t *ltesting.T) {
+	vngcloud := validUserSdkConfigForCuongDm4()
+	opt := lscomputeSvcV2.NewListServerGroupPoliciesRequest()
+	policies, sdkerr := vngcloud.VServerGateway().V2().ComputeService().ListServerGroupPolicies(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr.GetErrorCode())
+	}
+
+	t.Logf("Result: %v", policies)
 }
