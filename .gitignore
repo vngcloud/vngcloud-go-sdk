@@ -25,3 +25,5 @@ TestResults.xml
 .idea
 /secret/
 test/env.yaml
+
+.DS_Store
