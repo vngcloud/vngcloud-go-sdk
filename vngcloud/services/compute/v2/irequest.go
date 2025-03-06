@@ -82,3 +82,11 @@ type IDeleteServerGroupByIdRequest interface {
 	GetServerGroupId() string
 	ToMap() map[string]interface{}
 }
+
+type IListServerGroupsRequest interface {
+	WithName(pname string) IListServerGroupsRequest
+	ToListQuery() (string, error)
+	ParseUserAgent() string
+	GetDefaultQuery() string
+	ToMap() map[string]interface{}
+}

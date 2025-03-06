@@ -362,3 +362,14 @@ func TestDeleteServerGroupById(t *ltesting.T) {
 
 	t.Logf("PASS")
 }
+
+func TestListServerGroups(t *ltesting.T) {
+	vngcloud := validUserSdkConfigForCuongDm4()
+	opt := lscomputeSvcV2.NewListServerGroupsRequest(1, 10)
+	groups, sdkerr := vngcloud.VServerGateway().V2().ComputeService().ListServerGroups(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Logf("Result: %v", groups)
+}

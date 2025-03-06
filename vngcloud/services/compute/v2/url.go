@@ -87,3 +87,12 @@ func deleteServerGroupByIdUrl(psc lsclient.IServiceClient, popts IDeleteServerGr
 		popts.GetServerGroupId(),
 	)
 }
+
+func listServerGroupsUrl(psc lsclient.IServiceClient, popts IListServerGroupsRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	return psc.ServiceURL(psc.GetProjectId(), "serverGroups") + query
+}

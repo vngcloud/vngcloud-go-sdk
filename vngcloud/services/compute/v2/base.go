@@ -9,3 +9,8 @@ type ComputeServiceV2 struct {
 func (s *ComputeServiceV2) getProjectId() string {
 	return s.VServerClient.GetProjectId()
 }
+
+const (
+	defaultOffsetListServerGroups = 0
+	defaultLimitListServerGroups  = 10
+)

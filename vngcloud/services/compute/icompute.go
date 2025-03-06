@@ -17,4 +17,5 @@ type IComputeServiceV2 interface {
 	DetachFloatingIp(popts lscomputeSvcV2.IDetachFloatingIpRequest) lserr.IError
 	ListServerGroupPolicies(popts lscomputeSvcV2.IListServerGroupPoliciesRequest) (*lsentity.ListServerGroupPolicies, lserr.IError)
 	DeleteServerGroupById(popts lscomputeSvcV2.IDeleteServerGroupByIdRequest) lserr.IError
+	ListServerGroups(popts lscomputeSvcV2.IListServerGroupsRequest) (*lsentity.ListServerGroups, lserr.IError)
 }

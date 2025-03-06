@@ -244,3 +244,22 @@ func (s *ComputeServiceV2) DeleteServerGroupById(popts IDeleteServerGroupByIdReq
 
 	return nil
 }
+
+func (s *ComputeServiceV2) ListServerGroups(popts IListServerGroupsRequest) (*lsentity.ListServerGroups, lserr.IError) {
+	url := listServerGroupsUrl(s.VServerClient, popts)
+	resp := new(ListServerGroupsResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityListServerGroups(), nil
+}

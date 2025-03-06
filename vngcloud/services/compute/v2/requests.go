@@ -70,3 +70,12 @@ func NewDeleteServerGroupByIdRequest(pserverGroupId string) IDeleteServerGroupBy
 	opt.ServerGroupId = pserverGroupId
 	return opt
 }
+
+func NewListServerGroupsRequest(ppage, psize int) IListServerGroupsRequest {
+	opt := new(ListServerGroupsRequest)
+	opt.Page = ppage
+	opt.Size = psize
+	opt.Name = ""
+
+	return opt
+}

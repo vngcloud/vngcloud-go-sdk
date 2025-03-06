@@ -1,6 +1,10 @@
 package v2
 
-import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+import (
+	lfmt "fmt"
+	ljparser "github.com/cuongpiger/joat/parser"
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+)
 
 const (
 	DataDiskEncryptionAesXts256Type DataDiskEncryptionType = "aes-xts-plain64_256"
@@ -321,5 +325,40 @@ func (s *DeleteServerGroupByIdRequest) AddUserAgent(pagent ...string) IDeleteSer
 func (s *DeleteServerGroupByIdRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"serverGroupId": s.ServerGroupId,
+	}
+}
+
+type ListServerGroupsRequest struct {
+	Name string `q:"name,beempty"`
+	Page int    `q:"page"`
+	Size int    `q:"size"`
+
+	lscommon.UserAgent
+}
+
+func (s *ListServerGroupsRequest) WithName(pname string) IListServerGroupsRequest {
+	s.Name = pname
+	return s
+}
+
+func (s *ListServerGroupsRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
+}
+
+func (s *ListServerGroupsRequest) GetDefaultQuery() string {
+	return lfmt.Sprintf("offset=%d&limit=%d&name=", defaultOffsetListServerGroups, defaultLimitListServerGroups)
+}
+
+func (s *ListServerGroupsRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"page": s.Page,
+		"size": s.Size,
+		"name": s.Name,
 	}
 }

@@ -91,6 +91,26 @@ type (
 	ListServerGroupPoliciesResponse struct {
 		Data []ServerSecgroupPolicy `json:"data"`
 	}
+
+	ListServerGroupsResponse struct {
+		ListData  []ServerGroup `json:"listData"`
+		Page      int           `json:"page"`
+		PageSize  int           `json:"pageSize"`
+		TotalPage int           `json:"totalPage"`
+		TotalItem int           `json:"totalItem"`
+	}
+
+	ServerGroup struct {
+		UUID        string `json:"uuid"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		PolicyId    string `json:"policyId"`
+		PolicyName  string `json:"policyName"`
+		Servers     []struct {
+			Name string `json:"name"`
+			UUID string `json:"uuid"`
+		} `json:"servers"`
+	}
 )
 
 func (s Image) toEntityImage() lsentity.Image {
@@ -230,4 +250,32 @@ func (s *ListServerGroupPoliciesResponse) ToEntityListServerGroupPolicies() *lse
 		serverGroupPolicies.Add(itemServerGroupPolicy.toEntityServerGroupPolicy())
 	}
 	return serverGroupPolicies
+}
+
+func (s *ListServerGroupsResponse) ToEntityListServerGroups() *lsentity.ListServerGroups {
+	serverGroups := &lsentity.ListServerGroups{}
+	for _, itemServerGroup := range s.ListData {
+		serverGroup := &lsentity.ServerGroup{
+			UUID:        itemServerGroup.UUID,
+			Name:        itemServerGroup.Name,
+			Description: itemServerGroup.Description,
+			PolicyId:    itemServerGroup.PolicyId,
+			PolicyName:  itemServerGroup.PolicyName,
+		}
+
+		for _, server := range itemServerGroup.Servers {
+			serverGroup.Servers = append(serverGroup.Servers, lsentity.ServerGroupMember{
+				Name: server.Name,
+				UUID: server.UUID,
+			})
+		}
+		serverGroups.Add(serverGroup)
+	}
+
+	serverGroups.Page = s.Page
+	serverGroups.PageSize = s.PageSize
+	serverGroups.TotalPage = s.TotalPage
+	serverGroups.TotalItem = s.TotalItem
+
+	return serverGroups
 }
