@@ -112,6 +112,8 @@ const (
 	EcVServerServerImageNotSupported              = ErrorCode("VngCloudVServerServerImageNotSupported")
 	EcVServerServerCanNotAttachFloatingIp         = ErrorCode("VngCloudVServerServerCanNotAttachFloatingIp")
 	EcVServerServerExceedFloatingIpQuota          = ErrorCode("VngCloudVServerServerExceedFloatingIpQuota")
+	EcVServerServerGroupNotFound                  = ErrorCode("VngCloudVServerServerGroupNotFound")
+	EcVServerServerGroupInUse                     = ErrorCode("VngCloudVServerServerGroupInUse")
 )
 
 // vServer virtual address

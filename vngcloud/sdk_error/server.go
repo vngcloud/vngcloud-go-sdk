@@ -25,6 +25,8 @@ const (
 	patternServerDeleteServerUpdatingSecgroups = "cannot delete server with status changing-security-group"
 	patternServerExceedFloatingIpQuota         = "exceeded floating_ip quota"
 	patternImageNotFound                       = "cannot get image with id"
+	patternServerGroupNotFound                 = "not found server group"
+	patternServerGroupInUse                    = "server group is in use"
 )
 
 var (
@@ -289,6 +291,36 @@ func WithErrorServerCanNotAttachFloatingIp(perrResp IErrorRespone) func(sdkError
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerCanNotAttachFloatingIp) {
 			sdkError.WithErrorCode(EcVServerServerCanNotAttachFloatingIp).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerGroupNotFound(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerGroupNotFound) {
+			sdkError.WithErrorCode(EcVServerServerGroupNotFound).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerGroupInUse(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerGroupInUse) {
+			sdkError.WithErrorCode(EcVServerServerGroupInUse).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

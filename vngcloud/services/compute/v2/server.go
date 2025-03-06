@@ -205,7 +205,7 @@ func (s *ComputeServiceV2) DetachFloatingIp(popts IDetachFloatingIpRequest) lser
 }
 
 func (s *ComputeServiceV2) ListServerGroupPolicies(popts IListServerGroupPoliciesRequest) (*lsentity.ListServerGroupPolicies, lserr.IError) {
-	url := listServerGroupPolicies(s.VServerClient)
+	url := listServerGroupPoliciesUrl(s.VServerClient)
 	resp := new(ListServerGroupPoliciesResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
@@ -223,4 +223,24 @@ func (s *ComputeServiceV2) ListServerGroupPolicies(popts IListServerGroupPolicie
 	}
 
 	return resp.ToEntityListServerGroupPolicies(), nil
+}
+
+func (s *ComputeServiceV2) DeleteServerGroupById(popts IDeleteServerGroupByIdRequest) lserr.IError {
+	url := deleteServerGroupByIdUrl(s.VServerClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerGroupNotFound(errResp),
+			lserr.WithErrorServerGroupInUse(errResp)).
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId(),
+				"serverGroupId", popts.GetServerGroupId())
+	}
+
+	return nil
 }

@@ -75,3 +75,10 @@ type IListServerGroupPoliciesRequest interface {
 	AddUserAgent(pagent ...string) IListServerGroupPoliciesRequest
 	ParseUserAgent() string
 }
+
+type IDeleteServerGroupByIdRequest interface {
+	AddUserAgent(pagent ...string) IDeleteServerGroupByIdRequest
+	ParseUserAgent() string
+	GetServerGroupId() string
+	ToMap() map[string]interface{}
+}

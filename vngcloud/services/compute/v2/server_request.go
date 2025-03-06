@@ -307,3 +307,19 @@ func (s *ListServerGroupPoliciesRequest) AddUserAgent(pagent ...string) IListSer
 	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
 	return s
 }
+
+type DeleteServerGroupByIdRequest struct {
+	lscommon.ServerGroupCommon
+	lscommon.UserAgent
+}
+
+func (s *DeleteServerGroupByIdRequest) AddUserAgent(pagent ...string) IDeleteServerGroupByIdRequest {
+	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	return s
+}
+
+func (s *DeleteServerGroupByIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"serverGroupId": s.ServerGroupId,
+	}
+}

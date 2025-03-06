@@ -64,3 +64,9 @@ func NewDetachFloatingIpRequest(pserverId, pwanId, pniid string) IDetachFloating
 func NewListServerGroupPoliciesRequest() IListServerGroupPoliciesRequest {
 	return new(ListServerGroupPoliciesRequest)
 }
+
+func NewDeleteServerGroupByIdRequest(pserverGroupId string) IDeleteServerGroupByIdRequest {
+	opt := new(DeleteServerGroupByIdRequest)
+	opt.ServerGroupId = pserverGroupId
+	return opt
+}

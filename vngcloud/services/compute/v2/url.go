@@ -72,10 +72,18 @@ func detachFloatingIpUrl(psc lsclient.IServiceClient, popts IDetachFloatingIpReq
 		"detach")
 }
 
-func listServerGroupPolicies(psc lsclient.IServiceClient) string {
+func listServerGroupPoliciesUrl(psc lsclient.IServiceClient) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
 		"serverGroups",
 		"policies",
+	)
+}
+
+func deleteServerGroupByIdUrl(psc lsclient.IServiceClient, popts IDeleteServerGroupByIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"serverGroups",
+		popts.GetServerGroupId(),
 	)
 }
