@@ -85,6 +85,7 @@ type IDeleteServerGroupByIdRequest interface {
 
 type IListServerGroupsRequest interface {
 	WithName(pname string) IListServerGroupsRequest
+	AddUserAgent(pagent ...string) IListServerGroupsRequest
 	ToListQuery() (string, error)
 	ParseUserAgent() string
 	GetDefaultQuery() string
@@ -93,6 +94,7 @@ type IListServerGroupsRequest interface {
 
 type ICreateServerGroupRequest interface {
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) ICreateServerGroupRequest
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }

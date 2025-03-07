@@ -363,6 +363,11 @@ func (s *ListServerGroupsRequest) ToMap() map[string]interface{} {
 	}
 }
 
+func (s *ListServerGroupsRequest) AddUserAgent(pagent ...string) IListServerGroupsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 type CreateServerGroupRequest struct {
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
@@ -381,4 +386,9 @@ func (s *CreateServerGroupRequest) ToMap() map[string]interface{} {
 		"description": s.Description,
 		"policyId":    s.PolicyId,
 	}
+}
+
+func (s *CreateServerGroupRequest) AddUserAgent(pagent ...string) ICreateServerGroupRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
