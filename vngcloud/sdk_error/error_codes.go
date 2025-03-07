@@ -114,6 +114,7 @@ const (
 	EcVServerServerExceedFloatingIpQuota          = ErrorCode("VngCloudVServerServerExceedFloatingIpQuota")
 	EcVServerServerGroupNotFound                  = ErrorCode("VngCloudVServerServerGroupNotFound")
 	EcVServerServerGroupInUse                     = ErrorCode("VngCloudVServerServerGroupInUse")
+	EcVServerServerGroupNameMustBeUnique          = ErrorCode("VngCloudVServerServerGroupNameMustBeUnique")
 )
 
 // vServer virtual address

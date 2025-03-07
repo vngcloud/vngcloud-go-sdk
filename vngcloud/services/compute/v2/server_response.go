@@ -111,6 +111,17 @@ type (
 			UUID string `json:"uuid"`
 		} `json:"servers"`
 	}
+
+	CreateServerGroupResponse struct {
+		Data struct {
+			UUID          string `json:"uuid"`
+			ServerGroupId int    `json:"serverGroupId"`
+			Name          string `json:"name"`
+			Description   string `json:"description"`
+			PolicyId      string `json:"policyId"`
+			CreatedAt     string `json:"createdAt"`
+		} `json:"data"`
+	}
 )
 
 func (s Image) toEntityImage() lsentity.Image {
@@ -278,4 +289,13 @@ func (s *ListServerGroupsResponse) ToEntityListServerGroups() *lsentity.ListServ
 	serverGroups.TotalItem = s.TotalItem
 
 	return serverGroups
+}
+
+func (s *CreateServerGroupResponse) ToEntityServerGroup() *lsentity.ServerGroup {
+	return &lsentity.ServerGroup{
+		UUID:        s.Data.UUID,
+		Name:        s.Data.Name,
+		Description: s.Data.Description,
+		PolicyId:    s.Data.PolicyId,
+	}
 }

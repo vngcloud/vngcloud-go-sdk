@@ -263,3 +263,24 @@ func (s *ComputeServiceV2) ListServerGroups(popts IListServerGroupsRequest) (*ls
 
 	return resp.ToEntityListServerGroups(), nil
 }
+
+func (s *ComputeServiceV2) CreateServerGroup(popts ICreateServerGroupRequest) (*lsentity.ServerGroup, lserr.IError) {
+	url := createServerGroupUrl(s.VServerClient, popts)
+	resp := new(CreateServerGroupResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(201).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorServerGroupNameMustBeUnique(errResp)).
+			WithParameters(popts.ToMap()).
+			WithKVparameters("projectId", s.getProjectId())
+	}
+
+	return resp.ToEntityServerGroup(), nil
+}

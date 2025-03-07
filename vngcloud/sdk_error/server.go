@@ -27,6 +27,7 @@ const (
 	patternImageNotFound                       = "cannot get image with id"
 	patternServerGroupNotFound                 = "not found server group"
 	patternServerGroupInUse                    = "server group is in use"
+	patternServerGroupNameMustBeUnique         = "name must be unique"
 )
 
 var (
@@ -321,6 +322,21 @@ func WithErrorServerGroupInUse(perrResp IErrorRespone) func(sdkError IError) {
 		errMsg := perrResp.GetMessage()
 		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerGroupInUse) {
 			sdkError.WithErrorCode(EcVServerServerGroupInUse).
+				WithMessage(errMsg).
+				WithErrors(perrResp.GetError())
+		}
+	}
+}
+
+func WithErrorServerGroupNameMustBeUnique(perrResp IErrorRespone) func(sdkError IError) {
+	return func(sdkError IError) {
+		if perrResp == nil {
+			return
+		}
+
+		errMsg := perrResp.GetMessage()
+		if lstr.Contains(lstr.ToLower(lstr.TrimSpace(errMsg)), patternServerGroupNameMustBeUnique) {
+			sdkError.WithErrorCode(EcVServerServerGroupNameMustBeUnique).
 				WithMessage(errMsg).
 				WithErrors(perrResp.GetError())
 		}

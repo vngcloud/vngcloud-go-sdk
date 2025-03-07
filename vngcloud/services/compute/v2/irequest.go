@@ -90,3 +90,9 @@ type IListServerGroupsRequest interface {
 	GetDefaultQuery() string
 	ToMap() map[string]interface{}
 }
+
+type ICreateServerGroupRequest interface {
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	ToMap() map[string]interface{}
+}

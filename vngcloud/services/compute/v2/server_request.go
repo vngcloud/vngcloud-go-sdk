@@ -362,3 +362,23 @@ func (s *ListServerGroupsRequest) ToMap() map[string]interface{} {
 		"name": s.Name,
 	}
 }
+
+type CreateServerGroupRequest struct {
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+	PolicyId    string `json:"policyId,omitempty"`
+
+	lscommon.UserAgent
+}
+
+func (s *CreateServerGroupRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateServerGroupRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"name":        s.Name,
+		"description": s.Description,
+		"policyId":    s.PolicyId,
+	}
+}

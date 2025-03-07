@@ -96,3 +96,10 @@ func listServerGroupsUrl(psc lsclient.IServiceClient, popts IListServerGroupsReq
 
 	return psc.ServiceURL(psc.GetProjectId(), "serverGroups") + query
 }
+
+func createServerGroupUrl(psc lsclient.IServiceClient, popts ICreateServerGroupRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"serverGroups",
+	)
+}

@@ -79,3 +79,12 @@ func NewListServerGroupsRequest(ppage, psize int) IListServerGroupsRequest {
 
 	return opt
 }
+
+func NewCreateServerGroupRequest(pname, pdescription, policyId string) ICreateServerGroupRequest {
+	opt := new(CreateServerGroupRequest)
+	opt.Name = pname
+	opt.Description = pdescription
+	opt.PolicyId = policyId
+
+	return opt
+}

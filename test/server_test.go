@@ -349,7 +349,7 @@ func TestListServerGroupPolicies(t *ltesting.T) {
 		t.Fatalf("Expect nil but got %v", sdkerr.GetErrorCode())
 	}
 
-	t.Logf("Result: %v", policies)
+	t.Logf("Result: %v", policies.At(0))
 }
 
 func TestDeleteServerGroupById(t *ltesting.T) {
@@ -367,6 +367,17 @@ func TestListServerGroups(t *ltesting.T) {
 	vngcloud := validUserSdkConfigForCuongDm4()
 	opt := lscomputeSvcV2.NewListServerGroupsRequest(1, 10)
 	groups, sdkerr := vngcloud.VServerGateway().V2().ComputeService().ListServerGroups(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %v", sdkerr)
+	}
+
+	t.Logf("Result: %v", groups)
+}
+
+func TestCreateServerGroup(t *ltesting.T) {
+	vngcloud := validUserSdkConfigForCuongDm4()
+	opt := lscomputeSvcV2.NewCreateServerGroupRequest("do-not-want-to-talk-more", "you are a idiot guy", "a2162216-cff2-11eb-b8bc-0242ac130003")
+	groups, sdkerr := vngcloud.VServerGateway().V2().ComputeService().CreateServerGroup(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %v", sdkerr)
 	}

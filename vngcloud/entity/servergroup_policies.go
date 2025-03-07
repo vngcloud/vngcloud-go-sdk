@@ -14,3 +14,15 @@ type ListServerGroupPolicies struct {
 func (s *ListServerGroupPolicies) Add(item *ServerGroupPolicy) {
 	s.Items = append(s.Items, item)
 }
+
+func (s *ListServerGroupPolicies) At(pidx int) *ServerGroupPolicy {
+	if pidx < 0 || pidx >= s.Len() {
+		return nil
+	}
+
+	return s.Items[pidx]
+}
+
+func (s *ListServerGroupPolicies) Len() int {
+	return len(s.Items)
+}
