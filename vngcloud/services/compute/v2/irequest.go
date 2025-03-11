@@ -9,6 +9,7 @@ type ICreateServerRequest interface {
 	WithTags(ptags ...string) ICreateServerRequest
 	WithAttachFloating(pattachFloating bool) ICreateServerRequest
 	WithSecgroups(psecgroups ...string) ICreateServerRequest
+	WithServerGroupId(pserverGroupId string) ICreateServerRequest
 	WithPoc(pisPoc bool) ICreateServerRequest
 	WithType(ptype string) ICreateServerRequest
 	WithNetwork(pnetworkId, psubnetId string) ICreateServerRequest

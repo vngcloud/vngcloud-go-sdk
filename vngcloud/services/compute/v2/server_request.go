@@ -134,6 +134,11 @@ func (s *CreateServerRequest) WithSecgroups(psecgroups ...string) ICreateServerR
 	return s
 }
 
+func (s *CreateServerRequest) WithServerGroupId(pserverGroupId string) ICreateServerRequest {
+	s.ServerGroupId = pserverGroupId
+	return s
+}
+
 func (s *CreateServerRequest) WithPoc(pisPoc bool) ICreateServerRequest {
 	s.IsPoc = pisPoc
 	return s
