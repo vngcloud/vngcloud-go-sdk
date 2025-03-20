@@ -11,6 +11,11 @@ func NewListTagsRequest(plbId string) IListTagsRequest {
 	return opt
 }
 
+func (s *ListTagsRequest) AddUserAgent(pagent ...string) IListTagsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewCreateTagsRequest(plbId string) ICreateTagsRequest {
 	opts := new(CreateTagsRequest)
 	opts.LoadBalancerId = plbId
@@ -60,6 +65,11 @@ type UpdateTagsRequest struct {
 }
 
 func (s *CreateTagsRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *UpdateTagsRequest) AddUserAgent(pagent ...string) IUpdateTagsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

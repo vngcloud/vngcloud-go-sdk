@@ -144,6 +144,11 @@ func (s *CreatePolicyRequest) WithKeepQueryString(pkeepQueryString bool) ICreate
 	return s
 }
 
+func (s *CreatePolicyRequest) AddUserAgent(pagent ...string) ICreatePolicyRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // update policy request
 func NewUpdatePolicyRequest(lbID, lisID, policyID string) IUpdatePolicyRequest {
 	return &UpdatePolicyRequest{
@@ -237,6 +242,11 @@ func (s *UpdatePolicyRequest) WithKeepQueryString(pkeepQueryString bool) IUpdate
 	return s
 }
 
+func (s *UpdatePolicyRequest) AddUserAgent(pagent ...string) IUpdatePolicyRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // get policy by id request
 func NewGetPolicyByIdRequest(lbID, lisID, policyID string) IGetPolicyByIdRequest {
 	return &GetPolicyByIdRequest{
@@ -244,6 +254,11 @@ func NewGetPolicyByIdRequest(lbID, lisID, policyID string) IGetPolicyByIdRequest
 		ListenerCommon:     lscommon.ListenerCommon{ListenerId: lisID},
 		PolicyCommon:       lscommon.PolicyCommon{PolicyId: policyID},
 	}
+}
+
+func (s *GetPolicyByIdRequest) AddUserAgent(pagent ...string) IGetPolicyByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 var _ IGetPolicyByIdRequest = &GetPolicyByIdRequest{}
@@ -264,6 +279,11 @@ func NewDeletePolicyByIdRequest(lbID, lisID, policyID string) IDeletePolicyByIdR
 	}
 }
 
+func (s *DeletePolicyByIdRequest) AddUserAgent(pagent ...string) IDeletePolicyByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 var _ IDeletePolicyByIdRequest = &DeletePolicyByIdRequest{}
 
 type DeletePolicyByIdRequest struct {
@@ -279,6 +299,11 @@ func NewListPoliciesRequest(lbID, lisID string) IListPoliciesRequest {
 		LoadBalancerCommon: lscommon.LoadBalancerCommon{LoadBalancerId: lbID},
 		ListenerCommon:     lscommon.ListenerCommon{ListenerId: lisID},
 	}
+}
+
+func (s *ListPoliciesRequest) AddUserAgent(pagent ...string) IListPoliciesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 var _ IListPoliciesRequest = &ListPoliciesRequest{}

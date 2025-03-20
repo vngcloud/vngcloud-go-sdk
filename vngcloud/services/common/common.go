@@ -1,6 +1,9 @@
 package common
 
-import lstr "strings"
+import (
+	"slices"
+	lstr "strings"
+)
 
 type Project struct {
 	Id string
@@ -53,7 +56,11 @@ func (s *UserAgent) ParseUserAgent() string {
 }
 
 func (s *UserAgent) AddUserAgent(pagent ...string) *UserAgent {
-	s.Agent = append(s.Agent, pagent...)
+	for _, agent := range pagent {
+		if !slices.Contains(s.Agent, agent) {
+			s.Agent = append(s.Agent, agent)
+		}
+	}
 	return s
 }
 

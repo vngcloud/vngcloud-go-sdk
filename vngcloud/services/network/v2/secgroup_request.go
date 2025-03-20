@@ -3,6 +3,12 @@ package v2
 import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 
 type ListSecgroupRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListSecgroupRequest) AddUserAgent(pagent ...string) IListSecgroupRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 type DeleteSecgroupByIdRequest struct { //__________________________________________________________________________________

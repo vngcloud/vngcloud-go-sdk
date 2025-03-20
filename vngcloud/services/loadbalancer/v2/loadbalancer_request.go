@@ -59,6 +59,11 @@ func NewListLoadBalancersRequest(ppage, psize int) IListLoadBalancersRequest {
 	return opts
 }
 
+func (s *ListLoadBalancersRequest) AddUserAgent(pagent ...string) IListLoadBalancersRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdRequest {
 	opts := new(DeleteLoadBalancerByIdRequest)
 	opts.LoadBalancerId = plbId

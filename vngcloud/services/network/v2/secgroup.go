@@ -56,6 +56,7 @@ func (s *NetworkServiceV2) ListSecgroup(popts IListSecgroupRequest) (*lsentity.L
 	resp := new(ListSecgroupResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

@@ -22,6 +22,8 @@ type IDeleteSecgroupByIdRequest interface {
 }
 
 type IListSecgroupRequest interface {
+	AddUserAgent(pagent ...string) IListSecgroupRequest
+	ParseUserAgent() string
 }
 
 // Secgroup Rule
@@ -36,6 +38,8 @@ type ICreateSecgroupRuleRequest interface {
 type IDeleteSecgroupRuleByIdRequest interface {
 	GetSecgroupId() string
 	GetSecgroupRuleId() string
+	AddUserAgent(pagent ...string) IDeleteSecgroupRuleByIdRequest
+	ParseUserAgent() string
 }
 
 type IListSecgroupRulesBySecgroupIdRequest interface {

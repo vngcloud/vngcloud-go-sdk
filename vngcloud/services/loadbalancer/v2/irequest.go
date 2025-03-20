@@ -45,6 +45,7 @@ type IListLoadBalancersRequest interface {
 	ToListQuery() (string, error)
 	ParseUserAgent() string
 	GetDefaultQuery() string
+	AddUserAgent(pagent ...string) IListLoadBalancersRequest
 }
 
 type ICreateListenerRequest interface {
@@ -84,6 +85,7 @@ type IGetPoolHealthMonitorByIdRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IGetPoolHealthMonitorByIdRequest
 }
 
 type ICreatePoolRequest interface {
@@ -109,6 +111,7 @@ type IUpdatePoolRequest interface {
 	ToMap() map[string]interface{}
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IUpdatePoolRequest
 }
 
 type IListListenersByLoadBalancerIdRequest interface {
@@ -171,16 +174,19 @@ type IHealthMonitorRequest interface {
 	WithHealthCheckPath(ppath string) IHealthMonitorRequest
 	WithSuccessCode(pcode string) IHealthMonitorRequest
 	WithDomainName(pdomain string) IHealthMonitorRequest
+	AddUserAgent(pagent ...string) IHealthMonitorRequest
 }
 
 type IMemberRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) IMemberRequest
 }
 
 type IListTagsRequest interface {
 	GetLoadBalancerId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListTagsRequest
 }
 
 type ICreateTagsRequest interface {
@@ -197,6 +203,7 @@ type IUpdateTagsRequest interface {
 	ParseUserAgent() string
 	WithTags(ptags ...string) IUpdateTagsRequest
 	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) IUpdateTagsRequest
 }
 
 // --------------------------------------------------------
@@ -205,6 +212,7 @@ type IListPoliciesRequest interface {
 	ParseUserAgent() string
 	GetLoadBalancerId() string
 	GetListenerId() string
+	AddUserAgent(pagent ...string) IListPoliciesRequest
 }
 
 type ICreatePolicyRequest interface {
@@ -213,6 +221,7 @@ type ICreatePolicyRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreatePolicyRequest
 
 	WithName(pname string) ICreatePolicyRequest
 	WithRules(prules ...L7RuleRequest) ICreatePolicyRequest
@@ -234,6 +243,7 @@ type IGetPolicyByIdRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	GetPolicyId() string
+	AddUserAgent(pagent ...string) IGetPolicyByIdRequest
 }
 
 type IUpdatePolicyRequest interface {
@@ -242,6 +252,7 @@ type IUpdatePolicyRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	GetPolicyId() string
+	AddUserAgent(pagent ...string) IUpdatePolicyRequest
 
 	WithAction(paction PolicyAction) IUpdatePolicyRequest
 	WithRules(prules ...L7RuleRequest) IUpdatePolicyRequest
@@ -256,6 +267,7 @@ type IDeletePolicyByIdRequest interface {
 	GetLoadBalancerId() string
 	GetListenerId() string
 	GetPolicyId() string
+	AddUserAgent(pagent ...string) IDeletePolicyByIdRequest
 }
 
 type IGetPoolByIdRequest interface {
@@ -284,17 +296,20 @@ type IResizeLoadBalancerByIdRequest interface {
 
 type IListCertificatesRequest interface {
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListCertificatesRequest
 }
 
 type IGetCertificateByIdRequest interface {
 	GetCertificateId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IGetCertificateByIdRequest
 }
 
 type ICreateCertificateRequest interface {
 	ToRequestBody() interface{}
 	ParseUserAgent() string
 	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) ICreateCertificateRequest
 
 	WithCertificateChain(pchain string) ICreateCertificateRequest
 	WithPassphrase(ppassphrase string) ICreateCertificateRequest
@@ -304,4 +319,5 @@ type ICreateCertificateRequest interface {
 type IDeleteCertificateByIdRequest interface {
 	GetCertificateId() string
 	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IDeleteCertificateByIdRequest
 }

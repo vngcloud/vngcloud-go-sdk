@@ -63,6 +63,11 @@ func NewGetPoolHealthMonitorByIdRequest(lbID, poolID string) IGetPoolHealthMonit
 	return opts
 }
 
+func (s *GetPoolHealthMonitorByIdRequest) AddUserAgent(pagent ...string) IGetPoolHealthMonitorByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewListPoolsByLoadBalancerIdRequest(plbId string) IListPoolsByLoadBalancerIdRequest {
 	opts := new(ListPoolsByLoadBalancerIdRequest)
 	opts.LoadBalancerId = plbId
@@ -115,6 +120,11 @@ func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberReq
 		Port:        pport,
 		Weight:      1,
 	}
+}
+
+func (s *Member) AddUserAgent(pagent ...string) IMemberRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func NewGetPoolByIdRequest(plbId, ppoolId string) IGetPoolByIdRequest {
@@ -212,6 +222,8 @@ type HealthMonitor struct {
 	HealthCheckPath     *string                 `json:"healthCheckPath,omitempty"`
 	DomainName          *string                 `json:"domainName,omitempty"`
 	SuccessCode         *string                 `json:"successCode,omitempty"`
+
+	lscommon.UserAgent
 }
 
 type Member struct {
@@ -221,6 +233,8 @@ type Member struct {
 	Name        string `json:"name"`
 	Port        int    `json:"port"`
 	Weight      int    `json:"weight"`
+
+	lscommon.UserAgent
 }
 
 type ListPoolsByLoadBalancerIdRequest struct {
@@ -276,6 +290,11 @@ func (s *HealthMonitor) toRequestBody() IHealthMonitorRequest {
 		}
 	}
 
+	return s
+}
+
+func (s *HealthMonitor) AddUserAgent(pagent ...string) IHealthMonitorRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 
@@ -353,6 +372,11 @@ func (s *UpdatePoolRequest) WithTLSEncryption(v *bool) IUpdatePoolRequest {
 
 func (s *UpdatePoolRequest) WithStickiness(v *bool) IUpdatePoolRequest {
 	s.Stickiness = v
+	return s
+}
+
+func (s *UpdatePoolRequest) AddUserAgent(pagent ...string) IUpdatePoolRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

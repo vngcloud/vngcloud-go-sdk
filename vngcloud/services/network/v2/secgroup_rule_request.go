@@ -30,6 +30,11 @@ func NewDeleteSecgroupRuleByIdRequest(psecgroupRuleId string) IDeleteSecgroupRul
 	return opt
 }
 
+func (s *DeleteSecgroupRuleByIdRequest) AddUserAgent(pagent ...string) IDeleteSecgroupRuleByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewListSecgroupRulesBySecgroupIdRequest(psecurityGroupId string) IListSecgroupRulesBySecgroupIdRequest {
 	opt := new(ListSecgroupRulesBySecgroupIdRequest)
 	opt.SecgroupId = psecurityGroupId
@@ -98,6 +103,8 @@ func (s *CreateSecgroupRuleRequest) AddUserAgent(pagent ...string) ICreateSecgro
 
 type DeleteSecgroupRuleByIdRequest struct { //__________________________________________________________________________
 	SecgroupRuleId string
+
+	lscommon.UserAgent
 	lscommon.SecgroupCommon
 }
 

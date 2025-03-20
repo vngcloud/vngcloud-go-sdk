@@ -10,6 +10,11 @@ type ListCertificatesRequest struct {
 	lscommon.UserAgent
 }
 
+func (s *ListCertificatesRequest) AddUserAgent(pagent ...string) IListCertificatesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewListCertificatesRequest() *ListCertificatesRequest {
 	return &ListCertificatesRequest{}
 }
@@ -25,6 +30,11 @@ type GetCertificateByIdRequest struct {
 
 func (r *GetCertificateByIdRequest) GetCertificateId() string {
 	return r.CertificateId
+}
+
+func (s *GetCertificateByIdRequest) AddUserAgent(pagent ...string) IGetCertificateByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func NewGetCertificateByIdRequest(pcertificateId string) *GetCertificateByIdRequest {
@@ -101,6 +111,11 @@ func NewCreateCertificateRequest(name, cert string, pType ImportOptsTypeOpt) ICr
 	}
 }
 
+func (s *CreateCertificateRequest) AddUserAgent(pagent ...string) ICreateCertificateRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // --------------------------------------------------------
 
 var _ IDeleteCertificateByIdRequest = &DeleteCertificateByIdRequest{}
@@ -112,6 +127,11 @@ type DeleteCertificateByIdRequest struct {
 
 func (r *DeleteCertificateByIdRequest) GetCertificateId() string {
 	return r.CertificateId
+}
+
+func (s *DeleteCertificateByIdRequest) AddUserAgent(pagent ...string) IDeleteCertificateByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }
 
 func NewDeleteCertificateByIdRequest(pcertificateId string) *DeleteCertificateByIdRequest {
