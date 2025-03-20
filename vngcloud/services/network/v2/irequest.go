@@ -59,12 +59,14 @@ type IGetNetworkByIdRequest interface {
 // Subnet
 
 type IGetSubnetByIdRequest interface {
+	AddUserAgent(pagent ...string) IGetSubnetByIdRequest
 	ParseUserAgent() string
 	GetNetworkId() string
 	GetSubnetId() string
 }
 
 type IUpdateSubnetByIdRequest interface {
+	AddUserAgent(pagent ...string) IUpdateSubnetByIdRequest
 	ParseUserAgent() string
 	GetNetworkId() string
 	GetSubnetId() string

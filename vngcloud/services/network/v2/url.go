@@ -69,7 +69,7 @@ func getSubnetByIdUrl(psc lsclient.IServiceClient, popts IGetSubnetByIdRequest) 
 		popts.GetSubnetId())
 }
 
-func updateSubnetByIdUrl(psc lsclient.IServiceClient, popts IGetSubnetByIdRequest) string {
+func updateSubnetByIdUrl(psc lsclient.IServiceClient, popts IUpdateSubnetByIdRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
 		"networks",

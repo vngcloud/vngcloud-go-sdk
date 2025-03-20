@@ -3,6 +3,8 @@ package v1
 type IListGlobalPoolsRequest interface {
 	WithLoadBalancerId(plbId string) IListGlobalPoolsRequest
 	GetLoadBalancerId() string
+
+	AddUserAgent(pagent ...string) IListGlobalPoolsRequest
 	ParseUserAgent() string
 }
 
@@ -19,6 +21,7 @@ type ICreateGlobalPoolRequest interface {
 	WithLoadBalancerId(plbId string) ICreateGlobalPoolRequest
 	GetLoadBalancerId() string // to use in request url
 
+	AddUserAgent(pagent ...string) ICreateGlobalPoolRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -38,6 +41,8 @@ type IGlobalHealthMonitorRequest interface {
 	WithSuccessCode(pcode string) IGlobalHealthMonitorRequest
 	WithDomainName(pdomain string) IGlobalHealthMonitorRequest
 
+	AddUserAgent(pagent ...string) IGlobalHealthMonitorRequest
+	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
@@ -55,6 +60,8 @@ type ICreateGlobalPoolMemberRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string         // to use in request url
 
+	AddUserAgent(pagent ...string) ICreateGlobalPoolMemberRequest
+	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
@@ -69,6 +76,8 @@ type IGlobalMemberRequest interface {
 	WithSubnetID(psubnetID string) IGlobalMemberRequest
 	WithWeight(pweight int) IGlobalMemberRequest
 
+	AddUserAgent(pagent ...string) IGlobalMemberRequest
+	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
@@ -84,6 +93,7 @@ type IUpdateGlobalPoolRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
+	AddUserAgent(pagent ...string) IUpdateGlobalPoolRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -97,6 +107,7 @@ type IDeleteGlobalPoolRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
+	AddUserAgent(pagent ...string) IDeleteGlobalPoolRequest
 	ParseUserAgent() string
 }
 
@@ -108,6 +119,7 @@ type IListGlobalPoolMembersRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
+	AddUserAgent(pagent ...string) IListGlobalPoolMembersRequest
 	ParseUserAgent() string
 }
 
@@ -121,6 +133,7 @@ type IPatchGlobalPoolMemberRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
+	AddUserAgent(pagent ...string) IPatchGlobalPoolMemberRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -137,6 +150,7 @@ type IListGlobalListenersRequest interface {
 	WithLoadBalancerId(plbId string) IListGlobalListenersRequest
 	GetLoadBalancerId() string // to use in request url
 
+	AddUserAgent(pagent ...string) IListGlobalListenersRequest
 	ParseUserAgent() string
 }
 
@@ -158,6 +172,7 @@ type ICreateGlobalListenerRequest interface {
 	GetLoadBalancerId() string
 	// AddCidrs(pcidrs ...string) ICreateGlobalListenerRequest
 
+	AddUserAgent(pagent ...string) ICreateGlobalListenerRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -178,6 +193,7 @@ type IUpdateGlobalListenerRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetListenerId() string
 
+	AddUserAgent(pagent ...string) IUpdateGlobalListenerRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -191,6 +207,7 @@ type IDeleteGlobalListenerRequest interface {
 	GetLoadBalancerId() string // to use in request url
 	GetListenerId() string
 
+	AddUserAgent(pagent ...string) IDeleteGlobalListenerRequest
 	ParseUserAgent() string
 }
 
@@ -200,8 +217,10 @@ type IListGlobalLoadBalancersRequest interface {
 	WithName(pname string) IListGlobalLoadBalancersRequest
 	WithTags(ptags ...string) IListGlobalLoadBalancersRequest
 	ToListQuery() (string, error)
-	ParseUserAgent() string
 	GetDefaultQuery() string
+
+	AddUserAgent(pagent ...string) IListGlobalLoadBalancersRequest
+	ParseUserAgent() string
 }
 
 // --------------------------------------------------------
@@ -222,6 +241,7 @@ type ICreateGlobalLoadBalancerRequest interface {
 	// WithSubnetId(psubnetId string) ICreateGlobalLoadBalancerRequest
 	// WithPoc(poc bool) ICreateGlobalLoadBalancerRequest
 
+	AddUserAgent(pagent ...string) ICreateGlobalLoadBalancerRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -233,6 +253,7 @@ type IDeleteGlobalLoadBalancerRequest interface {
 	WithLoadBalancerId(plbId string) IDeleteGlobalLoadBalancerRequest
 	GetLoadBalancerId() string // to use in request url
 
+	AddUserAgent(pagent ...string) IDeleteGlobalLoadBalancerRequest
 	ParseUserAgent() string
 }
 
@@ -242,5 +263,6 @@ type IGetGlobalLoadBalancerByIdRequest interface {
 	WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerByIdRequest
 	GetLoadBalancerId() string // to use in request url
 
+	AddUserAgent(pagent ...string) IGetGlobalLoadBalancerByIdRequest
 	ParseUserAgent() string
 }

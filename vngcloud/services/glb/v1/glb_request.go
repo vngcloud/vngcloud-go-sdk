@@ -90,6 +90,11 @@ func (s *ListGlobalLoadBalancersRequest) GetDefaultQuery() string {
 	return lfmt.Sprintf("offset=%d&limit=%d", defaultOffsetListGlobalLoadBalancer, defaultLimitListGlobalLoadBalancer)
 }
 
+func (s *ListGlobalLoadBalancersRequest) AddUserAgent(pagent ...string) IListGlobalLoadBalancersRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // --------------------------------------------------------------------------
 
 var _ ICreateGlobalLoadBalancerRequest = &CreateGlobalLoadBalancerRequest{}
@@ -145,6 +150,11 @@ func (s *CreateGlobalLoadBalancerRequest) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *CreateGlobalLoadBalancerRequest) AddUserAgent(pagent ...string) ICreateGlobalLoadBalancerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func (s *CreateGlobalLoadBalancerRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"description":    s.Description,
@@ -182,6 +192,11 @@ func (s *DeleteGlobalLoadBalancerRequest) WithLoadBalancerId(plbId string) IDele
 	return s
 }
 
+func (s *DeleteGlobalLoadBalancerRequest) AddUserAgent(pagent ...string) IDeleteGlobalLoadBalancerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewDeleteGlobalLoadBalancerRequest(lbId string) IDeleteGlobalLoadBalancerRequest {
 	opts := &DeleteGlobalLoadBalancerRequest{
 		LoadBalancerCommon: lscommon.LoadBalancerCommon{
@@ -202,6 +217,11 @@ type GetGlobalLoadBalancerByIdRequest struct {
 
 func (s *GetGlobalLoadBalancerByIdRequest) WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerByIdRequest {
 	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *GetGlobalLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IGetGlobalLoadBalancerByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 

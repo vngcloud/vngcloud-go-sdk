@@ -15,6 +15,11 @@ type GetSubnetByIdRequest struct {
 	lscommon.NetworkCommon
 }
 
+func (s *GetSubnetByIdRequest) AddUserAgent(pagent ...string) IGetSubnetByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 // --------------------------------------------------------
 type SecondarySubnetUpdateBody struct {
 	Name string `json:"name"`
@@ -43,4 +48,9 @@ type UpdateSubnetByIdRequest struct {
 
 func (s *UpdateSubnetByIdRequest) ToRequestBody() interface{} {
 	return s.UpdateSubnetBody
+}
+
+func (s *UpdateSubnetByIdRequest) AddUserAgent(pagent ...string) IUpdateSubnetByIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
 }

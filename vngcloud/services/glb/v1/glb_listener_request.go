@@ -25,6 +25,11 @@ func (s *ListGlobalListenersRequest) WithLoadBalancerId(plbId string) IListGloba
 	return s
 }
 
+func (s *ListGlobalListenersRequest) AddUserAgent(pagent ...string) IListGlobalListenersRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewListGlobalListenersRequest(plbId string) IListGlobalListenersRequest {
 	opts := &ListGlobalListenersRequest{}
 	opts.LoadBalancerId = plbId
@@ -135,6 +140,11 @@ func (s *CreateGlobalListenerRequest) ToMap() map[string]interface{} {
 	}
 }
 
+func (s *CreateGlobalListenerRequest) AddUserAgent(pagent ...string) ICreateGlobalListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewCreateGlobalListenerRequest(plbId, name string) ICreateGlobalListenerRequest {
 	opts := &CreateGlobalListenerRequest{
 		AllowedCidrs:      "0.0.0.0/0",
@@ -227,6 +237,11 @@ func (s *UpdateGlobalListenerRequest) ToMap() map[string]interface{} {
 	}
 }
 
+func (s *UpdateGlobalListenerRequest) AddUserAgent(pagent ...string) IUpdateGlobalListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func NewUpdateGlobalListenerRequest(plbId, plId string) IUpdateGlobalListenerRequest {
 	opts := &UpdateGlobalListenerRequest{
 		AllowedCidrs:      "0.0.0.0/0",
@@ -262,6 +277,11 @@ func (s *DeleteGlobalListenerRequest) WithLoadBalancerId(plbid string) IDeleteGl
 
 func (s *DeleteGlobalListenerRequest) WithListenerId(plid string) IDeleteGlobalListenerRequest {
 	s.ListenerId = plid
+	return s
+}
+
+func (s *DeleteGlobalListenerRequest) AddUserAgent(pagent ...string) IDeleteGlobalListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 
