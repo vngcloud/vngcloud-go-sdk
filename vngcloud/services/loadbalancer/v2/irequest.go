@@ -56,6 +56,7 @@ type ICreateListenerRequest interface {
 	WithTimeoutClient(ptoc int) ICreateListenerRequest
 	WithTimeoutConnection(ptoc int) ICreateListenerRequest
 	WithTimeoutMember(ptom int) ICreateListenerRequest
+	WithInsertHeaders(pheaders ...string) ICreateListenerRequest
 	AddCidrs(pcidrs ...string) ICreateListenerRequest
 	ParseUserAgent() string
 	GetLoadBalancerId() string
@@ -72,7 +73,7 @@ type IUpdateListenerRequest interface {
 	WithTimeoutConnection(ptoc int) IUpdateListenerRequest
 	WithTimeoutMember(ptom int) IUpdateListenerRequest
 	WithDefaultPoolId(ppoolId string) IUpdateListenerRequest
-	WithHeaders(pheaders ...string) IUpdateListenerRequest
+	WithInsertHeaders(pheaders ...string) IUpdateListenerRequest
 	ParseUserAgent() string
 	AddUserAgent(pagent ...string) IUpdateListenerRequest
 

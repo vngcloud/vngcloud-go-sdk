@@ -1,8 +1,10 @@
 package v2
 
 import (
-	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 	lstr "strings"
+
+	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
 
 const (
@@ -59,18 +61,18 @@ func NewGetListenerByIdRequest(plbId, plistenerId string) IGetListenerByIdReques
 type ListenerProtocol string
 
 type CreateListenerRequest struct {
-	AllowedCidrs                string           `json:"allowedCidrs"`
-	ListenerName                string           `json:"listenerName"`
-	ListenerProtocol            ListenerProtocol `json:"listenerProtocol"`
-	ListenerProtocolPort        int              `json:"listenerProtocolPort"`
-	TimeoutClient               int              `json:"timeoutClient"`
-	TimeoutConnection           int              `json:"timeoutConnection"`
-	TimeoutMember               int              `json:"timeoutMember"`
-	Headers                     *[]string        `json:"headers"`
-	DefaultPoolId               *string          `json:"defaultPoolId"`
-	CertificateAuthorities      *[]string        `json:"certificateAuthorities"`
-	ClientCertificate           *string          `json:"clientCertificate"`
-	DefaultCertificateAuthority *string          `json:"defaultCertificateAuthority"`
+	AllowedCidrs                string                         `json:"allowedCidrs"`
+	ListenerName                string                         `json:"listenerName"`
+	ListenerProtocol            ListenerProtocol               `json:"listenerProtocol"`
+	ListenerProtocolPort        int                            `json:"listenerProtocolPort"`
+	TimeoutClient               int                            `json:"timeoutClient"`
+	TimeoutConnection           int                            `json:"timeoutConnection"`
+	TimeoutMember               int                            `json:"timeoutMember"`
+	DefaultPoolId               *string                        `json:"defaultPoolId"`
+	CertificateAuthorities      *[]string                      `json:"certificateAuthorities"`
+	ClientCertificate           *string                        `json:"clientCertificate"`
+	DefaultCertificateAuthority *string                        `json:"defaultCertificateAuthority"`
+	InsertHeaders               *[]entity.ListenerInsertHeader `json:"insertHeaders"`
 
 	lscommon.LoadBalancerCommon
 	lscommon.UserAgent
@@ -82,15 +84,15 @@ func (s *CreateListenerRequest) AddUserAgent(pagent ...string) ICreateListenerRe
 }
 
 type UpdateListenerRequest struct {
-	AllowedCidrs                string    `json:"allowedCidrs"`
-	DefaultPoolId               string    `json:"defaultPoolId"`
-	TimeoutClient               int       `json:"timeoutClient"`
-	TimeoutConnection           int       `json:"timeoutConnection"`
-	TimeoutMember               int       `json:"timeoutMember"`
-	Headers                     *[]string `json:"headers"`
-	CertificateAuthorities      *[]string `json:"certificateAuthorities"`
-	ClientCertificate           *string   `json:"clientCertificate"`
-	DefaultCertificateAuthority *string   `json:"defaultCertificateAuthority"`
+	AllowedCidrs                string                         `json:"allowedCidrs"`
+	DefaultPoolId               string                         `json:"defaultPoolId"`
+	TimeoutClient               int                            `json:"timeoutClient"`
+	TimeoutConnection           int                            `json:"timeoutConnection"`
+	TimeoutMember               int                            `json:"timeoutMember"`
+	CertificateAuthorities      *[]string                      `json:"certificateAuthorities"`
+	ClientCertificate           *string                        `json:"clientCertificate"`
+	DefaultCertificateAuthority *string                        `json:"defaultCertificateAuthority"`
+	InsertHeaders               *[]entity.ListenerInsertHeader `json:"insertHeaders"`
 
 	lscommon.LoadBalancerCommon
 	lscommon.ListenerCommon
@@ -198,6 +200,26 @@ func (s *CreateListenerRequest) WithDefaultPoolId(ppoolId string) ICreateListene
 	return s
 }
 
+func (s *CreateListenerRequest) WithInsertHeaders(pheaders ...string) ICreateListenerRequest {
+	if len(pheaders) < 1 {
+		s.InsertHeaders = nil
+		return s
+	}
+
+	headers := make([]entity.ListenerInsertHeader, 0)
+	for i := 0; i < len(pheaders); i += 2 {
+		if i+1 >= len(pheaders) {
+			break
+		}
+		headers = append(headers, entity.ListenerInsertHeader{
+			HeaderName:  pheaders[i],
+			HeaderValue: pheaders[i+1],
+		})
+	}
+	s.InsertHeaders = &headers
+	return s
+}
+
 func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"listenerName":                s.ListenerName,
@@ -211,7 +233,7 @@ func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 		"certificateAuthorities":      s.CertificateAuthorities,
 		"clientCertificate":           s.ClientCertificate,
 		"defaultCertificateAuthority": s.DefaultCertificateAuthority,
-		"headers":                     s.Headers,
+		"insertHeaders":               s.InsertHeaders,
 	}
 }
 
@@ -248,12 +270,23 @@ func (s *UpdateListenerRequest) WithDefaultPoolId(ppoolId string) IUpdateListene
 	return s
 }
 
-func (s *UpdateListenerRequest) WithHeaders(pheaders ...string) IUpdateListenerRequest {
+func (s *UpdateListenerRequest) WithInsertHeaders(pheaders ...string) IUpdateListenerRequest {
 	if len(pheaders) < 1 {
+		s.InsertHeaders = nil
 		return s
 	}
 
-	s.Headers = &pheaders
+	headers := make([]entity.ListenerInsertHeader, 0)
+	for i := 0; i < len(pheaders); i += 2 {
+		if i+1 >= len(pheaders) {
+			break
+		}
+		headers = append(headers, entity.ListenerInsertHeader{
+			HeaderName:  pheaders[i],
+			HeaderValue: pheaders[i+1],
+		})
+	}
+	s.InsertHeaders = &headers
 	return s
 }
 
