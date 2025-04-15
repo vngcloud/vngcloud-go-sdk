@@ -37,6 +37,7 @@ type ILoadBalancerServiceV2 interface {
 	GetPoolById(popts lslbSvcV2.IGetPoolByIdRequest) (*lsentity.Pool, lserr.IError)
 	GetListenerById(popts lslbSvcV2.IGetListenerByIdRequest) (*lsentity.Listener, lserr.IError)
 	ResizeLoadBalancerById(popts lslbSvcV2.IResizeLoadBalancerByIdRequest) lserr.IError
+	ReorderPolicies(popts lslbSvcV2.IReorderPoliciesRequest) lserr.IError
 
 	ListCertificates(popts lslbSvcV2.IListCertificatesRequest) (*lsentity.ListCertificates, lserr.IError)
 	GetCertificateById(popts lslbSvcV2.IGetCertificateByIdRequest) (*lsentity.Certificate, lserr.IError)

@@ -698,3 +698,22 @@ func TestDeletePolicySuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestReorderPoliciesSucces(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewReorderPoliciesRequest("lb-d08b5093-b923-4064-b38c-828add7d439a", "lis-654e4105-b729-4bd1-9a33-61ddacbe3430").
+		WithPoliciesOrder([]string{
+			"policy-57b9e7d3-7ae6-4cb3-a649-6aa35f3ae26d",
+			"policy-1d29aa49-e9da-4551-a349-39d3338cfc4a",
+			"policy-bdee1abb-a4b6-4331-92b2-d1a8ddd51904",
+			"policy-f6cfc6ec-3a4c-4cb0-a56e-16c9f9a2ac74",
+		})
+
+	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ReorderPolicies(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Log("PASS")
+}

@@ -271,6 +271,16 @@ type IDeletePolicyByIdRequest interface {
 	AddUserAgent(pagent ...string) IDeletePolicyByIdRequest
 }
 
+type IReorderPoliciesRequest interface {
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	GetLoadBalancerId() string
+	GetListenerId() string
+	AddUserAgent(pagent ...string) IReorderPoliciesRequest
+
+	WithPoliciesOrder(plstPolicies []string) IReorderPoliciesRequest
+}
+
 type IGetPoolByIdRequest interface {
 	GetLoadBalancerId() string
 	GetPoolId() string

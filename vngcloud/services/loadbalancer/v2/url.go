@@ -227,6 +227,16 @@ func deletePolicyByIdUrl(psc lsclient.IServiceClient, popts IDeletePolicyByIdReq
 	)
 }
 
+func reorderPoliciesUrl(psc lsclient.IServiceClient, popts IReorderPoliciesRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"loadBalancers",
+		popts.GetLoadBalancerId(),
+		"listeners",
+		popts.GetListenerId(),
+		"reorderL7Policies")
+}
+
 func getPoolByIdUrl(psc lsclient.IServiceClient, popts IGetPoolByIdRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
