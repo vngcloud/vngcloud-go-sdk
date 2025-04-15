@@ -1,5 +1,10 @@
 package entity
 
+type ListenerInsertHeader struct {
+	HeaderName  string `json:"headerName"`
+	HeaderValue string `json:"headerValue"`
+}
+
 type Listener struct {
 	UUID                            string
 	Name                            string
@@ -13,7 +18,6 @@ type Listener struct {
 	TimeoutMember                   int
 	TimeoutConnection               int
 	AllowedCidrs                    string
-	Headers                         []string
 	CertificateAuthorities          []string
 	DisplayStatus                   string
 	CreatedAt                       string
@@ -21,6 +25,7 @@ type Listener struct {
 	DefaultCertificateAuthority     *string
 	ClientCertificateAuthentication *string
 	ProgressStatus                  string
+	InsertHeaders                   []ListenerInsertHeader
 }
 
 type ListListeners struct {
