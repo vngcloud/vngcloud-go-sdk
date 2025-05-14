@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 type ICreateBlockVolumeRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -13,6 +15,7 @@ type ICreateBlockVolumeRequest interface {
 	WithSize(psize int64) ICreateBlockVolumeRequest
 	WithEncryptionType(pet EncryptType) ICreateBlockVolumeRequest
 	WithVolumeType(pvolumeTypeId string) ICreateBlockVolumeRequest
+	WithZone(pzone lscommon.Zone) ICreateBlockVolumeRequest
 	WithVolumeRestoreFromSnapshot(psnapshotID, pvolumeTypeID string) ICreateBlockVolumeRequest
 	WithTags(ptags ...string) ICreateBlockVolumeRequest
 }

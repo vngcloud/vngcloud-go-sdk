@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 type ICreateServerRequest interface {
 	ToRequestBody() interface{}
 	WithEncryptionVolume(pencryptionVolume bool) ICreateServerRequest
@@ -11,6 +13,7 @@ type ICreateServerRequest interface {
 	WithPoc(pisPoc bool) ICreateServerRequest
 	WithType(ptype string) ICreateServerRequest
 	WithProduct(pproduct string) ICreateServerRequest
+	WithZone(pzone lscommon.Zone) ICreateServerRequest
 }
 
 type IGetServerByIdRequest interface {

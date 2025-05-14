@@ -84,6 +84,7 @@ type CreateServerRequest struct {
 	Type                   string                 `json:"type,omitempty"`
 	Tags                   []ServerTag            `json:"tags,omitempty"`
 	AutoRenew              bool                   `json:"isEnableAutoRenew,omitempty"`
+	Zone                   *lscommon.Zone         `json:"zoneId,omitempty"`
 }
 
 type AttachBlockVolumeRequest struct {
@@ -104,6 +105,11 @@ type ServerTag struct {
 }
 
 func (s *CreateServerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *CreateServerRequest) WithZone(pzone lscommon.Zone) ICreateServerRequest {
+	s.Zone = &pzone
 	return s
 }
 
