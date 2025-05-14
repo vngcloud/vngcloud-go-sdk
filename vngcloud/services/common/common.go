@@ -22,6 +22,15 @@ type Paging struct {
 	Size int
 }
 
+type Zone string
+
+const (
+	HCM_03_1A_ZONE     = "HCM03-1A"
+	HCM_03_1B_ZONE     = "HCM03-1B"
+	HCM_03_1C_ZONE     = "HCM03-1C"
+	HCM_03_BKK_01_ZONE = "HCM03-BKK-01"
+)
+
 func (s *Paging) GetPage() int {
 	return s.Page
 }

@@ -1,5 +1,7 @@
 package v2
 
+import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 type ICreateServerRequest interface {
 	ToRequestBody() interface{}
 	WithRootDiskEncryptionType(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest
@@ -15,6 +17,7 @@ type ICreateServerRequest interface {
 	WithNetwork(pnetworkId, psubnetId string) ICreateServerRequest
 	WithProduct(pproduct string) ICreateServerRequest
 	WithServerNetworkInterface(pprojectId, pnetworkId, psubnetId string, pattachFloating bool) ICreateServerRequest
+	WithZone(pzone lscommon.Zone) ICreateServerRequest
 	AddUserAgent(pagent ...string) ICreateServerRequest
 	ParseUserAgent() string
 	ToMap() map[string]interface{}
