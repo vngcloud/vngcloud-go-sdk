@@ -293,6 +293,54 @@ type DeletePolicyByIdRequest struct {
 	lscommon.PolicyCommon
 }
 
+type policyPositionRequest struct {
+	Position int    `json:"position"`
+	PolicyId string `json:"policyId"`
+}
+
+func NewReorderPoliciesRequest(lbID, lisID string) IReorderPoliciesRequest {
+	return &ReorderPoliciesRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{LoadBalancerId: lbID},
+		ListenerCommon:     lscommon.ListenerCommon{ListenerId: lisID},
+
+		policyPositions: make([]policyPositionRequest, 0),
+	}
+}
+
+var _ IReorderPoliciesRequest = &ReorderPoliciesRequest{}
+
+type ReorderPoliciesRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
+
+	policyPositions []policyPositionRequest
+}
+
+func (s *ReorderPoliciesRequest) AddUserAgent(pagent ...string) IReorderPoliciesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ReorderPoliciesRequest) WithPoliciesOrder(policies []string) IReorderPoliciesRequest {
+	s.policyPositions = make([]policyPositionRequest, len(policies))
+	for i, policy := range policies {
+		s.policyPositions[i] = policyPositionRequest{
+			Position: i + 1,
+			PolicyId: policy,
+		}
+	}
+	return s
+}
+
+func (s *ReorderPoliciesRequest) ToRequestBody() interface{} {
+	return map[string]interface{}{
+		"policies": s.policyPositions,
+	}
+}
+
+// --------------------------------------------------------
+
 // list policies request
 func NewListPoliciesRequest(lbID, lisID string) IListPoliciesRequest {
 	return &ListPoliciesRequest{

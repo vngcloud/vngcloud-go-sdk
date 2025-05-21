@@ -518,6 +518,23 @@ func (s *LoadBalancerServiceV2) DeletePolicyById(popts IDeletePolicyByIdRequest)
 	return nil
 }
 
+func (s *LoadBalancerServiceV2) ReorderPolicies(popts IReorderPoliciesRequest) lserr.IError {
+	url := reorderPoliciesUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonBody(popts.ToRequestBody()).
+		WithJsonError(errResp)
+	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorLoadBalancerNotFound(errResp),
+			lserr.WithErrorListenerNotFound(errResp),
+		)
+	}
+	return nil
+}
+
 // --------------------------------------------------------
 
 func (s *LoadBalancerServiceV2) ListCertificates(popts IListCertificatesRequest) (*lsentity.ListCertificates, lserr.IError) {

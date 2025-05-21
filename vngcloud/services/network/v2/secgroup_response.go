@@ -30,12 +30,12 @@ func (s *CreateSecgroupResponse) ToEntitySecgroup() *lsentity.Secgroup {
 
 type GetSecgroupByIdResponse struct { //________________________________________________________________________________
 	Data struct {
-		ID          string  `json:"id"`
-		Name        string  `json:"name"`
-		Description *string `json:"description"`
-		Status      string  `json:"status"`
-		CreatedAt   string  `json:"createdAt"`
-		IsSystem    bool    `json:"isSystem"`
+		ID          string `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Status      string `json:"status"`
+		CreatedAt   string `json:"createdAt"`
+		IsSystem    bool   `json:"isSystem"`
 	} `json:"data"`
 }
 
@@ -43,19 +43,19 @@ func (s *GetSecgroupByIdResponse) ToEntitySecgroup() *lsentity.Secgroup {
 	return &lsentity.Secgroup{
 		Id:          s.Data.ID,
 		Name:        s.Data.Name,
-		Description: *s.Data.Description,
+		Description: s.Data.Description,
 		Status:      s.Data.Status,
 	}
 }
 
 type ListSecgroupResponse struct { //_________________________________________________________________________________
 	ListData []struct {
-		ID          string  `json:"id"`
-		Name        string  `json:"name"`
-		Description *string `json:"description"`
-		Status      string  `json:"status"`
-		CreatedAt   string  `json:"createdAt"`
-		IsSystem    bool    `json:"isSystem"`
+		ID          string `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Status      string `json:"status"`
+		CreatedAt   string `json:"createdAt"`
+		IsSystem    bool   `json:"isSystem"`
 	} `json:"listData"`
 	Page      int `json:"page"`
 	PageSize  int `json:"pageSize"`
@@ -69,7 +69,7 @@ func (s *ListSecgroupResponse) ToListEntitySecgroups() *lsentity.ListSecgroups {
 		items = append(items, &lsentity.Secgroup{
 			Id:          item.ID,
 			Name:        item.Name,
-			Description: *item.Description,
+			Description: item.Description,
 			Status:      item.Status,
 		})
 	}
