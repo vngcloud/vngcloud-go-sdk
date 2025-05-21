@@ -48,7 +48,7 @@ func (s *LoadBalancerServiceV2) ResizeLoadBalancer(popts IResizeLoadBalancerRequ
 }
 
 func (s *LoadBalancerServiceV2) ListLoadBalancerPackages(popts IListLoadBalancerPackagesRequest) (*lsentity.ListLoadBalancerPackages, lserr.IError) {
-	url := listLoadBalancerPackagesUrl(s.VLBClient)
+	url := listLoadBalancerPackagesUrl(s.VLBClient, popts)
 	resp := new(ListLoadBalancerPackagesResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().

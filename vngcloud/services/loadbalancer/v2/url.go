@@ -16,10 +16,10 @@ func resizeLoadBalancerUrl(psc lsclient.IServiceClient, popts IResizeLoadBalance
 		"resize")
 }
 
-func listLoadBalancerPackagesUrl(psc lsclient.IServiceClient) string {
+func listLoadBalancerPackagesUrl(psc lsclient.IServiceClient, popts IListLoadBalancerPackagesRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),
-		"loadBalancers", "packages")
+		"loadBalancers", "packages") + "?zoneId=" + popts.GetZoneId()
 }
 
 func getLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetLoadBalancerByIdRequest) string {

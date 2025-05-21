@@ -2,9 +2,10 @@ package v2
 
 import (
 	lfmt "fmt"
+	lstr "strings"
+
 	ljparser "github.com/cuongpiger/joat/parser"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
-	lstr "strings"
 )
 
 const (
@@ -30,6 +31,7 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 		Scheme:    InternetLoadBalancerScheme,
 		SubnetID:  psubnetId,
 		Type:      LoadBalancerTypeLayer4,
+		ZoneId:    lscommon.HCM_03_1A_ZONE,
 	}
 }
 
@@ -43,7 +45,9 @@ func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRe
 }
 
 func NewListLoadBalancerPackagesRequest() IListLoadBalancerPackagesRequest {
-	return new(ListLoadBalancerPackagesRequest)
+	return &ListLoadBalancerPackagesRequest{
+		ZoneId: lscommon.HCM_03_1A_ZONE,
+	}
 }
 
 func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
@@ -81,6 +85,7 @@ type CreateLoadBalancerRequest struct {
 	Pool         ICreatePoolRequest     `json:"pool"`
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
 	IsPoc        bool                   `json:"isPoc"`
+	ZoneId       lscommon.Zone          `json:"zoneId"`
 
 	lscommon.UserAgent
 }
@@ -93,6 +98,7 @@ type ResizeLoadBalancerRequest struct {
 
 type ListLoadBalancerPackagesRequest struct {
 	lscommon.UserAgent
+	ZoneId lscommon.Zone `q:"zoneId,beempty"`
 }
 
 type GetLoadBalancerByIdRequest struct {
@@ -225,6 +231,11 @@ func (s *CreateLoadBalancerRequest) WithPoc(isPoc bool) ICreateLoadBalancerReque
 	return s
 }
 
+func (s *CreateLoadBalancerRequest) WithZoneId(pzoneId lscommon.Zone) ICreateLoadBalancerRequest {
+	s.ZoneId = pzoneId
+	return s
+}
+
 func (s *ResizeLoadBalancerRequest) ToRequestBody() interface{} {
 	return s
 }
@@ -242,6 +253,15 @@ func (s *ResizeLoadBalancerRequest) WithPackageId(ppackageId string) IResizeLoad
 func (s *ListLoadBalancerPackagesRequest) AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) WithZoneId(pzoneId lscommon.Zone) IListLoadBalancerPackagesRequest {
+	s.ZoneId = pzoneId
+	return s
+}
+
+func (s *ListLoadBalancerPackagesRequest) GetZoneId() string {
+	return string(s.ZoneId)
 }
 
 func (s *ListLoadBalancerPackagesRequest) ToMap() map[string]interface{} {

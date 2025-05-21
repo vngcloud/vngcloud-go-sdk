@@ -1,6 +1,9 @@
 package v2
 
-import lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+import (
+	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+)
 
 type ICreateLoadBalancerRequest interface {
 	ToRequestBody() interface{}
@@ -14,6 +17,7 @@ type ICreateLoadBalancerRequest interface {
 	WithSubnetId(psubnetId string) ICreateLoadBalancerRequest
 	WithType(ptype LoadBalancerType) ICreateLoadBalancerRequest
 	WithPoc(poc bool) ICreateLoadBalancerRequest
+	WithZoneId(pzoneId common.Zone) ICreateLoadBalancerRequest
 	ParseUserAgent() string
 	ToMap() map[string]interface{}
 }
@@ -28,6 +32,8 @@ type IResizeLoadBalancerRequest interface {
 }
 
 type IListLoadBalancerPackagesRequest interface {
+	WithZoneId(pzoneId common.Zone) IListLoadBalancerPackagesRequest
+	GetZoneId() string
 	AddUserAgent(pagent ...string) IListLoadBalancerPackagesRequest
 	ParseUserAgent() string
 	ToMap() map[string]interface{}

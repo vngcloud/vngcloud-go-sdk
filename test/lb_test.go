@@ -3,18 +3,19 @@ package test
 import (
 	ltesting "testing"
 
+	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 	lsinter "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/inter"
 	lslbv2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer/v2"
 )
 
-func TestCreateInterLoadBalancerSuccess(t *ltesting.T) {
+func TestCreateInterLoadBalancerSuccess1(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
 	opt := lsinter.NewCreateLoadBalancerRequest(
-		getValueOfEnv("VNGCLOUD_PORTAL_USER_ID"),
-		"cuongdm3-test-intervpc",
+		"53461",
+		"annd2-test-intervpc-2",
 		"lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa",
-		"sub-27a0562d-07f9-4e87-81fd-e0ba9658f156",
-		"sub-888d8fd2-3fed-4aaa-a62d-8554c0aff651",
+		"sub-6d9aa273-713a-47a4-b4c2-38e150bd809c", // demo
+		"sub-fc1461fa-d8d6-4afd-b8c4-07fd6245dff6", // qc2
 	)
 	lb, sdkerr := vngcloud.VLBGateway().Internal().LoadBalancerService().CreateLoadBalancer(opt)
 	if sdkerr != nil {
@@ -142,9 +143,10 @@ func TestCreateInterLoadBalancerSuccess3(t *ltesting.T) {
 func TestCreateLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateLoadBalancerRequest("cuongdm3-testlb-tags", "", "").
-		WithPackageId("lbp-96b6b072-aadb-4b58-9d5f-c16ad69d36aa").
-		WithSubnetId("sub-27a0562d-07f9-4e87-81fd-e0ba9658f156").
+		WithPackageId("lbp-f60d5354-0600-11f0-a0a4-ec2a72332f83").
+		WithSubnetId("sub-3409c1f9-6b03-47bd-979f-251c6e4bee97").
 		WithTags("cuongdm3", "cuongdm33333", "vinhnt8", "vinhnt8888888").
+		WithZoneId(common.HCM_03_1C_ZONE).
 		WithListener(lslbv2.NewCreateListenerRequest("cuongdm3-test-listener", lslbv2.ListenerProtocolTCP, 80)).
 		WithPool(lslbv2.NewCreatePoolRequest("cuongdm3-test-pool", lslbv2.PoolProtocolTCP).
 			WithMembers(lslbv2.NewMember("cuongdm3-member-1", "10.84.0.22", 80, 80)).
@@ -247,7 +249,7 @@ func TestResizeLoadBalancerSuccess(t *ltesting.T) {
 func TestListLoadBalancerPackagesSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewListLoadBalancerPackagesRequest()
-	packages, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancerPackages(opt)
+	packages, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancerPackages(opt.WithZoneId(common.HCM_03_BKK_01_ZONE))
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
 	}
@@ -265,7 +267,7 @@ func TestListLoadBalancerPackagesSuccess(t *ltesting.T) {
 
 func TestGetLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-10689014-4c30-415c-96f7-2293b137854f").
+	opt := lslbv2.NewGetLoadBalancerByIdRequest("lb-8f54cbd4-b8ee-4b86-aa9b-d365c468a902").
 		AddUserAgent("vks-cluster-id/user-1234:cluster-1")
 	lb, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().GetLoadBalancerById(opt)
 	if sdkerr != nil {
@@ -373,8 +375,18 @@ func TestCreatePoolWithMembersSuccess(t *ltesting.T) {
 
 func TestCreateListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-10", lslbv2.ListenerProtocolTCP, 8080).
-		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cddf")
+	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-100", lslbv2.ListenerProtocolHTTP, 8081).
+		WithLoadBalancerId("lb-a02759ad-4661-4555-b281-500fd268497e").
+		WithInsertHeaders(
+			"X-Forwarded-For", "true",
+			"X-Forwarded-Proto", "true",
+			"Access-Control-Allow-Origin", "https://*.example.com, https://*.example2.com",
+			"Access-Control-Allow-Methods", "GET, HEAD, PATCH, PROPFIND, REPORT",
+			"Access-Control-Allow-Headers", "X-Requested-With, X-CSRF-Token, X-PINGOTHER",
+			"Access-Control-Max-Age", "86400",
+			"Access-Control-Allow-Credentials", "false",
+			"Access-Control-Expose-Headers", "X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After",
+		)
 
 	listener, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateListener(opt)
 	if sdkerr != nil {
