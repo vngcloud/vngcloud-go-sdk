@@ -25,6 +25,7 @@ type (
 		SecGroups          []ServerSecgroup
 		ExternalInterfaces []NetworkInterface
 		InternalInterfaces []NetworkInterface
+		ZoneId             string
 	}
 
 	NetworkInterface struct {

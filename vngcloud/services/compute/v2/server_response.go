@@ -23,6 +23,7 @@ type (
 		Image              Image              `json:"image"`
 		Flavor             Flavor             `json:"flavor"`
 		SecGroups          []ServerSecgroup   `json:"secGroups"`
+		ZoneId             string             `json:"zoneId"`
 		ExternalInterfaces []NetworkInterface `json:"externalInterfaces"`
 		InternalInterfaces []NetworkInterface `json:"internalInterfaces"`
 	}
@@ -215,6 +216,7 @@ func (s Server) toEntityServer() *lsentity.Server {
 	server.Uuid = s.Uuid
 	server.Image = s.Image.toEntityImage()
 	server.Flavor = s.Flavor.toEntityFlavor()
+	server.ZoneId = s.ZoneId
 
 	for _, secGroup := range s.SecGroups {
 		server.SecGroups = append(server.SecGroups, secGroup.toEntityServerSecgroup())
