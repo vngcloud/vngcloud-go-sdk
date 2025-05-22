@@ -10,6 +10,7 @@ type Subnet struct {
 	InterfaceAclPolicyId   string
 	InterfaceAclPolicyName string
 	SecondarySubnets       []SubnetSecondaryRange
+	ZoneID                 string
 }
 
 type SubnetSecondaryRange struct {

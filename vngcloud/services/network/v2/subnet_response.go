@@ -18,6 +18,9 @@ type GetSubnetByIdResponse struct {
 		Name string `json:"name"`
 		Cidr string `json:"cidr"`
 	} `json:"secondarySubnets,omitempty"`
+	Zone struct {
+		UUID string `json:"uuid"`
+	} `json:"zone"`
 }
 
 func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
@@ -39,6 +42,7 @@ func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
 		InterfaceAclPolicyId:   s.InterfaceAclPolicyUuid,
 		InterfaceAclPolicyName: s.InterfaceAclPolicyName,
 		SecondarySubnets:       secondaryRange,
+		ZoneID:                 s.Zone.UUID,
 	}
 }
 
