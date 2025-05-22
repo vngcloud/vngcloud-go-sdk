@@ -69,6 +69,17 @@ type (
 			Name             string `json:"name"`
 		} `json:"packageInfo"`
 		ProgressStatus string `json:"progressStatus"`
+		AutoScalable   bool   `json:"autoScalable"`
+		Zone           struct {
+			UUID string `json:"uuid"`
+			// Name        string `json:"name"`
+			// ZoneType    string `json:"zoneType"`
+			// IsDefault   bool   `json:"isDefault"`
+			// Description string `json:"description"`
+			// IsEnabled   bool   `json:"isEnabled"`
+			// VolumeCount int    `json:"volumeCount"`
+			// ServerCount int    `json:"serverCount"`
+		} `json:"zone"`
 	}
 )
 
@@ -156,6 +167,8 @@ func (s *LoadBalancer) toEntityLoadBalancer() *lsentity.LoadBalancer {
 		CreatedAt:          s.CreatedAt,
 		UpdatedAt:          s.UpdatedAt,
 		ProgressStatus:     s.ProgressStatus,
+		AutoScalable:       s.AutoScalable,
+		ZoneID:             s.Zone.UUID,
 
 		// will be removed
 		Status:   s.DisplayStatus,

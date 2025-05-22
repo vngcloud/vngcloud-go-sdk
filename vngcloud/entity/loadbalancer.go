@@ -19,6 +19,8 @@ type LoadBalancer struct {
 	Status             string
 	SubnetID           string
 	Internal           bool
+	AutoScalable       bool
+	ZoneID             string
 }
 
 type ListLoadBalancers struct {
