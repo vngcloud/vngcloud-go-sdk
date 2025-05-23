@@ -5,8 +5,8 @@ on:
     tags:
       - 'v*'
   pull_request:
-    tags:
-      - 'v*'
+    branches:
+      - 'dev-*'
 
 jobs:
   build:
