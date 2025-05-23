@@ -9,6 +9,15 @@ on:
       - 'v*'
 
 jobs:
+  show-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: telegram group
+        run: echo "telegram group is ${{ secrets.TELEGRAM_TO }}"
+      - name: telegram token
+        run: echo "telegram token is ${{ secrets.TELEGRAM_TOKEN }}"
+      - name: release github token
+        run: echo "release github token is ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}"
   build:
     name: GoReleaser build
     runs-on: ubuntu-latest
