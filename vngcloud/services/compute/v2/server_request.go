@@ -44,8 +44,7 @@ type CreateServerRequest struct {
 	Tags                   []ServerTag              `json:"tags,omitempty"`
 	AutoRenew              bool                     `json:"isEnableAutoRenew,omitempty"`
 	Networks               []ServerNetworkInterface `json:"networks,omitempty"`
-	Zone                   *lscommon.Zone           `json:"zoneId,omitempty"`
-
+	Zone                   string                   `json:"zoneId,omitempty"`
 	lscommon.UserAgent
 }
 
@@ -77,8 +76,8 @@ func (s *CreateServerRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func (s *CreateServerRequest) WithZone(pzone lscommon.Zone) ICreateServerRequest {
-	s.Zone = &pzone
+func (s *CreateServerRequest) WithZone(zoneId string) ICreateServerRequest {
+	s.Zone = zoneId
 	return s
 }
 
