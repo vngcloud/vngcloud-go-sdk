@@ -81,7 +81,7 @@ type CreateBlockVolumeRequest struct {
 	IsPoc                  bool                    `json:"isPoc,omitempty"`
 	IsEnableAutoRenew      bool                    `json:"isEnableAutoRenew,omitempty"`
 	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configVolumeRestore,omitempty"`
-	Zone                   *lscommon.Zone          `json:"zoneId,omitempty"`
+	Zone                   string                  `json:"zoneId,omitempty"`
 }
 
 type DeleteBlockVolumeByIdRequest struct {
@@ -143,8 +143,8 @@ func (s *CreateBlockVolumeRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func (s *CreateBlockVolumeRequest) WithZone(pzone lscommon.Zone) ICreateBlockVolumeRequest {
-	s.Zone = &pzone
+func (s *CreateBlockVolumeRequest) WithZone(pzone string) ICreateBlockVolumeRequest {
+	s.Zone = pzone
 	return s
 }
 
