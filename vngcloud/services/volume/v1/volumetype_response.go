@@ -12,6 +12,11 @@ type GetDefaultVolumeTypeResponse struct {
 }
 
 type (
+	VolumeTypeZone struct {
+		Id   string `json:"id"`
+		Name string `json:"name"`
+	}
+
 	VolumeType struct {
 		Id         string `json:"id"`
 		Iops       int    `json:"iops"`
@@ -22,6 +27,14 @@ type (
 		ZoneId     string `json:"zoneId,omitempty"`
 	}
 )
+
+type ListVolumeTypeZonesResponse struct {
+	VolumeTypeZones []VolumeTypeZone `json:"volumeTypeZones"`
+}
+
+type ListVolumeTypeResponse struct {
+	VolumeTypes []VolumeType `json:"volumeTypes"`
+}
 
 func (s *GetVolumeTypeByIdResponse) ToEntityVolumeType() *lsentity.VolumeType {
 	if len(s.VolumeTypes) == 0 {
@@ -48,4 +61,31 @@ func (s VolumeType) toEntityVolumeType() *lsentity.VolumeType {
 		ThroughPut: s.ThroughPut,
 		ZoneId:     s.ZoneId,
 	}
+}
+
+func (s VolumeTypeZone) toEntityVolumeTypeZone() *lsentity.VolumeTypeZone {
+	return &lsentity.VolumeTypeZone{
+		Id:   s.Id,
+		Name: s.Name,
+	}
+}
+
+func (s *ListVolumeTypeZonesResponse) ToEntityListVolumeTypeZones() *lsentity.ListVolumeTypeZones {
+	sl := new(lsentity.ListVolumeTypeZones)
+
+	for _, item := range s.VolumeTypeZones {
+		sl.VolumeTypeZones = append(sl.VolumeTypeZones, item.toEntityVolumeTypeZone())
+	}
+
+	return sl
+}
+
+func (s *ListVolumeTypeResponse) ToEntityListVolumeType() *lsentity.ListVolumeType {
+	sl := new(lsentity.ListVolumeType)
+
+	for _, item := range s.VolumeTypes {
+		sl.VolumeTypes = append(sl.VolumeTypes, item.toEntityVolumeType())
+	}
+
+	return sl
 }
