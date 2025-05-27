@@ -25,5 +25,6 @@ type IVolumeServiceV2 interface {
 type IVolumeServiceV1 interface {
 	// Volume Type Api group
 	GetVolumeTypeById(popts lsvolumeSvcV1.IGetVolumeTypeByIdRequest) (*lsentity.VolumeType, lserr.IError)
+	GetVolumeTypeZones(popts lsvolumeSvcV1.IGetVolumeTypeZonesRequest) (*lsentity.ListVolumeTypeZones, lserr.IError)
 	GetDefaultVolumeType() (*lsentity.VolumeType, lserr.IError)
 }
