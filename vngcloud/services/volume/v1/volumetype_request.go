@@ -12,6 +12,12 @@ func NewGetVolumeTypeByIdRequest(pvolumeTypeId string) IGetVolumeTypeByIdRequest
 	return opt
 }
 
+func NewListVolumeTypeRequest(volumeTypeZoneId string) IGetListVolumeTypeRequest {
+	opt := new(GetListVolumeTypeRequest)
+	opt.VolumeTypeZoneId = volumeTypeZoneId
+	return opt
+}
+
 func NewGetVolumeTypeZonesRequest(zoneId string) IGetVolumeTypeZonesRequest {
 	opt := new(GetVolumeTypeZonesRequest)
 	opt.ZoneId = zoneId
@@ -24,6 +30,10 @@ type GetVolumeTypeByIdRequest struct {
 
 type GetVolumeTypeZonesRequest struct {
 	ZoneId string `q:"zoneId"`
+}
+
+type GetListVolumeTypeRequest struct {
+	VolumeTypeZoneId string
 }
 
 func (s *GetVolumeTypeZonesRequest) GetDefaultQuery() string {
@@ -39,4 +49,8 @@ func (s *GetVolumeTypeZonesRequest) ToQuery() (string, error) {
 	}
 
 	return url.String(), err
+}
+
+func (s *GetListVolumeTypeRequest) GetVolumeTypeZoneId() string {
+	return s.VolumeTypeZoneId
 }

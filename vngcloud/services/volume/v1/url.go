@@ -25,3 +25,11 @@ func getVolumeTypeZonesUrl(psc lsclient.IServiceClient, popts IGetVolumeTypeZone
 		"volume_type_zones",
 	) + query
 }
+
+func getVolumeTypesUrl(psc lsclient.IServiceClient, popts IGetListVolumeTypeRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		popts.GetVolumeTypeZoneId(),
+		"volume_types",
+	)
+}

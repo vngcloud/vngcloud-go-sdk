@@ -57,3 +57,14 @@ func TestGetVolumeTypeZones(t *ltesting.T) {
 	t.Log("Error: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestGetVolumeTypes(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lsvolume.NewListVolumeTypeRequest("0745BE12-9433-4DD4-90A1-384631504EBE")
+
+	volType, sdkerr := vngcloud.VServerGateway().V1().VolumeService().GetListVolumeTypes(opt)
+
+	t.Log("Result: ", volType)
+	t.Log("Error: ", sdkerr)
+	t.Log("PASS")
+}

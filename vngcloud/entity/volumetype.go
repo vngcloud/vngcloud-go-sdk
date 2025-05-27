@@ -9,3 +9,7 @@ type VolumeType struct {
 	ThroughPut int
 	ZoneId     string
 }
+
+type ListVolumeType struct {
+	VolumeTypes []*VolumeType
+}

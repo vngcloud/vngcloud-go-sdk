@@ -62,3 +62,23 @@ func (s *VolumeServiceV1) GetVolumeTypeZones(popts IGetVolumeTypeZonesRequest) (
 	return resp.ToEntityListVolumeTypeZones(), nil
 
 }
+
+func (s *VolumeServiceV1) GetListVolumeTypes(popts IGetListVolumeTypeRequest) (*lsentity.ListVolumeType, lserr.IError) {
+	url := getVolumeTypesUrl(s.VServerClient, popts)
+	resp := new(ListVolumeTypeResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorVolumeTypeNotFound(errResp)).
+			WithKVparameters("projectId", s.getProjectId(),
+				"volumeTypeZoneId", popts.GetVolumeTypeZoneId())
+	}
+
+	return resp.ToEntityListVolumeType(), nil
+
+}
