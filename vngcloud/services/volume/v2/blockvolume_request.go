@@ -188,6 +188,10 @@ func (s *CreateBlockVolumeRequest) GetVolumeType() string {
 	return s.VolumeTypeId
 }
 
+func (s *CreateBlockVolumeRequest) GetZone() string {
+	return s.Zone
+}
+
 func (s *CreateBlockVolumeRequest) GetSize() int64 {
 	return s.Size
 }

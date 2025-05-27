@@ -7,6 +7,7 @@ type ICreateBlockVolumeRequest interface {
 	GetSize() int64
 	GetVolumeType() string
 	GetVolumeName() string
+	GetZone() string
 	WithPoc(pisPoc bool) ICreateBlockVolumeRequest
 	WithAutoRenew(pval bool) ICreateBlockVolumeRequest
 	WithMultiAttach(pmultiAttach bool) ICreateBlockVolumeRequest
