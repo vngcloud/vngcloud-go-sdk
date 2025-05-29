@@ -43,6 +43,7 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 			lserr.WithErrorEndpointOfVpcExists(errResp),
 			lserr.WithErrorLockOnProcess(errResp),
 			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorPurchaseIssue(errResp),
 			lserr.WithErrorPaymentMethodNotAllow(errResp),
 			lserr.WithErrorCreditNotEnough(errResp),
 			lserr.WithErrorSubnetNotFound(errResp),
