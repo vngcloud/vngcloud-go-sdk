@@ -50,6 +50,7 @@ type CreateEndpointRequest struct {
 		RegionUuid        string `json:"regionUuid"`
 		ProjectUuid       string `json:"projectUuid"`
 		Description       string `json:"description"`
+		EnableAZ          bool   `json:"enableAZ"`
 	} `json:"resourceInfo"`
 
 	lscommon.UserAgent
@@ -71,6 +72,7 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"regionId":          s.ResourceInfo.RegionUuid,
 		"projectId":         s.ResourceInfo.ProjectUuid,
 		"description":       s.ResourceInfo.Description,
+		"enableAZ":          s.ResourceInfo.EnableAZ,
 	}
 
 	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
@@ -88,6 +90,7 @@ func (s *CreateEndpointRequest) AddUserAgent(pagent ...string) ICreateEndpointRe
 func (s *CreateEndpointRequest) ToRequestBody(psvc lsclient.IServiceClient) interface{} {
 	s.ResourceType = "endpoint"
 	s.Action = "create"
+	s.ResourceInfo.EnableAZ = true
 	s.ResourceInfo.RegionUuid = psvc.GetZoneId()
 	s.ResourceInfo.ProjectUuid = psvc.GetProjectId()
 
