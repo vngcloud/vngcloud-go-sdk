@@ -187,7 +187,6 @@ type IHealthMonitorRequest interface {
 type IMemberRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
-	AddUserAgent(pagent ...string) IMemberRequest
 }
 
 type IListTagsRequest interface {
