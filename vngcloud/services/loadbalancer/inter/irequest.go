@@ -1,5 +1,7 @@
 package inter
 
+import "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
+
 type ICreateLoadBalancerRequest interface {
 	ToRequestBody() interface{}
 	AddUserAgent(pagent ...string) ICreateLoadBalancerRequest
@@ -7,6 +9,7 @@ type ICreateLoadBalancerRequest interface {
 	WithPool(ppool ICreatePoolRequest) ICreateLoadBalancerRequest
 	WithProjectId(pprojectId string) ICreateLoadBalancerRequest
 	WithTags(ptags ...string) ICreateLoadBalancerRequest
+	WithZoneId(zoneID common.Zone) ICreateLoadBalancerRequest
 	GetMapHeaders() map[string]string
 	ParseUserAgent() string
 	ToMap() map[string]interface{}

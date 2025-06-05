@@ -29,6 +29,7 @@ type CreateLoadBalancerRequest struct {
 	Listener        ICreateListenerRequest `json:"listener,omitempty"`
 	Pool            ICreatePoolRequest     `json:"pool,omitempty"`
 	Tags            []lscommon.Tag         `json:"tags,omitempty"`
+	ZoneId          lscommon.Zone          `json:"zoneId,omitempty"`
 
 	lscommon.PortalUser
 	lscommon.UserAgent
@@ -44,6 +45,7 @@ func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {
 		"projectId":       s.ProjectId,
 		"type":            s.Type,
 		"tags":            s.Tags,
+		"zoneId":          s.ZoneId,
 	}
 }
 
@@ -96,5 +98,10 @@ func (s *CreateLoadBalancerRequest) WithTags(ptags ...string) ICreateLoadBalance
 		s.Tags = append(s.Tags, lscommon.Tag{Key: ptags[i], Value: ptags[i+1]})
 	}
 
+	return s
+}
+
+func (s *CreateLoadBalancerRequest) WithZoneId(pzoneId lscommon.Zone) ICreateLoadBalancerRequest {
+	s.ZoneId = pzoneId
 	return s
 }
