@@ -26,6 +26,10 @@ type GetUnderBlockVolumeIdResponse struct {
 	Uuid string `json:"uuid"`
 }
 
+type Zone struct {
+	Uuid string `json:"uuid"`
+}
+
 func (s *GetBlockVolumeByIdResponse) ToEntityVolume() *lsentity.Volume {
 	return s.Data.toEntityVolume()
 }
@@ -52,6 +56,7 @@ type (
 		Product            string   `json:"product"`
 		PersistentVolume   bool     `json:"persistentVolume"`
 		MigrateState       string   `json:"migrateState,omitempty"`
+		Zone               Zone     `json:"zone"`
 	}
 )
 
@@ -81,6 +86,7 @@ func (s *BlockVolume) toEntityVolume() *lsentity.Volume {
 		VolumeTypeID:    s.VolumeTypeID,
 		MigrateState:    s.MigrateState,
 		MultiAttach:     s.MultiAttach,
+		ZoneId:          s.Zone.Uuid,
 	}
 }
 
