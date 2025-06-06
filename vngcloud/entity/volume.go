@@ -16,6 +16,7 @@ type Volume struct {
 	UnderId          string
 	MigrateState     string
 	MultiAttach      bool
+	ZoneId           string
 }
 
 type ListVolumes struct {
