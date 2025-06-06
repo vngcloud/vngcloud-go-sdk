@@ -122,11 +122,6 @@ func NewMember(pname, pipAddress string, pport int, pmonitorPort int) IMemberReq
 	}
 }
 
-func (s *Member) AddUserAgent(pagent ...string) IMemberRequest {
-	s.UserAgent.AddUserAgent(pagent...)
-	return s
-}
-
 func NewGetPoolByIdRequest(plbId, ppoolId string) IGetPoolByIdRequest {
 	opts := new(GetPoolByIdRequest)
 	opts.LoadBalancerId = plbId
@@ -233,8 +228,6 @@ type Member struct {
 	Name        string `json:"name"`
 	Port        int    `json:"port"`
 	Weight      int    `json:"weight"`
-
-	lscommon.UserAgent
 }
 
 type ListPoolsByLoadBalancerIdRequest struct {
