@@ -82,6 +82,7 @@ type CreateBlockVolumeRequest struct {
 	IsEnableAutoRenew      bool                    `json:"isEnableAutoRenew,omitempty"`
 	ConfigureVolumeRestore *ConfigureVolumeRestore `json:"configVolumeRestore,omitempty"`
 	Zone                   string                  `json:"zoneId,omitempty"`
+	PoolName               string                  `json:"poolName,omitempty"`
 }
 
 type DeleteBlockVolumeByIdRequest struct {
@@ -148,6 +149,11 @@ func (s *CreateBlockVolumeRequest) WithZone(pzone string) ICreateBlockVolumeRequ
 	return s
 }
 
+func (s *CreateBlockVolumeRequest) WithPoolName(poolName string) ICreateBlockVolumeRequest {
+	s.PoolName = poolName
+	return s
+}
+
 func (s *CreateBlockVolumeRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"backupVolumePointId": s.BackupVolumePointId,
@@ -190,6 +196,10 @@ func (s *CreateBlockVolumeRequest) GetVolumeType() string {
 
 func (s *CreateBlockVolumeRequest) GetZone() string {
 	return s.Zone
+}
+
+func (s *CreateBlockVolumeRequest) GetPoolName() string {
+	return s.PoolName
 }
 
 func (s *CreateBlockVolumeRequest) GetSize() int64 {

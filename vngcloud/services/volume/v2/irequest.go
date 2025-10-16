@@ -8,6 +8,7 @@ type ICreateBlockVolumeRequest interface {
 	GetVolumeType() string
 	GetVolumeName() string
 	GetZone() string
+	GetPoolName() string
 	WithPoc(pisPoc bool) ICreateBlockVolumeRequest
 	WithAutoRenew(pval bool) ICreateBlockVolumeRequest
 	WithMultiAttach(pmultiAttach bool) ICreateBlockVolumeRequest
@@ -15,6 +16,7 @@ type ICreateBlockVolumeRequest interface {
 	WithEncryptionType(pet EncryptType) ICreateBlockVolumeRequest
 	WithVolumeType(pvolumeTypeId string) ICreateBlockVolumeRequest
 	WithZone(pzone string) ICreateBlockVolumeRequest
+	WithPoolName(poolName string) ICreateBlockVolumeRequest
 	WithVolumeRestoreFromSnapshot(psnapshotID, pvolumeTypeID string) ICreateBlockVolumeRequest
 	WithTags(ptags ...string) ICreateBlockVolumeRequest
 }
