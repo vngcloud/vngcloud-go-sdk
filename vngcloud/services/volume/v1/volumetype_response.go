@@ -66,8 +66,9 @@ func (s VolumeType) toEntityVolumeType() *lsentity.VolumeType {
 
 func (s VolumeTypeZone) toEntityVolumeTypeZone() *lsentity.VolumeTypeZone {
 	return &lsentity.VolumeTypeZone{
-		Id:   s.Id,
-		Name: s.Name,
+		Id:       s.Id,
+		Name:     s.Name,
+		PoolName: s.PoolName,
 	}
 }
 
