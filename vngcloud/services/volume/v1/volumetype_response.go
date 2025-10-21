@@ -13,8 +13,9 @@ type GetDefaultVolumeTypeResponse struct {
 
 type (
 	VolumeTypeZone struct {
-		Id   string `json:"id"`
-		Name string `json:"name"`
+		Id       string   `json:"id"`
+		Name     string   `json:"name"`
+		PoolName []string `json:"poolName,omitempty"`
 	}
 
 	VolumeType struct {
