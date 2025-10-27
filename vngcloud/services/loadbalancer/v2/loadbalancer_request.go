@@ -82,7 +82,7 @@ type CreateLoadBalancerRequest struct {
 	Pool         ICreatePoolRequest     `json:"pool"`
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
 	IsPoc        bool                   `json:"isPoc"`
-	ZoneId       lscommon.Zone          `json:"zoneId"`
+	ZoneId       *lscommon.Zone         `json:"zoneId"`
 
 	lscommon.UserAgent
 }
@@ -229,7 +229,7 @@ func (s *CreateLoadBalancerRequest) WithPoc(isPoc bool) ICreateLoadBalancerReque
 }
 
 func (s *CreateLoadBalancerRequest) WithZoneId(pzoneId lscommon.Zone) ICreateLoadBalancerRequest {
-	s.ZoneId = pzoneId
+	s.ZoneId = &pzoneId
 	return s
 }
 
