@@ -31,7 +31,6 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 		Scheme:    InternetLoadBalancerScheme,
 		SubnetID:  psubnetId,
 		Type:      LoadBalancerTypeLayer4,
-		ZoneId:    lscommon.HCM_03_1A_ZONE,
 	}
 }
 
@@ -45,9 +44,7 @@ func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRe
 }
 
 func NewListLoadBalancerPackagesRequest() IListLoadBalancerPackagesRequest {
-	return &ListLoadBalancerPackagesRequest{
-		ZoneId: lscommon.HCM_03_1A_ZONE,
-	}
+	return &ListLoadBalancerPackagesRequest{}
 }
 
 func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
