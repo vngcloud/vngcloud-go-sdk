@@ -418,28 +418,28 @@ func (s *HealthMonitor) WithTimeout(pto int) IHealthMonitorRequest {
 	return s
 }
 
-func (s *HealthMonitor) WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest {
-	s.HealthCheckMethod = &pmethod
+func (s *HealthMonitor) WithHealthCheckMethod(pmethod *HealthCheckMethod) IHealthMonitorRequest {
+	s.HealthCheckMethod = pmethod
 	return s
 }
 
-func (s *HealthMonitor) WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest {
-	s.HttpVersion = &pversion
+func (s *HealthMonitor) WithHttpVersion(pversion *HealthCheckHttpVersion) IHealthMonitorRequest {
+	s.HttpVersion = pversion
 	return s
 }
 
-func (s *HealthMonitor) WithHealthCheckPath(ppath string) IHealthMonitorRequest {
-	s.HealthCheckPath = &ppath
+func (s *HealthMonitor) WithHealthCheckPath(ppath *string) IHealthMonitorRequest {
+	s.HealthCheckPath = ppath
 	return s
 }
 
-func (s *HealthMonitor) WithDomainName(pdomain string) IHealthMonitorRequest {
-	s.DomainName = &pdomain
+func (s *HealthMonitor) WithDomainName(pdomain *string) IHealthMonitorRequest {
+	s.DomainName = pdomain
 	return s
 }
 
-func (s *HealthMonitor) WithSuccessCode(pcode string) IHealthMonitorRequest {
-	s.SuccessCode = &pcode
+func (s *HealthMonitor) WithSuccessCode(pcode *string) IHealthMonitorRequest {
+	s.SuccessCode = pcode
 	return s
 }
 

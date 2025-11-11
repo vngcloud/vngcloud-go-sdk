@@ -177,11 +177,11 @@ type IHealthMonitorRequest interface {
 	WithUnhealthyThreshold(puht int) IHealthMonitorRequest
 	WithInterval(pinterval int) IHealthMonitorRequest
 	WithTimeout(pto int) IHealthMonitorRequest
-	WithHealthCheckMethod(pmethod HealthCheckMethod) IHealthMonitorRequest
-	WithHttpVersion(pversion HealthCheckHttpVersion) IHealthMonitorRequest
-	WithHealthCheckPath(ppath string) IHealthMonitorRequest
-	WithSuccessCode(pcode string) IHealthMonitorRequest
-	WithDomainName(pdomain string) IHealthMonitorRequest
+	WithHealthCheckMethod(pmethod *HealthCheckMethod) IHealthMonitorRequest
+	WithHttpVersion(pversion *HealthCheckHttpVersion) IHealthMonitorRequest
+	WithHealthCheckPath(ppath *string) IHealthMonitorRequest
+	WithSuccessCode(pcode *string) IHealthMonitorRequest
+	WithDomainName(pdomain *string) IHealthMonitorRequest
 	AddUserAgent(pagent ...string) IHealthMonitorRequest
 }
 
