@@ -172,6 +172,7 @@ type IDeleteLoadBalancerByIdRequest interface {
 type IHealthMonitorRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
+	WithHealthCheckProtocol(pprotocol HealthCheckProtocol) IHealthMonitorRequest
 	WithHealthyThreshold(pht int) IHealthMonitorRequest
 	WithUnhealthyThreshold(puht int) IHealthMonitorRequest
 	WithInterval(pinterval int) IHealthMonitorRequest

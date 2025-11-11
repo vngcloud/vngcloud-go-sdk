@@ -291,6 +291,11 @@ func (s *HealthMonitor) AddUserAgent(pagent ...string) IHealthMonitorRequest {
 	return s
 }
 
+func (s *HealthMonitor) WithHealthCheckProtocol(pprotocol HealthCheckProtocol) IHealthMonitorRequest {
+	s.HealthCheckProtocol = pprotocol
+	return s
+}
+
 func (s *CreatePoolRequest) WithHealthMonitor(pmonitor IHealthMonitorRequest) ICreatePoolRequest {
 	s.HealthMonitor = pmonitor
 	return s
