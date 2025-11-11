@@ -200,6 +200,21 @@ func (s *CreateListenerRequest) WithDefaultPoolId(ppoolId string) ICreateListene
 	return s
 }
 
+func (s *CreateListenerRequest) WithCertificateAuthorities(pca *[]string) ICreateListenerRequest {
+	s.CertificateAuthorities = pca
+	return s
+}
+
+func (s *CreateListenerRequest) WithClientCertificate(pclientCert *string) ICreateListenerRequest {
+	s.ClientCertificate = pclientCert
+	return s
+}
+
+func (s *CreateListenerRequest) WithDefaultCertificateAuthority(pdefaultCA *string) ICreateListenerRequest {
+	s.DefaultCertificateAuthority = pdefaultCA
+	return s
+}
+
 func (s *CreateListenerRequest) WithInsertHeaders(pheaders ...string) ICreateListenerRequest {
 	if len(pheaders) < 1 {
 		s.InsertHeaders = nil

@@ -63,6 +63,9 @@ type ICreateListenerRequest interface {
 	WithTimeoutConnection(ptoc int) ICreateListenerRequest
 	WithTimeoutMember(ptom int) ICreateListenerRequest
 	WithInsertHeaders(pheaders ...string) ICreateListenerRequest
+	WithDefaultCertificateAuthority(pdefaultCA *string) ICreateListenerRequest
+	WithCertificateAuthorities(pca *[]string) ICreateListenerRequest
+	WithClientCertificate(pclientCert *string) ICreateListenerRequest
 	AddCidrs(pcidrs ...string) ICreateListenerRequest
 	ParseUserAgent() string
 	GetLoadBalancerId() string
