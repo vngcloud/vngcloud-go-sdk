@@ -31,7 +31,6 @@ func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLo
 		Scheme:    InternetLoadBalancerScheme,
 		SubnetID:  psubnetId,
 		Type:      LoadBalancerTypeLayer4,
-		ZoneId:    lscommon.HCM_03_1A_ZONE,
 	}
 }
 
@@ -45,9 +44,7 @@ func NewResizeLoadBalancerRequest(plbId, packageID string) IResizeLoadBalancerRe
 }
 
 func NewListLoadBalancerPackagesRequest() IListLoadBalancerPackagesRequest {
-	return &ListLoadBalancerPackagesRequest{
-		ZoneId: lscommon.HCM_03_1A_ZONE,
-	}
+	return &ListLoadBalancerPackagesRequest{}
 }
 
 func NewGetLoadBalancerByIdRequest(plbId string) IGetLoadBalancerByIdRequest {
@@ -85,7 +82,7 @@ type CreateLoadBalancerRequest struct {
 	Pool         ICreatePoolRequest     `json:"pool"`
 	Tags         []lscommon.Tag         `json:"tags,omitempty"`
 	IsPoc        bool                   `json:"isPoc"`
-	ZoneId       lscommon.Zone          `json:"zoneId"`
+	ZoneId       *lscommon.Zone         `json:"zoneId"`
 
 	lscommon.UserAgent
 }
@@ -232,7 +229,7 @@ func (s *CreateLoadBalancerRequest) WithPoc(isPoc bool) ICreateLoadBalancerReque
 }
 
 func (s *CreateLoadBalancerRequest) WithZoneId(pzoneId lscommon.Zone) ICreateLoadBalancerRequest {
-	s.ZoneId = pzoneId
+	s.ZoneId = &pzoneId
 	return s
 }
 
