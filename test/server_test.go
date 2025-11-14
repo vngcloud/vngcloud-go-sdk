@@ -388,7 +388,7 @@ func TestCreateServerGroup(t *ltesting.T) {
 
 func TestCreateSystemTags(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsserverSvcV1.NewSystemTagRequest("60108", lsserverSvcV1.LoadBalancer).
+	opt := lsserverSvcV1.NewSystemTagRequest("60108", lsserverSvcV1.Server).
 		AddTag("tytv2", "test")
 
 	response, sdkerr := vngcloud.VServerGateway().InternalV1().ServerService().CreateSystemTags(opt)

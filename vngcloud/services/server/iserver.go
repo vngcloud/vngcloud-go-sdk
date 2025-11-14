@@ -7,5 +7,5 @@ import (
 )
 
 type IServerServiceInternalV1 interface {
-	CreateSystemTags(popts lsnserverSvcV1.ICreateSystemTagRequest) (*lsentity.SystemTag, lserr.IError)
+	CreateSystemTags(popts lsnserverSvcV1.ICreateSystemTagRequest) (*[]lsentity.SystemTag, lserr.IError)
 }

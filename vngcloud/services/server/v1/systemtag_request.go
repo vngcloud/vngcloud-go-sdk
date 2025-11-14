@@ -5,7 +5,7 @@ import lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common
 const (
 	Volume       ResourceType = "VOLUME"
 	Server       ResourceType = "SERVER"
-	LoadBalancer ResourceType = "LB"
+	LoadBalancer ResourceType = "LOAD-BALANCER"
 )
 
 type ResourceType string

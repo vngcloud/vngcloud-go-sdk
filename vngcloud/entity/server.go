@@ -82,6 +82,10 @@ type (
 	}
 
 	SystemTag struct {
+		Key       string
+		Value     string
+		CreatedAt string
+		SystemTag bool
 	}
 )
 
