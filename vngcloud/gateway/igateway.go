@@ -7,6 +7,7 @@ import (
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
+	lsServerSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server"
 	lsvolumeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume"
 )
 
@@ -20,8 +21,8 @@ type IIamGatewayV2 interface {
 
 type IVServerGateway interface {
 	V1() IVServerGatewayV1
+	InternalV1() IVServerGatewayInternalV1
 	V2() IVServerGatewayV2
-
 	// GetEndpoint returns the endpoint of the vServer service
 	GetEndpoint() string
 }
@@ -35,6 +36,10 @@ type IVNetworkGateway interface {
 type IVServerGatewayV1 interface {
 	PortalService() lsportalSvc.IPortalServiceV1
 	VolumeService() lsvolumeSvc.IVolumeServiceV1
+}
+
+type IVServerGatewayInternalV1 interface {
+	ServerService() lsServerSvc.IServerServiceInternalV1
 }
 
 type IVServerGatewayV2 interface {

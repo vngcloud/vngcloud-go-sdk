@@ -5,12 +5,17 @@ import (
 	lscomputeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
+	lsServerSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server"
 	lsvolumeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume"
 )
 
 type vserverGatewayV1 struct {
 	portalService lsportalSvc.IPortalServiceV1
 	volumeService lsvolumeSvc.IVolumeServiceV1
+}
+
+type vServerGatewayInternalV1 struct {
+	serverService lsServerSvc.IServerServiceInternalV1
 }
 
 type vserverGatewayV2 struct {
@@ -36,6 +41,12 @@ func NewVServerGatewayV2(psvcClient lsclient.IServiceClient) IVServerGatewayV2 {
 	}
 }
 
+func NewVServerGatewayInternalV1(psvcClient lsclient.IServiceClient) IVServerGatewayInternalV1 {
+	return &vServerGatewayInternalV1{
+		serverService: lsServerSvc.NewServerServiceInternalV1(psvcClient),
+	}
+}
+
 func (s *vserverGatewayV1) PortalService() lsportalSvc.IPortalServiceV1 {
 	return s.portalService
 }
@@ -58,4 +69,8 @@ func (s *vserverGatewayV2) PortalService() lsportalSvc.IPortalServiceV2 {
 
 func (s *vserverGatewayV2) VolumeService() lsvolumeSvc.IVolumeServiceV2 {
 	return s.volumeService
+}
+
+func (s *vServerGatewayInternalV1) ServerService() lsServerSvc.IServerServiceInternalV1 {
+	return s.serverService
 }

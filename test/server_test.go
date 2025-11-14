@@ -1,6 +1,7 @@
 package test
 
 import (
+	lsserverSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server/v1"
 	ltesting "testing"
 
 	lscomputeSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute/v2"
@@ -383,4 +384,18 @@ func TestCreateServerGroup(t *ltesting.T) {
 	}
 
 	t.Logf("Result: %v", groups)
+}
+
+func TestCreateSystemTags(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsserverSvcV1.NewSystemTagRequest("60108", lsserverSvcV1.LoadBalancer).
+		AddTag("tytv2", "test")
+
+	response, sdkerr := vngcloud.VServerGateway().InternalV1().ServerService().CreateSystemTags(opt)
+	if sdkerr != nil {
+		t.Logf("Expect nil but got %+v", sdkerr.GetErrorCode())
+	}
+
+	t.Log("Result: ", sdkerr)
+	t.Logf("Result: %v", response)
 }

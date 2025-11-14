@@ -14,9 +14,10 @@ type iamGateway struct {
 var _ IVServerGateway = &vserverGateway{}
 
 type vserverGateway struct {
-	endpoint         string // Hold the endpoint of the vServer service
-	vserverGatewayV1 IVServerGatewayV1
-	vserverGatewayV2 IVServerGatewayV2
+	endpoint                 string // Hold the endpoint of the vServer service
+	vserverGatewayV1         IVServerGatewayV1
+	vserverGatewayV2         IVServerGatewayV2
+	vserverGatewayInternalV1 IVServerGatewayInternalV1
 }
 
 var _ IVLBGateway = &vlbGateway{}
@@ -52,15 +53,21 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
+	vserverInternalSvcV1 := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "internal").
+		WithClient(phc).
+		WithProjectId(pprojectId)
+
 	vserverSvcV2 := lsclient.NewServiceClient().
 		WithEndpoint(pendpoint + "v2").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
 	return &vserverGateway{
-		endpoint:         pendpoint,
-		vserverGatewayV1: NewVServerGatewayV1(vserverSvcV1),
-		vserverGatewayV2: NewVServerGatewayV2(vserverSvcV2),
+		endpoint:                 pendpoint,
+		vserverGatewayV1:         NewVServerGatewayV1(vserverSvcV1),
+		vserverGatewayV2:         NewVServerGatewayV2(vserverSvcV2),
+		vserverGatewayInternalV1: NewVServerGatewayInternalV1(vserverInternalSvcV1),
 	}
 }
 
@@ -119,6 +126,9 @@ func (s *vserverGateway) V1() IVServerGatewayV1 {
 
 func (s *vserverGateway) V2() IVServerGatewayV2 {
 	return s.vserverGatewayV2
+}
+func (s *vserverGateway) InternalV1() IVServerGatewayInternalV1 {
+	return s.vserverGatewayInternalV1
 }
 
 func (s *vlbGateway) Internal() IVLBGatewayInternal {

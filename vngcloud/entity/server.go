@@ -80,6 +80,9 @@ type (
 		Name string
 		Uuid string
 	}
+
+	SystemTag struct {
+	}
 )
 
 type ListServers struct {
