@@ -35,11 +35,11 @@ type IGlobalHealthMonitorRequest interface {
 	WithUnhealthyThreshold(puht int) IGlobalHealthMonitorRequest
 
 	// http, https
-	WithHealthCheckMethod(pmethod GlobalPoolHealthCheckMethod) IGlobalHealthMonitorRequest
-	WithHttpVersion(pversion GlobalPoolHealthCheckHttpVersion) IGlobalHealthMonitorRequest
-	WithPath(ppath string) IGlobalHealthMonitorRequest
-	WithSuccessCode(pcode string) IGlobalHealthMonitorRequest
-	WithDomainName(pdomain string) IGlobalHealthMonitorRequest
+	WithHealthCheckMethod(pmethod *GlobalPoolHealthCheckMethod) IGlobalHealthMonitorRequest
+	WithHttpVersion(pversion *GlobalPoolHealthCheckHttpVersion) IGlobalHealthMonitorRequest
+	WithPath(ppath *string) IGlobalHealthMonitorRequest
+	WithSuccessCode(pcode *string) IGlobalHealthMonitorRequest
+	WithDomainName(pdomain *string) IGlobalHealthMonitorRequest
 
 	AddUserAgent(pagent ...string) IGlobalHealthMonitorRequest
 	ParseUserAgent() string

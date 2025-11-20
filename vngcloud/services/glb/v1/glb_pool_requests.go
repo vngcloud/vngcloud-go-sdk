@@ -214,28 +214,28 @@ func (s *GlobalHealthMonitorRequest) WithTimeout(ptimeout int) IGlobalHealthMoni
 	return s
 }
 
-func (s *GlobalHealthMonitorRequest) WithHealthCheckMethod(pmethod GlobalPoolHealthCheckMethod) IGlobalHealthMonitorRequest {
-	s.HttpMethod = &pmethod
+func (s *GlobalHealthMonitorRequest) WithHealthCheckMethod(pmethod *GlobalPoolHealthCheckMethod) IGlobalHealthMonitorRequest {
+	s.HttpMethod = pmethod
 	return s
 }
 
-func (s *GlobalHealthMonitorRequest) WithHttpVersion(pversion GlobalPoolHealthCheckHttpVersion) IGlobalHealthMonitorRequest {
-	s.HttpVersion = &pversion
+func (s *GlobalHealthMonitorRequest) WithHttpVersion(pversion *GlobalPoolHealthCheckHttpVersion) IGlobalHealthMonitorRequest {
+	s.HttpVersion = pversion
 	return s
 }
 
-func (s *GlobalHealthMonitorRequest) WithDomainName(pdomain string) IGlobalHealthMonitorRequest {
-	s.DomainName = &pdomain
+func (s *GlobalHealthMonitorRequest) WithDomainName(pdomain *string) IGlobalHealthMonitorRequest {
+	s.DomainName = pdomain
 	return s
 }
 
-func (s *GlobalHealthMonitorRequest) WithSuccessCode(pcode string) IGlobalHealthMonitorRequest {
-	s.SuccessCode = &pcode
+func (s *GlobalHealthMonitorRequest) WithSuccessCode(pcode *string) IGlobalHealthMonitorRequest {
+	s.SuccessCode = pcode
 	return s
 }
 
-func (s *GlobalHealthMonitorRequest) WithPath(ppath string) IGlobalHealthMonitorRequest {
-	s.Path = &ppath
+func (s *GlobalHealthMonitorRequest) WithPath(ppath *string) IGlobalHealthMonitorRequest {
+	s.Path = ppath
 	return s
 }
 
