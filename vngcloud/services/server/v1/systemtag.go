@@ -15,7 +15,7 @@ func (s *ServerServiceInternalV1) CreateSystemTags(popts ICreateSystemTagRequest
 
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithOkCodes(201).
+		WithOkCodes(200).
 		WithJsonBody(popts.ToRequestBody()).
 		WithJsonResponse(rawResp).
 		WithJsonError(errResp)
