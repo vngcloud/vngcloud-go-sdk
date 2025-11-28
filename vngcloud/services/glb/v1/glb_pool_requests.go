@@ -766,9 +766,17 @@ func NewPatchGlobalPoolUpdateBulkActionRequest(pid string, pmember IUpdateGlobal
 }
 
 type IUpdateGlobalPoolMemberRequest interface {
+	WithLoadBalancerId(plbId string) IUpdateGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) IUpdateGlobalPoolMemberRequest
+	WithPoolMemberId(ppoolMemberId string) IUpdateGlobalPoolMemberRequest
 	WithTrafficDial(pdial int) IUpdateGlobalPoolMemberRequest
 	WithMembers(pmembers ...IGlobalMemberRequest) IUpdateGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
+	GetPoolMemberId() string
 
+	AddUserAgent(pagent ...string) IUpdateGlobalPoolMemberRequest
+	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
@@ -778,6 +786,11 @@ var _ IUpdateGlobalPoolMemberRequest = &UpdateGlobalPoolMemberRequest{}
 type UpdateGlobalPoolMemberRequest struct {
 	TrafficDial int                    `json:"trafficDial"`
 	Members     []IGlobalMemberRequest `json:"members"`
+
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
+	lscommon.PoolMemberCommon
 }
 
 func (s *UpdateGlobalPoolMemberRequest) WithTrafficDial(pdial int) IUpdateGlobalPoolMemberRequest {
@@ -803,14 +816,43 @@ func (s *UpdateGlobalPoolMemberRequest) ToMap() map[string]interface{} {
 	return err
 }
 
+func (s *UpdateGlobalPoolMemberRequest) WithLoadBalancerId(plbId string) IUpdateGlobalPoolMemberRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *UpdateGlobalPoolMemberRequest) WithPoolId(ppoolId string) IUpdateGlobalPoolMemberRequest {
+	s.PoolId = ppoolId
+	return s
+}
+
+func (s *UpdateGlobalPoolMemberRequest) WithPoolMemberId(ppoolMemberId string) IUpdateGlobalPoolMemberRequest {
+	s.PoolMemberId = ppoolMemberId
+	return s
+}
+
+func (s *UpdateGlobalPoolMemberRequest) AddUserAgent(pagent ...string) IUpdateGlobalPoolMemberRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
 func (s *UpdateGlobalPoolMemberRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func NewUpdateGlobalPoolMemberRequest(pdial int) IUpdateGlobalPoolMemberRequest {
+func NewUpdateGlobalPoolMemberRequest(plbId, poolId, poolMemberId string, pdial int) IUpdateGlobalPoolMemberRequest {
 	opts := &UpdateGlobalPoolMemberRequest{
 		TrafficDial: pdial,
 		Members:     make([]IGlobalMemberRequest, 0),
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		PoolCommon: lscommon.PoolCommon{
+			PoolId: poolId,
+		},
+		PoolMemberCommon: lscommon.PoolMemberCommon{
+			PoolMemberId: poolMemberId,
+		},
 	}
 	return opts
 }

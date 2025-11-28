@@ -165,7 +165,7 @@ func TestPatchGlobalPoolMemberSuccess(t *ltesting.T) {
 			),
 	)
 	updateAction := v1.NewPatchGlobalPoolUpdateBulkActionRequest("gpool-mem-4568b7da-e82b-4417-b991-ac040967c0c1",
-		v1.NewUpdateGlobalPoolMemberRequest(100).WithMembers(
+		v1.NewUpdateGlobalPoolMemberRequest("", "", "", 100).WithMembers(
 			v1.NewGlobalMemberRequest("patch_name_44", "10.105.0.44", "sub-7ceeed28-2cad-4bcd-9a4a-a0041c6d6304", 80, 80, 1, false),
 			v1.NewGlobalMemberRequest("patch_name_33", "10.105.0.33", "sub-a7fceae7-5ab5-4768-993f-8e6465f75050", 80, 80, 1, false),
 		),

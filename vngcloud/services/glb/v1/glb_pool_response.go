@@ -265,3 +265,21 @@ func (s *GetGlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.Globa
 }
 
 // ----------------------------------------------------------
+
+type UpdateGlobalPoolMemberResponse struct {
+	ID                   string `json:"id"`
+	GlobalPoolID         string `json:"globalPoolId"`
+	GlobalLoadBalancerID string `json:"globalLoadBalancerId"`
+	TrafficDial          int    `json:"trafficDial"`
+}
+
+func (s *UpdateGlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPoolMember {
+	return &lsentity.GlobalPoolMember{
+		ID:                   s.ID,
+		GlobalPoolID:         s.GlobalPoolID,
+		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
+		TrafficDial:          s.TrafficDial,
+	}
+}
+
+// ----------------------------------------------------------

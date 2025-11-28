@@ -80,6 +80,17 @@ func deleteGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IDeleteGlobalP
 	)
 }
 
+func updateGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IUpdateGlobalPoolMemberRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-pools",
+		popts.GetPoolId(),
+		"pool-members",
+		popts.GetPoolMemberId(),
+	)
+}
+
 func listGlobalListenersUrl(psc lsclient.IServiceClient, popts IListGlobalListenersRequest) string {
 	return psc.ServiceURL(
 		"global-load-balancers",
