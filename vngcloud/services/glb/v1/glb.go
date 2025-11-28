@@ -117,6 +117,30 @@ func (s *GLBServiceV1) ListGlobalPoolMembers(popts IListGlobalPoolMembersRequest
 
 // --------------------------------------------------
 
+func (s *GLBServiceV1) GetGlobalPoolMember(popts IGetGlobalPoolMemberRequest) (*lsentity.GlobalPoolMember, lserr.IError) {
+	url := getGlobalPoolMemberUrl(s.VLBClient, popts)
+	resp := new(GetGlobalPoolMemberResponse)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			WithKVparameters("poolId", popts.GetPoolId()).
+			WithKVparameters("poolMemberId", popts.GetPoolMemberId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityGlobalPoolMember(), nil
+}
+
+// --------------------------------------------------
+
 func (s *GLBServiceV1) PatchGlobalPoolMember(popts IPatchGlobalPoolMemberRequest) lserr.IError {
 	url := patchGlobalPoolMemberUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)

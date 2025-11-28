@@ -814,3 +814,49 @@ func NewUpdateGlobalPoolMemberRequest(pdial int) IUpdateGlobalPoolMemberRequest 
 	}
 	return opts
 }
+
+// --------------------------------------------------------------------------
+
+var _ IGetGlobalPoolMemberRequest = &GetGlobalPoolMemberRequest{}
+
+type GetGlobalPoolMemberRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
+	lscommon.PoolMemberCommon
+}
+
+func (s *GetGlobalPoolMemberRequest) WithLoadBalancerId(plbId string) IGetGlobalPoolMemberRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *GetGlobalPoolMemberRequest) WithPoolId(ppoolId string) IGetGlobalPoolMemberRequest {
+	s.PoolId = ppoolId
+	return s
+}
+
+func (s *GetGlobalPoolMemberRequest) WithPoolMemberId(ppoolMemberId string) IGetGlobalPoolMemberRequest {
+	s.PoolMemberId = ppoolMemberId
+	return s
+}
+
+func (s *GetGlobalPoolMemberRequest) AddUserAgent(pagent ...string) IGetGlobalPoolMemberRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewGetGlobalPoolMemberRequest(plbId, poolId, poolMemberId string) IGetGlobalPoolMemberRequest {
+	opts := &GetGlobalPoolMemberRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		PoolCommon: lscommon.PoolCommon{
+			PoolId: poolId,
+		},
+		PoolMemberCommon: lscommon.PoolMemberCommon{
+			PoolMemberId: poolMemberId,
+		},
+	}
+	return opts
+}

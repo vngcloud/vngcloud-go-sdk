@@ -58,6 +58,17 @@ func patchGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IPatchGlobalPoo
 	)
 }
 
+func getGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IGetGlobalPoolMemberRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-pools",
+		popts.GetPoolId(),
+		"pool-members",
+		popts.GetPoolMemberId(),
+	)
+}
+
 func listGlobalListenersUrl(psc lsclient.IServiceClient, popts IListGlobalListenersRequest) string {
 	return psc.ServiceURL(
 		"global-load-balancers",

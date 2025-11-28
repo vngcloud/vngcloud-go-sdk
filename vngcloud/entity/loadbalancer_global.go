@@ -93,6 +93,7 @@ type GlobalPoolMember struct {
 	GlobalLoadBalancerID string             `json:"globalLoadBalancerId"`
 	TrafficDial          int                `json:"trafficDial"`
 	VpcID                string             `json:"vpcId"`
+	Type                 string             `json:"type"`
 	Status               string             `json:"status"`
 	Members              *ListGlobalMembers `json:"members"`
 }

@@ -13,6 +13,7 @@ type IGLBServiceV1 interface {
 	DeleteGlobalPool(popts v1.IDeleteGlobalPoolRequest) lserr.IError
 
 	ListGlobalPoolMembers(popts v1.IListGlobalPoolMembersRequest) (*lsentity.ListGlobalPoolMembers, lserr.IError)
+	GetGlobalPoolMember(popts v1.IGetGlobalPoolMemberRequest) (*lsentity.GlobalPoolMember, lserr.IError)
 	PatchGlobalPoolMember(popts v1.IPatchGlobalPoolMemberRequest) lserr.IError
 
 	ListGlobalListeners(popts v1.IListGlobalListenersRequest) (*lsentity.ListGlobalListeners, lserr.IError)

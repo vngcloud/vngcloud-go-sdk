@@ -125,6 +125,20 @@ type IListGlobalPoolMembersRequest interface {
 
 // --------------------------------------------------------
 
+type IGetGlobalPoolMemberRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) IGetGlobalPoolMemberRequest
+	WithPoolMemberId(ppoolMemberId string) IGetGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
+	GetPoolMemberId() string
+
+	AddUserAgent(pagent ...string) IGetGlobalPoolMemberRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
 type IPatchGlobalPoolMemberRequest interface {
 	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMemberRequest
 
