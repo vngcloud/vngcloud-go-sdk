@@ -171,13 +171,13 @@ func TestPatchGlobalPoolMemberSuccess(t *ltesting.T) {
 		),
 	)
 	// deleteAction := v1.NewPatchGlobalPoolDeleteBulkActionRequest("gpool-mem-e4a56d03-baf8-448b-98ab-404219fddede")
-	opt := v1.NewPatchGlobalPoolMemberRequest("glb-2e550a10-8a9e-4e0e-9086-80d8297ca3f7", "gpool-0f4ba08b-e09d-4a1c-b953-523179cea006").
+	opt := v1.NewPatchGlobalPoolMembersRequest("glb-2e550a10-8a9e-4e0e-9086-80d8297ca3f7", "gpool-0f4ba08b-e09d-4a1c-b953-523179cea006").
 		WithBulkAction(
 			createAction,
 			// deleteAction,
 			updateAction,
 		)
-	sdkerr := vngcloud.GLBGateway().V1().GLBService().PatchGlobalPoolMember(opt)
+	sdkerr := vngcloud.GLBGateway().V1().GLBService().PatchGlobalPoolMembers(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
 	}

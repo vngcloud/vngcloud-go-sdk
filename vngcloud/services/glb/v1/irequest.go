@@ -139,15 +139,15 @@ type IGetGlobalPoolMemberRequest interface {
 
 // --------------------------------------------------------
 
-type IPatchGlobalPoolMemberRequest interface {
-	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMemberRequest
+type IPatchGlobalPoolMembersRequest interface {
+	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMembersRequest
 
-	WithLoadBalancerId(plbId string) IPatchGlobalPoolMemberRequest
-	WithPoolId(ppoolId string) IPatchGlobalPoolMemberRequest
+	WithLoadBalancerId(plbId string) IPatchGlobalPoolMembersRequest
+	WithPoolId(ppoolId string) IPatchGlobalPoolMembersRequest
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
-	AddUserAgent(pagent ...string) IPatchGlobalPoolMemberRequest
+	AddUserAgent(pagent ...string) IPatchGlobalPoolMembersRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}

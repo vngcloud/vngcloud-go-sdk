@@ -141,8 +141,8 @@ func (s *GLBServiceV1) GetGlobalPoolMember(popts IGetGlobalPoolMemberRequest) (*
 
 // --------------------------------------------------
 
-func (s *GLBServiceV1) PatchGlobalPoolMember(popts IPatchGlobalPoolMemberRequest) lserr.IError {
-	url := patchGlobalPoolMemberUrl(s.VLBClient, popts)
+func (s *GLBServiceV1) PatchGlobalPoolMembers(popts IPatchGlobalPoolMembersRequest) lserr.IError {
+	url := patchGlobalPoolMembersUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).

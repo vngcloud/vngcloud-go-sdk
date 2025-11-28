@@ -623,36 +623,36 @@ func NewListGlobalPoolMembersRequest(plbId, poolId string) IListGlobalPoolMember
 
 // --------------------------------------------------------------------------
 
-var _ IPatchGlobalPoolMemberRequest = &PatchGlobalPoolMemberRequest{}
+var _ IPatchGlobalPoolMembersRequest = &PatchGlobalPoolMembersRequest{}
 
-type PatchGlobalPoolMemberRequest struct {
+type PatchGlobalPoolMembersRequest struct {
 	BulkActions []IBulkActionRequest `json:"bulkActions"`
 	lscommon.LoadBalancerCommon
 	lscommon.PoolCommon
 	lscommon.UserAgent
 }
 
-func (s *PatchGlobalPoolMemberRequest) WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMemberRequest {
+func (s *PatchGlobalPoolMembersRequest) WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMembersRequest {
 	s.BulkActions = paction
 	return s
 }
 
-func (s *PatchGlobalPoolMemberRequest) WithLoadBalancerId(plbId string) IPatchGlobalPoolMemberRequest {
+func (s *PatchGlobalPoolMembersRequest) WithLoadBalancerId(plbId string) IPatchGlobalPoolMembersRequest {
 	s.LoadBalancerId = plbId
 	return s
 }
 
-func (s *PatchGlobalPoolMemberRequest) WithPoolId(ppoolId string) IPatchGlobalPoolMemberRequest {
+func (s *PatchGlobalPoolMembersRequest) WithPoolId(ppoolId string) IPatchGlobalPoolMembersRequest {
 	s.PoolId = ppoolId
 	return s
 }
 
-func (s *PatchGlobalPoolMemberRequest) AddUserAgent(pagent ...string) IPatchGlobalPoolMemberRequest {
+func (s *PatchGlobalPoolMembersRequest) AddUserAgent(pagent ...string) IPatchGlobalPoolMembersRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
 
-func (s *PatchGlobalPoolMemberRequest) ToMap() map[string]interface{} {
+func (s *PatchGlobalPoolMembersRequest) ToMap() map[string]interface{} {
 	err := map[string]interface{}{
 		"bulkActions": make([]map[string]interface{}, 0),
 	}
@@ -664,12 +664,12 @@ func (s *PatchGlobalPoolMemberRequest) ToMap() map[string]interface{} {
 	return err
 }
 
-func (s *PatchGlobalPoolMemberRequest) ToRequestBody() interface{} {
+func (s *PatchGlobalPoolMembersRequest) ToRequestBody() interface{} {
 	return s
 }
 
-func NewPatchGlobalPoolMemberRequest(plbId, poolId string) IPatchGlobalPoolMemberRequest {
-	opts := &PatchGlobalPoolMemberRequest{
+func NewPatchGlobalPoolMembersRequest(plbId, poolId string) IPatchGlobalPoolMembersRequest {
+	opts := &PatchGlobalPoolMembersRequest{
 		BulkActions: make([]IBulkActionRequest, 0),
 		LoadBalancerCommon: lscommon.LoadBalancerCommon{
 			LoadBalancerId: plbId,
