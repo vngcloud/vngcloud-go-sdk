@@ -28,4 +28,6 @@ type IGLBServiceV1 interface {
 	CreateGlobalLoadBalancer(popts v1.ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
 	DeleteGlobalLoadBalancer(popts v1.IDeleteGlobalLoadBalancerRequest) lserr.IError
 	GetGlobalLoadBalancerById(popts v1.IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
+
+	ListGlobalPackages(popts v1.IListGlobalPackagesRequest) (*lsentity.ListGlobalPackages, lserr.IError)
 }

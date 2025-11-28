@@ -86,3 +86,27 @@ func TestUpdateGlobalPoolMemberSuccess(t *ltesting.T) {
 	t.Logf("Updated Pool Member: %+v", poolMember)
 	t.Log("PASS")
 }
+
+func TestListGlobalPackagesSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListGlobalPackagesRequest()
+	packages, sdkerr := vngcloud.GLBGateway().V1().GLBService().ListGlobalPackages(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if packages == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Packages: %+v", packages)
+	if len(packages.Items) > 0 {
+		t.Logf("Packages count: %d", len(packages.Items))
+		for i, pkg := range packages.Items {
+			t.Logf("Package[%d]: ID=%s, Name=%s, Description=%s", i, pkg.ID, pkg.Name, pkg.Description)
+		}
+	} else {
+		t.Log("No packages found")
+	}
+	t.Log("PASS")
+}

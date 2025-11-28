@@ -396,3 +396,21 @@ func (s *GLBServiceV1) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByI
 
 	return resp.ToEntityGlobalLoadBalancer(), nil
 }
+
+func (s *GLBServiceV1) ListGlobalPackages(popts IListGlobalPackagesRequest) (*lsentity.ListGlobalPackages, lserr.IError) {
+	url := listGlobalPackagesUrl(s.VLBClient, popts)
+	resp := new(ListGlobalPackagesResponse)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityListGlobalPackages(), nil
+}

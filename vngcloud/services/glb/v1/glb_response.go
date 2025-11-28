@@ -186,3 +186,76 @@ type GetGlobalLoadBalancerByIdResponse GlobalLoadBalancerResponse
 func (s *GetGlobalLoadBalancerByIdResponse) ToEntityGlobalLoadBalancer() *lsentity.GlobalLoadBalancer {
 	return (*GlobalLoadBalancerResponse)(s).ToEntityGlobalLoadBalancer()
 }
+
+// --------------------------------------------------
+
+type ListGlobalPackagesResponse []GlobalPackageResponse
+
+type GlobalPackageResponse struct {
+	ID                          string                     `json:"id"`
+	Name                        string                     `json:"name"`
+	Description                 string                     `json:"description"`
+	DescriptionEn               string                     `json:"descriptionEn"`
+	Detail                      interface{}                `json:"detail"`
+	Enabled                     bool                       `json:"enabled"`
+	BaseSku                     string                     `json:"baseSku"`
+	BaseConnectionRate          int                        `json:"baseConnectionRate"`
+	BaseDomesticTrafficTotal    int                        `json:"baseDomesticTrafficTotal"`
+	BaseNonDomesticTrafficTotal int                        `json:"baseNonDomesticTrafficTotal"`
+	ConnectionSku               string                     `json:"connectionSku"`
+	DomesticTrafficSku          string                     `json:"domesticTrafficSku"`
+	NonDomesticTrafficSku       string                     `json:"nonDomesticTrafficSku"`
+	CreatedAt                   string                     `json:"createdAt"`
+	UpdatedAt                   string                     `json:"updatedAt"`
+	VlbPackages                 []VlbGlobalPackageResponse `json:"vlbPackages"`
+}
+
+type VlbGlobalPackageResponse struct {
+	ID           int    `json:"id"`
+	GlbPackageID string `json:"glb_package_id"`
+	Region       string `json:"region"`
+	VlbPackageID string `json:"vlb_package_id"`
+	CreatedAt    string `json:"created_at"`
+}
+
+func (s *ListGlobalPackagesResponse) ToEntityListGlobalPackages() *lsentity.ListGlobalPackages {
+	packages := make([]lsentity.GlobalPackage, 0)
+	if s != nil {
+		for _, item := range *s {
+			packages = append(packages, *item.ToEntityGlobalPackage())
+		}
+	}
+	return &lsentity.ListGlobalPackages{Items: packages}
+}
+
+func (s *GlobalPackageResponse) ToEntityGlobalPackage() *lsentity.GlobalPackage {
+	vlbPackages := make([]lsentity.VlbPackage, 0)
+	for _, vlb := range s.VlbPackages {
+		vlbPackages = append(vlbPackages, lsentity.VlbPackage{
+			ID:           vlb.ID,
+			GlbPackageID: vlb.GlbPackageID,
+			Region:       vlb.Region,
+			VlbPackageID: vlb.VlbPackageID,
+			CreatedAt:    vlb.CreatedAt,
+		})
+	}
+
+	return &lsentity.GlobalPackage{
+		ID:                          s.ID,
+		Name:                        s.Name,
+		Description:                 s.Description,
+		DescriptionEn:               s.DescriptionEn,
+		Detail:                      s.Detail,
+		Enabled:                     s.Enabled,
+		BaseSku:                     s.BaseSku,
+		BaseConnectionRate:          s.BaseConnectionRate,
+		BaseDomesticTrafficTotal:    s.BaseDomesticTrafficTotal,
+		BaseNonDomesticTrafficTotal: s.BaseNonDomesticTrafficTotal,
+		ConnectionSku:               s.ConnectionSku,
+		DomesticTrafficSku:          s.DomesticTrafficSku,
+		NonDomesticTrafficSku:       s.NonDomesticTrafficSku,
+		CreatedAt:                   s.CreatedAt,
+		UpdatedAt:                   s.UpdatedAt,
+		VlbPackages:                 vlbPackages,
+	}
+}

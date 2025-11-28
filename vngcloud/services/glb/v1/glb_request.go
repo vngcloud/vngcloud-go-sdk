@@ -208,6 +208,24 @@ func NewDeleteGlobalLoadBalancerRequest(lbId string) IDeleteGlobalLoadBalancerRe
 
 // --------------------------------------------------------------------------
 
+var _ IListGlobalPackagesRequest = &ListGlobalPackagesRequest{}
+
+type ListGlobalPackagesRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListGlobalPackagesRequest) AddUserAgent(pagent ...string) IListGlobalPackagesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewListGlobalPackagesRequest() IListGlobalPackagesRequest {
+	opts := &ListGlobalPackagesRequest{}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
 var _ IGetGlobalLoadBalancerByIdRequest = &GetGlobalLoadBalancerByIdRequest{}
 
 type GetGlobalLoadBalancerByIdRequest struct {

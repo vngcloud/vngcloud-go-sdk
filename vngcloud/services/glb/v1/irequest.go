@@ -253,6 +253,13 @@ type IDeleteGlobalListenerRequest interface {
 
 // --------------------------------------------------------
 
+type IListGlobalPackagesRequest interface {
+	AddUserAgent(pagent ...string) IListGlobalPackagesRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
 type IListGlobalLoadBalancersRequest interface {
 	WithName(pname string) IListGlobalLoadBalancersRequest
 	WithTags(ptags ...string) IListGlobalLoadBalancersRequest

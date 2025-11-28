@@ -162,3 +162,7 @@ func getGlobalLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetGlobalL
 		popts.GetLoadBalancerId(),
 	)
 }
+
+func listGlobalPackagesUrl(psc lsclient.IServiceClient, _ IListGlobalPackagesRequest) string {
+	return psc.ServiceURL("packages")
+}
