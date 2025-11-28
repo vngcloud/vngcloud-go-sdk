@@ -156,32 +156,46 @@ type ListGlobalListeners struct {
 // --------------------------------------------------------
 
 type GlobalPackage struct {
-	ID                           string       `json:"id"`
-	Name                         string       `json:"name"`
-	Description                  string       `json:"description"`
-	DescriptionEn                string       `json:"descriptionEn"`
-	Detail                       interface{}  `json:"detail"`
-	Enabled                      bool         `json:"enabled"`
-	BaseSku                      string       `json:"baseSku"`
-	BaseConnectionRate           int          `json:"baseConnectionRate"`
-	BaseDomesticTrafficTotal     int          `json:"baseDomesticTrafficTotal"`
-	BaseNonDomesticTrafficTotal  int          `json:"baseNonDomesticTrafficTotal"`
-	ConnectionSku                string       `json:"connectionSku"`
-	DomesticTrafficSku           string       `json:"domesticTrafficSku"`
-	NonDomesticTrafficSku        string       `json:"nonDomesticTrafficSku"`
-	CreatedAt                    string       `json:"createdAt"`
-	UpdatedAt                    string       `json:"updatedAt"`
-	VlbPackages                  []VlbPackage `json:"vlbPackages"`
+	ID                          string       `json:"id"`
+	Name                        string       `json:"name"`
+	Description                 string       `json:"description"`
+	DescriptionEn               string       `json:"descriptionEn"`
+	Detail                      interface{}  `json:"detail"`
+	Enabled                     bool         `json:"enabled"`
+	BaseSku                     string       `json:"baseSku"`
+	BaseConnectionRate          int          `json:"baseConnectionRate"`
+	BaseDomesticTrafficTotal    int          `json:"baseDomesticTrafficTotal"`
+	BaseNonDomesticTrafficTotal int          `json:"baseNonDomesticTrafficTotal"`
+	ConnectionSku               string       `json:"connectionSku"`
+	DomesticTrafficSku          string       `json:"domesticTrafficSku"`
+	NonDomesticTrafficSku       string       `json:"nonDomesticTrafficSku"`
+	CreatedAt                   string       `json:"createdAt"`
+	UpdatedAt                   string       `json:"updatedAt"`
+	VlbPackages                 []VlbPackage `json:"vlbPackages"`
 }
 
 type VlbPackage struct {
-	ID            int    `json:"id"`
-	GlbPackageID  string `json:"glb_package_id"`
-	Region        string `json:"region"`
-	VlbPackageID  string `json:"vlb_package_id"`
-	CreatedAt     string `json:"created_at"`
+	ID           int    `json:"id"`
+	GlbPackageID string `json:"glb_package_id"`
+	Region       string `json:"region"`
+	VlbPackageID string `json:"vlb_package_id"`
+	CreatedAt    string `json:"created_at"`
 }
 
 type ListGlobalPackages struct {
 	Items []GlobalPackage `json:"items"`
+}
+
+// --------------------------------------------------------
+
+type GlobalRegion struct {
+	ID               string `json:"id"`
+	Name             string `json:"name"`
+	VServerEndpoint  string `json:"vserverEndpoint"`
+	VlbEndpoint      string `json:"vlbEndpoint"`
+	UIServerEndpoint string `json:"uiServerEndpoint"`
+}
+
+type ListGlobalRegions struct {
+	Items []GlobalRegion `json:"items"`
 }

@@ -30,4 +30,5 @@ type IGLBServiceV1 interface {
 	GetGlobalLoadBalancerById(popts v1.IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)
 
 	ListGlobalPackages(popts v1.IListGlobalPackagesRequest) (*lsentity.ListGlobalPackages, lserr.IError)
+	ListGlobalRegions(popts v1.IListGlobalRegionsRequest) (*lsentity.ListGlobalRegions, lserr.IError)
 }

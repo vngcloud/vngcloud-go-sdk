@@ -226,6 +226,24 @@ func NewListGlobalPackagesRequest() IListGlobalPackagesRequest {
 
 // --------------------------------------------------------------------------
 
+var _ IListGlobalRegionsRequest = &ListGlobalRegionsRequest{}
+
+type ListGlobalRegionsRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListGlobalRegionsRequest) AddUserAgent(pagent ...string) IListGlobalRegionsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewListGlobalRegionsRequest() IListGlobalRegionsRequest {
+	opts := &ListGlobalRegionsRequest{}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
 var _ IGetGlobalLoadBalancerByIdRequest = &GetGlobalLoadBalancerByIdRequest{}
 
 type GetGlobalLoadBalancerByIdRequest struct {

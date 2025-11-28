@@ -414,3 +414,21 @@ func (s *GLBServiceV1) ListGlobalPackages(popts IListGlobalPackagesRequest) (*ls
 
 	return resp.ToEntityListGlobalPackages(), nil
 }
+
+func (s *GLBServiceV1) ListGlobalRegions(popts IListGlobalRegionsRequest) (*lsentity.ListGlobalRegions, lserr.IError) {
+	url := listGlobalRegionsUrl(s.VLBClient, popts)
+	resp := new(ListGlobalRegionsResponse)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityListGlobalRegions(), nil
+}

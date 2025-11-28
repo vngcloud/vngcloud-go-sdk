@@ -110,3 +110,27 @@ func TestListGlobalPackagesSuccess(t *ltesting.T) {
 	}
 	t.Log("PASS")
 }
+
+func TestListGlobalRegionsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListGlobalRegionsRequest()
+	regions, sdkerr := vngcloud.GLBGateway().V1().GLBService().ListGlobalRegions(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if regions == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Regions: %+v", regions)
+	if len(regions.Items) > 0 {
+		t.Logf("Regions count: %d", len(regions.Items))
+		for i, region := range regions.Items {
+			t.Logf("Region[%d]: %+v", i, region)
+		}
+	} else {
+		t.Log("No regions found")
+	}
+	t.Log("PASS")
+}

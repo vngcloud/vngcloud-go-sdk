@@ -166,3 +166,7 @@ func getGlobalLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetGlobalL
 func listGlobalPackagesUrl(psc lsclient.IServiceClient, _ IListGlobalPackagesRequest) string {
 	return psc.ServiceURL("packages")
 }
+
+func listGlobalRegionsUrl(psc lsclient.IServiceClient, _ IListGlobalRegionsRequest) string {
+	return psc.ServiceURL("regions")
+}

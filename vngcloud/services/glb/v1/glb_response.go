@@ -259,3 +259,35 @@ func (s *GlobalPackageResponse) ToEntityGlobalPackage() *lsentity.GlobalPackage 
 		VlbPackages:                 vlbPackages,
 	}
 }
+
+// --------------------------------------------------
+
+type ListGlobalRegionsResponse []GlobalRegionResponse
+
+type GlobalRegionResponse struct {
+	ID               string `json:"id"`
+	Name             string `json:"name"`
+	VServerEndpoint  string `json:"vserverEndpoint"`
+	VlbEndpoint      string `json:"vlbEndpoint"`
+	UIServerEndpoint string `json:"uiServerEndpoint"`
+}
+
+func (s *ListGlobalRegionsResponse) ToEntityListGlobalRegions() *lsentity.ListGlobalRegions {
+	regions := make([]lsentity.GlobalRegion, 0)
+	if s != nil {
+		for _, item := range *s {
+			regions = append(regions, *item.ToEntityGlobalRegion())
+		}
+	}
+	return &lsentity.ListGlobalRegions{Items: regions}
+}
+
+func (s *GlobalRegionResponse) ToEntityGlobalRegion() *lsentity.GlobalRegion {
+	return &lsentity.GlobalRegion{
+		ID:               s.ID,
+		Name:             s.Name,
+		VServerEndpoint:  s.VServerEndpoint,
+		VlbEndpoint:      s.VlbEndpoint,
+		UIServerEndpoint: s.UIServerEndpoint,
+	}
+}

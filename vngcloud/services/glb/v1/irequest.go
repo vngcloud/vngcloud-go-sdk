@@ -260,6 +260,13 @@ type IListGlobalPackagesRequest interface {
 
 // --------------------------------------------------------
 
+type IListGlobalRegionsRequest interface {
+	AddUserAgent(pagent ...string) IListGlobalRegionsRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
 type IListGlobalLoadBalancersRequest interface {
 	WithName(pname string) IListGlobalLoadBalancersRequest
 	WithTags(ptags ...string) IListGlobalLoadBalancersRequest
