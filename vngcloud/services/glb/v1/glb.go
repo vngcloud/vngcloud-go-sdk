@@ -141,6 +141,28 @@ func (s *GLBServiceV1) GetGlobalPoolMember(popts IGetGlobalPoolMemberRequest) (*
 
 // --------------------------------------------------
 
+func (s *GLBServiceV1) DeleteGlobalPoolMember(popts IDeleteGlobalPoolMemberRequest) lserr.IError {
+	url := deleteGlobalPoolMemberUrl(s.VLBClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(202).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			WithKVparameters("poolId", popts.GetPoolId()).
+			WithKVparameters("poolMemberId", popts.GetPoolMemberId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return nil
+}
+
+// --------------------------------------------------
+
 func (s *GLBServiceV1) PatchGlobalPoolMembers(popts IPatchGlobalPoolMembersRequest) lserr.IError {
 	url := patchGlobalPoolMembersUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)

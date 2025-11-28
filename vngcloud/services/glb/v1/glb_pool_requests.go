@@ -817,6 +817,52 @@ func NewUpdateGlobalPoolMemberRequest(pdial int) IUpdateGlobalPoolMemberRequest 
 
 // --------------------------------------------------------------------------
 
+var _ IDeleteGlobalPoolMemberRequest = &DeleteGlobalPoolMemberRequest{}
+
+type DeleteGlobalPoolMemberRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.PoolCommon
+	lscommon.PoolMemberCommon
+}
+
+func (s *DeleteGlobalPoolMemberRequest) WithLoadBalancerId(plbId string) IDeleteGlobalPoolMemberRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *DeleteGlobalPoolMemberRequest) WithPoolId(ppoolId string) IDeleteGlobalPoolMemberRequest {
+	s.PoolId = ppoolId
+	return s
+}
+
+func (s *DeleteGlobalPoolMemberRequest) WithPoolMemberId(ppoolMemberId string) IDeleteGlobalPoolMemberRequest {
+	s.PoolMemberId = ppoolMemberId
+	return s
+}
+
+func (s *DeleteGlobalPoolMemberRequest) AddUserAgent(pagent ...string) IDeleteGlobalPoolMemberRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewDeleteGlobalPoolMemberRequest(plbId, poolId, poolMemberId string) IDeleteGlobalPoolMemberRequest {
+	opts := &DeleteGlobalPoolMemberRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		PoolCommon: lscommon.PoolCommon{
+			PoolId: poolId,
+		},
+		PoolMemberCommon: lscommon.PoolMemberCommon{
+			PoolMemberId: poolMemberId,
+		},
+	}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
 var _ IGetGlobalPoolMemberRequest = &GetGlobalPoolMemberRequest{}
 
 type GetGlobalPoolMemberRequest struct {

@@ -45,3 +45,19 @@ func TestGetGlobalPoolMemberSuccess(t *ltesting.T) {
 	}
 	t.Log("PASS")
 }
+
+func TestDeleteGlobalPoolMemberSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewDeleteGlobalPoolMemberRequest(
+		"glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d",
+		"gpool-e5de4670-27e6-45cf-bc68-ec3803ed6849",
+		"gpool-mem-4b3a819d-a83f-4964-8336-da6cb8edf529",
+	)
+
+	sdkerr := vngcloud.GLBGateway().V1().GLBService().DeleteGlobalPoolMember(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("PASS")
+}
