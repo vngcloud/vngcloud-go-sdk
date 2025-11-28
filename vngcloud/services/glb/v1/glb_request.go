@@ -244,6 +244,66 @@ func NewListGlobalRegionsRequest() IListGlobalRegionsRequest {
 
 // --------------------------------------------------------------------------
 
+var _ IGetGlobalLoadBalancerUsageHistoriesRequest = &GetGlobalLoadBalancerUsageHistoriesRequest{}
+
+type GetGlobalLoadBalancerUsageHistoriesRequest struct {
+	From string `q:"from"`
+	To   string `q:"to"`
+	Type string `q:"type"`
+
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithFrom(pfrom string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.From = pfrom
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithTo(pto string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.To = pto
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithType(ptype string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.Type = ptype
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	return url.String(), err
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) GetDefaultQuery() string {
+	return ""
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) AddUserAgent(pagent ...string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewGetGlobalLoadBalancerUsageHistoriesRequest(lbId, from, to, usageType string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	opts := &GetGlobalLoadBalancerUsageHistoriesRequest{
+		From: from,
+		To:   to,
+		Type: usageType,
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: lbId,
+		},
+	}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
 var _ IGetGlobalLoadBalancerByIdRequest = &GetGlobalLoadBalancerByIdRequest{}
 
 type GetGlobalLoadBalancerByIdRequest struct {

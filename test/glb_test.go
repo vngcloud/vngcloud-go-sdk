@@ -1,7 +1,9 @@
 package test
 
 import (
+	lfmt "fmt"
 	ltesting "testing"
+	"time"
 
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
 )
@@ -131,6 +133,36 @@ func TestListGlobalRegionsSuccess(t *ltesting.T) {
 		}
 	} else {
 		t.Log("No regions found")
+	}
+	t.Log("PASS")
+}
+
+func TestGetGlobalLoadBalancerUsageHistoriesSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	// Using timestamps from 1 day ago to current moment
+	now := time.Now().Unix()
+	oneDayAgo := now - 86400 // 86400 seconds = 24 hours
+	from := lfmt.Sprintf("%d", oneDayAgo)
+	to := lfmt.Sprintf("%d", now)
+	usageType := "connection_rate"
+	opt := v1.NewGetGlobalLoadBalancerUsageHistoriesRequest("glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d", from, to, usageType)
+	histories, sdkerr := vngcloud.GLBGateway().V1().GLBService().GetGlobalLoadBalancerUsageHistories(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if histories == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Usage Histories: %+v", histories)
+	if len(histories.Items) > 0 {
+		t.Logf("Usage histories count: %d", len(histories.Items))
+		for i, history := range histories.Items {
+			t.Logf("History[%d]: %+v", i, history)
+		}
+	} else {
+		t.Log("No usage histories found")
 	}
 	t.Log("PASS")
 }

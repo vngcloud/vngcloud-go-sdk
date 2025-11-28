@@ -170,3 +170,21 @@ func listGlobalPackagesUrl(psc lsclient.IServiceClient, _ IListGlobalPackagesReq
 func listGlobalRegionsUrl(psc lsclient.IServiceClient, _ IListGlobalRegionsRequest) string {
 	return psc.ServiceURL("regions")
 }
+
+func getGlobalLoadBalancerUsageHistoriesUrl(psc lsclient.IServiceClient, popts IGetGlobalLoadBalancerUsageHistoriesRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	baseURL := psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"usage-histories",
+	)
+
+	if query != "" {
+		return baseURL + "?" + query
+	}
+	return baseURL
+}

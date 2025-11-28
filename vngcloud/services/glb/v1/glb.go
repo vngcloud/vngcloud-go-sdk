@@ -432,3 +432,22 @@ func (s *GLBServiceV1) ListGlobalRegions(popts IListGlobalRegionsRequest) (*lsen
 
 	return resp.ToEntityListGlobalRegions(), nil
 }
+
+func (s *GLBServiceV1) GetGlobalLoadBalancerUsageHistories(popts IGetGlobalLoadBalancerUsageHistoriesRequest) (*lsentity.ListGlobalLoadBalancerUsageHistories, lserr.IError) {
+	url := getGlobalLoadBalancerUsageHistoriesUrl(s.VLBClient, popts)
+	resp := new(GetGlobalLoadBalancerUsageHistoriesResponse)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityGlobalLoadBalancerUsageHistories(), nil
+}

@@ -291,3 +291,41 @@ func (s *GlobalRegionResponse) ToEntityGlobalRegion() *lsentity.GlobalRegion {
 		UIServerEndpoint: s.UIServerEndpoint,
 	}
 }
+
+// --------------------------------------------------
+
+type GetGlobalLoadBalancerUsageHistoriesResponse struct {
+	Type  string                                   `json:"type"`
+	Items []GlobalLoadBalancerUsageHistoryResponse `json:"items"`
+	From  string                                   `json:"from"`
+	To    string                                   `json:"to"`
+}
+
+type GlobalLoadBalancerUsageHistoryResponse struct {
+	Timestamp string  `json:"timestamp"`
+	Value     float64 `json:"value"`
+	Type      string  `json:"type"`
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesResponse) ToEntityGlobalLoadBalancerUsageHistories() *lsentity.ListGlobalLoadBalancerUsageHistories {
+	histories := make([]lsentity.GlobalLoadBalancerUsageHistory, 0)
+	if s != nil && s.Items != nil {
+		for _, item := range s.Items {
+			histories = append(histories, *item.ToEntityGlobalLoadBalancerUsageHistory())
+		}
+	}
+	return &lsentity.ListGlobalLoadBalancerUsageHistories{
+		Type:  s.Type,
+		Items: histories,
+		From:  s.From,
+		To:    s.To,
+	}
+}
+
+func (s *GlobalLoadBalancerUsageHistoryResponse) ToEntityGlobalLoadBalancerUsageHistory() *lsentity.GlobalLoadBalancerUsageHistory {
+	return &lsentity.GlobalLoadBalancerUsageHistory{
+		Timestamp: s.Timestamp,
+		Value:     s.Value,
+		Type:      s.Type,
+	}
+}

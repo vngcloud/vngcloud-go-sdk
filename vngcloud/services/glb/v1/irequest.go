@@ -267,6 +267,21 @@ type IListGlobalRegionsRequest interface {
 
 // --------------------------------------------------------
 
+type IGetGlobalLoadBalancerUsageHistoriesRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithFrom(pfrom string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithTo(pto string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithType(ptype string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	GetLoadBalancerId() string
+
+	AddUserAgent(pagent ...string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	ParseUserAgent() string
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
+}
+
+// --------------------------------------------------------
+
 type IListGlobalLoadBalancersRequest interface {
 	WithName(pname string) IListGlobalLoadBalancersRequest
 	WithTags(ptags ...string) IListGlobalLoadBalancersRequest

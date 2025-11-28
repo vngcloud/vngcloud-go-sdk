@@ -199,3 +199,18 @@ type GlobalRegion struct {
 type ListGlobalRegions struct {
 	Items []GlobalRegion `json:"items"`
 }
+
+// --------------------------------------------------------
+
+type GlobalLoadBalancerUsageHistory struct {
+	Timestamp string  `json:"timestamp"`
+	Value     float64 `json:"value"`
+	Type      string  `json:"type"`
+}
+
+type ListGlobalLoadBalancerUsageHistories struct {
+	Type  string                           `json:"type"`
+	Items []GlobalLoadBalancerUsageHistory `json:"items"`
+	From  string                           `json:"from"`
+	To    string                           `json:"to"`
+}
