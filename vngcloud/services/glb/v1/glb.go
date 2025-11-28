@@ -206,6 +206,29 @@ func (s *GLBServiceV1) UpdateGlobalListener(popts IUpdateGlobalListenerRequest) 
 
 // --------------------------------------------------
 
+func (s *GLBServiceV1) GetGlobalListener(popts IGetGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError) {
+	url := getGlobalListenerUrl(s.VLBClient, popts)
+	resp := new(GetGlobalListenerResponse)
+	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VLBClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorGlobalLoadBalancerNotFound(errResp)).
+			WithKVparameters("loadBalancerId", popts.GetLoadBalancerId()).
+			WithKVparameters("listenerId", popts.GetListenerId()).
+			AppendCategories(lserr.ErrCatProductVlb)
+	}
+
+	return resp.ToEntityGlobalListener(), nil
+}
+
+// --------------------------------------------------
+
 func (s *GLBServiceV1) DeleteGlobalListener(popts IDeleteGlobalListenerRequest) lserr.IError {
 	url := deleteGlobalListenerUrl(s.VLBClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)

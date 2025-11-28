@@ -19,7 +19,7 @@ type IGLBServiceV1 interface {
 	CreateGlobalListener(popts v1.ICreateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError)
 	UpdateGlobalListener(popts v1.IUpdateGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError)
 	DeleteGlobalListener(popts v1.IDeleteGlobalListenerRequest) lserr.IError
-	// GetGlobalListenerById(popts v1.IGetGlobalListenerByIdRequest) (*lsentity.GlobalListener, lserr.IError)
+	GetGlobalListener(popts v1.IGetGlobalListenerRequest) (*lsentity.GlobalListener, lserr.IError)
 
 	ListGlobalLoadBalancers(popts v1.IListGlobalLoadBalancersRequest) (*lsentity.ListGlobalLoadBalancers, lserr.IError)
 	CreateGlobalLoadBalancer(popts v1.ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError)

@@ -92,6 +92,15 @@ func deleteGlobalListenerUrl(psc lsclient.IServiceClient, popts IDeleteGlobalLis
 	)
 }
 
+func getGlobalListenerUrl(psc lsclient.IServiceClient, popts IGetGlobalListenerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+		popts.GetListenerId(),
+	)
+}
+
 // --------------------------------------------------------
 
 func listGlobalLoadBalancersUrl(psc lsclient.IServiceClient, popts IListGlobalLoadBalancersRequest) string {

@@ -156,6 +156,18 @@ type IListGlobalListenersRequest interface {
 
 // --------------------------------------------------------
 
+type IGetGlobalListenerRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalListenerRequest
+	WithListenerId(plistenerId string) IGetGlobalListenerRequest
+	GetLoadBalancerId() string // to use in request url
+	GetListenerId() string
+
+	AddUserAgent(pagent ...string) IGetGlobalListenerRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
 type ICreateGlobalListenerRequest interface {
 	WithAllowedCidrs(pcidrs ...string) ICreateGlobalListenerRequest
 	WithDescription(pdesc string) ICreateGlobalListenerRequest
