@@ -30,7 +30,7 @@ type GetEndpointByIdRequest struct {
 }
 
 func (s *GetEndpointByIdRequest) AddUserAgent(pagent ...string) IGetEndpointByIdRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -75,15 +75,15 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"enableAZ":          s.ResourceInfo.EnableAZ,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
 }
 
 func (s *CreateEndpointRequest) AddUserAgent(pagent ...string) ICreateEndpointRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -159,7 +159,7 @@ type DeleteEndpointByIdRequest struct {
 }
 
 func (s *DeleteEndpointByIdRequest) AddUserAgent(pagent ...string) IDeleteEndpointByIdRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -179,8 +179,8 @@ func (s *DeleteEndpointByIdRequest) ToMap() map[string]interface{} {
 		"vpcId":      s.VpcUuid,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
@@ -202,8 +202,8 @@ func (s *ListEndpointsRequest) ToMap() map[string]interface{} {
 		"uuid":  s.Uuid,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
@@ -253,7 +253,7 @@ func (s *ListEndpointsRequest) GetDefaultQuery() string {
 }
 
 func (s *ListEndpointsRequest) AddUserAgent(pagent ...string) IListEndpointsRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -293,8 +293,8 @@ func (s *ListTagsByEndpointIdRequest) ToMap() map[string]interface{} {
 		"resourceUuid": s.Id,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
@@ -305,7 +305,7 @@ func (s *ListTagsByEndpointIdRequest) GetMapHeaders() map[string]string {
 }
 
 func (s *ListTagsByEndpointIdRequest) AddUserAgent(pagent ...string) IListTagsByEndpointIdRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -331,8 +331,8 @@ func (s *CreateTagsWithEndpointIdRequest) ToMap() map[string]interface{} {
 		"resourceUuid": s.Id,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	res["tags"] = s.Tags
@@ -341,7 +341,7 @@ func (s *CreateTagsWithEndpointIdRequest) ToMap() map[string]interface{} {
 }
 
 func (s *CreateTagsWithEndpointIdRequest) AddUserAgent(pagent ...string) ICreateTagsWithEndpointIdRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -384,15 +384,15 @@ func (s *DeleteTagOfEndpointRequest) ToMap() map[string]interface{} {
 		"tagId": s.TagId,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
 }
 
 func (s *DeleteTagOfEndpointRequest) AddUserAgent(pagent ...string) IDeleteTagOfEndpointRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -425,15 +425,15 @@ func (s *UpdateTagValueOfEndpointRequest) ToMap() map[string]interface{} {
 		"tagValue": s.TagValue,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	return res
 }
 
 func (s *UpdateTagValueOfEndpointRequest) AddUserAgent(pagent ...string) IUpdateTagValueOfEndpointRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 

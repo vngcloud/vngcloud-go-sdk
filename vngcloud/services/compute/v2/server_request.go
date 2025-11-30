@@ -2,6 +2,7 @@ package v2
 
 import (
 	lfmt "fmt"
+
 	ljparser "github.com/cuongpiger/joat/parser"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
@@ -274,7 +275,7 @@ func (s *AttachFloatingIpRequest) ToRequestBody() interface{} {
 }
 
 func (s *AttachFloatingIpRequest) AddUserAgent(pagent ...string) IAttachFloatingIpRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -300,7 +301,7 @@ func (s *DetachFloatingIpRequest) ToRequestBody() interface{} {
 }
 
 func (s *DetachFloatingIpRequest) AddUserAgent(pagent ...string) IDetachFloatingIpRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -318,7 +319,7 @@ type ListServerGroupPoliciesRequest struct {
 }
 
 func (s *ListServerGroupPoliciesRequest) AddUserAgent(pagent ...string) IListServerGroupPoliciesRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 
@@ -328,7 +329,7 @@ type DeleteServerGroupByIdRequest struct {
 }
 
 func (s *DeleteServerGroupByIdRequest) AddUserAgent(pagent ...string) IDeleteServerGroupByIdRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 

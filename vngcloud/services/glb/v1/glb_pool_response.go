@@ -120,21 +120,21 @@ func (s *GlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPo
 }
 
 type GlobalMemberResponse struct {
-	CreatedAt            string `json:"createdAt"`
-	UpdatedAt            string `json:"updatedAt"`
+	CreatedAt            string  `json:"createdAt"`
+	UpdatedAt            string  `json:"updatedAt"`
 	DeletedAt            *string `json:"deletedAt"`
-	ID                   string `json:"id"`
-	Name                 string `json:"name"`
-	Description          string `json:"description"`
-	GlobalPoolMemberID   string `json:"globalPoolMemberId"`
-	GlobalLoadBalancerID string `json:"globalLoadBalancerId"`
-	SubnetID             string `json:"subnetId"`
-	Address              string `json:"address"`
-	Weight               int    `json:"weight"`
-	Port                 int    `json:"port"`
-	MonitorPort          int    `json:"monitorPort"`
-	BackupRole           bool   `json:"backupRole"`
-	Status               string `json:"status"`
+	ID                   string  `json:"id"`
+	Name                 string  `json:"name"`
+	Description          string  `json:"description"`
+	GlobalPoolMemberID   string  `json:"globalPoolMemberId"`
+	GlobalLoadBalancerID string  `json:"globalLoadBalancerId"`
+	SubnetID             string  `json:"subnetId"`
+	Address              string  `json:"address"`
+	Weight               int     `json:"weight"`
+	Port                 int     `json:"port"`
+	MonitorPort          int     `json:"monitorPort"`
+	BackupRole           bool    `json:"backupRole"`
+	Status               string  `json:"status"`
 }
 
 func (s *GlobalMemberResponse) ToEntityGlobalMember() *lsentity.GlobalPoolMemberDetail {

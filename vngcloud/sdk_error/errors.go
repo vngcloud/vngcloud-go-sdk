@@ -36,12 +36,12 @@ const (
 )
 
 func NewErrorResponse(ptype int) IErrorRespone {
-	switch {
-	case ptype == IamErrorType:
+	switch ptype {
+	case IamErrorType:
 		return new(IamErrorResponse)
-	case ptype == NetworkGatewayErrorType:
+	case NetworkGatewayErrorType:
 		return new(NetworkGatewayErrorResponse)
-	case ptype == GlobalLoadBalancerErrorType:
+	case GlobalLoadBalancerErrorType:
 		return new(GlobalLoadBalancerErrorResponse)
 	default:
 		return new(NormalErrorResponse)

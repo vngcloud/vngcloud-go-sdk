@@ -2,9 +2,10 @@ package v1
 
 import (
 	lfmt "fmt"
+	lstr "strings"
+
 	ljparser "github.com/cuongpiger/joat/parser"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
-	lstr "strings"
 )
 
 type (
@@ -66,7 +67,7 @@ func (s *ListGlobalLoadBalancersRequest) ToListQuery() (string, error) {
 		return "", err
 	}
 
-	var tuples []string
+	tuples := make([]string, 0, len(s.Tags))
 	for _, tag := range s.Tags {
 		if tag.Key == "" {
 			continue

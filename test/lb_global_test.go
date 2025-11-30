@@ -5,7 +5,7 @@ import (
 
 	"k8s.io/utils/ptr"
 
-	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
+	v1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
 )
 
 func TestListGlobalPoolsSuccess(t *ltesting.T) {
@@ -296,7 +296,12 @@ func TestCreateGlobalLoadBalancerSuccess(t *ltesting.T) {
 				WithDomainName(ptr.To("example.com")),
 		).
 		WithMembers(
-			v1.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100, v1.GlobalPoolMemberTypePrivate).
+			v1.NewGlobalPoolMemberRequest(
+				"p_name",
+				"hcm",
+				"net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2",
+				100,
+				v1.GlobalPoolMemberTypePrivate).
 				WithMembers(
 					v1.NewGlobalMemberRequest("p_name", "10.105.0.4", "sub-8aa727dd-9857-472f-8766-ece41282d437", 80, 80, 1, false),
 				),

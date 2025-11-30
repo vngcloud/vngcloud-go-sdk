@@ -5,12 +5,15 @@ import (
 	ltesting "testing"
 	"time"
 
-	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
+	v1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
 )
 
 func TestGetGlobalListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := v1.NewGetGlobalListenerRequest("glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d", "glis-6e0b0a21-0b52-40b7-90e5-f59a83e577c2")
+	opt := v1.NewGetGlobalListenerRequest(
+		"glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d",
+		"glis-6e0b0a21-0b52-40b7-90e5-f59a83e577c2",
+	)
 	listener, sdkerr := vngcloud.GLBGateway().V1().GLBService().GetGlobalListener(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -26,7 +29,11 @@ func TestGetGlobalListenerSuccess(t *ltesting.T) {
 
 func TestGetGlobalPoolMemberSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := v1.NewGetGlobalPoolMemberRequest("glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d", "gpool-e5de4670-27e6-45cf-bc68-ec3803ed6849", "gpool-mem-4b3a819d-a83f-4964-8336-da6cb8edf529")
+	opt := v1.NewGetGlobalPoolMemberRequest(
+		"glb-a9799830-f7ef-40a8-ad05-ba7f81a8bb8d",
+		"gpool-e5de4670-27e6-45cf-bc68-ec3803ed6849",
+		"gpool-mem-4b3a819d-a83f-4964-8336-da6cb8edf529",
+	)
 	poolMember, sdkerr := vngcloud.GLBGateway().V1().GLBService().GetGlobalPoolMember(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)

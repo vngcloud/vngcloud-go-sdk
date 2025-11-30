@@ -337,7 +337,9 @@ func (s *GLBServiceV1) ListGlobalLoadBalancers(popts IListGlobalLoadBalancersReq
 
 // --------------------------------------------------
 
-func (s *GLBServiceV1) CreateGlobalLoadBalancer(popts ICreateGlobalLoadBalancerRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
+func (s *GLBServiceV1) CreateGlobalLoadBalancer(
+	popts ICreateGlobalLoadBalancerRequest,
+) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := createGlobalLoadBalancerUrl(s.VLBClient, popts)
 	resp := new(CreateGlobalLoadBalancerResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -378,7 +380,9 @@ func (s *GLBServiceV1) DeleteGlobalLoadBalancer(popts IDeleteGlobalLoadBalancerR
 
 // --------------------------------------------------
 
-func (s *GLBServiceV1) GetGlobalLoadBalancerById(popts IGetGlobalLoadBalancerByIdRequest) (*lsentity.GlobalLoadBalancer, lserr.IError) {
+func (s *GLBServiceV1) GetGlobalLoadBalancerById(
+	popts IGetGlobalLoadBalancerByIdRequest,
+) (*lsentity.GlobalLoadBalancer, lserr.IError) {
 	url := getGlobalLoadBalancerByIdUrl(s.VLBClient, popts)
 	resp := new(GetGlobalLoadBalancerByIdResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)
@@ -433,7 +437,9 @@ func (s *GLBServiceV1) ListGlobalRegions(popts IListGlobalRegionsRequest) (*lsen
 	return resp.ToEntityListGlobalRegions(), nil
 }
 
-func (s *GLBServiceV1) GetGlobalLoadBalancerUsageHistories(popts IGetGlobalLoadBalancerUsageHistoriesRequest) (*lsentity.ListGlobalLoadBalancerUsageHistories, lserr.IError) {
+func (s *GLBServiceV1) GetGlobalLoadBalancerUsageHistories(
+	popts IGetGlobalLoadBalancerUsageHistoriesRequest,
+) (*lsentity.ListGlobalLoadBalancerUsageHistories, lserr.IError) {
 	url := getGlobalLoadBalancerUsageHistoriesUrl(s.VLBClient, popts)
 	resp := new(GetGlobalLoadBalancerUsageHistoriesResponse)
 	errResp := lserr.NewErrorResponse(lserr.GlobalLoadBalancerErrorType)

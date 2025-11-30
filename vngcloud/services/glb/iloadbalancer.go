@@ -3,7 +3,7 @@ package glb
 import (
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
-	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
+	v1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
 )
 
 type IGLBServiceV1 interface {

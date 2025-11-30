@@ -115,56 +115,10 @@ func (s *ListGlobalLoadBalancersResponse) ToEntityListGlobalLoadBalancers() *lse
 	result.Offset = s.Offset
 
 	for _, itemLb := range s.Items {
-		result.Items = append(result.Items, itemLb.toEntityGlobalLoadBalancer())
+		result.Items = append(result.Items, itemLb.ToEntityGlobalLoadBalancer())
 	}
 
 	return result
-}
-
-func (s *GlobalLoadBalancerResponse) toEntityGlobalLoadBalancer() *lsentity.GlobalLoadBalancer {
-	vips := make([]*lsentity.GlobalLoadBalancerVIP, 0)
-	for _, vip := range s.Vips {
-		vips = append(vips, &lsentity.GlobalLoadBalancerVIP{
-			ID:                   vip.ID,
-			CreatedAt:            vip.CreatedAt,
-			UpdatedAt:            vip.UpdatedAt,
-			DeletedAt:            vip.DeletedAt,
-			Address:              vip.Address,
-			Status:               vip.Status,
-			Region:               vip.Region,
-			GlobalLoadBalancerID: vip.GlobalLoadBalancerID,
-		})
-	}
-
-	domains := make([]*lsentity.GlobalLoadBalancerDomain, 0)
-	for _, domain := range s.Domains {
-		domains = append(domains, &lsentity.GlobalLoadBalancerDomain{
-			CreatedAt:            domain.CreatedAt,
-			UpdatedAt:            domain.UpdatedAt,
-			DeletedAt:            domain.DeletedAt,
-			ID:                   domain.ID,
-			Hostname:             domain.Hostname,
-			Status:               domain.Status,
-			GlobalLoadBalancerID: domain.GlobalLoadBalancerID,
-			DNSHostedZoneID:      domain.DNSHostedZoneID,
-			DNSServerID:          domain.DNSServerID,
-		})
-	}
-
-	return &lsentity.GlobalLoadBalancer{
-		CreatedAt:   s.CreatedAt,
-		UpdatedAt:   s.UpdatedAt,
-		DeletedAt:   s.DeletedAt,
-		ID:          s.ID,
-		Name:        s.Name,
-		Description: s.Description,
-		Status:      s.Status,
-		Package:     s.Package,
-		Type:        s.Type,
-		UserId:      s.UserId,
-		Vips:        vips,
-		Domains:     domains,
-	}
 }
 
 // --------------------------------------------------
