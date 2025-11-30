@@ -48,13 +48,46 @@ func listGlobalPoolMembersUrl(psc lsclient.IServiceClient, popts IListGlobalPool
 	)
 }
 
-func patchGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IPatchGlobalPoolMemberRequest) string {
+func patchGlobalPoolMembersUrl(psc lsclient.IServiceClient, popts IPatchGlobalPoolMembersRequest) string {
 	return psc.ServiceURL(
 		"global-load-balancers",
 		popts.GetLoadBalancerId(),
 		"global-pools",
 		popts.GetPoolId(),
 		"pool-members",
+	)
+}
+
+func getGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IGetGlobalPoolMemberRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-pools",
+		popts.GetPoolId(),
+		"pool-members",
+		popts.GetPoolMemberId(),
+	)
+}
+
+func deleteGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IDeleteGlobalPoolMemberRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-pools",
+		popts.GetPoolId(),
+		"pool-members",
+		popts.GetPoolMemberId(),
+	)
+}
+
+func updateGlobalPoolMemberUrl(psc lsclient.IServiceClient, popts IUpdateGlobalPoolMemberRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-pools",
+		popts.GetPoolId(),
+		"pool-members",
+		popts.GetPoolMemberId(),
 	)
 }
 
@@ -92,6 +125,15 @@ func deleteGlobalListenerUrl(psc lsclient.IServiceClient, popts IDeleteGlobalLis
 	)
 }
 
+func getGlobalListenerUrl(psc lsclient.IServiceClient, popts IGetGlobalListenerRequest) string {
+	return psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"global-listeners",
+		popts.GetListenerId(),
+	)
+}
+
 // --------------------------------------------------------
 
 func listGlobalLoadBalancersUrl(psc lsclient.IServiceClient, popts IListGlobalLoadBalancersRequest) string {
@@ -103,7 +145,7 @@ func listGlobalLoadBalancersUrl(psc lsclient.IServiceClient, popts IListGlobalLo
 	return psc.ServiceURL("global-load-balancers") + query
 }
 
-func createGlobalLoadBalancerUrl(psc lsclient.IServiceClient, popts ICreateGlobalLoadBalancerRequest) string {
+func createGlobalLoadBalancerUrl(psc lsclient.IServiceClient, _ ICreateGlobalLoadBalancerRequest) string {
 	return psc.ServiceURL("global-load-balancers")
 }
 
@@ -119,4 +161,30 @@ func getGlobalLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IGetGlobalL
 		"global-load-balancers",
 		popts.GetLoadBalancerId(),
 	)
+}
+
+func listGlobalPackagesUrl(psc lsclient.IServiceClient, _ IListGlobalPackagesRequest) string {
+	return psc.ServiceURL("packages")
+}
+
+func listGlobalRegionsUrl(psc lsclient.IServiceClient, _ IListGlobalRegionsRequest) string {
+	return psc.ServiceURL("regions")
+}
+
+func getGlobalLoadBalancerUsageHistoriesUrl(psc lsclient.IServiceClient, popts IGetGlobalLoadBalancerUsageHistoriesRequest) string {
+	query, err := popts.ToListQuery()
+	if err != nil {
+		query = popts.GetDefaultQuery()
+	}
+
+	baseURL := psc.ServiceURL(
+		"global-load-balancers",
+		popts.GetLoadBalancerId(),
+		"usage-histories",
+	)
+
+	if query != "" {
+		return baseURL + "?" + query
+	}
+	return baseURL
 }

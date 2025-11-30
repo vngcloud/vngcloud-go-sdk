@@ -65,7 +65,7 @@ type ListEndpointsResponse struct {
 }
 
 func (s *ListEndpointsResponse) ToEntityListEndpoints() *lsentity.ListEndpoints {
-	var items []*lsentity.Endpoint
+	items := make([]*lsentity.Endpoint, 0, len(s.Data))
 	for _, item := range s.Data {
 		items = append(items, item.toEntityEndpoint())
 	}
@@ -83,7 +83,7 @@ type ListTagsByEndpointIdResponse struct {
 }
 
 func (s *ListTagsByEndpointIdResponse) ToEntityListTags() *lsentity.ListTags {
-	var items []*lsentity.Tag
+	items := make([]*lsentity.Tag, 0, len(s.Data))
 	for _, item := range s.Data {
 		items = append(items, &lsentity.Tag{
 			Key:        item.TagKey,

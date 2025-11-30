@@ -57,7 +57,7 @@ func (s *ListPoliciesResponse) ToEntityListPolicies() *lsentity.ListPolicies {
 		return nil
 	}
 
-	var items []*lsentity.Policy
+	items := make([]*lsentity.Policy, 0, len(s.ListData))
 	for _, item := range s.ListData {
 		l7Rule := make([]*lsentity.L7Rule, 0)
 		for _, rule := range item.L7Rules {

@@ -1,8 +1,9 @@
 package test
 
 import (
-	lsserverSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server/v1"
 	ltesting "testing"
+
+	lsserverSvcV1 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server/v1"
 
 	lscomputeSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute/v2"
 )
@@ -219,9 +220,12 @@ func TestAttachVolumeFailure(t *ltesting.T) {
 }
 
 func TestAttachVolumeSuccess(t *ltesting.T) {
-	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS" volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
+	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS"
+	// volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest("ins-869ad034-60c2-4f39-bb41-fcdf6b3d4bd4", "vol-3aced398-5f8e-4040-84aa-7309a5c5b365")
+	opt := lscomputeSvcV2.NewAttachBlockVolumeRequest(
+		"ins-869ad034-60c2-4f39-bb41-fcdf6b3d4bd4",
+		"vol-3aced398-5f8e-4040-84aa-7309a5c5b365")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().AttachBlockVolume(opt)
 
 	if sdkerr != nil {
@@ -233,7 +237,9 @@ func TestAttachVolumeSuccess(t *ltesting.T) {
 
 func TestDetachVolumeSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest("ins-c7acd1d3-376c-xxxx-a4bd-27dd87b72a83", "vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
+	opt := lscomputeSvcV2.NewDetachBlockVolumeRequest(
+		"ins-c7acd1d3-376c-xxxx-a4bd-27dd87b72a83",
+		"vol-17dc6df0-43d3-4ad2-be88-69ddaef2f146")
 	sdkerr := vngcloud.VServerGateway().V2().ComputeService().DetachBlockVolume(opt)
 
 	if sdkerr != nil {
@@ -258,7 +264,8 @@ func TestDetachVolumeFailure(t *ltesting.T) {
 }
 
 func TestAttachFloatingIpSuccess(t *ltesting.T) {
-	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS" volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
+	// VOLUME vol-3aced398-5f8e-4040-84aa-7309a5c5b365 is IN-PROCESS"
+	// volumeID="vol-3aced398-5f8e-4040-84aa-7309a5c5b365" nodeID="ins-869ad034-60c1-4f39-bb41-fcdf6b3d4bd4"
 	vngcloud := validSdkConfig()
 	serverId := "ins-1ac74cf8-df72-4ce2-926f-1c5f89ffda9f"
 	netId := "net-in-53c08d94-9ab2-414a-8ee9-169d5b36d52c"
@@ -377,7 +384,10 @@ func TestListServerGroups(t *ltesting.T) {
 
 func TestCreateServerGroup(t *ltesting.T) {
 	vngcloud := validUserSdkConfigForCuongDm4()
-	opt := lscomputeSvcV2.NewCreateServerGroupRequest("do-not-want-to-talk-more", "you are a idiot guy", "a2162216-cff2-11eb-b8bc-0242ac130003")
+	opt := lscomputeSvcV2.NewCreateServerGroupRequest(
+		"do-not-want-to-talk-more",
+		"you are a idiot guy",
+		"a2162216-cff2-11eb-b8bc-0242ac130003")
 	groups, sdkerr := vngcloud.VServerGateway().V2().ComputeService().CreateServerGroup(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %v", sdkerr)

@@ -296,3 +296,40 @@ func NewDeleteGlobalListenerRequest(plbId, plId string) IDeleteGlobalListenerReq
 	}
 	return opts
 }
+
+// --------------------------------------------------
+
+var _ IGetGlobalListenerRequest = &GetGlobalListenerRequest{}
+
+type GetGlobalListenerRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+	lscommon.ListenerCommon
+}
+
+func (s *GetGlobalListenerRequest) WithLoadBalancerId(plbid string) IGetGlobalListenerRequest {
+	s.LoadBalancerId = plbid
+	return s
+}
+
+func (s *GetGlobalListenerRequest) WithListenerId(plid string) IGetGlobalListenerRequest {
+	s.ListenerId = plid
+	return s
+}
+
+func (s *GetGlobalListenerRequest) AddUserAgent(pagent ...string) IGetGlobalListenerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewGetGlobalListenerRequest(plbId, plId string) IGetGlobalListenerRequest {
+	opts := &GetGlobalListenerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+		ListenerCommon: lscommon.ListenerCommon{
+			ListenerId: plId,
+		},
+	}
+	return opts
+}

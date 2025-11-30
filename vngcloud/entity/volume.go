@@ -46,7 +46,7 @@ func (s *Volume) IsAvailable() bool {
 }
 
 func (s *Volume) IsError() bool {
-	return s.Status == "ERROR"
+	return s.Status == ServerStatusError
 }
 
 func (s *Volume) IsInUse() bool {

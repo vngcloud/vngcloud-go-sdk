@@ -231,7 +231,9 @@ func TestCreateInterVPCLoadBalancerWithPoolAndListenerSuccess(t *ltesting.T) {
 
 func TestResizeLoadBalancerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewResizeLoadBalancerRequest("lb-4d1508f9-8bb0-45a6-b55b-21a7412b4658", "").WithPackageId("lbp-71cc3022-5fee-426d-9509-3341053e2477")
+	opt := lslbv2.NewResizeLoadBalancerRequest(
+		"lb-4d1508f9-8bb0-45a6-b55b-21a7412b4658",
+		"").WithPackageId("lbp-71cc3022-5fee-426d-9509-3341053e2477")
 
 	lb, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ResizeLoadBalancer(opt)
 	if sdkerr != nil {
@@ -249,7 +251,8 @@ func TestResizeLoadBalancerSuccess(t *ltesting.T) {
 func TestListLoadBalancerPackagesSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewListLoadBalancerPackagesRequest()
-	packages, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancerPackages(opt.WithZoneId(common.HCM_03_BKK_01_ZONE))
+	packages, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListLoadBalancerPackages(
+		opt.WithZoneId(common.HCM_03_BKK_01_ZONE))
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
 	}
@@ -404,7 +407,8 @@ func TestCreateListenerSuccess(t *ltesting.T) {
 func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lslbv2.NewCreateListenerRequest("cuongdm3-test-listener-14", lslbv2.ListenerProtocolTCP, 8087).
-		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f").WithDefaultPoolId("pool-82c3c670-6662-4087-bfc1-8098f25e84df")
+		WithLoadBalancerId("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f").
+		WithDefaultPoolId("pool-82c3c670-6662-4087-bfc1-8098f25e84df")
 
 	listener, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().CreateListener(opt)
 	if sdkerr != nil {
@@ -422,7 +426,9 @@ func TestCreateListenerWithPoolIdSuccess(t *ltesting.T) {
 func TestUpdateListenerSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 
-	opt := lslbv2.NewUpdateListenerRequest("lb-ab73cad3-1dd3-4f2c-9c4c-49702133c5c9", "lis-ed226fe5-65d2-4bb1-986e-7814deb3a55b").
+	opt := lslbv2.NewUpdateListenerRequest(
+		"lb-ab73cad3-1dd3-4f2c-9c4c-49702133c5c9",
+		"lis-ed226fe5-65d2-4bb1-986e-7814deb3a55b").
 		WithTimeoutClient(50).
 		WithTimeoutConnection(5).
 		WithTimeoutMember(50).
@@ -475,7 +481,9 @@ func TestListPoolsByLoadBalancerId(t *ltesting.T) {
 
 func TestUpdatePoolMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewUpdatePoolMembersRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-82c3c670-6662-4087-bfc1-8098f25e84df").
+	opt := lslbv2.NewUpdatePoolMembersRequest(
+		"lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f",
+		"pool-82c3c670-6662-4087-bfc1-8098f25e84df").
 		WithMembers(lslbv2.NewMember("cuongdm3-member-50", "10.84.0.50", 80, 80))
 
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdatePoolMembers(opt)
@@ -489,7 +497,9 @@ func TestUpdatePoolMembersSuccess(t *ltesting.T) {
 
 func TestListPoolMembersSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListPoolMembersRequest("lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb", "pool-528261c5-9fb4-40bb-bd48-f47b79b272f3")
+	opt := lslbv2.NewListPoolMembersRequest(
+		"lb-8bd4ea07-ab40-483d-8387-124ed2f2cecb",
+		"pool-528261c5-9fb4-40bb-bd48-f47b79b272f3")
 	members, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPoolMembers(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -505,7 +515,9 @@ func TestListPoolMembersSuccess(t *ltesting.T) {
 
 func TestDeletePoolSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewDeletePoolByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "pool-82c3c670-6662-4087-bfc1-8098f25e84df")
+	opt := lslbv2.NewDeletePoolByIdRequest(
+		"lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f",
+		"pool-82c3c670-6662-4087-bfc1-8098f25e84df")
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeletePoolById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -517,7 +529,9 @@ func TestDeletePoolSuccess(t *ltesting.T) {
 
 func TestDeleteListenterSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewDeleteListenerByIdRequest("lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f", "lis-23655c30-e458-49ac-ba55-49dfcd104db8")
+	opt := lslbv2.NewDeleteListenerByIdRequest(
+		"lb-f7adf4ba-7734-45f3-8cb5-9b0c3850cd6f",
+		"lis-23655c30-e458-49ac-ba55-49dfcd104db8")
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeleteListenerById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -584,9 +598,12 @@ func TestUpdateTagsSuccess(t *ltesting.T) {
 func TestUpdatePoolSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 
-	opt := lslbv2.NewUpdatePoolRequest("lb-2af92b71-1da8-4ba3-87bc-b32bb6ab3267", "pool-e31c3e31-e285-493e-8ebd-0f0d2cf541b2").
+	opt := lslbv2.NewUpdatePoolRequest(
+		"lb-2af92b71-1da8-4ba3-87bc-b32bb6ab3267",
+		"pool-e31c3e31-e285-493e-8ebd-0f0d2cf541b2").
 		WithAlgorithm(lslbv2.PoolAlgorithmLeastConn).
-		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolPINGUDP).WithTimeout(6).WithUnhealthyThreshold(4).WithHealthyThreshold(7).WithInterval(29))
+		WithHealthMonitor(lslbv2.NewHealthMonitor(lslbv2.HealthCheckProtocolPINGUDP).
+			WithTimeout(6).WithUnhealthyThreshold(4).WithHealthyThreshold(7).WithInterval(29))
 
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().UpdatePool(opt)
 	if sdkerr != nil {
@@ -599,7 +616,9 @@ func TestUpdatePoolSuccess(t *ltesting.T) {
 
 func TestGetPoolHealthMonitorSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewGetPoolHealthMonitorByIdRequest("lb-d5501a8c-d40e-4e3d-b86a-3e4041c629f7", "pool-1c5dfb52-922a-4dac-9dc0-970980637199")
+	opt := lslbv2.NewGetPoolHealthMonitorByIdRequest(
+		"lb-d5501a8c-d40e-4e3d-b86a-3e4041c629f7",
+		"pool-1c5dfb52-922a-4dac-9dc0-970980637199")
 	hm, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().GetPoolHealthMonitorById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -615,7 +634,9 @@ func TestGetPoolHealthMonitorSuccess(t *ltesting.T) {
 
 func TestListPoliciesSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewListPoliciesRequest("lb-eb9f558a-4724-4d0b-a197-60fd642236f4", "lis-b38a9abc-2979-444f-afce-da824e32ea75")
+	opt := lslbv2.NewListPoliciesRequest(
+		"lb-eb9f558a-4724-4d0b-a197-60fd642236f4",
+		"lis-b38a9abc-2979-444f-afce-da824e32ea75")
 	policies, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ListPolicies(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -634,7 +655,9 @@ func TestListPoliciesSuccess(t *ltesting.T) {
 
 func TestCreatePolicySuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewCreatePolicyRequest("lb-eb9f558a-4724-4d0b-a197-60fd642236f4", "lis-b38a9abc-2979-444f-afce-da824e32ea75").
+	opt := lslbv2.NewCreatePolicyRequest(
+		"lb-eb9f558a-4724-4d0b-a197-60fd642236f4",
+		"lis-b38a9abc-2979-444f-afce-da824e32ea75").
 		WithName("test-policy-1").
 		WithAction(lslbv2.PolicyActionREJECT).
 		// WithRedirectPoolId("pool-1c5dfb52-922a-4dac-9dc0-970980637199").
@@ -662,7 +685,10 @@ func TestCreatePolicySuccess(t *ltesting.T) {
 
 func TestGetPolicyByIdSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewGetPolicyByIdRequest("lb-eb9f558a-4724-4d0b-a197-60fd642236f4", "lis-b38a9abc-2979-444f-afce-da824e32ea75", "policy-dea6106b-dd41-4fc1-bddc-61acc034787b")
+	opt := lslbv2.NewGetPolicyByIdRequest(
+		"lb-eb9f558a-4724-4d0b-a197-60fd642236f4",
+		"lis-b38a9abc-2979-444f-afce-da824e32ea75",
+		"policy-dea6106b-dd41-4fc1-bddc-61acc034787b")
 	policy, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().GetPolicyById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -678,7 +704,10 @@ func TestGetPolicyByIdSuccess(t *ltesting.T) {
 
 func TestUpdatePolicySuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewUpdatePolicyRequest("lb-eb9f558a-4724-4d0b-a197-60fd642236f4", "lis-b38a9abc-2979-444f-afce-da824e32ea75", "policy-dea6106b-dd41-4fc1-bddc-61acc034787b").
+	opt := lslbv2.NewUpdatePolicyRequest(
+		"lb-eb9f558a-4724-4d0b-a197-60fd642236f4",
+		"lis-b38a9abc-2979-444f-afce-da824e32ea75",
+		"policy-dea6106b-dd41-4fc1-bddc-61acc034787b").
 		WithAction(lslbv2.PolicyActionREDIRECTTOURL).
 		// WithRedirectPoolId("pool-1c5dfb52-922a-4dac-9dc0-970980637199").
 		WithRedirectURL("https://vngcloud.vn").
@@ -701,7 +730,10 @@ func TestUpdatePolicySuccess(t *ltesting.T) {
 
 func TestDeletePolicySuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewDeletePolicyByIdRequest("lb-eb9f558a-4724-4d0b-a197-60fd642236f4", "lis-b38a9abc-2979-444f-afce-da824e32ea75", "policy-5cf4bacb-93b6-4078-bbf7-cb5d0d701828")
+	opt := lslbv2.NewDeletePolicyByIdRequest(
+		"lb-eb9f558a-4724-4d0b-a197-60fd642236f4",
+		"lis-b38a9abc-2979-444f-afce-da824e32ea75",
+		"policy-5cf4bacb-93b6-4078-bbf7-cb5d0d701828")
 	sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().DeletePolicyById(opt)
 	if sdkerr != nil {
 		t.Fatalf("Expect nil but got %+v", sdkerr)
@@ -713,7 +745,9 @@ func TestDeletePolicySuccess(t *ltesting.T) {
 
 func TestReorderPoliciesSucces(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lslbv2.NewReorderPoliciesRequest("lb-d08b5093-b923-4064-b38c-828add7d439a", "lis-654e4105-b729-4bd1-9a33-61ddacbe3430").
+	opt := lslbv2.NewReorderPoliciesRequest(
+		"lb-d08b5093-b923-4064-b38c-828add7d439a",
+		"lis-654e4105-b729-4bd1-9a33-61ddacbe3430").
 		WithPoliciesOrder([]string{
 			"policy-57b9e7d3-7ae6-4cb3-a649-6aa35f3ae26d",
 			"policy-1d29aa49-e9da-4551-a349-39d3338cfc4a",

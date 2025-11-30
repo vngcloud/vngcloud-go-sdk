@@ -120,7 +120,7 @@ func (s *SdkAuthentication) NeedReauth() bool {
 	}
 
 	ea := ltime.Unix(0, s.expiresAt)
-	return !(ea.Sub(ltime.Now()) >= 5*ltime.Minute)
+	return ltime.Until(ea) < 5*ltime.Minute
 }
 
 func (s *SdkAuthentication) UpdateAuth(pauth ISdkAuthentication) {

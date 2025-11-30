@@ -1,8 +1,9 @@
 package v2
 
 import (
-	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	ltime "time"
+
+	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 )
 
 type GetAccessTokenResponse struct {

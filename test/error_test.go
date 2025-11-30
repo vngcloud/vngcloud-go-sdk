@@ -1,9 +1,9 @@
 package test
 
 import (
+	"fmt"
 	"testing"
 
-	lfmt "fmt"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
@@ -13,6 +13,6 @@ func TestDeleteListener(t *testing.T) {
 		Message: errorMsg,
 	}
 
-	serr := lserr.ErrorHandler(lfmt.Errorf("haha"), lserr.WithErrorListenerNotFound(perrResp))
+	serr := lserr.ErrorHandler(fmt.Errorf("haha"), lserr.WithErrorListenerNotFound(perrResp))
 	t.Log(serr)
 }

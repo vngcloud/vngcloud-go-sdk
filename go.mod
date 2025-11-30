@@ -6,6 +6,7 @@ require (
 	github.com/cuongpiger/joat v1.0.17
 	github.com/imroc/req/v3 v3.44.0
 	github.com/joho/godotenv v1.5.1
+	k8s.io/utils v0.0.0-20251002143259-bc988d571ff4
 )
 
 require (

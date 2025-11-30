@@ -1,0 +1,54 @@
+version: "2"
+run:
+  allow-parallel-runners: true
+  timeout: 5m
+
+linters:
+  default: none
+  enable:
+    - dupl
+    - errcheck
+    - ginkgolinter
+    - goconst
+    - gocyclo
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - prealloc
+    - staticcheck
+    - unconvert
+    - unparam
+    - unused
+  settings:
+    gocyclo:
+      min-complexity: 15
+  exclusions:
+    generated: lax
+    rules:
+      # Relax rules for test files
+      - linters:
+          - dupl
+          - gocyclo
+          - goconst
+        path: ".*_test\\.go"
+      # Relax rules for test directory
+      - linters:
+          - dupl
+          - gocyclo
+          - goconst
+        path: "test/.*"
+      # Relax duplication for response/request files
+      - linters:
+          - dupl
+        path: ".*response\\.go"
+      - linters:
+          - dupl
+        path: ".*request\\.go"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax

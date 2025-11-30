@@ -1,8 +1,9 @@
 package test
 
 import (
-	v2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v2"
 	ltesting "testing"
+
+	v2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v2"
 )
 
 func TestListSnapshotFailure(t *ltesting.T) {
@@ -32,7 +33,9 @@ func TestListSnapshotSuccess(t *ltesting.T) {
 
 func TestCreateSnapshotFailure(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := v2.NewCreateSnapshotByBlockVolumeIdRequest("teasdadasdadst", "vol-d360fd83-948d-4efa-ab46-aab97328e275").WithPermanently(true)
+	opt := v2.NewCreateSnapshotByBlockVolumeIdRequest(
+		"teasdadasdadst",
+		"vol-d360fd83-948d-4efa-ab46-aab97328e275").WithPermanently(true)
 	_, sdkerr := vngcloud.VServerGateway().V2().VolumeService().CreateSnapshotByBlockVolumeId(opt)
 
 	t.Log("Result: ", sdkerr)
