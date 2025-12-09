@@ -1,8 +1,9 @@
 package client
 
 import (
-	lreq "github.com/imroc/req/v3"
 	ltime "time"
+
+	lreq "github.com/imroc/req/v3"
 
 	ljset "github.com/cuongpiger/joat/data-structure/set"
 

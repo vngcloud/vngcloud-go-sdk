@@ -93,6 +93,7 @@ type GlobalPoolMember struct {
 	GlobalLoadBalancerID string             `json:"globalLoadBalancerId"`
 	TrafficDial          int                `json:"trafficDial"`
 	VpcID                string             `json:"vpcId"`
+	Type                 string             `json:"type"`
 	Status               string             `json:"status"`
 	Members              *ListGlobalMembers `json:"members"`
 }
@@ -150,4 +151,66 @@ type GlobalListener struct {
 
 type ListGlobalListeners struct {
 	Items []*GlobalListener
+}
+
+// --------------------------------------------------------
+
+type GlobalPackage struct {
+	ID                          string       `json:"id"`
+	Name                        string       `json:"name"`
+	Description                 string       `json:"description"`
+	DescriptionEn               string       `json:"descriptionEn"`
+	Detail                      interface{}  `json:"detail"`
+	Enabled                     bool         `json:"enabled"`
+	BaseSku                     string       `json:"baseSku"`
+	BaseConnectionRate          int          `json:"baseConnectionRate"`
+	BaseDomesticTrafficTotal    int          `json:"baseDomesticTrafficTotal"`
+	BaseNonDomesticTrafficTotal int          `json:"baseNonDomesticTrafficTotal"`
+	ConnectionSku               string       `json:"connectionSku"`
+	DomesticTrafficSku          string       `json:"domesticTrafficSku"`
+	NonDomesticTrafficSku       string       `json:"nonDomesticTrafficSku"`
+	CreatedAt                   string       `json:"createdAt"`
+	UpdatedAt                   string       `json:"updatedAt"`
+	VlbPackages                 []VlbPackage `json:"vlbPackages"`
+}
+
+type VlbPackage struct {
+	ID           int    `json:"id"`
+	GlbPackageID string `json:"glb_package_id"`
+	Region       string `json:"region"`
+	VlbPackageID string `json:"vlb_package_id"`
+	CreatedAt    string `json:"created_at"`
+}
+
+type ListGlobalPackages struct {
+	Items []GlobalPackage `json:"items"`
+}
+
+// --------------------------------------------------------
+
+type GlobalRegion struct {
+	ID               string `json:"id"`
+	Name             string `json:"name"`
+	VServerEndpoint  string `json:"vserverEndpoint"`
+	VlbEndpoint      string `json:"vlbEndpoint"`
+	UIServerEndpoint string `json:"uiServerEndpoint"`
+}
+
+type ListGlobalRegions struct {
+	Items []GlobalRegion `json:"items"`
+}
+
+// --------------------------------------------------------
+
+type GlobalLoadBalancerUsageHistory struct {
+	Timestamp string  `json:"timestamp"`
+	Value     float64 `json:"value"`
+	Type      string  `json:"type"`
+}
+
+type ListGlobalLoadBalancerUsageHistories struct {
+	Type  string                           `json:"type"`
+	Items []GlobalLoadBalancerUsageHistory `json:"items"`
+	From  string                           `json:"from"`
+	To    string                           `json:"to"`
 }

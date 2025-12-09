@@ -67,7 +67,7 @@ func (s *CreateLoadBalancerRequest) WithProjectId(pprojectId string) ICreateLoad
 }
 
 func (s *CreateLoadBalancerRequest) AddUserAgent(pagent ...string) ICreateLoadBalancerRequest {
-	s.UserAgent.Agent = append(s.UserAgent.Agent, pagent...)
+	s.Agent = append(s.Agent, pagent...)
 	return s
 }
 

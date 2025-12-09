@@ -91,6 +91,7 @@ type GlobalPoolMemberResponse struct {
 	GlobalLoadBalancerID string                  `json:"globalLoadBalancerId"`
 	TrafficDial          int                     `json:"trafficDial"`
 	VpcID                string                  `json:"vpcId"`
+	Type                 string                  `json:"type"`
 	Status               string                  `json:"status"`
 	Members              []*GlobalMemberResponse `json:"members"`
 }
@@ -112,27 +113,35 @@ func (s *GlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPo
 		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
 		TrafficDial:          s.TrafficDial,
 		VpcID:                s.VpcID,
+		Type:                 s.Type,
 		Status:               s.Status,
 		Members:              &lsentity.ListGlobalMembers{Items: members},
 	}
 }
 
 type GlobalMemberResponse struct {
-	ID                   string `json:"id"`
-	Name                 string `json:"name"`
-	Description          string `json:"description"`
-	GlobalPoolMemberID   string `json:"globalPoolMemberId"`
-	GlobalLoadBalancerID string `json:"globalLoadBalancerId"`
-	SubnetID             string `json:"subnetId"`
-	Address              string `json:"address"`
-	Weight               int    `json:"weight"`
-	Port                 int    `json:"port"`
-	MonitorPort          int    `json:"monitorPort"`
-	BackupRole           bool   `json:"backupRole"`
+	CreatedAt            string  `json:"createdAt"`
+	UpdatedAt            string  `json:"updatedAt"`
+	DeletedAt            *string `json:"deletedAt"`
+	ID                   string  `json:"id"`
+	Name                 string  `json:"name"`
+	Description          string  `json:"description"`
+	GlobalPoolMemberID   string  `json:"globalPoolMemberId"`
+	GlobalLoadBalancerID string  `json:"globalLoadBalancerId"`
+	SubnetID             string  `json:"subnetId"`
+	Address              string  `json:"address"`
+	Weight               int     `json:"weight"`
+	Port                 int     `json:"port"`
+	MonitorPort          int     `json:"monitorPort"`
+	BackupRole           bool    `json:"backupRole"`
+	Status               string  `json:"status"`
 }
 
 func (s *GlobalMemberResponse) ToEntityGlobalMember() *lsentity.GlobalPoolMemberDetail {
 	return &lsentity.GlobalPoolMemberDetail{
+		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
+		DeletedAt:            s.DeletedAt,
 		ID:                   s.ID,
 		Name:                 s.Name,
 		Description:          s.Description,
@@ -144,6 +153,7 @@ func (s *GlobalMemberResponse) ToEntityGlobalMember() *lsentity.GlobalPoolMember
 		Port:                 s.Port,
 		MonitorPort:          s.MonitorPort,
 		BackupRole:           s.BackupRole,
+		Status:               s.Status,
 	}
 }
 
@@ -228,5 +238,48 @@ func (s *ListGlobalPoolMembersResponse) ToEntityListGlobalPoolMembers() *lsentit
 }
 
 // ----------------------------------------------------------
+
+type GetGlobalPoolMemberResponse GlobalPoolMemberResponse
+
+func (s *GetGlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPoolMember {
+	members := make([]*lsentity.GlobalPoolMemberDetail, 0)
+	for _, member := range s.Members {
+		members = append(members, member.ToEntityGlobalMember())
+	}
+	return &lsentity.GlobalPoolMember{
+		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
+		DeletedAt:            s.DeletedAt,
+		ID:                   s.ID,
+		Name:                 s.Name,
+		Description:          s.Description,
+		Region:               s.Region,
+		GlobalPoolID:         s.GlobalPoolID,
+		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
+		TrafficDial:          s.TrafficDial,
+		VpcID:                s.VpcID,
+		Type:                 s.Type,
+		Status:               s.Status,
+		Members:              &lsentity.ListGlobalMembers{Items: members},
+	}
+}
+
 // ----------------------------------------------------------
+
+type UpdateGlobalPoolMemberResponse struct {
+	ID                   string `json:"id"`
+	GlobalPoolID         string `json:"globalPoolId"`
+	GlobalLoadBalancerID string `json:"globalLoadBalancerId"`
+	TrafficDial          int    `json:"trafficDial"`
+}
+
+func (s *UpdateGlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPoolMember {
+	return &lsentity.GlobalPoolMember{
+		ID:                   s.ID,
+		GlobalPoolID:         s.GlobalPoolID,
+		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
+		TrafficDial:          s.TrafficDial,
+	}
+}
+
 // ----------------------------------------------------------

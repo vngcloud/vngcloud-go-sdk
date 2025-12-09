@@ -1,0 +1,105 @@
+package test
+
+// TestData contains all fake/mock data used in tests
+// THIS FILE CONTAINS ONLY FAKE TEST DATA - NOT REAL SECRETS
+// All certificates, keys, and credentials in this file are for testing purposes only
+
+const (
+	// FakePrivateKey is a fake RSA private key for testing purposes only
+	FakePrivateKey = `-----BEGIN PRIVATE KEY-----
+		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
+		KQMcZALMoH96GAFsmvxHl7EPJMlZJw==
+		-----END PRIVATE KEY-----`
+
+	// FakeCertificate is a fake certificate for testing purposes only
+	FakeCertificate = `-----BEGIN CERTIFICATE-----
+		MIIFPTCCAyUCFDmqCQVw9BUEsdQ52Rz3RZlUnovyMA0GCSqGSIb3DQEBCwUAMFsx
+		CzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRl
+		cm5ldCBXaWRnaXRzIFB0eSBMdGQxFDASBgNVBAMMC2V4YW1wbGUuY29tMB4XDTI0
+		MDIxOTA5NDYwMVoXDTI1MDIxODA5NDYwMVowWzELMAkGA1UEBhMCQVUxEzARBgNV
+		BAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0
+		ZDEUMBIGA1UEAwwLZXhhbXBsZS5jb20wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAw
+		ggIKAoICAQCWj83KzHw9SG9L9AYfz4gmGtzOKEMaPj7+PSJR3UI1cj8lWyWyNXOZ
+		z7nt75mVBTrESwd925RSiONxRNYif3dbEV3b+z4p0Wtq7lvDnCiaYnFoPAR4SFZl
+		BA46eTsX/eWRXMaujOVzVC343g6kEZIM73brQUnhhfzrcGtBazj2UYnfT2UXIAdz
+		Mo7ZOSKZbBYsMFxOwXle2ocy8JY57lOZ3Y8p+9ZwipPC6pyz6KiSJcgxehCRGN6I
+		WeIBnj0hpE3flVy4pq17BjkS84sHv3WT6PzPqVckq9dpxkgw5rTfo5kzZgbBZ60e
+		XOzuPmqank+siU8wRAi+mZP0h1SyC5mZpSc7+MI9k6TpmBuKy+QsdMAUwFVNI3SN
+		UoOeGuLdyuVO8Zogw+3BEL+HWX8lBPGwAuaO78B6jajTpSiWQXog2v8OmvtWdVp1
+		4NU71bNgKBvTHXWsTVBoF3X6ZJw+/Ra59p/IPdcH6xlYoHV1CThNXaR2LP9AWh0r
+		Jr2uKHJGYr+k1Fndauq/KWaBv5hYwJ8wO8DG8JzHfbqqobYn9e4H6DEXqpK9lkXI
+		+ocUZOJdn8zLYV638wB8q7zAqOBf88/6e+w7fbie2Fvuzc2A1Yyt/TixaytnaSl5
+		ijy5ibfEJoENIZx0REuuHc1hlVB42n3R5Lg4HXNaSWCR9MoXew659QIDAQABMA0G
+		CSqGSIb3DQEBCwUAA4ICAQAPbT3OtUMFcoH4glny1LShqXf4b73t5CWeQWtrveB7
+		fAeiz19G2y8QFjLg4YXS4zcEznjSPzU1rT4YcsaQKkNtRepGsMYYD6dSPYowU+8B
+		eXPMv+aNUQlviFABmb5BHvtVhScAF3pvysmcSeVYPdmDhR0pHATJ9cDIBxWSxGKI
+		WJ2kNgxq139ik+c5hFCShYxCdgQEks+azB2XWUf5JctEJRu5dViKfh8LyraQrRbj
+		Ok2tntsiBLLQi32vmOiDgmii1/T3gkyweqjR7T2/PtdPD4bLHgj4oTHReI0KwBTY
+		nPYvQxl2xRkgGtsQfg1LUc6oAefFMM5yMbxl2riQabR0CpsZ+XXPwr6b5VO/Hrrw
+		yk2PBXXXXdmc9gPkUAIb4S3MUp5oh9i4wtspES5XN+tIWlaSDWKooDGr2Eu0lJmc
+		LSqonVlfBnh4Wdpv9HeTbfBv6Tw8QauTvTMhdTvjBhswHbQP2Jf37HeJYT4Kjcui
+		da1HjscJfGC5vFNWDD4sLeENVUCrtJ6Aj4cisEbjf405xqo4eSq9YIfzNCWELoPO
+		jtlt2lzLnTxNlzQKanw014VVFgxg51ryWsbk0P8zTDMUSuuXTM282vdayATjNuok
+		W/yNBd1YYMXvztpvD1nwJks00Y+IjAR/8GR7fxrztchtPOEpchQ249wpX5A5qJjr
+		3Q==
+		-----END CERTIFICATE-----`
+
+	// FakeAPIKey is a fake API key for testing purposes only
+	FakeAPIKey = "fake-api-key-12345-not-real-67890"
+
+	// FakeSecretKey is a fake secret key for testing purposes only
+	FakeSecretKey = "fake-secret-key-abcdef-not-real-123456"
+
+	// FakeToken is a fake authentication token for testing purposes only
+	FakeToken = "fake-token-xyz789-not-real-abc123"
+
+	FakeSecretId = "secret-92318075-6622-48a3-88a7-daf2a8917917"
+)

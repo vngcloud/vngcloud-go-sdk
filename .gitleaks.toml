@@ -1,0 +1,38 @@
+# This is NOT the default gitleaks config. The default gitleaks config is located
+# here: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+# This gitleaks config extends the default config and ignores secrets in test files,
+# test data, and example code which are intentionally included for SDK testing purposes.
+
+title = "VNGCloud Go SDK GitLeaks Configuration"
+
+[extend]
+# Use the default GitLeaks rules as a base
+useDefault = true
+
+[allowlist]
+# Paths to ignore - only specific test data files
+paths = [
+  # Only ignore the dedicated test data file that contains fake credentials
+  '''test/data_test\.go$''',
+
+  # Ignore test environment configuration file with real test credentials
+  '''test/env\.yaml$'''
+]
+
+# Additional patterns to ignore - for cases where we have example/placeholder tokens in code
+regexes = [
+  # Ignore obvious fake/example/test credentials
+  '''(?i)(fake|test|example|dummy|placeholder|mock|sample)''',
+
+  # Ignore localhost/127.0.0.1 URLs with tokens (local development)
+  '''https?://(localhost|127\.0\.0\.1).*''',
+
+  # Ignore example.com domains
+  '''example\.(com|org|net)''',
+
+  # Ignore test environment variables
+  '''(?i)test_.*_(key|token|secret|password|api)''',
+
+  # Ignore SDK internal variable names that contain "Internal" (not actual secrets)
+  '''(?i).*gateway.*internal.*'''
+]

@@ -1,8 +1,9 @@
 package test
 
 import (
-	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v2"
 	ltesting "testing"
+
+	lsnetworkSvcV2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network/v2"
 )
 
 func TestGetNetworkByIdFailure(t *ltesting.T) {

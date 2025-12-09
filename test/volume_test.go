@@ -1,8 +1,9 @@
 package test
 
 import (
-	v2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v2"
 	ltesting "testing"
+
+	v2 "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v2"
 )
 
 func TestCreateVolumeFailure(t *ltesting.T) {
@@ -155,7 +156,10 @@ func TestGetBlockVolumeByIdSuccess(t *ltesting.T) {
 
 func TestResizeBlockVolumeFailure(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := v2.NewResizeBlockVolumeByIdRequest("vol-ae3fffe5-bd46-475f-bee3-3d5eff4a4b45", "vtype-9f811804-3574-466e-831c-f23d56ca6700", 40)
+	opt := v2.NewResizeBlockVolumeByIdRequest(
+		"vol-ae3fffe5-bd46-475f-bee3-3d5eff4a4b45",
+		"vtype-9f811804-3574-466e-831c-f23d56ca6700",
+		40)
 	volume, sdkerr := vngcloud.VServerGateway().V2().VolumeService().ResizeBlockVolumeById(opt)
 	if sdkerr == nil {
 		t.Fatalf("Expect error but got nil")
@@ -207,7 +211,9 @@ func TestMigrateBlockVolume(t *ltesting.T) {
 	t.Log(vtSsd, vtNvme)
 
 	vngcloud := validSdkConfig()
-	opt := v2.NewMigrateBlockVolumeByIdRequest("vol-78c26ee6-20b2-45a3-9f0a-e7728349c300", vtSsd).WithConfirm(true).WithAction(v2.ProcessMigrateAction)
+	opt := v2.NewMigrateBlockVolumeByIdRequest(
+		"vol-78c26ee6-20b2-45a3-9f0a-e7728349c300",
+		vtSsd).WithConfirm(true).WithAction(v2.ProcessMigrateAction)
 	sdkerr := vngcloud.VServerGateway().V2().VolumeService().MigrateBlockVolumeById(opt)
 
 	t.Log("Error: ", sdkerr)
