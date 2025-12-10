@@ -5,8 +5,8 @@ type LoadBalancer struct {
 	Name               string
 	DisplayStatus      string
 	Address            string
-	PrivateSubnetID    string
-	PrivateSubnetCidr  string
+	PrivateSubnetID    string // subnet that its IP belongs to
+	PrivateSubnetCidr  string // cidr of subnet that its IP belongs to
 	Type               string
 	DisplayType        string
 	LoadBalancerSchema string
@@ -17,7 +17,7 @@ type LoadBalancer struct {
 	UpdatedAt          string
 	ProgressStatus     string
 	Status             string
-	SubnetID           string
+	BackendSubnetID    string // subnet that load balancer connects to backend servers
 	Internal           bool
 	AutoScalable       bool
 	ZoneID             string
