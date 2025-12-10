@@ -3,6 +3,8 @@ package test
 import (
 	ltesting "testing"
 
+	"k8s.io/utils/ptr"
+
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb/v1"
 )
 
@@ -62,11 +64,11 @@ func TestCreateGlobalPoolHTTPSSuccess(t *ltesting.T) {
 		WithLoadBalancerId("glb-2e550a10-8a9e-4e0e-9086-80d8297ca3f7").
 		WithHealthMonitor(
 			v1.NewGlobalHealthMonitor(v1.GlobalPoolHealthCheckProtocolHTTPs).
-				WithHealthCheckMethod("GET").
-				WithPath("/sfdsaf").
-				WithHttpVersion("1.1").
-				WithSuccessCode("200").
-				WithDomainName("example.com"),
+				WithHealthCheckMethod(ptr.To(v1.GlobalPoolHealthCheckMethodGET)).
+				WithPath(ptr.To("/sfdsaf")).
+				WithHttpVersion(ptr.To(v1.GlobalPoolHealthCheckHttpVersionHttp1Minor1)).
+				WithSuccessCode(ptr.To("200")).
+				WithDomainName(ptr.To("example.com")),
 		).
 		WithMembers(poolMember)
 	pool, sdkerr := vngcloud.GLBGateway().V1().GLBService().CreateGlobalPool(opt)
@@ -90,10 +92,10 @@ func TestCreateGlobalPoolHTTPSSuccess(t *ltesting.T) {
 func TestUpdateGlobalPoolHTTPSSuccess(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	httpMonitor := v1.NewGlobalHealthMonitor(v1.GlobalPoolHealthCheckProtocolHTTPs).
-		WithDomainName("exampleee.com").
-		WithHealthCheckMethod("POST").
-		WithPath("/hghjgj").
-		WithHttpVersion("1.1")
+		WithDomainName(ptr.To("exampleee.com")).
+		WithHealthCheckMethod(ptr.To(v1.GlobalPoolHealthCheckMethodPOST)).
+		WithPath(ptr.To("/hghjgj")).
+		WithHttpVersion(ptr.To(v1.GlobalPoolHealthCheckHttpVersionHttp1Minor1))
 	opt := v1.NewUpdateGlobalPoolRequest("glb-2e550a10-8a9e-4e0e-9086-80d8297ca3f7", "gpool-30c2a387-7912-4be7-8e3b-448ef16548ab").
 		WithHealthMonitor(httpMonitor)
 
@@ -287,11 +289,11 @@ func TestCreateGlobalLoadBalancerSuccess(t *ltesting.T) {
 		WithLoadBalancerId("glb-2e550a10-8a9e-4e0e-9086-80d8297ca3f7").
 		WithHealthMonitor(
 			v1.NewGlobalHealthMonitor(v1.GlobalPoolHealthCheckProtocolHTTPs).
-				WithHealthCheckMethod("GET").
-				WithPath("/sfdsaf").
-				WithHttpVersion("1.1").
-				WithSuccessCode("200").
-				WithDomainName("example.com"),
+				WithHealthCheckMethod(ptr.To(v1.GlobalPoolHealthCheckMethodGET)).
+				WithPath(ptr.To("/sfdsaf")).
+				WithHttpVersion(ptr.To(v1.GlobalPoolHealthCheckHttpVersionHttp1Minor1)).
+				WithSuccessCode(ptr.To("200")).
+				WithDomainName(ptr.To("example.com")),
 		).
 		WithMembers(
 			v1.NewGlobalPoolMemberRequest("p_name", "hcm", "net-80a4eb74-c7d9-46b4-9705-ffed0e2bc3c2", 100, v1.GlobalPoolMemberTypePrivate).
