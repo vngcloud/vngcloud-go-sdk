@@ -2,9 +2,10 @@ package v1
 
 import (
 	lfmt "fmt"
+	lstr "strings"
+
 	ljparser "github.com/cuongpiger/joat/parser"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
-	lstr "strings"
 )
 
 type (
@@ -66,7 +67,7 @@ func (s *ListGlobalLoadBalancersRequest) ToListQuery() (string, error) {
 		return "", err
 	}
 
-	var tuples []string
+	tuples := make([]string, 0, len(s.Tags))
 	for _, tag := range s.Tags {
 		if tag.Key == "" {
 			continue
@@ -199,6 +200,102 @@ func (s *DeleteGlobalLoadBalancerRequest) AddUserAgent(pagent ...string) IDelete
 
 func NewDeleteGlobalLoadBalancerRequest(lbId string) IDeleteGlobalLoadBalancerRequest {
 	opts := &DeleteGlobalLoadBalancerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: lbId,
+		},
+	}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
+var _ IListGlobalPackagesRequest = &ListGlobalPackagesRequest{}
+
+type ListGlobalPackagesRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListGlobalPackagesRequest) AddUserAgent(pagent ...string) IListGlobalPackagesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewListGlobalPackagesRequest() IListGlobalPackagesRequest {
+	opts := &ListGlobalPackagesRequest{}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
+var _ IListGlobalRegionsRequest = &ListGlobalRegionsRequest{}
+
+type ListGlobalRegionsRequest struct {
+	lscommon.UserAgent
+}
+
+func (s *ListGlobalRegionsRequest) AddUserAgent(pagent ...string) IListGlobalRegionsRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewListGlobalRegionsRequest() IListGlobalRegionsRequest {
+	opts := &ListGlobalRegionsRequest{}
+	return opts
+}
+
+// --------------------------------------------------------------------------
+
+var _ IGetGlobalLoadBalancerUsageHistoriesRequest = &GetGlobalLoadBalancerUsageHistoriesRequest{}
+
+type GetGlobalLoadBalancerUsageHistoriesRequest struct {
+	From string `q:"from"`
+	To   string `q:"to"`
+	Type string `q:"type"`
+
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.LoadBalancerId = plbId
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithFrom(pfrom string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.From = pfrom
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithTo(pto string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.To = pto
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) WithType(ptype string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.Type = ptype
+	return s
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) ToListQuery() (string, error) {
+	parser, _ := ljparser.GetParser()
+	url, err := parser.UrlMe(s)
+	return url.String(), err
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) GetDefaultQuery() string {
+	return ""
+}
+
+func (s *GetGlobalLoadBalancerUsageHistoriesRequest) AddUserAgent(pagent ...string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func NewGetGlobalLoadBalancerUsageHistoriesRequest(lbId, from, to, usageType string) IGetGlobalLoadBalancerUsageHistoriesRequest {
+	opts := &GetGlobalLoadBalancerUsageHistoriesRequest{
+		From: from,
+		To:   to,
+		Type: usageType,
 		LoadBalancerCommon: lscommon.LoadBalancerCommon{
 			LoadBalancerId: lbId,
 		},

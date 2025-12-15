@@ -1,8 +1,9 @@
 package test
 
 import (
-	lsvolume "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v1"
 	ltesting "testing"
+
+	lsvolume "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume/v1"
 )
 
 func TestGetVolumeTypeFailure(t *ltesting.T) {

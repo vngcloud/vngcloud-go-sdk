@@ -1,8 +1,9 @@
 package inter
 
 import (
-	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 	lstr "strings"
+
+	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
 
 const (

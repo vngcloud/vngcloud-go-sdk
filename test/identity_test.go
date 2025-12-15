@@ -260,8 +260,8 @@ func validSdkConfigDevops() lsclient.IClient {
 }
 
 func invalidSdkConfig() lsclient.IClient {
-	clientId := "___"
-	clientSecret := "___"
+	clientId := "invalid-id"
+	clientSecret := "invalid-secret"
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).
 		WithClientSecret(clientSecret).
@@ -273,7 +273,7 @@ func invalidSdkConfig() lsclient.IClient {
 
 func TestAuthenFailed(t *ltesting.T) {
 	clientId := "cc136360-709c-4248-9358-e8e96c74480a"
-	clientSecret := "___"
+	clientSecret := "invalid-secret"
 
 	sdkConfig := lsclient.NewSdkConfigure().
 		WithClientId(clientId).

@@ -9,7 +9,7 @@ const (
 )
 
 type ResourceType string
-type CreateSystemTagRequest struct { //__________________________________________________________________________________
+type CreateSystemTagRequest struct { // __________________________________________________________________________________
 	ResourceId   string       `json:"resourceId"`
 	ResourceType ResourceType `json:"resourceType"`
 	Tags         []struct {
@@ -54,8 +54,8 @@ func (s *CreateSystemTagRequest) ToMap() map[string]interface{} {
 		"resourceType": s.ResourceType,
 	}
 
-	if s.UserAgent.Agent != nil && len(s.UserAgent.Agent) > 0 {
-		res["userAgent"] = s.UserAgent.Agent
+	if len(s.Agent) > 0 {
+		res["userAgent"] = s.Agent
 	}
 
 	res["tags"] = s.Tags

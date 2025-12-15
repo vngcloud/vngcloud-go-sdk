@@ -2,6 +2,12 @@ package entity
 
 import lstr "strings"
 
+const (
+	ServerStatusActive  = "ACTIVE"
+	ServerStatusError   = "ERROR"
+	ServerStatusStopped = "STOPPED"
+)
+
 type (
 	Server struct {
 		BootVolumeId       string
@@ -95,7 +101,7 @@ type ListServers struct {
 
 func (s *Server) CanDelete() bool {
 	switch lstr.ToUpper(s.Status) {
-	case "ACTIVE", "ERROR", "STOPPED":
+	case ServerStatusActive, ServerStatusError, ServerStatusStopped:
 		return true
 	}
 
@@ -104,7 +110,7 @@ func (s *Server) CanDelete() bool {
 
 func (s *Server) IsRunning() bool {
 	switch lstr.ToUpper(s.Status) {
-	case "ACTIVE":
+	case ServerStatusActive:
 		return true
 	}
 

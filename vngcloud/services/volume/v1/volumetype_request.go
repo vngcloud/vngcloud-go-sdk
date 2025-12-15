@@ -2,6 +2,7 @@ package v1
 
 import (
 	lfmt "fmt"
+
 	ljparser "github.com/cuongpiger/joat/parser"
 	lscommon "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/common"
 )
@@ -37,7 +38,7 @@ type GetListVolumeTypeRequest struct {
 }
 
 func (s *GetVolumeTypeZonesRequest) GetDefaultQuery() string {
-	return lfmt.Sprintf("zoneId=%", defaultZoneGetVolumeTypeZonesRequest)
+	return lfmt.Sprintf("zoneId=%s", defaultZoneGetVolumeTypeZonesRequest)
 }
 
 func (s *GetVolumeTypeZonesRequest) ToQuery() (string, error) {

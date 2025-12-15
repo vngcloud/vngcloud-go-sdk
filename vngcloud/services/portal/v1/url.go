@@ -6,7 +6,6 @@ func getPortalInfoUrl(psc lsclient.IServiceClient, popts IGetPortalInfoRequest) 
 	return psc.ServiceURL("projects", popts.GetBackEndProjectId(), "detail")
 }
 
-
 func listProjectsUrl(psc lsclient.IServiceClient) string {
 	return psc.ServiceURL("projects")
 }

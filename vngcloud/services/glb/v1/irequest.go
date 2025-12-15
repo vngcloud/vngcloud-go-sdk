@@ -125,15 +125,43 @@ type IListGlobalPoolMembersRequest interface {
 
 // --------------------------------------------------------
 
-type IPatchGlobalPoolMemberRequest interface {
-	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMemberRequest
+type IGetGlobalPoolMemberRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) IGetGlobalPoolMemberRequest
+	WithPoolMemberId(ppoolMemberId string) IGetGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
+	GetPoolMemberId() string
 
-	WithLoadBalancerId(plbId string) IPatchGlobalPoolMemberRequest
-	WithPoolId(ppoolId string) IPatchGlobalPoolMemberRequest
+	AddUserAgent(pagent ...string) IGetGlobalPoolMemberRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IDeleteGlobalPoolMemberRequest interface {
+	WithLoadBalancerId(plbId string) IDeleteGlobalPoolMemberRequest
+	WithPoolId(ppoolId string) IDeleteGlobalPoolMemberRequest
+	WithPoolMemberId(ppoolMemberId string) IDeleteGlobalPoolMemberRequest
+	GetLoadBalancerId() string // to use in request url
+	GetPoolId() string
+	GetPoolMemberId() string
+
+	AddUserAgent(pagent ...string) IDeleteGlobalPoolMemberRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IPatchGlobalPoolMembersRequest interface {
+	WithBulkAction(paction ...IBulkActionRequest) IPatchGlobalPoolMembersRequest
+
+	WithLoadBalancerId(plbId string) IPatchGlobalPoolMembersRequest
+	WithPoolId(ppoolId string) IPatchGlobalPoolMembersRequest
 	GetLoadBalancerId() string // to use in request url
 	GetPoolId() string
 
-	AddUserAgent(pagent ...string) IPatchGlobalPoolMemberRequest
+	AddUserAgent(pagent ...string) IPatchGlobalPoolMembersRequest
 	ParseUserAgent() string
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -151,6 +179,18 @@ type IListGlobalListenersRequest interface {
 	GetLoadBalancerId() string // to use in request url
 
 	AddUserAgent(pagent ...string) IListGlobalListenersRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IGetGlobalListenerRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalListenerRequest
+	WithListenerId(plistenerId string) IGetGlobalListenerRequest
+	GetLoadBalancerId() string // to use in request url
+	GetListenerId() string
+
+	AddUserAgent(pagent ...string) IGetGlobalListenerRequest
 	ParseUserAgent() string
 }
 
@@ -209,6 +249,35 @@ type IDeleteGlobalListenerRequest interface {
 
 	AddUserAgent(pagent ...string) IDeleteGlobalListenerRequest
 	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IListGlobalPackagesRequest interface {
+	AddUserAgent(pagent ...string) IListGlobalPackagesRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IListGlobalRegionsRequest interface {
+	AddUserAgent(pagent ...string) IListGlobalRegionsRequest
+	ParseUserAgent() string
+}
+
+// --------------------------------------------------------
+
+type IGetGlobalLoadBalancerUsageHistoriesRequest interface {
+	WithLoadBalancerId(plbId string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithFrom(pfrom string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithTo(pto string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	WithType(ptype string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	GetLoadBalancerId() string
+
+	AddUserAgent(pagent ...string) IGetGlobalLoadBalancerUsageHistoriesRequest
+	ParseUserAgent() string
+	ToListQuery() (string, error)
+	GetDefaultQuery() string
 }
 
 // --------------------------------------------------------
