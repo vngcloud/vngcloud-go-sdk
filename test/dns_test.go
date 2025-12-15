@@ -145,3 +145,127 @@ func TestDnsServiceV1_UpdateHostedZone(t *ltesting.T) {
 	t.Log("HostedZone updated successfully")
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_CreateDnsRecord(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	hostedZoneId := "hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a"
+
+	// Test 1: A record with multiple IP addresses
+	t.Run("CreateARecord", func(t *ltesting.T) {
+		weight1, weight2 := 10, 20
+		aRecordValues := []v1.RecordValueRequest{
+			v1.NewRecordValueRequest("10.0.0.1", nil, &weight1),
+			v1.NewRecordValueRequest("10.0.0.2", nil, &weight2),
+		}
+
+		opt := v1.NewCreateDnsRecordRequest(
+			hostedZoneId,
+			"test-a-record",
+			300,
+			v1.DnsRecordTypeA,
+			v1.RoutingPolicyWeighted,
+			aRecordValues,
+		)
+
+		dnsRecord, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateDnsRecord(opt)
+		if sdkerr != nil {
+			t.Fatalf("Expect nil but got %+v", sdkerr)
+		}
+		t.Logf("Created A Record: %+v", dnsRecord)
+	})
+
+	// Test 2: CNAME record
+	t.Run("CreateCNAMERecord", func(t *ltesting.T) {
+		cnameValues := []v1.RecordValueRequest{
+			v1.NewRecordValueRequest("www.example.com", nil, nil),
+		}
+
+		opt := v1.NewCreateDnsRecordRequest(
+			hostedZoneId,
+			"test-cname",
+			300,
+			v1.DnsRecordTypeCNAME,
+			v1.RoutingPolicySimple,
+			cnameValues,
+		).WithEnableStickySession(false)
+
+		dnsRecord, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateDnsRecord(opt)
+		if sdkerr != nil {
+			t.Fatalf("Expect nil but got %+v", sdkerr)
+		}
+		t.Logf("Created CNAME Record: %+v", dnsRecord)
+	})
+
+	// Test 3: TXT record with multiple values
+	t.Run("CreateTXTRecord", func(t *ltesting.T) {
+		txtValues := []v1.RecordValueRequest{
+			v1.NewRecordValueRequest("v=spf1 include:_spf.google.com ~all", nil, nil),
+			v1.NewRecordValueRequest("google-site-verification=abcd1234", nil, nil),
+		}
+
+		opt := v1.NewCreateDnsRecordRequest(
+			hostedZoneId,
+			"test-txt",
+			600,
+			v1.DnsRecordTypeTXT,
+			v1.RoutingPolicySimple,
+			txtValues,
+		)
+
+		dnsRecord, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateDnsRecord(opt)
+		if sdkerr != nil {
+			t.Fatalf("Expect nil but got %+v", sdkerr)
+		}
+		t.Logf("Created TXT Record: %+v", dnsRecord)
+	})
+
+	// Test 4: MX record with multiple mail servers
+	t.Run("CreateMXRecord", func(t *ltesting.T) {
+		mxValues := []v1.RecordValueRequest{
+			v1.NewRecordValueRequest("10 mail1.example.com", nil, nil),
+			v1.NewRecordValueRequest("20 mail2.example.com", nil, nil),
+			v1.NewRecordValueRequest("30 mail3.example.com", nil, nil),
+		}
+
+		opt := v1.NewCreateDnsRecordRequest(
+			hostedZoneId,
+			"test-mx",
+			3600,
+			v1.DnsRecordTypeMX,
+			v1.RoutingPolicySimple,
+			mxValues,
+		)
+
+		dnsRecord, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateDnsRecord(opt)
+		if sdkerr != nil {
+			t.Fatalf("Expect nil but got %+v", sdkerr)
+		}
+		t.Logf("Created MX Record: %+v", dnsRecord)
+	})
+
+	// Test 5: SRV record with multiple services
+	t.Run("CreateSRVRecord", func(t *ltesting.T) {
+		weight1, weight2 := 5, 10
+		srvValues := []v1.RecordValueRequest{
+			v1.NewRecordValueRequest("10 5 443 target1.example.com", nil, &weight1),
+			v1.NewRecordValueRequest("20 10 443 target2.example.com", nil, &weight2),
+		}
+
+		opt := v1.NewCreateDnsRecordRequest(
+			hostedZoneId,
+			"test-srv",
+			300,
+			v1.DnsRecordTypeSRV,
+			v1.RoutingPolicyWeighted,
+			srvValues,
+		)
+
+		dnsRecord, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateDnsRecord(opt)
+		if sdkerr != nil {
+			t.Fatalf("Expect nil but got %+v", sdkerr)
+		}
+		t.Logf("Created SRV Record: %+v", dnsRecord)
+	})
+
+	t.Log("All DNS Record types created successfully")
+}

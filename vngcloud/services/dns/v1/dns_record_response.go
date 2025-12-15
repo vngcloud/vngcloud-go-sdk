@@ -21,3 +21,11 @@ func (r *ListRecordsResponse) ToEntityListRecords() *lsentity.ListDnsRecords {
 		TotalItem: r.TotalItem,
 	}
 }
+
+type CreateDnsRecordResponse struct {
+	Data *lsentity.DnsRecord `json:"data"`
+}
+
+func (r *CreateDnsRecordResponse) ToEntityDnsRecord() *lsentity.DnsRecord {
+	return r.Data
+}
