@@ -179,3 +179,64 @@ func NewDeleteHostedZoneRequest(hostedZoneId string) IDeleteHostedZoneRequest {
 		HostedZoneId: hostedZoneId,
 	}
 }
+
+// ----------------------------------------------------------------------
+
+type IUpdateHostedZoneRequest interface {
+	GetHostedZoneId() string
+	WithHostedZoneId(hostedZoneId string) IUpdateHostedZoneRequest
+	WithAssocVpcIds(assocVpcIds []string) IUpdateHostedZoneRequest
+	WithDescription(description string) IUpdateHostedZoneRequest
+	ToRequestBody(psc lsclient.IServiceClient) map[string]interface{}
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type UpdateHostedZoneRequest struct {
+	HostedZoneId string   `json:"-"`
+	AssocVpcIds  []string `json:"assocVpcIds"`
+	Description  string   `json:"description"`
+
+	lscommon.UserAgent
+}
+
+func (r *UpdateHostedZoneRequest) GetHostedZoneId() string {
+	return r.HostedZoneId
+}
+
+func (r *UpdateHostedZoneRequest) WithHostedZoneId(hostedZoneId string) IUpdateHostedZoneRequest {
+	r.HostedZoneId = hostedZoneId
+	return r
+}
+
+func (r *UpdateHostedZoneRequest) WithAssocVpcIds(assocVpcIds []string) IUpdateHostedZoneRequest {
+	r.AssocVpcIds = assocVpcIds
+	return r
+}
+
+func (r *UpdateHostedZoneRequest) WithDescription(description string) IUpdateHostedZoneRequest {
+	r.Description = description
+	return r
+}
+
+func (r *UpdateHostedZoneRequest) ToRequestBody(psc lsclient.IServiceClient) map[string]interface{} {
+	return map[string]interface{}{
+		"assocVpcIds": r.AssocVpcIds,
+		"description": r.Description,
+	}
+}
+
+func (r *UpdateHostedZoneRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"hostedZoneId": r.HostedZoneId,
+		"assocVpcIds":  r.AssocVpcIds,
+		"description":  r.Description,
+	}
+}
+
+func NewUpdateHostedZoneRequest(hostedZoneId string) IUpdateHostedZoneRequest {
+	return &UpdateHostedZoneRequest{
+		HostedZoneId: hostedZoneId,
+	}
+}

@@ -130,3 +130,18 @@ func TestDnsServiceV1_DeleteHostedZone(t *ltesting.T) {
 	t.Log("HostedZone deleted successfully")
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_UpdateHostedZone(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewUpdateHostedZoneRequest("hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a").
+		WithAssocVpcIds([]string{"net-dc14bb60-d500-40b5-945f-218540990187"}).
+		WithDescription("Updated description for hosted zone.")
+
+	sdkerr := vngcloud.VDnsGateway().V1().DnsService().UpdateHostedZone(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("HostedZone updated successfully")
+	t.Log("PASS")
+}

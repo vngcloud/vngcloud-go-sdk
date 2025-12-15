@@ -10,6 +10,7 @@ type IVDnsServiceV1 interface {
 	GetHostedZoneById(popts lsdnsSvcV1.IGetHostedZoneByIdRequest) (*lsentity.HostedZone, lserr.IError)
 	ListHostedZones(popts lsdnsSvcV1.IListHostedZonesRequest) (*lsentity.ListHostedZone, lserr.IError)
 	CreateHostedZone(popts lsdnsSvcV1.ICreateHostedZoneRequest) (*lsentity.HostedZone, lserr.IError)
+	UpdateHostedZone(popts lsdnsSvcV1.IUpdateHostedZoneRequest) lserr.IError
 	DeleteHostedZone(popts lsdnsSvcV1.IDeleteHostedZoneRequest) lserr.IError
 
 	ListRecords(popts lsdnsSvcV1.IListRecordsRequest) (*lsentity.ListDnsRecords, lserr.IError)
