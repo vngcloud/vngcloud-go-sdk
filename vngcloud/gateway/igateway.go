@@ -84,9 +84,14 @@ type IGLBGatewayV1 interface {
 
 type IVDnsGateway interface {
 	V1() IVDnsGatewayV1
+	Internal() IVDnsGatewayInternal
 	GetEndpoint() string
 }
 
 type IVDnsGatewayV1 interface {
 	DnsService() lsdnsSvc.IVDnsServiceV1
+}
+
+type IVDnsGatewayInternal interface {
+	DnsService() lsdnsSvc.IVDnsServiceInternal
 }
