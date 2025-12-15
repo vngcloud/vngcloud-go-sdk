@@ -2,6 +2,7 @@ package gateway
 
 import (
 	lscomputeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/compute"
+	lsdnsSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/dns"
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb"
 	lsidentitySvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
@@ -79,4 +80,13 @@ type IGLBGateway interface {
 
 type IGLBGatewayV1 interface {
 	GLBService() glb.IGLBServiceV1
+}
+
+type IVDnsGateway interface {
+	V1() IVDnsGatewayV1
+	GetEndpoint() string
+}
+
+type IVDnsGatewayV1 interface {
+	DnsService() lsdnsSvc.IVDnsServiceV1
 }

@@ -2,6 +2,7 @@ package gateway
 
 import (
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
+	lsdnsSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/dns"
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb"
 )
 
@@ -195,4 +196,43 @@ func NewGLBGatewayV1(psvcClient lsclient.IServiceClient) IGLBGatewayV1 {
 	return &glbGatewayV1{
 		glbService: glb.NewGLBServiceV1(psvcClient),
 	}
+}
+
+var _ IVDnsGateway = &vdnsGateway{}
+
+type vdnsGateway struct {
+	endpoint   string
+	dnsService lsdnsSvc.IVDnsServiceV1
+}
+
+func NewVDnsGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) IVDnsGateway {
+	client := lsclient.NewServiceClient().
+		WithEndpoint(pendpoint + "v1").
+		WithClient(phc).
+		WithProjectId(pprojectId)
+
+	return &vdnsGateway{
+		endpoint:   pendpoint,
+		dnsService: lsdnsSvc.NewVDnsServiceV1(client),
+	}
+}
+
+func (s *vdnsGateway) V1() IVDnsGatewayV1 {
+	return &vdnsGatewayV1{
+		dnsService: s.dnsService,
+	}
+}
+
+func (s *vdnsGateway) GetEndpoint() string {
+	return s.endpoint
+}
+
+var _ IVDnsGatewayV1 = &vdnsGatewayV1{}
+
+type vdnsGatewayV1 struct {
+	dnsService lsdnsSvc.IVDnsServiceV1
+}
+
+func (s *vdnsGatewayV1) DnsService() lsdnsSvc.IVDnsServiceV1 {
+	return s.dnsService
 }
