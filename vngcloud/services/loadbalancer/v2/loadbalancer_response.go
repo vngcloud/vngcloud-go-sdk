@@ -63,6 +63,7 @@ type (
 		Location           string `json:"location"`
 		CreatedAt          string `json:"createdAt"`
 		UpdatedAt          string `json:"updatedAt"`
+		BackendSubnetID    string `json:"backendSubnetId"`
 		PackageInfo        struct {
 			PackageID        string `json:"packageId"`
 			ConnectionNumber int    `json:"connectionNumber"`
@@ -170,10 +171,15 @@ func (s *LoadBalancer) toEntityLoadBalancer() *lsentity.LoadBalancer {
 		ProgressStatus:     s.ProgressStatus,
 		AutoScalable:       s.AutoScalable,
 		ZoneID:             s.Zone.UUID,
+		BackendSubnetID: func() string {
+			if s.BackendSubnetID != "" {
+				return s.BackendSubnetID
+			}
+			return s.PrivateSubnetID
+		}(),
 
 		// will be removed
 		Status:   s.DisplayStatus,
 		Internal: internal,
-		SubnetID: s.PrivateSubnetID,
 	}
 }
