@@ -96,3 +96,24 @@ func TestDnsServiceV1_ListRecordsWithFilter(t *ltesting.T) {
 	}
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_CreateHostedZone(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewCreateHostedZoneRequest(
+		"test-sdk.example.com",
+		[]string{"net-dc14bb60-d500-40b5-945f-218540990187"},
+		v1.HostedZoneTypePrivate,
+	).WithDescription("Test hosted zone created by SDK")
+
+	hostedZone, sdkerr := vngcloud.VDnsGateway().V1().DnsService().CreateHostedZone(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if hostedZone == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Logf("Created HostedZone: %+v", hostedZone)
+	t.Log("PASS")
+}

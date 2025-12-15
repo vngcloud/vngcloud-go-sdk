@@ -29,3 +29,11 @@ func (r *ListHostedZonesResponse) ToEntityListHostedZones() *lsentity.ListHosted
 		TotalItem: r.TotalItem,
 	}
 }
+
+type CreateHostedZoneResponse struct {
+	Data *lsentity.HostedZone `json:"data"`
+}
+
+func (r *CreateHostedZoneResponse) ToEntityHostedZone() *lsentity.HostedZone {
+	return r.Data
+}

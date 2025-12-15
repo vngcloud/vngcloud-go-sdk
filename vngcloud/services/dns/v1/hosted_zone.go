@@ -44,3 +44,23 @@ func (s *VDnsServiceV1) ListHostedZones(popts IListHostedZonesRequest) (*lsentit
 
 	return resp.ToEntityListHostedZones(), nil
 }
+
+func (s *VDnsServiceV1) CreateHostedZone(popts ICreateHostedZoneRequest) (*lsentity.HostedZone, lserr.IError) {
+	url := createHostedZoneUrl(s.DnsClient)
+	resp := new(CreateHostedZoneResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonBody(popts.ToRequestBody(s.DnsClient)).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.DnsClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVdns)
+	}
+
+	return resp.ToEntityHostedZone(), nil
+}
