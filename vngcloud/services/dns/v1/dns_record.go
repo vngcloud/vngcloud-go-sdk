@@ -62,6 +62,23 @@ func (s *VDnsServiceV1) UpdateRecord(popts IUpdateRecordRequest) lserr.IError {
 	return nil
 }
 
+func (s *VDnsServiceV1) DeleteRecord(popts IDeleteRecordRequest) lserr.IError {
+	url := deleteRecordUrl(s.DnsClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.DnsClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVdns)
+	}
+
+	return nil
+}
+
 func (s *VDnsServiceV1) CreateDnsRecord(popts ICreateDnsRecordRequest) (*lsentity.DnsRecord, lserr.IError) {
 	url := createDnsRecordUrl(s.DnsClient, popts)
 	resp := new(CreateDnsRecordResponse)

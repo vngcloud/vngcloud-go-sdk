@@ -17,4 +17,5 @@ type IVDnsServiceV1 interface {
 	GetRecord(popts lsdnsSvcV1.IGetRecordRequest) (*lsentity.DnsRecord, lserr.IError)
 	CreateDnsRecord(popts lsdnsSvcV1.ICreateDnsRecordRequest) (*lsentity.DnsRecord, lserr.IError)
 	UpdateRecord(popts lsdnsSvcV1.IUpdateRecordRequest) lserr.IError
+	DeleteRecord(popts lsdnsSvcV1.IDeleteRecordRequest) lserr.IError
 }

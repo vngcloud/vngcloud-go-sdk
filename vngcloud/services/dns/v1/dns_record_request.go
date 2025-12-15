@@ -223,6 +223,57 @@ func NewUpdateRecordRequest(hostedZoneId, recordId string) IUpdateRecordRequest 
 
 // ----------------------------------------------------------------------
 
+type IDeleteRecordRequest interface {
+	GetHostedZoneId() string
+	GetRecordId() string
+	WithHostedZoneId(hostedZoneId string) IDeleteRecordRequest
+	WithRecordId(recordId string) IDeleteRecordRequest
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type DeleteRecordRequest struct {
+	HostedZoneId string
+	RecordId     string
+
+	lscommon.UserAgent
+}
+
+func (r *DeleteRecordRequest) GetHostedZoneId() string {
+	return r.HostedZoneId
+}
+
+func (r *DeleteRecordRequest) GetRecordId() string {
+	return r.RecordId
+}
+
+func (r *DeleteRecordRequest) WithHostedZoneId(hostedZoneId string) IDeleteRecordRequest {
+	r.HostedZoneId = hostedZoneId
+	return r
+}
+
+func (r *DeleteRecordRequest) WithRecordId(recordId string) IDeleteRecordRequest {
+	r.RecordId = recordId
+	return r
+}
+
+func (r *DeleteRecordRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"hostedZoneId": r.HostedZoneId,
+		"recordId":     r.RecordId,
+	}
+}
+
+func NewDeleteRecordRequest(hostedZoneId, recordId string) IDeleteRecordRequest {
+	return &DeleteRecordRequest{
+		HostedZoneId: hostedZoneId,
+		RecordId:     recordId,
+	}
+}
+
+// ----------------------------------------------------------------------
+
 type ICreateDnsRecordRequest interface {
 	GetHostedZoneId() string
 	WithHostedZoneId(hostedZoneId string) ICreateDnsRecordRequest

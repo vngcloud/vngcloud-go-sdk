@@ -363,3 +363,19 @@ func TestDnsServiceV1_UpdateRecord(t *ltesting.T) {
 	t.Log("Record updated successfully")
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_DeleteRecord(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+
+	hostedZoneId := "hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a"
+	recordId := "record-63ecb31a-2477-4afa-a46b-12ca3f2b1060"
+
+	deleteOpt := v1.NewDeleteRecordRequest(hostedZoneId, recordId)
+	sdkerr := vngcloud.VDnsGateway().V1().DnsService().DeleteRecord(deleteOpt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Record deleted successfully")
+	t.Log("PASS")
+}
