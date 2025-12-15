@@ -21,3 +21,11 @@ type HostedZone struct {
 	DeletedAt         *time.Time     `json:"deletedAt"`
 	UpdatedAt         time.Time      `json:"updatedAt"`
 }
+
+type ListHostedZone struct {
+	ListData  []*HostedZone `json:"listData"`
+	Page      int           `json:"page"`
+	PageSize  int           `json:"pageSize"`
+	TotalPage int           `json:"totalPage"`
+	TotalItem int           `json:"totalItem"`
+}

@@ -24,3 +24,39 @@ func TestDnsServiceV1_GetHostedZoneById(t *ltesting.T) {
 	t.Logf("Result: %+v", hostedZone)
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_ListHostedZonesDefault(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListHostedZonesRequest()
+	listHostedZones, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListHostedZones(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listHostedZones == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	for _, hostedZone := range listHostedZones.ListData {
+		t.Logf("HostedZone: %+v", hostedZone)
+	}
+	t.Log("PASS")
+}
+
+func TestDnsServiceV1_ListHostedZonesWithFilter(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListHostedZonesRequest().WithName("annd2")
+	listHostedZones, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListHostedZones(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listHostedZones == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	for _, hostedZone := range listHostedZones.ListData {
+		t.Logf("HostedZone: %+v", hostedZone)
+	}
+	t.Log("PASS")
+}

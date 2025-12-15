@@ -8,4 +8,5 @@ import (
 
 type IVDnsServiceV1 interface {
 	GetHostedZoneById(popts lsdnsSvcV1.IGetHostedZoneByIdRequest) (*lsentity.HostedZone, lserr.IError)
+	ListHostedZones(popts lsdnsSvcV1.IListHostedZonesRequest) (*lsentity.ListHostedZone, lserr.IError)
 }

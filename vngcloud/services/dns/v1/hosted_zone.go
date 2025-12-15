@@ -25,3 +25,22 @@ func (s *VDnsServiceV1) GetHostedZoneById(popts IGetHostedZoneByIdRequest) (*lse
 
 	return resp.ToEntityHostedZone(), nil
 }
+
+func (s *VDnsServiceV1) ListHostedZones(popts IListHostedZonesRequest) (*lsentity.ListHostedZone, lserr.IError) {
+	url := listHostedZonesUrl(s.DnsClient, popts)
+	resp := new(ListHostedZonesResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.DnsClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVdns)
+	}
+
+	return resp.ToEntityListHostedZones(), nil
+}

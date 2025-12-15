@@ -36,3 +36,36 @@ func NewGetHostedZoneByIdRequest(hostedZoneId string) IGetHostedZoneByIdRequest 
 		HostedZoneId: hostedZoneId,
 	}
 }
+
+type IListHostedZonesRequest interface {
+	GetName() string
+	WithName(name string) IListHostedZonesRequest
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type ListHostedZonesRequest struct {
+	Name string
+
+	lscommon.UserAgent
+}
+
+func (r *ListHostedZonesRequest) GetName() string {
+	return r.Name
+}
+
+func (r *ListHostedZonesRequest) WithName(name string) IListHostedZonesRequest {
+	r.Name = name
+	return r
+}
+
+func (r *ListHostedZonesRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"name": r.Name,
+	}
+}
+
+func NewListHostedZonesRequest() IListHostedZonesRequest {
+	return &ListHostedZonesRequest{}
+}
