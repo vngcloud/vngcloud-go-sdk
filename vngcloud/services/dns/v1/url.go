@@ -16,3 +16,11 @@ func listHostedZonesUrl(psc lsclient.IServiceClient, popts IListHostedZonesReque
 	}
 	return url
 }
+
+func listRecordsUrl(psc lsclient.IServiceClient, popts IListRecordsRequest) string {
+	url := psc.ServiceURL("dns", "hosted-zone", popts.GetHostedZoneId(), "record")
+	if popts.GetName() != "" {
+		url += "?name=" + popts.GetName()
+	}
+	return url
+}

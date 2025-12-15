@@ -60,3 +60,39 @@ func TestDnsServiceV1_ListHostedZonesWithFilter(t *ltesting.T) {
 	}
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_ListRecordsDefault(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListRecordsRequest("hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a")
+	listRecords, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListRecords(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listRecords == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	for _, record := range listRecords.ListData {
+		t.Logf("Record: %+v", record)
+	}
+	t.Log("PASS")
+}
+
+func TestDnsServiceV1_ListRecordsWithFilter(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewListRecordsRequest("hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a").WithName("k8s")
+	listRecords, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListRecords(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if listRecords == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	for _, record := range listRecords.ListData {
+		t.Logf("Record: %+v", record)
+	}
+	t.Log("PASS")
+}
