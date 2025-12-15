@@ -55,6 +55,57 @@ func NewListRecordsRequest(hostedZoneId string) IListRecordsRequest {
 
 // ----------------------------------------------------------------------
 
+type IGetRecordRequest interface {
+	GetHostedZoneId() string
+	GetRecordId() string
+	WithHostedZoneId(hostedZoneId string) IGetRecordRequest
+	WithRecordId(recordId string) IGetRecordRequest
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type GetRecordRequest struct {
+	HostedZoneId string
+	RecordId     string
+
+	lscommon.UserAgent
+}
+
+func (r *GetRecordRequest) GetHostedZoneId() string {
+	return r.HostedZoneId
+}
+
+func (r *GetRecordRequest) GetRecordId() string {
+	return r.RecordId
+}
+
+func (r *GetRecordRequest) WithHostedZoneId(hostedZoneId string) IGetRecordRequest {
+	r.HostedZoneId = hostedZoneId
+	return r
+}
+
+func (r *GetRecordRequest) WithRecordId(recordId string) IGetRecordRequest {
+	r.RecordId = recordId
+	return r
+}
+
+func (r *GetRecordRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"hostedZoneId": r.HostedZoneId,
+		"recordId":     r.RecordId,
+	}
+}
+
+func NewGetRecordRequest(hostedZoneId, recordId string) IGetRecordRequest {
+	return &GetRecordRequest{
+		HostedZoneId: hostedZoneId,
+		RecordId:     recordId,
+	}
+}
+
+// ----------------------------------------------------------------------
+
 type ICreateDnsRecordRequest interface {
 	GetHostedZoneId() string
 	WithHostedZoneId(hostedZoneId string) ICreateDnsRecordRequest

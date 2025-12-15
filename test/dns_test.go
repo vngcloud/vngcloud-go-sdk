@@ -269,3 +269,42 @@ func TestDnsServiceV1_CreateDnsRecord(t *ltesting.T) {
 
 	t.Log("All DNS Record types created successfully")
 }
+
+func TestDnsServiceV1_GetRecord(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+
+	// Use one of the existing records for testing
+	hostedZoneId := "hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a"
+
+	// First list records to get a record ID
+	listOpt := v1.NewListRecordsRequest(hostedZoneId)
+	listRecords, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListRecords(listOpt)
+	if sdkerr != nil {
+		t.Fatalf("Failed to list records: %+v", sdkerr)
+	}
+
+	if len(listRecords.ListData) == 0 {
+		t.Skip("No records found to test GetRecord")
+	}
+
+	recordId := listRecords.ListData[0].RecordId
+	t.Logf("Testing GetRecord with recordId: %s", recordId)
+
+	// Test GetRecord
+	opt := v1.NewGetRecordRequest(hostedZoneId, recordId)
+	record, sdkerr := vngcloud.VDnsGateway().V1().DnsService().GetRecord(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if record == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	if record.RecordId != recordId {
+		t.Fatalf("Expected record ID %s but got %s", recordId, record.RecordId)
+	}
+
+	t.Logf("Retrieved Record: %+v", record)
+	t.Log("PASS")
+}

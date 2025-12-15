@@ -14,5 +14,6 @@ type IVDnsServiceV1 interface {
 	DeleteHostedZone(popts lsdnsSvcV1.IDeleteHostedZoneRequest) lserr.IError
 
 	ListRecords(popts lsdnsSvcV1.IListRecordsRequest) (*lsentity.ListDnsRecords, lserr.IError)
+	GetRecord(popts lsdnsSvcV1.IGetRecordRequest) (*lsentity.DnsRecord, lserr.IError)
 	CreateDnsRecord(popts lsdnsSvcV1.ICreateDnsRecordRequest) (*lsentity.DnsRecord, lserr.IError)
 }

@@ -37,6 +37,10 @@ func updateHostedZoneUrl(psc lsclient.IServiceClient, popts IUpdateHostedZoneReq
 	return psc.ServiceURL("dns", "hosted-zone", popts.GetHostedZoneId())
 }
 
+func getRecordUrl(psc lsclient.IServiceClient, popts IGetRecordRequest) string {
+	return psc.ServiceURL("dns", "hosted-zone", popts.GetHostedZoneId(), "record", popts.GetRecordId())
+}
+
 func createDnsRecordUrl(psc lsclient.IServiceClient, popts ICreateDnsRecordRequest) string {
 	return psc.ServiceURL("dns", "hosted-zone", popts.GetHostedZoneId(), "record")
 }
