@@ -64,3 +64,20 @@ func (s *VDnsServiceV1) CreateHostedZone(popts ICreateHostedZoneRequest) (*lsent
 
 	return resp.ToEntityHostedZone(), nil
 }
+
+func (s *VDnsServiceV1) DeleteHostedZone(popts IDeleteHostedZoneRequest) lserr.IError {
+	url := deleteHostedZoneUrl(s.DnsClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.DnsClient.Delete(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVdns)
+	}
+
+	return nil
+}

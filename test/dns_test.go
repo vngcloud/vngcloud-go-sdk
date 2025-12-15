@@ -117,3 +117,16 @@ func TestDnsServiceV1_CreateHostedZone(t *ltesting.T) {
 	t.Logf("Created HostedZone: %+v", hostedZone)
 	t.Log("PASS")
 }
+
+func TestDnsServiceV1_DeleteHostedZone(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v1.NewDeleteHostedZoneRequest("hosted-zone-8d556e58-e84c-4dff-aeda-dc246b296f32")
+
+	sdkerr := vngcloud.VDnsGateway().V1().DnsService().DeleteHostedZone(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("HostedZone deleted successfully")
+	t.Log("PASS")
+}

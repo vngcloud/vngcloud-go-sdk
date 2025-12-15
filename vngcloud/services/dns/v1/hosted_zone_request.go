@@ -142,3 +142,40 @@ func NewCreateHostedZoneRequest(domainName string, assocVpcIds []string, zoneTyp
 		Type:        zoneType,
 	}
 }
+
+// ----------------------------------------------------------------------
+
+type IDeleteHostedZoneRequest interface {
+	GetHostedZoneId() string
+	WithHostedZoneId(hostedZoneId string) IDeleteHostedZoneRequest
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type DeleteHostedZoneRequest struct {
+	HostedZoneId string
+
+	lscommon.UserAgent
+}
+
+func (r *DeleteHostedZoneRequest) GetHostedZoneId() string {
+	return r.HostedZoneId
+}
+
+func (r *DeleteHostedZoneRequest) WithHostedZoneId(hostedZoneId string) IDeleteHostedZoneRequest {
+	r.HostedZoneId = hostedZoneId
+	return r
+}
+
+func (r *DeleteHostedZoneRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"hostedZoneId": r.HostedZoneId,
+	}
+}
+
+func NewDeleteHostedZoneRequest(hostedZoneId string) IDeleteHostedZoneRequest {
+	return &DeleteHostedZoneRequest{
+		HostedZoneId: hostedZoneId,
+	}
+}

@@ -28,3 +28,7 @@ func listRecordsUrl(psc lsclient.IServiceClient, popts IListRecordsRequest) stri
 func createHostedZoneUrl(psc lsclient.IServiceClient) string {
 	return psc.ServiceURL("dns", "hosted-zone")
 }
+
+func deleteHostedZoneUrl(psc lsclient.IServiceClient, popts IDeleteHostedZoneRequest) string {
+	return psc.ServiceURL("dns", "hosted-zone", popts.GetHostedZoneId())
+}
