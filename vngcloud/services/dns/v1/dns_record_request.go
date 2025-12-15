@@ -106,6 +106,123 @@ func NewGetRecordRequest(hostedZoneId, recordId string) IGetRecordRequest {
 
 // ----------------------------------------------------------------------
 
+type IUpdateRecordRequest interface {
+	GetHostedZoneId() string
+	GetRecordId() string
+	WithHostedZoneId(hostedZoneId string) IUpdateRecordRequest
+	WithRecordId(recordId string) IUpdateRecordRequest
+	WithSubDomain(subDomain string) IUpdateRecordRequest
+	WithTTL(ttl int) IUpdateRecordRequest
+	WithType(recordType DnsRecordType) IUpdateRecordRequest
+	WithRoutingPolicy(routingPolicy RoutingPolicy) IUpdateRecordRequest
+	WithEnableStickySession(enable bool) IUpdateRecordRequest
+	WithValue(value []RecordValueRequest) IUpdateRecordRequest
+	ToRequestBody(psc lsclient.IServiceClient) map[string]interface{}
+	ToMap() map[string]interface{}
+
+	ParseUserAgent() string
+}
+
+type UpdateRecordRequest struct {
+	HostedZoneId        string               `json:"-"`
+	RecordId            string               `json:"-"`
+	SubDomain           string               `json:"subDomain"`
+	TTL                 int                  `json:"ttl"`
+	Type                DnsRecordType        `json:"type"`
+	RoutingPolicy       RoutingPolicy        `json:"routingPolicy"`
+	EnableStickySession *bool                `json:"enableStickySession,omitempty"`
+	Value               []RecordValueRequest `json:"value"`
+
+	lscommon.UserAgent
+}
+
+func (r *UpdateRecordRequest) GetHostedZoneId() string {
+	return r.HostedZoneId
+}
+
+func (r *UpdateRecordRequest) GetRecordId() string {
+	return r.RecordId
+}
+
+func (r *UpdateRecordRequest) WithHostedZoneId(hostedZoneId string) IUpdateRecordRequest {
+	r.HostedZoneId = hostedZoneId
+	return r
+}
+
+func (r *UpdateRecordRequest) WithRecordId(recordId string) IUpdateRecordRequest {
+	r.RecordId = recordId
+	return r
+}
+
+func (r *UpdateRecordRequest) WithSubDomain(subDomain string) IUpdateRecordRequest {
+	r.SubDomain = subDomain
+	return r
+}
+
+func (r *UpdateRecordRequest) WithTTL(ttl int) IUpdateRecordRequest {
+	r.TTL = ttl
+	return r
+}
+
+func (r *UpdateRecordRequest) WithType(recordType DnsRecordType) IUpdateRecordRequest {
+	r.Type = recordType
+	return r
+}
+
+func (r *UpdateRecordRequest) WithRoutingPolicy(routingPolicy RoutingPolicy) IUpdateRecordRequest {
+	r.RoutingPolicy = routingPolicy
+	return r
+}
+
+func (r *UpdateRecordRequest) WithEnableStickySession(enable bool) IUpdateRecordRequest {
+	r.EnableStickySession = &enable
+	return r
+}
+
+func (r *UpdateRecordRequest) WithValue(value []RecordValueRequest) IUpdateRecordRequest {
+	r.Value = value
+	return r
+}
+
+func (r *UpdateRecordRequest) ToRequestBody(psc lsclient.IServiceClient) map[string]interface{} {
+	body := map[string]interface{}{
+		"subDomain":     r.SubDomain,
+		"ttl":           r.TTL,
+		"type":          r.Type,
+		"routingPolicy": r.RoutingPolicy,
+		"value":         r.Value,
+	}
+	if r.EnableStickySession != nil {
+		body["enableStickySession"] = *r.EnableStickySession
+	}
+	return body
+}
+
+func (r *UpdateRecordRequest) ToMap() map[string]interface{} {
+	m := map[string]interface{}{
+		"hostedZoneId":  r.HostedZoneId,
+		"recordId":      r.RecordId,
+		"subDomain":     r.SubDomain,
+		"ttl":           r.TTL,
+		"type":          r.Type,
+		"routingPolicy": r.RoutingPolicy,
+		"value":         r.Value,
+	}
+	if r.EnableStickySession != nil {
+		m["enableStickySession"] = *r.EnableStickySession
+	}
+	return m
+}
+
+func NewUpdateRecordRequest(hostedZoneId, recordId string) IUpdateRecordRequest {
+	return &UpdateRecordRequest{
+		HostedZoneId: hostedZoneId,
+		RecordId:     recordId,
+	}
+}
+
+// ----------------------------------------------------------------------
+
 type ICreateDnsRecordRequest interface {
 	GetHostedZoneId() string
 	WithHostedZoneId(hostedZoneId string) ICreateDnsRecordRequest

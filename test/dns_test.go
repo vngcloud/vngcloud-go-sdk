@@ -3,6 +3,7 @@ package test
 import (
 	ltesting "testing"
 
+	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/dns/v1"
 )
 
@@ -306,5 +307,59 @@ func TestDnsServiceV1_GetRecord(t *ltesting.T) {
 	}
 
 	t.Logf("Retrieved Record: %+v", record)
+	t.Log("PASS")
+}
+
+func TestDnsServiceV1_UpdateRecord(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+
+	hostedZoneId := "hosted-zone-32a21aa3-99a3-4d03-9045-37aa701fa03a"
+
+	// First list records to get a record ID
+	listOpt := v1.NewListRecordsRequest(hostedZoneId)
+	listRecords, sdkerr := vngcloud.VDnsGateway().V1().DnsService().ListRecords(listOpt)
+	if sdkerr != nil {
+		t.Fatalf("Failed to list records: %+v", sdkerr)
+	}
+
+	if len(listRecords.ListData) == 0 {
+		t.Skip("No records found to test UpdateRecord")
+	}
+
+	// Find a record that's not NS or SOA (system records that can't be modified)
+	var targetRecord *lsentity.DnsRecord
+	for _, record := range listRecords.ListData {
+		if record.Type != "NS" && record.Type != "SOA" {
+			targetRecord = record
+			break
+		}
+	}
+
+	if targetRecord == nil {
+		t.Skip("No modifiable records found to test UpdateRecord")
+	}
+
+	recordId := targetRecord.RecordId
+	t.Logf("Testing UpdateRecord with recordId: %s", recordId)
+
+	// Update the record with new TTL
+	newTTL := 3600
+	values := []v1.RecordValueRequest{
+		v1.NewRecordValueRequest("updated.example.com", nil, nil),
+	}
+
+	opt := v1.NewUpdateRecordRequest(hostedZoneId, recordId).
+		WithSubDomain("updated-test").
+		WithTTL(newTTL).
+		WithType(v1.DnsRecordTypeCNAME).
+		WithRoutingPolicy(v1.RoutingPolicySimple).
+		WithValue(values)
+
+	sdkerr = vngcloud.VDnsGateway().V1().DnsService().UpdateRecord(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	t.Log("Record updated successfully")
 	t.Log("PASS")
 }

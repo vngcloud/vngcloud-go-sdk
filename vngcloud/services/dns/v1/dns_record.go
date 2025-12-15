@@ -44,6 +44,24 @@ func (s *VDnsServiceV1) GetRecord(popts IGetRecordRequest) (*lsentity.DnsRecord,
 	return resp.ToEntityDnsRecord(), nil
 }
 
+func (s *VDnsServiceV1) UpdateRecord(popts IUpdateRecordRequest) lserr.IError {
+	url := updateRecordUrl(s.DnsClient, popts)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(204).
+		WithJsonBody(popts.ToRequestBody(s.DnsClient)).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.DnsClient.Put(url, req); sdkErr != nil {
+		return lserr.SdkErrorHandler(sdkErr, errResp).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVdns)
+	}
+
+	return nil
+}
+
 func (s *VDnsServiceV1) CreateDnsRecord(popts ICreateDnsRecordRequest) (*lsentity.DnsRecord, lserr.IError) {
 	url := createDnsRecordUrl(s.DnsClient, popts)
 	resp := new(CreateDnsRecordResponse)
