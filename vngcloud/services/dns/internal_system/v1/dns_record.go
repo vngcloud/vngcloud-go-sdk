@@ -12,7 +12,7 @@ func (s *VDnsServiceInternal) ListRecords(popts IListRecordsRequest, portalUserI
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithUserId(s.DnsClient.GetUserId()).
+		WithUserId(portalUserId).
 		WithOkCodes(200).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
