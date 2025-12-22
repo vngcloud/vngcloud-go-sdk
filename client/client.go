@@ -30,6 +30,7 @@ type (
 		vbackupGateway  lsgateway.IVBackUpGateway
 		vnetworkGateway lsgateway.IVNetworkGateway
 		glbGateway      lsgateway.IGLBGateway
+		vdnsGateway     lsgateway.IVDnsGateway
 	}
 )
 
@@ -130,6 +131,10 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 		)
 	}
 
+	if s.vdnsGateway != nil {
+		s.vdnsGateway = lsgateway.NewVDnsGateway(s.vdnsGateway.GetEndpoint(), s.projectId, s.httpClient)
+	}
+
 	return s
 }
 
@@ -190,6 +195,10 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 		s.glbGateway = lsgateway.NewGLBGateway(psdkCfg.GetGLBEndpoint(), s.httpClient)
 	}
 
+	if s.vdnsGateway == nil && psdkCfg.GetVDnsEndpoint() != "" {
+		s.vdnsGateway = lsgateway.NewVDnsGateway(psdkCfg.GetVDnsEndpoint(), s.projectId, s.httpClient)
+	}
+
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
 	s.userAgent = psdkCfg.GetUserAgent()
 
@@ -218,6 +227,10 @@ func (s *client) VNetworkGateway() lsgateway.IVNetworkGateway {
 
 func (s *client) GLBGateway() lsgateway.IGLBGateway {
 	return s.glbGateway
+}
+
+func (s *client) VDnsGateway() lsgateway.IVDnsGateway {
+	return s.vdnsGateway
 }
 
 func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.IError) {
