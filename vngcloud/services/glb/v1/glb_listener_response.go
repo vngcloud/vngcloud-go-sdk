@@ -101,3 +101,28 @@ func (s *UpdateGlobalListenerResponse) ToEntityGlobalListener() *lsentity.Global
 		Status:               s.Status,
 	}
 }
+
+// --------------------------------------------------
+
+type GetGlobalListenerResponse GlobalListenerResponse
+
+func (s *GetGlobalListenerResponse) ToEntityGlobalListener() *lsentity.GlobalListener {
+	return &lsentity.GlobalListener{
+		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
+		DeletedAt:            s.DeletedAt,
+		ID:                   s.ID,
+		Name:                 s.Name,
+		Description:          s.Description,
+		Protocol:             s.Protocol,
+		Port:                 s.Port,
+		GlobalLoadBalancerID: s.GlobalLoadBalancerID,
+		GlobalPoolID:         s.GlobalPoolID,
+		TimeoutClient:        s.TimeoutClient,
+		TimeoutMember:        s.TimeoutMember,
+		TimeoutConnection:    s.TimeoutConnection,
+		AllowedCidrs:         s.AllowedCidrs,
+		Headers:              s.Headers,
+		Status:               s.Status,
+	}
+}

@@ -27,3 +27,5 @@ TestResults.xml
 test/env.yaml
 
 .DS_Store
+
+._*

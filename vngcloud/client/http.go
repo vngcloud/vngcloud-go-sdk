@@ -140,8 +140,8 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		}
 	}
 
-	if resp.Response != nil {
-		switch resp.Response.StatusCode {
+	if resp != nil && resp.Response != nil {
+		switch resp.StatusCode {
 		case lhttp.StatusUnauthorized:
 			if !preq.SkipAuthentication() && s.reauthFunc != nil {
 				if sdkErr := s.reauthenticate(); sdkErr != nil {

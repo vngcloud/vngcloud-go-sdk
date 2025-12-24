@@ -7,10 +7,6 @@ type GLBServiceV1 struct {
 	VServerClient lsclient.IServiceClient
 }
 
-func (s *GLBServiceV1) getProjectId() string {
-	return s.VLBClient.GetProjectId()
-}
-
 const (
 	defaultOffsetListGlobalLoadBalancer = 0
 	defaultLimitListGlobalLoadBalancer  = 10

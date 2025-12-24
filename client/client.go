@@ -59,7 +59,7 @@ func (s *client) WithAuthOption(pauthOpts lsclient.AuthOpts, pauthConfig ISdkCon
 		s.httpClient = lsclient.NewHttpClient(s.context)
 	}
 
-	s.authOpt = pauthOpts  // Assign the auth option to the client
+	s.authOpt = pauthOpts // Assign the auth option to the client
 
 	switch pauthOpts {
 	case lsclient.IamOauth2:
@@ -112,11 +112,22 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 	}
 
 	if s.vlbGateway != nil {
-		s.vlbGateway = lsgateway.NewVLBGateway(s.vlbGateway.GetEndpoint(), s.vserverGateway.GetEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(
+			s.vlbGateway.GetEndpoint(),
+			s.vserverGateway.GetEndpoint(),
+			s.projectId,
+			s.httpClient,
+		)
 	}
 
 	if s.vnetworkGateway != nil {
-		s.vnetworkGateway = lsgateway.NewVNetworkGateway(s.vnetworkGateway.GetEndpoint(), s.zoneId, s.projectId, s.userId, s.httpClient)
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(
+			s.vnetworkGateway.GetEndpoint(),
+			s.zoneId,
+			s.projectId,
+			s.userId,
+			s.httpClient,
+		)
 	}
 
 	return s
@@ -125,7 +136,13 @@ func (s *client) WithProjectId(pprojectId string) IClient {
 func (s *client) WithUserId(puserId string) IClient {
 	s.userId = puserId
 	if s.vnetworkGateway != nil {
-		s.vnetworkGateway = lsgateway.NewVNetworkGateway(s.vnetworkGateway.GetEndpoint(), s.zoneId, s.projectId, s.userId, s.httpClient)
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(
+			s.vnetworkGateway.GetEndpoint(),
+			s.zoneId,
+			s.projectId,
+			s.userId,
+			s.httpClient,
+		)
 	}
 
 	return s
@@ -143,15 +160,30 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 	}
 
 	if s.vserverGateway == nil && psdkCfg.GetVServerEndpoint() != "" {
-		s.vserverGateway = lsgateway.NewVServerGateway(psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
+		s.vserverGateway = lsgateway.NewVServerGateway(
+			psdkCfg.GetVServerEndpoint(),
+			s.projectId,
+			s.httpClient,
+		)
 	}
 
 	if s.vlbGateway == nil && psdkCfg.GetVLBEndpoint() != "" && psdkCfg.GetVServerEndpoint() != "" {
-		s.vlbGateway = lsgateway.NewVLBGateway(psdkCfg.GetVLBEndpoint(), psdkCfg.GetVServerEndpoint(), s.projectId, s.httpClient)
+		s.vlbGateway = lsgateway.NewVLBGateway(
+			psdkCfg.GetVLBEndpoint(),
+			psdkCfg.GetVServerEndpoint(),
+			s.projectId,
+			s.httpClient,
+		)
 	}
 
 	if s.vnetworkGateway == nil && psdkCfg.GetVNetworkEndpoint() != "" {
-		s.vnetworkGateway = lsgateway.NewVNetworkGateway(psdkCfg.GetVNetworkEndpoint(), psdkCfg.GetZoneId(), s.projectId, s.userId, s.httpClient)
+		s.vnetworkGateway = lsgateway.NewVNetworkGateway(
+			psdkCfg.GetVNetworkEndpoint(),
+			psdkCfg.GetZoneId(),
+			s.projectId,
+			s.userId,
+			s.httpClient,
+		)
 	}
 
 	if s.glbGateway == nil && psdkCfg.GetGLBEndpoint() != "" {

@@ -91,7 +91,6 @@ func (s *GetVirtualAddressByIdRequest) ToMap() map[string]interface{} {
 	}
 }
 
-
 // Api list address pairs by virtual address ID
 
 type ListAddressPairsByVirtualAddressIdRequest struct {

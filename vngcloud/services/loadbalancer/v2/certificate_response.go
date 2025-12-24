@@ -50,7 +50,7 @@ type ListCertificatesResponse struct {
 }
 
 func (r *ListCertificatesResponse) ToEntityListCertificates() *entity.ListCertificates {
-	var certs []entity.Certificate
+	certs := make([]entity.Certificate, 0, len(r.ListData))
 	for _, cert := range r.ListData {
 		certs = append(certs, *cert.ToEntityCertificate())
 	}

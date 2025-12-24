@@ -17,4 +17,3 @@ func (s *GetNetworkByIdRequest) AddUserAgent(pagent ...string) IGetNetworkByIdRe
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
 }
-

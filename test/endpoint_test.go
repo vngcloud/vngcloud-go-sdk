@@ -26,7 +26,15 @@ func TestGetEndpointSuccess(t *ltesting.T) {
 
 func TestCreateEndpoint(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnwv1.NewCreateEndpointRequest("cuongdm3-test", "f3d11a4c-f071-4009-88a6-4a21346c8708", "net-5ac170fc-834a-4621-b512-481e09b82fc8", "sub-0c508dd6-5af6-4f0e-a860-35346b530cf1").WithDescription("This is the service endpoint for vStorage APIs, established by the VKS product. Please refrain from DELETING it manually.")
+	opt := lsnwv1.NewCreateEndpointRequest(
+		"cuongdm3-test",
+		"f3d11a4c-f071-4009-88a6-4a21346c8708",
+		"net-5ac170fc-834a-4621-b512-481e09b82fc8",
+		"sub-0c508dd6-5af6-4f0e-a860-35346b530cf1",
+	).WithDescription(
+		"This is the service endpoint for vStorage APIs, established by the VKS product. " +
+			"Please refrain from DELETING it manually.",
+	)
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().CreateEndpoint(opt)
 	if sdkerr != nil {
@@ -43,7 +51,11 @@ func TestCreateEndpoint(t *ltesting.T) {
 
 func TestDeleteEndpoint(t *ltesting.T) {
 	vngcloud := validSdkConfig()
-	opt := lsnwv1.NewDeleteEndpointByIdRequest("enp-56d7359f-4b9a-4f01-a210-54523c6d0c88", "net-5ac170fc-834a-4621-b512-481e09b82fc8", "b9ba2b16-389e-48b7-9e75-4c991239da27")
+	opt := lsnwv1.NewDeleteEndpointByIdRequest(
+		"enp-56d7359f-4b9a-4f01-a210-54523c6d0c88",
+		"net-5ac170fc-834a-4621-b512-481e09b82fc8",
+		"b9ba2b16-389e-48b7-9e75-4c991239da27",
+	)
 
 	sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().DeleteEndpointById(opt)
 	if sdkerr != nil {
@@ -79,7 +91,11 @@ func TestEndpoint(t *ltesting.T) {
 
 func TestListEndpointTags(t *ltesting.T) {
 	vngcloud := validSuperSdkHcm03bConfig()
-	opt := lsnwv1.NewListTagsByEndpointIdRequest("95174", "pro-b2fff1cf-6d72-4643-a8e7-5907bc9e439c", "enp-3fe5d1e9-679e-4eb8-ad35-d9ce53243259")
+	opt := lsnwv1.NewListTagsByEndpointIdRequest(
+		"95174",
+		"pro-b2fff1cf-6d72-4643-a8e7-5907bc9e439c",
+		"enp-3fe5d1e9-679e-4eb8-ad35-d9ce53243259",
+	)
 
 	lb, sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().ListTagsByEndpointId(opt)
 	if sdkerr != nil {
@@ -96,8 +112,11 @@ func TestListEndpointTags(t *ltesting.T) {
 
 func TestCreateEndpointTags(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewCreateTagsWithEndpointIdRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "enp-7e8e4476-feeb-414c-ac03-3501aae607d0").
-		AddTag("cuongdm3", "test")
+	opt := lsnwv1.NewCreateTagsWithEndpointIdRequest(
+		"60108",
+		"pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7",
+		"enp-7e8e4476-feeb-414c-ac03-3501aae607d0",
+	).AddTag("cuongdm3", "test")
 
 	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().CreateTagsWithEndpointId(opt)
 	if sdkerr != nil {
@@ -110,7 +129,11 @@ func TestCreateEndpointTags(t *ltesting.T) {
 
 func TestDeleteTagByEndpointId(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewDeleteTagOfEndpointRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "tag-6ceb41e1-47e9-43f0-94dd-521a1af870ee")
+	opt := lsnwv1.NewDeleteTagOfEndpointRequest(
+		"60108",
+		"pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7",
+		"tag-6ceb41e1-47e9-43f0-94dd-521a1af870ee",
+	)
 
 	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().DeleteTagOfEndpoint(opt)
 	if sdkerr != nil {
@@ -123,7 +146,12 @@ func TestDeleteTagByEndpointId(t *ltesting.T) {
 
 func TestUpdateEndpointTag(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
-	opt := lsnwv1.NewUpdateTagValueOfEndpointRequest("60108", "pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7", "tag-c6d6e343-ed13-4bf1-bf2e-e63a1a5e0eab", "cuonghahahah")
+	opt := lsnwv1.NewUpdateTagValueOfEndpointRequest(
+		"60108",
+		"pro-88265bae-d2ef-424b-b8a7-9eeb08aec1f7",
+		"tag-c6d6e343-ed13-4bf1-bf2e-e63a1a5e0eab",
+		"cuonghahahah",
+	)
 
 	sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().UpdateTagValueOfEndpoint(opt)
 	if sdkerr != nil {
