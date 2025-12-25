@@ -55,6 +55,10 @@ type CreateEndpointRequest struct {
 			Zone       string `json:"zone"`
 			SubnetUuid string `json:"subnetUuid"`
 		} `json:"networking"`
+		Scaling struct {
+			MinSize int `json:"minSize"`
+			MaxSize int `json:"maxSize"`
+		} `json:"scaling"`
 	} `json:"resourceInfo"`
 
 	lscommon.UserAgent
@@ -78,6 +82,7 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"description":       s.ResourceInfo.Description,
 		"enableAZ":          s.ResourceInfo.EnableAZ,
 		"networking":        s.ResourceInfo.Networking,
+		"scaling":           s.ResourceInfo.Scaling,
 	}
 
 	if len(s.Agent) > 0 {
@@ -160,6 +165,17 @@ func (s *CreateEndpointRequest) AddNetworking(zone, subnetUuid string) ICreateEn
 		Zone:       zone,
 		SubnetUuid: subnetUuid,
 	})
+	return s
+}
+
+func (s *CreateEndpointRequest) WithScaling(minSize int, maxSize int) ICreateEndpointRequest {
+	s.ResourceInfo.Scaling = struct {
+		MinSize int `json:"minSize"`
+		MaxSize int `json:"maxSize"`
+	}{
+		MinSize: minSize,
+		MaxSize: maxSize,
+	}
 	return s
 }
 

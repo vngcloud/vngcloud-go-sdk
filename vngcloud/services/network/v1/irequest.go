@@ -20,6 +20,7 @@ type ICreateEndpointRequest interface {
 	WithBuyMorePoc(pyes bool) ICreateEndpointRequest
 	WithEnableAutoRenew(pyes bool) ICreateEndpointRequest
 	AddNetworking(zone string, subnetUuid string) ICreateEndpointRequest
+	WithScaling(minSize int, maxSize int) ICreateEndpointRequest
 	AddUserAgent(pagent ...string) ICreateEndpointRequest
 	ToMap() map[string]interface{}
 }
