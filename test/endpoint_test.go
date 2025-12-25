@@ -49,6 +49,31 @@ func TestCreateEndpoint(t *ltesting.T) {
 	t.Log("PASS")
 }
 
+func TestCreateEndpointInternal(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lsnwv1.NewCreateEndpointRequest(
+		"cuongdm3-test",
+		"f3d11a4c-f071-4009-88a6-4a21346c8708",
+		"net-5ac170fc-834a-4621-b512-481e09b82fc8",
+		"sub-0c508dd6-5af6-4f0e-a860-35346b530cf1",
+	).WithDescription(
+		"This is the service endpoint for vStorage APIs, established by the VKS product. " +
+			"Please refrain from DELETING it manually.",
+	)
+
+	lb, sdkerr := vngcloud.VNetworkGateway().InternalV1().NetworkService().CreateEndpoint(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr.GetError())
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
+
 func TestDeleteEndpoint(t *ltesting.T) {
 	vngcloud := validSdkConfig()
 	opt := lsnwv1.NewDeleteEndpointByIdRequest(

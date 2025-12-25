@@ -19,6 +19,7 @@ type INetworkServiceInternalV1 interface {
 	CreateTagsWithEndpointId(popts lsnetworkSvcV1.ICreateTagsWithEndpointIdRequest) lserr.IError
 	DeleteTagOfEndpoint(popts lsnetworkSvcV1.IDeleteTagOfEndpointRequest) lserr.IError
 	UpdateTagValueOfEndpoint(popts lsnetworkSvcV1.IUpdateTagValueOfEndpointRequest) lserr.IError
+	CreateEndpoint(popts lsnetworkSvcV1.ICreateEndpointRequest) (*lsentity.Endpoint, lserr.IError)
 }
 
 type INetworkServiceV2 interface {

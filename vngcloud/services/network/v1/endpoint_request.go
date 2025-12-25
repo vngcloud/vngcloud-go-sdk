@@ -51,6 +51,10 @@ type CreateEndpointRequest struct {
 		ProjectUuid       string `json:"projectUuid"`
 		Description       string `json:"description"`
 		EnableAZ          bool   `json:"enableAZ"`
+		Networking        []struct {
+			Zone       string `json:"zone"`
+			SubnetUuid string `json:"subnetUuid"`
+		} `json:"networking"`
 	} `json:"resourceInfo"`
 
 	lscommon.UserAgent
@@ -73,6 +77,7 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"projectId":         s.ResourceInfo.ProjectUuid,
 		"description":       s.ResourceInfo.Description,
 		"enableAZ":          s.ResourceInfo.EnableAZ,
+		"networking":        s.ResourceInfo.Networking,
 	}
 
 	if len(s.Agent) > 0 {
@@ -144,6 +149,17 @@ func (s *CreateEndpointRequest) WithBuyMorePoc(pyes bool) ICreateEndpointRequest
 
 func (s *CreateEndpointRequest) WithEnableAutoRenew(pyes bool) ICreateEndpointRequest {
 	s.ResourceInfo.IsEnableAutoRenew = pyes
+	return s
+}
+
+func (s *CreateEndpointRequest) AddNetworking(zone, subnetUuid string) ICreateEndpointRequest {
+	s.ResourceInfo.Networking = append(s.ResourceInfo.Networking, struct {
+		Zone       string `json:"zone"`
+		SubnetUuid string `json:"subnetUuid"`
+	}{
+		Zone:       zone,
+		SubnetUuid: subnetUuid,
+	})
 	return s
 }
 

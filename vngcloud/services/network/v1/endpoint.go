@@ -184,3 +184,32 @@ func (s *NetworkServiceInternalV1) UpdateTagValueOfEndpoint(popts IUpdateTagValu
 
 	return nil
 }
+
+func (s *NetworkServiceInternalV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsentity.Endpoint, lserr.IError) {
+	url := createEndpointUrl(s.VNetworkClient)
+	resp := new(CreateEndpointResponse)
+	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
+	req := lsclient.NewRequest().
+		WithOkCodes(201).
+		// WithUserId(s.getUserId()).
+		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
+			lserr.WithErrorEndpointOfVpcExists(errResp),
+			lserr.WithErrorLockOnProcess(errResp),
+			lserr.WithErrorNetworkNotFound(errResp),
+			lserr.WithErrorPurchaseIssue(errResp),
+			lserr.WithErrorPaymentMethodNotAllow(errResp),
+			lserr.WithErrorCreditNotEnough(errResp),
+			lserr.WithErrorSubnetNotFound(errResp),
+			lserr.WithErrorEndpointPackageNotBelongToEndpointService(errResp),
+			lserr.WithErrorContainInvalidCharacter(errResp)).
+			WithParameters(popts.ToMap()).
+			WithErrorCategories(lserr.ErrCatProductVNetwork)
+	}
+
+	return resp.ToEntityEndpoint(), nil
+}
