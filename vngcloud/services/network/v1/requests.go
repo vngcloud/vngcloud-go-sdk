@@ -13,7 +13,7 @@ func NewCreateEndpointRequest(pname, pserviceId, pvpcId, psubnetId string) ICrea
 	opts.ResourceInfo.VpcUuid = pvpcId
 	opts.ResourceInfo.SubnetUuid = psubnetId
 	opts.ResourceInfo.PackageUuid = defaultPackageId
-
+	opts.ResourceInfo.EnableDnsName = false
 	return opts
 }
 

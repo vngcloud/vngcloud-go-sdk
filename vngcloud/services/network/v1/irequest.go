@@ -17,6 +17,7 @@ type ICreateEndpointRequest interface {
 	WithCategoryUuid(pcategoryUuid string) ICreateEndpointRequest
 	WithEndpointName(pendpointName string) ICreateEndpointRequest
 	WithPoc(pyes bool) ICreateEndpointRequest
+	WithEnableDnsName(pyes bool) ICreateEndpointRequest
 	WithBuyMorePoc(pyes bool) ICreateEndpointRequest
 	WithEnableAutoRenew(pyes bool) ICreateEndpointRequest
 	AddNetworking(zone string, subnetUuid string) ICreateEndpointRequest

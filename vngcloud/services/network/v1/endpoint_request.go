@@ -51,6 +51,7 @@ type CreateEndpointRequest struct {
 		ProjectUuid       string `json:"projectUuid"`
 		Description       string `json:"description"`
 		EnableAZ          bool   `json:"enableAZ"`
+		EnableDnsName     bool   `json:"enableDnsName"`
 		Networking        []struct {
 			Zone       string `json:"zone"`
 			SubnetUuid string `json:"subnetUuid"`
@@ -81,6 +82,7 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"projectId":         s.ResourceInfo.ProjectUuid,
 		"description":       s.ResourceInfo.Description,
 		"enableAZ":          s.ResourceInfo.EnableAZ,
+		"enableDnsName":     s.ResourceInfo.EnableDnsName,
 		"networking":        s.ResourceInfo.Networking,
 		"scaling":           s.ResourceInfo.Scaling,
 	}
@@ -144,6 +146,11 @@ func (s *CreateEndpointRequest) WithDescription(pdesp string) ICreateEndpointReq
 
 func (s *CreateEndpointRequest) WithPoc(pyes bool) ICreateEndpointRequest {
 	s.ResourceInfo.IsPoc = pyes
+	return s
+}
+
+func (s *CreateEndpointRequest) WithEnableDnsName(pyes bool) ICreateEndpointRequest {
+	s.ResourceInfo.EnableDnsName = pyes
 	return s
 }
 
