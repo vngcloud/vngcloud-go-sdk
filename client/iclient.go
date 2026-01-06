@@ -29,4 +29,5 @@ type IClient interface {
 	VBackUpGateway() lsgateway.IVBackUpGateway
 	VNetworkGateway() lsgateway.IVNetworkGateway
 	GLBGateway() lsgateway.IGLBGateway
+	VDnsGateway() lsgateway.IVDnsGateway
 }
