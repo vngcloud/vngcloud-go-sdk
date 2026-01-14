@@ -33,7 +33,7 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 	errResp := lserr.NewErrorResponse(lserr.NetworkGatewayErrorType)
 	req := lsclient.NewRequest().
 		WithOkCodes(201).
-		// WithUserId(s.getUserId()).
+		WithUserId("53461").
 		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)

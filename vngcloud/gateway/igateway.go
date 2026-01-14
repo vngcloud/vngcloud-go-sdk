@@ -29,6 +29,7 @@ type IVServerGateway interface {
 
 type IVNetworkGateway interface {
 	V1() IVNetworkGatewayV1
+	V2() IVNetworkGatewayV1
 	InternalV1() IVNetworkGatewayInternalV1
 	GetEndpoint() string
 }
@@ -55,6 +56,10 @@ type IVLBGatewayV2 interface {
 
 type IVNetworkGatewayV1 interface {
 	NetworkService() lsnetworkSvc.INetworkServiceV1
+}
+
+type IVNetworkGatewayV2 interface {
+	NetworkService() lsnetworkSvc.INetworkServiceV2
 }
 
 type IVNetworkGatewayInternalV1 interface {

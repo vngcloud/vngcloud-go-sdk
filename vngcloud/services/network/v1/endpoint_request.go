@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	defaultPackageId = "d33c1f28-cb27-442d-81ac-062f57bd52b9"
+	defaultPackageId = "d391c404-51b0-4f4d-a946-ec35c8a6e2be"
 
 	VStorageServiceId = "b9ba2b16-389e-48b7-9e75-4c991239da27"
 	VCRServiceId      = "4f823540-4d64-4bf5-a3e2-322b098b601b"
