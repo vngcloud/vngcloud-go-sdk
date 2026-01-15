@@ -13,8 +13,9 @@ type ICreateEndpointRequest interface {
 	WithSubnetUuid(psubnetUuid string) ICreateEndpointRequest
 	WithVpcUuid(pvpcUuid string) ICreateEndpointRequest
 	GetPortalUserId() string
+	GetProjectPortalUuid() string
 	WithPortalUserId(portalUserId string) ICreateEndpointRequest
-	WithProjectUuid(projectUuid string) ICreateEndpointRequest
+	WithProjectPortalUuid(projectUuid string) ICreateEndpointRequest
 	WithPackageUuid(ppackageUuid string) ICreateEndpointRequest
 	WithServiceUuid(pserviceUuid string) ICreateEndpointRequest
 	WithCategoryUuid(pcategoryUuid string) ICreateEndpointRequest

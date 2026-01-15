@@ -50,6 +50,7 @@ type CreateEndpointRequest struct {
 		SubnetUuid        string `json:"subnetUuid"`
 		RegionUuid        string `json:"regionUuid"`
 		ProjectUuid       string `json:"projectUuid"`
+		ProjectPortalUuid string `json:"projectPortalUuid"`
 		Description       string `json:"description"`
 		EnableAZ          bool   `json:"enableAZ"`
 		EnableDnsName     bool   `json:"enableDnsName"`
@@ -135,9 +136,13 @@ func (s *CreateEndpointRequest) WithVpcUuid(pvpcUuid string) ICreateEndpointRequ
 	return s
 }
 
-func (s *CreateEndpointRequest) WithProjectUuid(projectUuid string) ICreateEndpointRequest {
-	s.ResourceInfo.ProjectUuid = projectUuid
+func (s *CreateEndpointRequest) WithProjectPortalUuid(projectUuid string) ICreateEndpointRequest {
+	s.ResourceInfo.ProjectPortalUuid = projectUuid
 	return s
+}
+
+func (s *CreateEndpointRequest) GetProjectPortalUuid() string {
+	return s.ResourceInfo.ProjectPortalUuid
 }
 
 func (s *CreateEndpointRequest) WithPortalUserId(portalUserId string) ICreateEndpointRequest {
