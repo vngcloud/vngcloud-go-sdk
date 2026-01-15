@@ -32,9 +32,7 @@ func TestCreateEndpoint(t *ltesting.T) {
 		"net-5ac170fc-834a-4621-b512-481e09b82fc8",
 		"sub-0c508dd6-5af6-4f0e-a860-35346b530cf1",
 	).WithDescription(
-		"This is the service endpoint for vStorage APIs, established by the VKS product. " +
-			"Please refrain from DELETING it manually.",
-	)
+		"This is the service endpoint for vStorage APIs established by the VKS product ")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V1().NetworkService().CreateEndpoint(opt)
 	if sdkerr != nil {
@@ -53,16 +51,18 @@ func TestCreateEndpointInternal(t *ltesting.T) {
 	vngcloud := validSuperSdkConfig()
 	opt := lsnwv1.NewCreateEndpointRequest(
 		"tytv2-test",
-		"c36bb265-f569-4748-a03a-fca52c7588ea",
+		"f081902c-25bb-441e-9a53-fd23fc47e3f1",
 		"net-dc14bb60-d500-40b5-945f-218540990187",
 		"sub-3f7a1d9b-1d68-44d0-a14f-4cc6bf18a7c4",
 	).WithDescription(
-		"This is the service endpoint for vStorage APIs, established by the VKS product. "+
-			"Please refrain from DELETING it manually.",
-	).AddNetworking("HCM-1B", "sub-3f7a1d9b-1d68-44d0-a14f-4cc6bf18a7c4").
-		AddNetworking("HCM-1A", "sub-85ba01f6-02ec-4dfc-8884-ee0036c68a5b").
-		WithScaling(1, 3).
-		WithEnableDnsName(true).WithBuyMorePoc(false).WithPoc(false).WithEnableAutoRenew(true)
+		"This is the service endpoint for vStorage APIs - established by the VKS product "+
+			"Please refrain from DELETING it manually",
+	).AddNetworking("HCM03-1B", "sub-3f7a1d9b-1d68-44d0-a14f-4cc6bf18a7c4").
+		AddNetworking("HCM03-1A", "sub-85ba01f6-02ec-4dfc-8884-ee0036c68a5b").
+		WithScaling(2, 5).
+		WithPortalUserId("53461").
+		WithEnableDnsName(false).WithBuyMorePoc(false).WithPoc(false).WithEnableAutoRenew(true).
+		WithPackageUuid("e060ef9e-a3cf-420e-9cbc-f203b7f413c4")
 
 	lb, sdkerr := vngcloud.VNetworkGateway().V2().NetworkService().CreateEndpoint(opt)
 	if sdkerr != nil {
