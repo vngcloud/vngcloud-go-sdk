@@ -80,7 +80,7 @@ func (s *CreateEndpointRequest) ToMap() map[string]interface{} {
 		"vpcId":             s.ResourceInfo.VpcUuid,
 		"subnetId":          s.ResourceInfo.SubnetUuid,
 		"regionId":          s.ResourceInfo.RegionUuid,
-		"projectId":         s.ResourceInfo.ProjectUuid,
+		"projectUUid":       s.ResourceInfo.ProjectUuid,
 		"description":       s.ResourceInfo.Description,
 		"enableAZ":          s.ResourceInfo.EnableAZ,
 		"enableDnsName":     s.ResourceInfo.EnableDnsName,
@@ -132,6 +132,11 @@ func (s *CreateEndpointRequest) WithPackageUuid(ppackageUuid string) ICreateEndp
 
 func (s *CreateEndpointRequest) WithVpcUuid(pvpcUuid string) ICreateEndpointRequest {
 	s.ResourceInfo.VpcUuid = pvpcUuid
+	return s
+}
+
+func (s *CreateEndpointRequest) WithProjectUuid(projectUuid string) ICreateEndpointRequest {
+	s.ResourceInfo.ProjectUuid = projectUuid
 	return s
 }
 

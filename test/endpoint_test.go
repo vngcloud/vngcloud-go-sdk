@@ -61,6 +61,7 @@ func TestCreateEndpointInternal(t *ltesting.T) {
 		AddNetworking("HCM03-1A", "sub-85ba01f6-02ec-4dfc-8884-ee0036c68a5b").
 		WithScaling(2, 5).
 		WithPortalUserId("53461").
+		WithProjectUuid("").
 		WithEnableDnsName(false).WithBuyMorePoc(false).WithPoc(false).WithEnableAutoRenew(true).
 		WithPackageUuid("e060ef9e-a3cf-420e-9cbc-f203b7f413c4")
 
