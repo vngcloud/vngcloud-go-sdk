@@ -29,6 +29,7 @@ const (
 const (
 	ErrCatProductVlb      ErrorCategory = "vlb"
 	ErrCatProductVNetwork ErrorCategory = "vnetwork"
+	ErrCatProductVdns     ErrorCategory = "vdns"
 )
 
 const (
