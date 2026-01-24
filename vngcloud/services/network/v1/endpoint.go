@@ -1,11 +1,9 @@
 package v1
 
 import (
-	"encoding/json"
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
 	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
-	"log"
 )
 
 func (s *NetworkServiceV1) GetEndpointById(popts IGetEndpointByIdRequest) (*lsentity.Endpoint, lserr.IError) {
@@ -39,15 +37,6 @@ func (s *NetworkServiceV1) CreateEndpoint(popts ICreateEndpointRequest) (*lsenti
 		WithJsonBody(popts.ToRequestBody(s.VNetworkClient)).
 		WithJsonResponse(resp).
 		WithJsonError(errResp)
-
-	body := popts.ToRequestBody(s.VNetworkClient)
-	bodyBytes, _ := json.Marshal(body)
-
-	log.Print(
-		"[CreateEndpoint] request: curl -X POST '%s' -H 'Content-Type: application/json' -d '%s'",
-		url,
-		string(bodyBytes),
-	)
 
 	if _, sdkErr := s.VNetworkClient.Post(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
