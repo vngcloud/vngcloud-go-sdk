@@ -13,6 +13,7 @@ type IPortalServiceV1 interface {
 }
 
 type IPortalServiceV2 interface {
+	ListZones() (*lsentity.ListZones, lserr.IError)
 	ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.IError)
 	GetQuotaByName(popts lsportalV2.IGetQuotaByNameRequest) (*lsentity.Quota, lserr.IError)
 }

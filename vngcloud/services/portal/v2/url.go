@@ -8,3 +8,9 @@ func listAllQuotaUsedUrl(psc lsclient.IServiceClient) string {
 		"quotas",
 		"quotaUsed")
 }
+
+func listZonesUrl(psc lsclient.IServiceClient) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"zones")
+}
