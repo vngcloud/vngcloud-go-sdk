@@ -153,3 +153,13 @@ func TestListPortalUser11412(t *ltesting.T) {
 
 	t.Log("Result: ", projects.At(0))
 }
+
+func TestListZones(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	zones, err := vngcloud.VServerGateway().V1().PortalService().ListZones()
+	if err != nil {
+		t.Log("Error: ", err)
+	}
+
+	t.Log("Result: ", zones.Items)
+}

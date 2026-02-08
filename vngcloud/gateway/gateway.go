@@ -61,7 +61,7 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 		WithProjectId(pprojectId)
 
 	vserverSvcV2 := lsclient.NewServiceClient().
-		WithEndpoint(pendpoint + "v2").
+		WithEndpoint(pendpoint + "v1").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
@@ -214,8 +214,8 @@ func NewGLBGatewayV1(psvcClient lsclient.IServiceClient) IGLBGatewayV1 {
 var _ IVDnsGateway = &vdnsGateway{}
 
 type vdnsGateway struct {
-	endpoint          string
-	dnsService        lsdnsSvc.IVDnsServiceV1
+	endpoint           string
+	dnsService         lsdnsSvc.IVDnsServiceV1
 	dnsServiceInternal lsdnsSvc.IVDnsServiceInternal
 }
 
@@ -231,8 +231,8 @@ func NewVDnsGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) IVDn
 		WithProjectId(pprojectId)
 
 	return &vdnsGateway{
-		endpoint:          pendpoint,
-		dnsService:        lsdnsSvc.NewVDnsServiceV1(client),
+		endpoint:           pendpoint,
+		dnsService:         lsdnsSvc.NewVDnsServiceV1(client),
 		dnsServiceInternal: lsdnsSvc.NewVDnsServiceInternal(internalClient),
 	}
 }

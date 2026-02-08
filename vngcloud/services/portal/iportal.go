@@ -8,12 +8,12 @@ import (
 )
 
 type IPortalServiceV1 interface {
+	ListZones() (*lsentity.ListZones, lserr.IError)
 	GetPortalInfo(popts lsportalV1.IGetPortalInfoRequest) (*lsentity.Portal, lserr.IError)
 	ListProjects(popts lsportalV1.IListProjectsRequest) (*lsentity.ListPortals, lserr.IError)
 }
 
 type IPortalServiceV2 interface {
-	ListZones() (*lsentity.ListZones, lserr.IError)
 	ListAllQuotaUsed() (*lsentity.ListQuotas, lserr.IError)
 	GetQuotaByName(popts lsportalV2.IGetQuotaByNameRequest) (*lsentity.Quota, lserr.IError)
 }

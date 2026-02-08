@@ -1,4 +1,4 @@
-package v2
+package v1
 
 import (
 	lsclient "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/client"
@@ -6,7 +6,7 @@ import (
 	lserr "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/sdk_error"
 )
 
-func (s *PortalServiceV2) ListZones() (*lsentity.ListZones, lserr.IError) {
+func (s *PortalServiceV1) ListZones() (*lsentity.ListZones, lserr.IError) {
 	url := listZonesUrl(s.PortalClient)
 	resp := new(ListZoneResponse)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
@@ -17,7 +17,7 @@ func (s *PortalServiceV2) ListZones() (*lsentity.ListZones, lserr.IError) {
 
 	if _, sdkErr := s.PortalClient.Get(url, req); sdkErr != nil {
 		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
-			WithKVparameters("projectId", s.getProjectId())
+			WithKVparameters("projectId", s.PortalClient.GetProjectId())
 	}
 
 	return resp.ToEntityListZones(), nil
