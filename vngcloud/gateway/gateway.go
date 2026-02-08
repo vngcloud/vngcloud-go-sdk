@@ -61,7 +61,7 @@ func NewVServerGateway(pendpoint, pprojectId string, phc lsclient.IHttpClient) I
 		WithProjectId(pprojectId)
 
 	vserverSvcV2 := lsclient.NewServiceClient().
-		WithEndpoint(pendpoint + "v1").
+		WithEndpoint(pendpoint + "v2").
 		WithClient(phc).
 		WithProjectId(pprojectId)
 
