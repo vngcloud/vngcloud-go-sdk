@@ -128,7 +128,7 @@ func (s *Server) GetInternalInterfaceWanInfo() (string, string, string, bool) {
 }
 
 func (s *Server) GetInternalNetworkInterfaceIds() []string {
-	ids := make([]string, 0, len(s.InternalInterfaces))
+	ids := make([]string, 0)
 	for _, i := range s.InternalInterfaces {
 		ids = append(ids, i.Uuid)
 	}

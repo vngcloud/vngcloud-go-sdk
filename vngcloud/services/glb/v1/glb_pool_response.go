@@ -97,7 +97,7 @@ type GlobalPoolMemberResponse struct {
 }
 
 func (s *GlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPoolMember {
-	members := make([]*lsentity.GlobalPoolMemberDetail, 0, len(s.Members))
+	members := make([]*lsentity.GlobalPoolMemberDetail, 0)
 	for _, member := range s.Members {
 		members = append(members, member.ToEntityGlobalMember())
 	}
@@ -242,7 +242,7 @@ func (s *ListGlobalPoolMembersResponse) ToEntityListGlobalPoolMembers() *lsentit
 type GetGlobalPoolMemberResponse GlobalPoolMemberResponse
 
 func (s *GetGlobalPoolMemberResponse) ToEntityGlobalPoolMember() *lsentity.GlobalPoolMember {
-	members := make([]*lsentity.GlobalPoolMemberDetail, 0, len(s.Members))
+	members := make([]*lsentity.GlobalPoolMemberDetail, 0)
 	for _, member := range s.Members {
 		members = append(members, member.ToEntityGlobalMember())
 	}

@@ -56,7 +56,7 @@ type ListAddressPairsByVirtualAddressIdResponse struct {
 }
 
 func (s *ListAddressPairsByVirtualAddressIdResponse) ToEntityListAddressPairs() *lsentity.ListAddressPairs {
-	addressPairs := make([]*lsentity.AddressPair, 0, len(s.Data))
+	addressPairs := make([]*lsentity.AddressPair, 0)
 	for _, addressPair := range s.Data {
 		addressPairs = append(addressPairs, &lsentity.AddressPair{
 			Id:                 addressPair.UUID,

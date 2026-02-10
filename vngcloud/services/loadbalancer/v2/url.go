@@ -263,14 +263,6 @@ func resizeLoadBalancerByIdUrl(psc lsclient.IServiceClient, popts IResizeLoadBal
 		"resize")
 }
 
-func scaleLoadBalancerUrl(psc lsclient.IServiceClient, popts IScaleLoadBalancerRequest) string {
-	return psc.ServiceURL(
-		psc.GetProjectId(),
-		"loadBalancers",
-		popts.GetLoadBalancerId(),
-		"rebalancing")
-}
-
 // --------------------------------------------------------
 
 func listCertificatesUrl(psc lsclient.IServiceClient) string {

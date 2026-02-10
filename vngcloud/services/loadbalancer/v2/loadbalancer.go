@@ -421,29 +421,6 @@ func (s *LoadBalancerServiceV2) ResizeLoadBalancerById(popts IResizeLoadBalancer
 	return nil
 }
 
-func (s *LoadBalancerServiceV2) ScaleLoadBalancer(popts IScaleLoadBalancerRequest) (*lsentity.LoadBalancer, lserr.IError) {
-	url := scaleLoadBalancerUrl(s.VLBClient, popts)
-	resp := new(ScaleLoadBalancerResponse)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
-	req := lsclient.NewRequest().
-		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithOkCodes(202).
-		WithJsonBody(popts.ToRequestBody()).
-		WithJsonResponse(resp).
-		WithJsonError(errResp)
-
-	if _, sdkErr := s.VLBClient.Put(url, req); sdkErr != nil {
-		return nil, lserr.SdkErrorHandler(sdkErr, errResp,
-			lserr.WithErrorLoadBalancerNotFound(errResp),
-			lserr.WithErrorLoadBalancerNotFound2(errResp),
-			lserr.WithErrorLoadBalancerNotReady(errResp)).
-			WithParameters(popts.ToMap()).
-			AppendCategories(lserr.ErrCatProductVlb)
-	}
-
-	return resp.ToEntityLoadBalancer(), nil
-}
-
 // policy
 
 func (s *LoadBalancerServiceV2) ListPolicies(popts IListPoliciesRequest) (*lsentity.ListPolicies, lserr.IError) {

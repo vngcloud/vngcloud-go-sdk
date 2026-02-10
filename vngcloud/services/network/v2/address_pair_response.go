@@ -33,7 +33,7 @@ func (s *AddressPairResponse) toAddressPair() *lsentity.AddressPair {
 }
 
 func (s *GetAllAddressPairByVirtualSubnetIdResponse) ToListAddressPair() []*lsentity.AddressPair {
-	addressPairs := make([]*lsentity.AddressPair, 0, len(s.Data))
+	addressPairs := make([]*lsentity.AddressPair, 0)
 	for _, addressPair := range s.Data {
 		addressPairs = append(addressPairs, addressPair.toAddressPair())
 	}

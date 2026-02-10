@@ -45,7 +45,7 @@ type (
 )
 
 func (s *GlobalLoadBalancerResponse) ToEntityGlobalLoadBalancer() *lsentity.GlobalLoadBalancer {
-	vips := make([]*lsentity.GlobalLoadBalancerVIP, 0, len(s.Vips))
+	vips := make([]*lsentity.GlobalLoadBalancerVIP, 0)
 	for _, vip := range s.Vips {
 		vips = append(vips, &lsentity.GlobalLoadBalancerVIP{
 			ID:                   vip.ID,
@@ -59,7 +59,7 @@ func (s *GlobalLoadBalancerResponse) ToEntityGlobalLoadBalancer() *lsentity.Glob
 		})
 	}
 
-	domains := make([]*lsentity.GlobalLoadBalancerDomain, 0, len(s.Domains))
+	domains := make([]*lsentity.GlobalLoadBalancerDomain, 0)
 	for _, domain := range s.Domains {
 		domains = append(domains, &lsentity.GlobalLoadBalancerDomain{
 			CreatedAt:            domain.CreatedAt,
@@ -183,7 +183,7 @@ func (s *ListGlobalPackagesResponse) ToEntityListGlobalPackages() *lsentity.List
 }
 
 func (s *GlobalPackageResponse) ToEntityGlobalPackage() *lsentity.GlobalPackage {
-	vlbPackages := make([]lsentity.VlbPackage, 0, len(s.VlbPackages))
+	vlbPackages := make([]lsentity.VlbPackage, 0)
 	for _, vlb := range s.VlbPackages {
 		vlbPackages = append(vlbPackages, lsentity.VlbPackage{
 			ID:           vlb.ID,

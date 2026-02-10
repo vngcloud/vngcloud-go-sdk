@@ -24,7 +24,7 @@ type GetSubnetByIdResponse struct {
 }
 
 func (s *GetSubnetByIdResponse) ToEntitySubnet() *lsentity.Subnet {
-	secondaryRange := make([]lsentity.SubnetSecondaryRange, 0, len(s.SecondarySubnets))
+	secondaryRange := make([]lsentity.SubnetSecondaryRange, 0)
 	for _, sr := range s.SecondarySubnets {
 		secondaryRange = append(secondaryRange, lsentity.SubnetSecondaryRange{
 			Id:   sr.UUID,

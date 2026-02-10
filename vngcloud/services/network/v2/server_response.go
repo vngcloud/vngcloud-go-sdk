@@ -11,7 +11,7 @@ type ListAllServersBySecgroupIdResponse struct {
 }
 
 func (s *ListAllServersBySecgroupIdResponse) ToEntityListServers() *lsentity.ListServers {
-	servers := make([]*lsentity.Server, 0, len(s.Data))
+	servers := make([]*lsentity.Server, 0)
 	for _, server := range s.Data {
 		servers = append(servers, &lsentity.Server{
 			Name:   server.Name,

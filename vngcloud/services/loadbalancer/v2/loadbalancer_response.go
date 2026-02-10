@@ -20,16 +20,6 @@ func (s *ResizeLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalanc
 	}
 }
 
-type ScaleLoadBalancerResponse struct {
-	UUID string `json:"uuid"`
-}
-
-func (s *ScaleLoadBalancerResponse) ToEntityLoadBalancer() *lsentity.LoadBalancer {
-	return &lsentity.LoadBalancer{
-		UUID: s.UUID,
-	}
-}
-
 type ListLoadBalancerPackagesResponse struct {
 	ListData []LoadBalancerPackageResponse `json:"listData"`
 }
@@ -92,17 +82,6 @@ type (
 			// VolumeCount int    `json:"volumeCount"`
 			// ServerCount int    `json:"serverCount"`
 		} `json:"zone"`
-		MinSize    int    `json:"minSize"`
-		MaxSize    int    `json:"maxSize"`
-		TotalNodes int    `json:"totalNodes"`
-		Nodes      []Node `json:"nodes"`
-	}
-
-	Node struct {
-		Status   string `json:"status"`
-		ZoneID   string `json:"zoneId"`
-		ZoneName string `json:"zoneName"`
-		SubnetID string `json:"subnetId"`
 	}
 )
 
@@ -174,18 +153,6 @@ func (s *ListLoadBalancersResponse) ToEntityListLoadBalancers() *lsentity.ListLo
 
 func (s *LoadBalancer) toEntityLoadBalancer() *lsentity.LoadBalancer {
 	internal := lstr.TrimSpace(lstr.ToUpper(s.LoadBalancerSchema)) == "INTERNAL"
-
-	// Convert nodes from response to entity
-	nodes := make([]*lsentity.Node, 0, len(s.Nodes))
-	for _, node := range s.Nodes {
-		nodes = append(nodes, &lsentity.Node{
-			Status:   node.Status,
-			ZoneID:   node.ZoneID,
-			ZoneName: node.ZoneName,
-			SubnetID: node.SubnetID,
-		})
-	}
-
 	return &lsentity.LoadBalancer{
 		UUID:               s.UUID,
 		Name:               s.Name,
@@ -204,10 +171,6 @@ func (s *LoadBalancer) toEntityLoadBalancer() *lsentity.LoadBalancer {
 		ProgressStatus:     s.ProgressStatus,
 		AutoScalable:       s.AutoScalable,
 		ZoneID:             s.Zone.UUID,
-		MinSize:            s.MinSize,
-		MaxSize:            s.MaxSize,
-		TotalNodes:         s.TotalNodes,
-		Nodes:              nodes,
 		BackendSubnetID: func() string {
 			if s.BackendSubnetID != "" {
 				return s.BackendSubnetID
