@@ -763,3 +763,31 @@ func TestReorderPoliciesSucces(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestScaleLoadBalancerSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lslbv2.NewScaleLoadBalancerRequest("lb-7dd1f328-c7d6-4cbd-b194-7d8502de3fc8").
+		WithScaling(&lslbv2.ScalingConfig{
+			MinNodes: 2,
+			MaxNodes: 5,
+		}).
+		WithNetworking(&lslbv2.NetworkingConfig{
+			Subnets: []string{
+				"sub-403b36d2-39fc-47c4-b40b-8df0ecb71045",
+				"sub-70b263e5-094b-44d4-9861-834a8ad190ce",
+				// "sub-5fc1ee76-b754-490e-afa7-c7d963848481",
+			},
+		})
+
+	lb, sdkerr := vngcloud.VLBGateway().V2().LoadBalancerService().ScaleLoadBalancer(opt)
+	if sdkerr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkerr)
+	}
+
+	if lb == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", lb)
+	t.Log("PASS")
+}
