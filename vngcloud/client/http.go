@@ -97,7 +97,19 @@ func (s *httpClient) WithReauthFunc(pauthOpt AuthOpts, preauthFunc func() (ISdkA
 }
 
 func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lserr.IError) {
+	req := s.prepareRequest(preq)
+
+	resp, sdkErr := s.executeRequest(purl, req, preq)
+	if sdkErr != nil {
+		return resp, sdkErr
+	}
+
+	return s.handleResponse(purl, resp, preq)
+}
+
+func (s *httpClient) prepareRequest(preq IRequest) *lreq.Request {
 	req := s.client.R().SetContext(s.context).SetHeaders(s.getDefaultHeaders()).SetHeaders(preq.GetMoreHeaders())
+
 	if opt := preq.GetRequestBody(); opt != nil {
 		req.SetBodyJsonMarshal(opt)
 	}
@@ -110,74 +122,100 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		req.SetErrorResult(opt)
 	}
 
-	var resp *lreq.Response
-	if !s.needReauth(preq) {
-		var err error
+	return req
+}
 
-		switch lstr.ToUpper(preq.GetRequestMethod()) {
-		case "POST":
-			resp, err = req.Post(purl)
-		case "GET":
-			resp, err = req.Get(purl)
-		case "DELETE":
-			resp, err = req.Delete(purl)
-		case "PUT":
-			resp, err = req.Put(purl)
-		case "PATCH":
-			resp, err = req.Patch(purl)
-		}
-
-		if err != nil && resp == nil {
-			return resp, lserr.ErrorHandler(err)
-		}
-	} else {
-		if !preq.SkipAuthentication() && s.reauthFunc != nil {
-			if sdkErr := s.reauthenticate(); sdkErr != nil {
-				return nil, sdkErr
-			}
-
-			return s.DoRequest(purl, preq)
-		}
+func (s *httpClient) executeRequest(purl string, req *lreq.Request, preq IRequest) (*lreq.Response, lserr.IError) {
+	if s.needReauth(preq) {
+		return s.handleReauthBeforeRequest(purl, preq)
 	}
 
-	if resp != nil && resp.Response != nil {
-		switch resp.StatusCode {
-		case lhttp.StatusUnauthorized:
-			if !preq.SkipAuthentication() && s.reauthFunc != nil {
-				if sdkErr := s.reauthenticate(); sdkErr != nil {
-					return nil, sdkErr
-				}
+	resp, err := s.executeHttpMethod(purl, req, preq)
 
-				return s.DoRequest(purl, preq)
-			} else {
-				return nil, defaultErrorResponse(resp.Err, purl, preq, resp)
-			}
-		case lhttp.StatusTooManyRequests:
-			return nil, lserr.SdkErrorHandler(
-				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-				lserr.WithErrorPermissionDenied())
-		case lhttp.StatusInternalServerError:
-			return nil, lserr.SdkErrorHandler(
-				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-				lserr.WithErrorInternalServerError())
-		case lhttp.StatusServiceUnavailable:
-			return nil, lserr.SdkErrorHandler(
-				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-				lserr.WithErrorServiceMaintenance())
-		case lhttp.StatusForbidden:
-			return nil, lserr.SdkErrorHandler(
-				defaultErrorResponse(resp.Err, purl, preq, resp), nil,
-				lserr.WithErrorPermissionDenied())
-		}
-
-		if preq.ContainsOkCode(resp.StatusCode) {
-			return resp, nil
-		}
-
-		return resp, lserr.ErrorHandler(resp.Err)
+	if err != nil && resp == nil {
+		return resp, lserr.ErrorHandler(err)
 	}
 
-	return nil, lserr.ErrorHandler(nil, lserr.WithErrorUnexpected(resp))
+	return resp, nil
+}
+
+func (s *httpClient) executeHttpMethod(purl string, req *lreq.Request, preq IRequest) (*lreq.Response, error) {
+	switch lstr.ToUpper(preq.GetRequestMethod()) {
+	case "POST":
+		return req.Post(purl)
+	case "GET":
+		return req.Get(purl)
+	case "DELETE":
+		return req.Delete(purl)
+	case "PUT":
+		return req.Put(purl)
+	case "PATCH":
+		return req.Patch(purl)
+	default:
+		return nil, nil
+	}
+}
+
+func (s *httpClient) handleReauthBeforeRequest(purl string, preq IRequest) (*lreq.Response, lserr.IError) {
+	if !preq.SkipAuthentication() && s.reauthFunc != nil {
+		if sdkErr := s.reauthenticate(); sdkErr != nil {
+			return nil, sdkErr
+		}
+		return s.DoRequest(purl, preq)
+	}
+	return nil, nil
+}
+
+func (s *httpClient) handleResponse(purl string, resp *lreq.Response, preq IRequest) (*lreq.Response, lserr.IError) {
+	if resp == nil || resp.Response == nil {
+		return nil, lserr.ErrorHandler(nil, lserr.WithErrorUnexpected(resp))
+	}
+
+	if sdkErr := s.handleStatusCode(purl, resp, preq); sdkErr != nil {
+		return nil, sdkErr
+	}
+
+	if preq.ContainsOkCode(resp.StatusCode) {
+		return resp, nil
+	}
+
+	return resp, lserr.ErrorHandler(resp.Err)
+}
+
+func (s *httpClient) handleStatusCode(purl string, resp *lreq.Response, preq IRequest) lserr.IError {
+	switch resp.StatusCode {
+	case lhttp.StatusUnauthorized:
+		return s.handleUnauthorized(purl, resp, preq)
+	case lhttp.StatusTooManyRequests:
+		return lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+			lserr.WithErrorPermissionDenied())
+	case lhttp.StatusInternalServerError:
+		return lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+			lserr.WithErrorInternalServerError())
+	case lhttp.StatusServiceUnavailable:
+		return lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+			lserr.WithErrorServiceMaintenance())
+	case lhttp.StatusForbidden:
+		return lserr.SdkErrorHandler(
+			defaultErrorResponse(resp.Err, purl, preq, resp), nil,
+			lserr.WithErrorPermissionDenied())
+	}
+	return nil
+}
+
+func (s *httpClient) handleUnauthorized(purl string, resp *lreq.Response, preq IRequest) lserr.IError {
+	if !preq.SkipAuthentication() && s.reauthFunc != nil {
+		if sdkErr := s.reauthenticate(); sdkErr != nil {
+			return sdkErr
+		}
+		// Note: This will cause recursion - returning to trigger DoRequest again
+		_, err := s.DoRequest(purl, preq)
+		return err
+	}
+	return defaultErrorResponse(resp.Err, purl, preq, resp)
 }
 
 func (s *httpClient) needReauth(preq IRequest) bool {
