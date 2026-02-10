@@ -312,6 +312,16 @@ type IResizeLoadBalancerByIdRequest interface {
 	AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest
 }
 
+type IScaleLoadBalancerRequest interface {
+	GetLoadBalancerId() string
+	ToMap() map[string]interface{}
+	ParseUserAgent() string
+	ToRequestBody() interface{}
+	AddUserAgent(pagent ...string) IScaleLoadBalancerRequest
+	WithScaling(pscaling *ScalingConfig) IScaleLoadBalancerRequest
+	WithNetworking(pnetworking *NetworkingConfig) IScaleLoadBalancerRequest
+}
+
 // --------------------------------------------------------
 
 type IListCertificatesRequest interface {

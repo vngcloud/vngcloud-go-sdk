@@ -64,7 +64,7 @@ type ListSecgroupResponse struct { //___________________________________________
 }
 
 func (s *ListSecgroupResponse) ToListEntitySecgroups() *lsentity.ListSecgroups {
-	items := make([]*lsentity.Secgroup, 0)
+	items := make([]*lsentity.Secgroup, 0, len(s.ListData))
 	for _, item := range s.ListData {
 		items = append(items, &lsentity.Secgroup{
 			Id:          item.ID,

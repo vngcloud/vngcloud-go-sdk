@@ -24,6 +24,17 @@ type (
 	LoadBalancerType   string
 )
 
+// ScalingConfig defines scaling policies (min/max nodes)
+type ScalingConfig struct {
+	MinNodes int `json:"minSize"`
+	MaxNodes int `json:"maxSize"`
+}
+
+// NetworkingConfig defines networking topology (subnets)
+type NetworkingConfig struct {
+	Subnets []string `json:"subnets,omitempty"`
+}
+
 func NewCreateLoadBalancerRequest(pname, ppackageId, psubnetId string) ICreateLoadBalancerRequest {
 	return &CreateLoadBalancerRequest{
 		Name:      pname,
@@ -69,6 +80,14 @@ func NewDeleteLoadBalancerByIdRequest(plbId string) IDeleteLoadBalancerByIdReque
 	opts := new(DeleteLoadBalancerByIdRequest)
 	opts.LoadBalancerId = plbId
 	return opts
+}
+
+func NewScaleLoadBalancerRequest(plbId string) IScaleLoadBalancerRequest {
+	return &ScaleLoadBalancerRequest{
+		LoadBalancerCommon: lscommon.LoadBalancerCommon{
+			LoadBalancerId: plbId,
+		},
+	}
 }
 
 type CreateLoadBalancerRequest struct {
@@ -132,6 +151,49 @@ type ResizeLoadBalancerByIdRequest struct {
 func (s *ResizeLoadBalancerByIdRequest) AddUserAgent(pagent ...string) IResizeLoadBalancerByIdRequest {
 	s.UserAgent.AddUserAgent(pagent...)
 	return s
+}
+
+type ScaleLoadBalancerRequest struct {
+	lscommon.UserAgent
+	lscommon.LoadBalancerCommon
+
+	Scaling    *ScalingConfig    `json:"scaling"`
+	Networking *NetworkingConfig `json:"networking"`
+}
+
+func (s *ScaleLoadBalancerRequest) AddUserAgent(pagent ...string) IScaleLoadBalancerRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ScaleLoadBalancerRequest) WithScaling(pscaling *ScalingConfig) IScaleLoadBalancerRequest {
+	s.Scaling = pscaling
+	return s
+}
+
+func (s *ScaleLoadBalancerRequest) WithNetworking(pnetworking *NetworkingConfig) IScaleLoadBalancerRequest {
+	s.Networking = pnetworking
+	return s
+}
+
+func (s *ScaleLoadBalancerRequest) ToRequestBody() interface{} {
+	return s
+}
+
+func (s *ScaleLoadBalancerRequest) ToMap() map[string]interface{} {
+	result := map[string]interface{}{}
+	if s.Scaling != nil {
+		result["scaling"] = map[string]interface{}{
+			"minSize": s.Scaling.MinNodes,
+			"maxSize": s.Scaling.MaxNodes,
+		}
+	}
+	if s.Networking != nil {
+		result["networking"] = map[string]interface{}{
+			"subnets": s.Networking.Subnets,
+		}
+	}
+	return result
 }
 
 func (s *CreateLoadBalancerRequest) ToMap() map[string]interface{} {

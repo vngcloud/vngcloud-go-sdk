@@ -320,7 +320,7 @@ func (s *CreatePoolRequest) ToMap() map[string]interface{} {
 		"tlsEncryption": s.TLSEncryption,
 		"healthMonitor": s.HealthMonitor.ToMap(),
 		"members": func() []map[string]interface{} {
-			var members []map[string]interface{}
+			members := make([]map[string]interface{}, 0, len(s.Members))
 			for _, member := range s.Members {
 				members = append(members, member.ToMap())
 			}
