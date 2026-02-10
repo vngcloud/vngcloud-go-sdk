@@ -185,6 +185,5 @@ func TestDnsServiceInternal_ListAndDeleteAllRecords(t *ltesting.T) {
 	// 	t.Fatalf("Failed to delete hosted zone: %v", sdkErr.GetError())
 	// }
 
-
 	t.Logf("Completed deletion of all records in hosted zone %s", hostedZoneId)
 }

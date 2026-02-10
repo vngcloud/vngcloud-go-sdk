@@ -21,10 +21,10 @@ type LoadBalancer struct {
 	Internal           bool
 	AutoScalable       bool
 	ZoneID             string
-	MinSize            int          // minimum number of nodes for HA configuration
-	MaxSize            int          // maximum number of nodes for HA configuration
-	TotalNodes         int          // total number of nodes currently running
-	Nodes              []*Node      // list of nodes in the load balancer
+	MinSize            int     // minimum number of nodes for HA configuration
+	MaxSize            int     // maximum number of nodes for HA configuration
+	TotalNodes         int     // total number of nodes currently running
+	Nodes              []*Node // list of nodes in the load balancer
 }
 
 type Node struct {
