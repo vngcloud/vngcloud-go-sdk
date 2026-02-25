@@ -10,7 +10,15 @@ func getEndpointByIdUrl(psc lsclient.IServiceClient, popts IGetEndpointByIdReque
 		popts.GetEndpointId())
 }
 
-func createEndpointUrl(psc lsclient.IServiceClient) string {
+func createEndpointUrl(psc lsclient.IServiceClient, popts ICreateEndpointRequest) string {
+	if popts.GetProjectPortalUuid() != "" {
+		return psc.ServiceURL(
+			psc.GetZoneId(),
+			popts.GetProjectPortalUuid(),
+			"endpoints")
+
+	}
+
 	return psc.ServiceURL(
 		psc.GetZoneId(),
 		psc.GetProjectId(),
