@@ -53,7 +53,7 @@ func NewHttpClient(pctx lctx.Context) IHttpClient {
 		client: lreq.NewClient().
 			SetCommonRetryCount(3).
 			SetCommonRetryFixedInterval(10).
-			SetTimeout(ljtime.Second(120)),
+			SetTimeout(ljtime.Second(1)),
 		mut:       new(lsync.RWMutex),
 		reauthmut: new(reauthlock),
 	}
