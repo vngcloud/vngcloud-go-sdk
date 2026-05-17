@@ -19,4 +19,5 @@ type IComputeServiceV2 interface {
 	DeleteServerGroupById(popts lscomputeSvcV2.IDeleteServerGroupByIdRequest) lserr.IError
 	ListServerGroups(popts lscomputeSvcV2.IListServerGroupsRequest) (*lsentity.ListServerGroups, lserr.IError)
 	CreateServerGroup(popts lscomputeSvcV2.ICreateServerGroupRequest) (*lsentity.ServerGroup, lserr.IError)
+	ListTags(popts lscomputeSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 }

@@ -100,3 +100,9 @@ type ICreateServerGroupRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
 }
+
+type IListTagsRequest interface {
+	GetServerId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListTagsRequest
+}

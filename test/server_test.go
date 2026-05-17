@@ -409,3 +409,19 @@ func TestCreateSystemTags(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Logf("Result: %v", response)
 }
+
+func TestListServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lscomputeSvcV2.NewListTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f")
+	tags, sdkErr := vngcloud.VServerGateway().V2().ComputeService().ListTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if tags == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", tags)
+	t.Log("PASS")
+}
