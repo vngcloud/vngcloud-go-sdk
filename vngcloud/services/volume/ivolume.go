@@ -17,6 +17,7 @@ type IVolumeServiceV2 interface {
 	MigrateBlockVolumeById(popts lsvolumeSvcV2.IMigrateBlockVolumeByIdRequest) lserr.IError
 	ListTags(popts lsvolumeSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 	CreateTags(popts lsvolumeSvcV2.ICreateTagsRequest) lserr.IError
+	UpdateTags(popts lsvolumeSvcV2.IUpdateTagsRequest) lserr.IError
 
 	// Snapshot
 	ListSnapshotsByBlockVolumeId(popts lsvolumeSvcV2.IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.IError)

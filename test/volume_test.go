@@ -248,3 +248,16 @@ func TestCreateVolumeTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkErr)
 	t.Log("PASS")
 }
+
+func TestUpdateVolumeTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewUpdateTagsRequest("vol-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee").
+		WithTags("env", "prod")
+	sdkErr := vngcloud.VServerGateway().V2().VolumeService().UpdateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}
