@@ -438,3 +438,16 @@ func TestCreateServerTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkErr)
 	t.Log("PASS")
 }
+
+func TestUpdateServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewUpdateTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f").
+		WithTags("env", "prod")
+	sdkErr := vngcloud.VServerGateway().V2().ComputeService().UpdateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}
