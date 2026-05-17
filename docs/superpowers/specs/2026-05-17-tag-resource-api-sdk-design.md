@@ -307,15 +307,17 @@ Six new test functions to add:
 
 ```go
 // test/server_test.go
-func TestListServerTags(t *testing.T)     { ... }
-func TestCreateServerTags(t *testing.T)   { ... }
-func TestUpdateServerTags(t *testing.T)   { ... }
+func TestListServerTags(t *ltesting.T)     { ... }
+func TestCreateServerTags(t *ltesting.T)   { ... }
+func TestUpdateServerTags(t *ltesting.T)   { ... }
 
 // test/volume_test.go
-func TestListVolumeTags(t *testing.T)     { ... }
-func TestCreateVolumeTags(t *testing.T)   { ... }
-func TestUpdateVolumeTags(t *testing.T)   { ... }
+func TestListVolumeTags(t *ltesting.T)     { ... }
+func TestCreateVolumeTags(t *ltesting.T)   { ... }
+func TestUpdateVolumeTags(t *ltesting.T)   { ... }
 ```
+
+(`ltesting "testing"` is the aliased import used throughout the existing `test/` package.)
 
 Each test: build request via `NewXxxTagsRequest(resourceId).WithTags(...)`, call the service method, log result, expect `sdkerr == nil`. Resource IDs are hardcoded fixtures matching the existing test style.
 
