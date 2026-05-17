@@ -96,3 +96,9 @@ func listTagsUrl(psc lsclient.IServiceClient, popts IListTagsRequest) string {
 		psc.GetProjectId(),
 		"tag", "resource", popts.GetBlockVolumeId())
 }
+
+func createTagsUrl(psc lsclient.IServiceClient, popts ICreateTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag", "resource", popts.GetBlockVolumeId())
+}

@@ -80,3 +80,11 @@ type IListTagsRequest interface {
 	ParseUserAgent() string
 	AddUserAgent(pagent ...string) IListTagsRequest
 }
+
+type ICreateTagsRequest interface {
+	GetBlockVolumeId() string
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) ICreateTagsRequest
+	AddUserAgent(pagent ...string) ICreateTagsRequest
+}
