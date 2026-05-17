@@ -425,3 +425,16 @@ func TestListServerTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", tags)
 	t.Log("PASS")
 }
+
+func TestCreateServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewCreateTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f").
+		WithTags("env", "dev")
+	sdkErr := vngcloud.VServerGateway().V2().ComputeService().CreateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}

@@ -20,4 +20,5 @@ type IComputeServiceV2 interface {
 	ListServerGroups(popts lscomputeSvcV2.IListServerGroupsRequest) (*lsentity.ListServerGroups, lserr.IError)
 	CreateServerGroup(popts lscomputeSvcV2.ICreateServerGroupRequest) (*lsentity.ServerGroup, lserr.IError)
 	ListTags(popts lscomputeSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
+	CreateTags(popts lscomputeSvcV2.ICreateTagsRequest) lserr.IError
 }

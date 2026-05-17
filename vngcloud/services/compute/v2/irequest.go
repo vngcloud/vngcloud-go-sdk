@@ -106,3 +106,11 @@ type IListTagsRequest interface {
 	ParseUserAgent() string
 	AddUserAgent(pagent ...string) IListTagsRequest
 }
+
+type ICreateTagsRequest interface {
+	GetServerId() string
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) ICreateTagsRequest
+	AddUserAgent(pagent ...string) ICreateTagsRequest
+}
