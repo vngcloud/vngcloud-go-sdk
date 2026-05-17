@@ -15,6 +15,7 @@ type IVolumeServiceV2 interface {
 	ResizeBlockVolumeById(popts lsvolumeSvcV2.IResizeBlockVolumeByIdRequest) (*lsentity.Volume, lserr.IError)
 	GetUnderBlockVolumeId(popts lsvolumeSvcV2.IGetUnderBlockVolumeIdRequest) (*lsentity.Volume, lserr.IError)
 	MigrateBlockVolumeById(popts lsvolumeSvcV2.IMigrateBlockVolumeByIdRequest) lserr.IError
+	ListTags(popts lsvolumeSvcV2.IListTagsRequest) (*lsentity.ListTags, lserr.IError)
 
 	// Snapshot
 	ListSnapshotsByBlockVolumeId(popts lsvolumeSvcV2.IListSnapshotsByBlockVolumeIdRequest) (*lsentity.ListSnapshots, lserr.IError)

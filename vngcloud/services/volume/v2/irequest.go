@@ -74,3 +74,9 @@ type IMigrateBlockVolumeByIdRequest interface {
 	WithConfirm(pconfirm bool) IMigrateBlockVolumeByIdRequest
 	IsConfirm() bool
 }
+
+type IListTagsRequest interface {
+	GetBlockVolumeId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListTagsRequest
+}

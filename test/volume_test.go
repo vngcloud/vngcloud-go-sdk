@@ -219,3 +219,19 @@ func TestMigrateBlockVolume(t *ltesting.T) {
 	t.Log("Error: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestListVolumeTagsSuccess(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := v2.NewListTagsRequest("vol-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+	tags, sdkErr := vngcloud.VServerGateway().V2().VolumeService().ListTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if tags == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", tags)
+	t.Log("PASS")
+}
