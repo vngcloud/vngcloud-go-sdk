@@ -108,3 +108,9 @@ func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string
 		psc.GetProjectId(),
 		"tag", "resource", popts.GetBlockVolumeId())
 }
+
+func listBlockVolumesByServerIdUrl(psc lsclient.IServiceClient, popts IListBlockVolumesByServerIdRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"volumes", "servers", popts.GetServerId())
+}

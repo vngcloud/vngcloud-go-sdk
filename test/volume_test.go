@@ -261,3 +261,19 @@ func TestUpdateVolumeTagsSuccess(t *ltesting.T) {
 	t.Log("Result: ", sdkErr)
 	t.Log("PASS")
 }
+
+func TestListBlockVolumesByServerIdSuccess(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := v2.NewListBlockVolumesByServerIdRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f")
+	volumes, sdkErr := vngcloud.VServerGateway().V2().VolumeService().ListBlockVolumesByServerId(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if volumes == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", volumes)
+	t.Log("PASS")
+}

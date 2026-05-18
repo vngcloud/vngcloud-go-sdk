@@ -101,3 +101,10 @@ type IUpdateTagsRequest interface {
 	ToMap() map[string]interface{}
 	AddUserAgent(pagent ...string) IUpdateTagsRequest
 }
+
+type IListBlockVolumesByServerIdRequest interface {
+	GetServerId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListBlockVolumesByServerIdRequest
+	ToMap() map[string]interface{}
+}

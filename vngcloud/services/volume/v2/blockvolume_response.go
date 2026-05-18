@@ -99,3 +99,15 @@ func (s *GetUnderBlockVolumeIdResponse) ToEntityVolume() *lsentity.Volume {
 		UnderId: s.Uuid,
 	}
 }
+
+type ListBlockVolumesByServerIdResponse struct {
+	Volumes []BlockVolume `json:"volumes"`
+}
+
+func (s *ListBlockVolumesByServerIdResponse) ToEntityListVolumes() *lsentity.ListVolumes {
+	lst := new(lsentity.ListVolumes)
+	for _, v := range s.Volumes {
+		lst.Items = append(lst.Items, v.toEntityVolume())
+	}
+	return lst
+}
