@@ -175,3 +175,23 @@ func (s *VolumeServiceV2) MigrateBlockVolumeById(popts IMigrateBlockVolumeByIdRe
 
 	return nil
 }
+
+func (s *VolumeServiceV2) ListBlockVolumesByServerId(popts IListBlockVolumesByServerIdRequest) (*lsentity.ListVolumes, lserr.IError) {
+	url := listBlockVolumesByServerIdUrl(s.VServerClient, popts)
+	resp := new(ListBlockVolumesByServerIdResponse)
+	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
+	req := lsclient.NewRequest().
+		WithHeader("User-Agent", popts.ParseUserAgent()).
+		WithOkCodes(200).
+		WithJsonResponse(resp).
+		WithJsonError(errResp)
+
+	if _, sdkErr := s.VServerClient.Get(url, req); sdkErr != nil {
+		return nil, lserr.SdkErrorHandler(sdkErr, errResp).
+			WithKVparameters(
+				"projectId", s.getProjectId(),
+				"serverId", popts.GetServerId())
+	}
+
+	return resp.ToEntityListVolumes(), nil
+}

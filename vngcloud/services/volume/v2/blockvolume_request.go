@@ -342,3 +342,25 @@ func (s *MigrateBlockVolumeByIdRequest) WithConfirm(pconfirm bool) IMigrateBlock
 func (s *MigrateBlockVolumeByIdRequest) IsConfirm() bool {
 	return s.ConfirmMigrate
 }
+
+func NewListBlockVolumesByServerIdRequest(pserverId string) IListBlockVolumesByServerIdRequest {
+	opt := new(ListBlockVolumesByServerIdRequest)
+	opt.ServerId = pserverId
+	return opt
+}
+
+type ListBlockVolumesByServerIdRequest struct {
+	lscommon.UserAgent
+	lscommon.ServerCommon
+}
+
+func (s *ListBlockVolumesByServerIdRequest) AddUserAgent(pagent ...string) IListBlockVolumesByServerIdRequest {
+	s.UserAgent.AddUserAgent(pagent...)
+	return s
+}
+
+func (s *ListBlockVolumesByServerIdRequest) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"serverId": s.ServerId,
+	}
+}
