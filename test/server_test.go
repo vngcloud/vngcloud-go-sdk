@@ -409,3 +409,45 @@ func TestCreateSystemTags(t *ltesting.T) {
 	t.Log("Result: ", sdkerr)
 	t.Logf("Result: %v", response)
 }
+
+func TestListServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := lscomputeSvcV2.NewListTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f")
+	tags, sdkErr := vngcloud.VServerGateway().V2().ComputeService().ListTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if tags == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", tags)
+	t.Log("PASS")
+}
+
+func TestCreateServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewCreateTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f").
+		WithTags("env", "dev")
+	sdkErr := vngcloud.VServerGateway().V2().ComputeService().CreateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}
+
+func TestUpdateServerTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := lscomputeSvcV2.NewUpdateTagsRequest("ins-da59addd-6263-4544-b405-420a65ccfb1f").
+		WithTags("env", "prod")
+	sdkErr := vngcloud.VServerGateway().V2().ComputeService().UpdateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}

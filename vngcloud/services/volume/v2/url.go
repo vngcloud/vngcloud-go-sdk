@@ -90,3 +90,21 @@ func migrateBlockVolumeByIdUrl(psc lsclient.IServiceClient, popts IMigrateBlockV
 		"change-device-type",
 	)
 }
+
+func listTagsUrl(psc lsclient.IServiceClient, popts IListTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag", "resource", popts.GetBlockVolumeId())
+}
+
+func createTagsUrl(psc lsclient.IServiceClient, popts ICreateTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag", "resource", popts.GetBlockVolumeId())
+}
+
+func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string {
+	return psc.ServiceURL(
+		psc.GetProjectId(),
+		"tag", "resource", popts.GetBlockVolumeId())
+}

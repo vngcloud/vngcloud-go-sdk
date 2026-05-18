@@ -1,5 +1,9 @@
 package v2
 
+import (
+	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
+)
+
 type ICreateServerRequest interface {
 	ToRequestBody() interface{}
 	WithRootDiskEncryptionType(pencryptionVolume DataDiskEncryptionType) ICreateServerRequest
@@ -99,4 +103,27 @@ type ICreateServerGroupRequest interface {
 	AddUserAgent(pagent ...string) ICreateServerGroupRequest
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
+}
+
+type IListTagsRequest interface {
+	GetServerId() string
+	ParseUserAgent() string
+	AddUserAgent(pagent ...string) IListTagsRequest
+}
+
+type ICreateTagsRequest interface {
+	GetServerId() string
+	ToRequestBody() interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) ICreateTagsRequest
+	AddUserAgent(pagent ...string) ICreateTagsRequest
+}
+
+type IUpdateTagsRequest interface {
+	GetServerId() string
+	ToRequestBody(plstTags *lsentity.ListTags) interface{}
+	ParseUserAgent() string
+	WithTags(ptags ...string) IUpdateTagsRequest
+	ToMap() map[string]interface{}
+	AddUserAgent(pagent ...string) IUpdateTagsRequest
 }

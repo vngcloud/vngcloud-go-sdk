@@ -219,3 +219,45 @@ func TestMigrateBlockVolume(t *ltesting.T) {
 	t.Log("Error: ", sdkerr)
 	t.Log("PASS")
 }
+
+func TestListVolumeTagsSuccess(t *ltesting.T) {
+	vngcloud := validSuperSdkConfig()
+	opt := v2.NewListTagsRequest("vol-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+	tags, sdkErr := vngcloud.VServerGateway().V2().VolumeService().ListTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr)
+	}
+
+	if tags == nil {
+		t.Fatalf("Expect not nil but got nil")
+	}
+
+	t.Log("Result: ", tags)
+	t.Log("PASS")
+}
+
+func TestCreateVolumeTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewCreateTagsRequest("vol-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee").
+		WithTags("env", "dev")
+	sdkErr := vngcloud.VServerGateway().V2().VolumeService().CreateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}
+
+func TestUpdateVolumeTagsSuccess(t *ltesting.T) {
+	vngcloud := validSdkConfig()
+	opt := v2.NewUpdateTagsRequest("vol-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee").
+		WithTags("env", "prod")
+	sdkErr := vngcloud.VServerGateway().V2().VolumeService().UpdateTags(opt)
+	if sdkErr != nil {
+		t.Fatalf("Expect nil but got %+v", sdkErr.GetMessage())
+	}
+
+	t.Log("Result: ", sdkErr)
+	t.Log("PASS")
+}
