@@ -23,8 +23,12 @@ func (s *ComputeServiceV2) ListTags(popts IListTagsRequest) (*lsentity.ListTags,
 	return resp.ToEntityListTags(), nil
 }
 
-func (s *ComputeServiceV2) CreateTags(popts ICreateTagsRequest) lserr.IError {
-	url := createTagsUrl(s.VServerClient, popts)
+// UpdateTags upserts the given tag keys on the server: existing keys have
+// their values overwritten, new keys are created. Keys not in the request
+// list are left untouched (the vserver endpoint is upsert-by-key, not
+// replace-all).
+func (s *ComputeServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IError {
+	url := updateTagsUrl(s.VServerClient, popts)
 	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
 	req := lsclient.NewRequest().
 		WithHeader("User-Agent", popts.ParseUserAgent()).
@@ -33,35 +37,6 @@ func (s *ComputeServiceV2) CreateTags(popts ICreateTagsRequest) lserr.IError {
 		WithJsonError(errResp)
 
 	if _, sdkErr := s.VServerClient.Put(url, req); sdkErr != nil {
-		return lserr.SdkErrorHandler(sdkErr, errResp)
-	}
-
-	return nil
-}
-
-func (s *ComputeServiceV2) UpdateTags(popts IUpdateTagsRequest) lserr.IError {
-	tmpTags, sdkErr := s.ListTags(NewListTagsRequest(popts.GetServerId()))
-	if sdkErr != nil {
-		return sdkErr
-	}
-
-	// Do not update system tags
-	tags := new(lsentity.ListTags)
-	for _, tag := range tmpTags.Items {
-		if !tag.SystemTag {
-			tags.Items = append(tags.Items, tag)
-		}
-	}
-
-	url := updateTagsUrl(s.VServerClient, popts)
-	errResp := lserr.NewErrorResponse(lserr.NormalErrorType)
-	req := lsclient.NewRequest().
-		WithHeader("User-Agent", popts.ParseUserAgent()).
-		WithOkCodes(200).
-		WithJsonBody(popts.ToRequestBody(tags)).
-		WithJsonError(errResp)
-
-	if _, sdkErr = s.VServerClient.Put(url, req); sdkErr != nil {
 		return lserr.SdkErrorHandler(sdkErr, errResp,
 			lserr.WithErrorTagKeyInvalid(errResp)).WithParameters(popts.ToMap())
 	}

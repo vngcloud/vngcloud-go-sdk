@@ -110,12 +110,6 @@ func listTagsUrl(psc lsclient.IServiceClient, popts IListTagsRequest) string {
 		"tag", "resource", popts.GetServerId())
 }
 
-func createTagsUrl(psc lsclient.IServiceClient, popts ICreateTagsRequest) string {
-	return psc.ServiceURL(
-		psc.GetProjectId(),
-		"tag", "resource", popts.GetServerId())
-}
-
 func updateTagsUrl(psc lsclient.IServiceClient, popts IUpdateTagsRequest) string {
 	return psc.ServiceURL(
 		psc.GetProjectId(),

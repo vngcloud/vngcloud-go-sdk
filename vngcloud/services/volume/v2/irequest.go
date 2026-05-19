@@ -1,9 +1,5 @@
 package v2
 
-import (
-	lsentity "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/entity"
-)
-
 type ICreateBlockVolumeRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
@@ -85,17 +81,9 @@ type IListTagsRequest interface {
 	AddUserAgent(pagent ...string) IListTagsRequest
 }
 
-type ICreateTagsRequest interface {
-	GetBlockVolumeId() string
-	ToRequestBody() interface{}
-	ParseUserAgent() string
-	WithTags(ptags ...string) ICreateTagsRequest
-	AddUserAgent(pagent ...string) ICreateTagsRequest
-}
-
 type IUpdateTagsRequest interface {
 	GetBlockVolumeId() string
-	ToRequestBody(plstTags *lsentity.ListTags) interface{}
+	ToRequestBody() interface{}
 	ParseUserAgent() string
 	WithTags(ptags ...string) IUpdateTagsRequest
 	ToMap() map[string]interface{}
