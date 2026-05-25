@@ -5,8 +5,10 @@ import (
 	lsdnsSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/dns"
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb"
 	lsidentitySvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
+	lskafkaSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/kafka"
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
+	lsopensearchSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/opensearch"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
 	lsServerSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server"
 	lsvolumeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume"
@@ -99,4 +101,22 @@ type IVDnsGatewayV1 interface {
 
 type IVDnsGatewayInternal interface {
 	DnsService() lsdnsSvc.IVDnsServiceInternal
+}
+
+type IVDBKafkaGateway interface {
+	V1() IVDBKafkaGatewayV1
+	GetEndpoint() string
+}
+
+type IVDBKafkaGatewayV1 interface {
+	KafkaService() lskafkaSvc.IKafkaServiceV1
+}
+
+type IVDBOpenSearchGateway interface {
+	V1() IVDBOpenSearchGatewayV1
+	GetEndpoint() string
+}
+
+type IVDBOpenSearchGatewayV1 interface {
+	OpenSearchService() lsopensearchSvc.IOpenSearchServiceV1
 }

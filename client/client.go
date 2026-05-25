@@ -24,13 +24,15 @@ type (
 		userAgent  string
 		authOpt    lsclient.AuthOpts
 
-		iamGateway      lsgateway.IIamGateway
-		vserverGateway  lsgateway.IVServerGateway
-		vlbGateway      lsgateway.IVLBGateway
-		vbackupGateway  lsgateway.IVBackUpGateway
-		vnetworkGateway lsgateway.IVNetworkGateway
-		glbGateway      lsgateway.IGLBGateway
-		vdnsGateway     lsgateway.IVDnsGateway
+		iamGateway           lsgateway.IIamGateway
+		vserverGateway       lsgateway.IVServerGateway
+		vlbGateway           lsgateway.IVLBGateway
+		vbackupGateway       lsgateway.IVBackUpGateway
+		vnetworkGateway      lsgateway.IVNetworkGateway
+		glbGateway           lsgateway.IGLBGateway
+		vdnsGateway          lsgateway.IVDnsGateway
+		vdbKafkaGateway      lsgateway.IVDBKafkaGateway
+		vdbOpenSearchGateway lsgateway.IVDBOpenSearchGateway
 	}
 )
 
@@ -199,6 +201,14 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 		s.vdnsGateway = lsgateway.NewVDnsGateway(psdkCfg.GetVDnsEndpoint(), s.projectId, s.httpClient)
 	}
 
+	if s.vdbKafkaGateway == nil && psdkCfg.GetVdbKafkaEndpoint() != "" {
+		s.vdbKafkaGateway = lsgateway.NewVDBKafkaGateway(psdkCfg.GetVdbKafkaEndpoint(), s.userId, s.httpClient)
+	}
+
+	if s.vdbOpenSearchGateway == nil && psdkCfg.GetVdbOpenSearchEndpoint() != "" {
+		s.vdbOpenSearchGateway = lsgateway.NewVDBOpenSearchGateway(psdkCfg.GetVdbOpenSearchEndpoint(), s.userId, s.projectId, s.httpClient)
+	}
+
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
 	s.userAgent = psdkCfg.GetUserAgent()
 
@@ -231,6 +241,14 @@ func (s *client) GLBGateway() lsgateway.IGLBGateway {
 
 func (s *client) VDnsGateway() lsgateway.IVDnsGateway {
 	return s.vdnsGateway
+}
+
+func (s *client) VDBKafkaGateway() lsgateway.IVDBKafkaGateway {
+	return s.vdbKafkaGateway
+}
+
+func (s *client) VDBOpenSearchGateway() lsgateway.IVDBOpenSearchGateway {
+	return s.vdbOpenSearchGateway
 }
 
 func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.IError) {

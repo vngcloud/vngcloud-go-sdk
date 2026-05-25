@@ -25,6 +25,7 @@ type IRequest interface {
 	WithJsonBody(pjsonBody interface{}) IRequest
 	WithJsonResponse(pjsonResponse interface{}) IRequest
 	WithJsonError(pjsonError interface{}) IRequest
+	WithBytesResponse(pbytesResponse *[]byte) IRequest
 	WithRequestMethod(pmethod requestMethod) IRequest
 	WithSkipAuth(pskipAuth bool) IRequest
 	WithHeader(pkey, pvalue string) IRequest
@@ -37,6 +38,7 @@ type IRequest interface {
 	GetOmitHeaders() ljset.Set[string]
 	GetJsonResponse() interface{}
 	GetJsonError() interface{}
+	GetBytesResponse() *[]byte
 
 	SetJsonResponse(pjsonResponse interface{})
 	SetJsonError(pjsonError interface{})

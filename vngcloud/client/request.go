@@ -3,14 +3,15 @@ package client
 import ljset "github.com/cuongpiger/joat/data-structure/set"
 
 type request struct {
-	JsonBody     interface{}
-	JsonResponse interface{}
-	JsonError    interface{}
-	MoreHeaders  map[string]string
-	OmitHeaders  ljset.Set[string]
-	OkCodes      ljset.Set[int]
-	Method       requestMethod
-	SkipAuth     bool
+	JsonBody      interface{}
+	JsonResponse  interface{}
+	JsonError     interface{}
+	BytesResponse *[]byte
+	MoreHeaders   map[string]string
+	OmitHeaders   ljset.Set[string]
+	OkCodes       ljset.Set[int]
+	Method        requestMethod
+	SkipAuth      bool
 }
 
 type requestMethod string
@@ -53,6 +54,11 @@ func (s *request) WithJsonError(pjsonError interface{}) IRequest {
 	return s
 }
 
+func (s *request) WithBytesResponse(pbytesResponse *[]byte) IRequest {
+	s.BytesResponse = pbytesResponse
+	return s
+}
+
 func (s *request) WithRequestMethod(pmethod requestMethod) IRequest {
 	s.Method = pmethod
 	return s
@@ -85,6 +91,10 @@ func (s *request) GetOmitHeaders() ljset.Set[string] {
 
 func (s *request) GetJsonResponse() interface{} {
 	return s.JsonResponse
+}
+
+func (s *request) GetBytesResponse() *[]byte {
+	return s.BytesResponse
 }
 
 func (s *request) SetJsonResponse(pjsonResponse interface{}) {
