@@ -31,4 +31,5 @@ type IClient interface {
 	GLBGateway() lsgateway.IGLBGateway
 	VDnsGateway() lsgateway.IVDnsGateway
 	VDBKafkaGateway() lsgateway.IVDBKafkaGateway
+	VDBOpenSearchGateway() lsgateway.IVDBOpenSearchGateway
 }

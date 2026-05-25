@@ -16,6 +16,7 @@ type (
 		GetVNetworkEndpoint() string
 		GetVDnsEndpoint() string
 		GetVdbKafkaEndpoint() string
+		GetVdbOpenSearchEndpoint() string
 		GetUserAgent() string
 		WithUserId(puserId string) ISdkConfigure
 		WithZoneId(pzoneId string) ISdkConfigure
@@ -30,23 +31,25 @@ type (
 		WithVDnsEndpoint(pvdnsEndpoint string) ISdkConfigure
 		WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure
 		WithVdbKafkaEndpoint(pvdbKafkaEndpoint string) ISdkConfigure
+		WithVdbOpenSearchEndpoint(pvdbOpenSearchEndpoint string) ISdkConfigure
 	}
 )
 
 type sdkConfigure struct {
-	clientId          string
-	clientSecret      string
-	projectId         string
-	zoneId            string
-	userId            string
-	iamEndpoint       string
-	vserverEndpoint   string
-	vlbEndpoint       string
-	glbEndpoint       string
-	vnetworkEndpoint  string
-	vdnsEndpoint      string
-	vdbKafkaEndpoint  string
-	userAgent         string
+	clientId              string
+	clientSecret          string
+	projectId             string
+	zoneId                string
+	userId                string
+	iamEndpoint           string
+	vserverEndpoint       string
+	vlbEndpoint           string
+	glbEndpoint           string
+	vnetworkEndpoint      string
+	vdnsEndpoint          string
+	vdbKafkaEndpoint      string
+	vdbOpenSearchEndpoint string
+	userAgent             string
 }
 
 func (s *sdkConfigure) GetClientId() string {
@@ -95,6 +98,10 @@ func (s *sdkConfigure) GetVDnsEndpoint() string {
 
 func (s *sdkConfigure) GetVdbKafkaEndpoint() string {
 	return s.vdbKafkaEndpoint
+}
+
+func (s *sdkConfigure) GetVdbOpenSearchEndpoint() string {
+	return s.vdbOpenSearchEndpoint
 }
 
 func (s *sdkConfigure) GetUserAgent() string {
@@ -163,5 +170,10 @@ func (s *sdkConfigure) WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure {
 
 func (s *sdkConfigure) WithVdbKafkaEndpoint(pvdbKafkaEndpoint string) ISdkConfigure {
 	s.vdbKafkaEndpoint = ljutils.NormalizeURL(pvdbKafkaEndpoint)
+	return s
+}
+
+func (s *sdkConfigure) WithVdbOpenSearchEndpoint(pvdbOpenSearchEndpoint string) ISdkConfigure {
+	s.vdbOpenSearchEndpoint = ljutils.NormalizeURL(pvdbOpenSearchEndpoint)
 	return s
 }

@@ -8,6 +8,7 @@ import (
 	lskafkaSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/kafka"
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
+	lsopensearchSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/opensearch"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
 	lsServerSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/server"
 	lsvolumeSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/volume"
@@ -109,4 +110,13 @@ type IVDBKafkaGateway interface {
 
 type IVDBKafkaGatewayV1 interface {
 	KafkaService() lskafkaSvc.IKafkaServiceV1
+}
+
+type IVDBOpenSearchGateway interface {
+	V1() IVDBOpenSearchGatewayV1
+	GetEndpoint() string
+}
+
+type IVDBOpenSearchGatewayV1 interface {
+	OpenSearchService() lsopensearchSvc.IOpenSearchServiceV1
 }
