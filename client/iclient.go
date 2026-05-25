@@ -30,4 +30,5 @@ type IClient interface {
 	VNetworkGateway() lsgateway.IVNetworkGateway
 	GLBGateway() lsgateway.IGLBGateway
 	VDnsGateway() lsgateway.IVDnsGateway
+	VDBKafkaGateway() lsgateway.IVDBKafkaGateway
 }

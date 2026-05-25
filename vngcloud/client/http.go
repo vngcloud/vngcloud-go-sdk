@@ -171,6 +171,9 @@ func (s *httpClient) DoRequest(purl string, preq IRequest) (*lreq.Response, lser
 		}
 
 		if preq.ContainsOkCode(resp.StatusCode) {
+			if bytesPtr := preq.GetBytesResponse(); bytesPtr != nil {
+				*bytesPtr = resp.Bytes()
+			}
 			return resp, nil
 		}
 

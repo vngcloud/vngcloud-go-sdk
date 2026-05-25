@@ -5,6 +5,7 @@ import (
 	lsdnsSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/dns"
 	"github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/glb"
 	lsidentitySvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/identity"
+	lskafkaSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/kafka"
 	lslbSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/loadbalancer"
 	lsnetworkSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/network"
 	lsportalSvc "github.com/vngcloud/vngcloud-go-sdk/v2/vngcloud/services/portal"
@@ -99,4 +100,13 @@ type IVDnsGatewayV1 interface {
 
 type IVDnsGatewayInternal interface {
 	DnsService() lsdnsSvc.IVDnsServiceInternal
+}
+
+type IVDBKafkaGateway interface {
+	V1() IVDBKafkaGatewayV1
+	GetEndpoint() string
+}
+
+type IVDBKafkaGatewayV1 interface {
+	KafkaService() lskafkaSvc.IKafkaServiceV1
 }

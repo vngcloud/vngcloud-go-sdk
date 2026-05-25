@@ -31,6 +31,7 @@ type (
 		vnetworkGateway lsgateway.IVNetworkGateway
 		glbGateway      lsgateway.IGLBGateway
 		vdnsGateway     lsgateway.IVDnsGateway
+		vdbKafkaGateway lsgateway.IVDBKafkaGateway
 	}
 )
 
@@ -199,6 +200,10 @@ func (s *client) Configure(psdkCfg ISdkConfigure) IClient {
 		s.vdnsGateway = lsgateway.NewVDnsGateway(psdkCfg.GetVDnsEndpoint(), s.projectId, s.httpClient)
 	}
 
+	if s.vdbKafkaGateway == nil && psdkCfg.GetVdbKafkaEndpoint() != "" {
+		s.vdbKafkaGateway = lsgateway.NewVDBKafkaGateway(psdkCfg.GetVdbKafkaEndpoint(), s.userId, s.httpClient)
+	}
+
 	s.httpClient.WithReauthFunc(lsclient.IamOauth2, s.usingIamOauth2AsAuthOption(psdkCfg))
 	s.userAgent = psdkCfg.GetUserAgent()
 
@@ -231,6 +236,10 @@ func (s *client) GLBGateway() lsgateway.IGLBGateway {
 
 func (s *client) VDnsGateway() lsgateway.IVDnsGateway {
 	return s.vdnsGateway
+}
+
+func (s *client) VDBKafkaGateway() lsgateway.IVDBKafkaGateway {
+	return s.vdbKafkaGateway
 }
 
 func (s *client) usingIamOauth2AsAuthOption(pauthConfig ISdkConfigure) func() (lsclient.ISdkAuthentication, lserr.IError) {

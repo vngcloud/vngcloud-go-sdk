@@ -15,6 +15,7 @@ type (
 		GetGLBEndpoint() string
 		GetVNetworkEndpoint() string
 		GetVDnsEndpoint() string
+		GetVdbKafkaEndpoint() string
 		GetUserAgent() string
 		WithUserId(puserId string) ISdkConfigure
 		WithZoneId(pzoneId string) ISdkConfigure
@@ -28,22 +29,24 @@ type (
 		WithVNetworkEndpoint(pvnetworkEndpoint string) ISdkConfigure
 		WithVDnsEndpoint(pvdnsEndpoint string) ISdkConfigure
 		WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure
+		WithVdbKafkaEndpoint(pvdbKafkaEndpoint string) ISdkConfigure
 	}
 )
 
 type sdkConfigure struct {
-	clientId         string
-	clientSecret     string
-	projectId        string
-	zoneId           string
-	userId           string
-	iamEndpoint      string
-	vserverEndpoint  string
-	vlbEndpoint      string
-	glbEndpoint      string
-	vnetworkEndpoint string
-	vdnsEndpoint     string
-	userAgent        string
+	clientId          string
+	clientSecret      string
+	projectId         string
+	zoneId            string
+	userId            string
+	iamEndpoint       string
+	vserverEndpoint   string
+	vlbEndpoint       string
+	glbEndpoint       string
+	vnetworkEndpoint  string
+	vdnsEndpoint      string
+	vdbKafkaEndpoint  string
+	userAgent         string
 }
 
 func (s *sdkConfigure) GetClientId() string {
@@ -88,6 +91,10 @@ func (s *sdkConfigure) GetVNetworkEndpoint() string {
 
 func (s *sdkConfigure) GetVDnsEndpoint() string {
 	return s.vdnsEndpoint
+}
+
+func (s *sdkConfigure) GetVdbKafkaEndpoint() string {
+	return s.vdbKafkaEndpoint
 }
 
 func (s *sdkConfigure) GetUserAgent() string {
@@ -151,5 +158,10 @@ func (s *sdkConfigure) WithVDnsEndpoint(pvdnsEndpoint string) ISdkConfigure {
 
 func (s *sdkConfigure) WithGLBEndpoint(pvlbEndpoint string) ISdkConfigure {
 	s.glbEndpoint = ljutils.NormalizeURL(pvlbEndpoint)
+	return s
+}
+
+func (s *sdkConfigure) WithVdbKafkaEndpoint(pvdbKafkaEndpoint string) ISdkConfigure {
+	s.vdbKafkaEndpoint = ljutils.NormalizeURL(pvdbKafkaEndpoint)
 	return s
 }
