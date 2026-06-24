@@ -106,8 +106,15 @@ func (s *CreateEndpointRequest) ToRequestBody(psvc lsclient.IServiceClient) inte
 	s.Action = "create"
 	s.ResourceInfo.EnableAZ = true
 	s.ResourceInfo.RegionUuid = psvc.GetZoneId()
-	s.ResourceInfo.ProjectUuid = psvc.GetProjectId()
+	if s.ResourceInfo.ProjectUuid == "" {
+		s.ResourceInfo.ProjectUuid = psvc.GetProjectId()
+	}
 
+	return s
+}
+
+func (s *CreateEndpointRequest) WithProjectUuid(pprojectUuid string) ICreateEndpointRequest {
+	s.ResourceInfo.ProjectUuid = pprojectUuid
 	return s
 }
 

@@ -462,6 +462,16 @@ func (s *Member) ToRequestBody() interface{} {
 	return s
 }
 
+func (s *Member) WithWeight(pweight int) IMemberRequest {
+	s.Weight = pweight
+	return s
+}
+
+func (s *Member) WithBackup(pbackup bool) IMemberRequest {
+	s.Backup = pbackup
+	return s
+}
+
 func (s *Member) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"backup":      s.Backup,

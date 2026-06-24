@@ -191,6 +191,8 @@ type IHealthMonitorRequest interface {
 type IMemberRequest interface {
 	ToRequestBody() interface{}
 	ToMap() map[string]interface{}
+	WithWeight(pweight int) IMemberRequest
+	WithBackup(pbackup bool) IMemberRequest
 }
 
 type IListTagsRequest interface {
