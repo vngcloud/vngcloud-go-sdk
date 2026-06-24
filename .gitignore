@@ -25,6 +25,7 @@ TestResults.xml
 .idea
 /secret/
 test/env.yaml
+.claude/worktrees/
 
 .DS_Store
 
