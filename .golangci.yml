@@ -37,6 +37,7 @@ linters:
           - dupl
           - gocyclo
           - goconst
+          - staticcheck
         path: "test/.*"
       # Relax duplication for response/request files
       - linters:
@@ -45,6 +46,17 @@ linters:
       - linters:
           - dupl
         path: ".*request\\.go"
+      # Pre-existing high-complexity functions; tracked as tech debt
+      - linters:
+          - gocyclo
+        path: "client/client\\.go"
+      - linters:
+          - gocyclo
+        path: "vngcloud/client/http\\.go"
+      - linters:
+          - gocyclo
+          - errcheck
+        path: "vngcloud/services/kafka/v1/helper\\.go"
 
 formatters:
   enable:

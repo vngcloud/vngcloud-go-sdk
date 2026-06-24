@@ -16,6 +16,7 @@ type ICreateEndpointRequest interface {
 	GetProjectPortalUuid() string
 	WithPortalUserId(portalUserId string) ICreateEndpointRequest
 	WithProjectPortalUuid(projectUuid string) ICreateEndpointRequest
+	WithProjectUuid(pprojectUuid string) ICreateEndpointRequest
 	WithPackageUuid(ppackageUuid string) ICreateEndpointRequest
 	WithServiceUuid(pserviceUuid string) ICreateEndpointRequest
 	WithCategoryUuid(pcategoryUuid string) ICreateEndpointRequest
