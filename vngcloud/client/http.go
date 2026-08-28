@@ -17,6 +17,20 @@ const (
 	IamOauth2 AuthOpts = "IamOauth2"
 )
 
+const (
+	// So lan thu lai o tang HTTP.
+	httpRetryCount = 3
+
+	// Khoang cho giua cac lan thu lai: backoff co jitter, 1s -> toi da 8s.
+	//
+	// Truoc day cho nay la SetCommonRetryFixedInterval(10). Hang so 10 khong co
+	// kieu nen bi doi thanh time.Duration(10) = 10 NANO giay, tuc la ba lan thu
+	// lai gan nhu tuc thi - khong giup gi cho mot endpoint dang cham, chi nhan
+	// so request len gap bon. Dat thanh hang so co kieu de khong lap lai.
+	httpRetryIntervalMin = 1 * ltime.Second
+	httpRetryIntervalMax = 8 * ltime.Second
+)
+
 type (
 	httpClient struct {
 		context    lctx.Context
@@ -46,13 +60,47 @@ type (
 	AuthOpts string
 )
 
+// retryOnlyIdempotent quyet dinh mot request co duoc tu dong thu lai hay khong.
+//
+// Chi thu lai khi co loi transport (giu dung mac dinh cu cua req/v3) VA method
+// lap lai duoc. Danh sach method lay theo net/http Request.isReplayable() cua
+// chinh Go: GET, HEAD, OPTIONS, TRACE. PUT/DELETE tuy la idempotent theo dinh
+// nghia HTTP nhung khong nam trong danh sach do, va o day cung khong them vao -
+// mot lenh detach/delete bi timeout roi tu dong phat lai van co the dam vao
+// trang thai IaaS dang chuyen tiep.
+//
+// Caller can thu lai lenh mutate thi tu lam o tang tren, noi con biet ngu canh
+// de kiem tra ket qua truoc khi phat lai.
+func retryOnlyIdempotent(presp *lreq.Response, perr error) bool {
+	if perr == nil {
+		return false
+	}
+
+	if presp == nil || presp.Request == nil {
+		return false
+	}
+
+	switch presp.Request.Method {
+	case lhttp.MethodGet, lhttp.MethodHead, lhttp.MethodOptions, lhttp.MethodTrace:
+		return true
+	default:
+		return false
+	}
+}
+
 func NewHttpClient(pctx lctx.Context) IHttpClient {
 	return &httpClient{
 		context:    pctx,
 		retryCount: 0,
 		client: lreq.NewClient().
-			SetCommonRetryCount(3).
-			SetCommonRetryFixedInterval(10).
+			SetCommonRetryCount(httpRetryCount).
+			// Backoff co jitter thay cho fixed interval - xem httpRetryIntervalMin.
+			SetCommonRetryBackoffInterval(httpRetryIntervalMin, httpRetryIntervalMax).
+			// Mac dinh cua req/v3 la `needRetry := err != nil`, tuc la thu lai MOI
+			// request gap loi transport - ke ca POST da timeout. Voi mot request
+			// tao tai nguyen thi server co the da nhan va dang xu ly, thu lai la
+			// tao trung. Chi thu lai nhung method lap lai duoc.
+			SetCommonRetryCondition(retryOnlyIdempotent).
 			// 120 giay, khong phai 1 giay. Mot so API cua vServer - ro nhat la
 			// create/update volume - tra ve cham hon nhieu so voi 1 giay, va
 			// SetTimeout la timeout cho CA request (connect + gui + nhan), khong
