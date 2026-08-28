@@ -53,7 +53,15 @@ func NewHttpClient(pctx lctx.Context) IHttpClient {
 		client: lreq.NewClient().
 			SetCommonRetryCount(3).
 			SetCommonRetryFixedInterval(10).
-			SetTimeout(ljtime.Second(1)),
+			// 120 giay, khong phai 1 giay. Mot so API cua vServer - ro nhat la
+			// create/update volume - tra ve cham hon nhieu so voi 1 giay, va
+			// SetTimeout la timeout cho CA request (connect + gui + nhan), khong
+			// phai chi connect. Gia tri nay tung la 30s, duoc nang len 120s o
+			// 3646ec6 dung vi ly do do, roi bi ha xuong 1s o e3ff072.
+			//
+			// Consumer nao can chat hon thi tu goi WithTimeout() - dung ha mac
+			// dinh o day, vi no anh huong moi repo dang dung SDK.
+			SetTimeout(ljtime.Second(120)),
 		mut:       new(lsync.RWMutex),
 		reauthmut: new(reauthlock),
 	}
