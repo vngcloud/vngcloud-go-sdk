@@ -6,18 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `vngcloud-go-sdk` is a Go SDK for VNG Cloud services. Importers use module path `github.com/vngcloud/vngcloud-go-sdk/v2` (the `/v2` suffix is mandatory — Go modules major-version routing). Go 1.22+.
 
+Operational context (incidents, invariants, farms, the Redmine task workflow) lives in the **vks-harness** repo (`knowledge/`, `AGENTS.md`). Management farms are read-only for agents.
+
 Consumers construct an `IClient` from `client/`, configure endpoints + IAM creds via `ISdkConfigure`, then call typed service methods through gateway accessors (e.g. `vngcloud.VLBGateway().V2().LoadBalancerService().CreateLoadBalancer(opt)`). The README shows the canonical usage shape.
 
 ## Build / lint / test
 
 ```bash
+make verify-fast     # vet + lint (new code only) + unit tests, no credentials; run before finishing a change
+make test            # unit tests, excludes ./test/...
+make lint            # golangci-lint pinned to v2.6.x in ./bin, only code new vs LINT_BASE (default origin/main)
+make test-integration  # opt-in, live APIs, needs test/env.yaml; never part of verify-fast
 go build ./...
-go vet ./...
-golangci-lint run            # CI uses v2.6; config is .golangci.yml
 gitleaks detect --config .gitleaks.toml    # CI secret scan
 ```
 
-The `test/` package contains **integration tests that hit real VNG Cloud APIs** — they are not unit tests. They read credentials and resource IDs from `test/env.yaml` via `joho/godotenv` (see `getValueOfEnv` / `validSdkConfig` in `test/identity_test.go`). `test/env.yaml` is gitignored. Plain `go test ./...` will fail without it or will issue real API calls; do not run the whole `test/` suite blind.
+`make lint` installs golangci-lint with `go install`, which needs a recent Go toolchain (1.25+); the library itself targets Go 1.22. CI runs the same linter version with `.golangci.yml`.
+
+The `test/` package contains **integration tests that hit real VNG Cloud APIs** — they are not unit tests. They read credentials and resource IDs from `test/env.yaml` via `joho/godotenv` (see `getValueOfEnv` / `validSdkConfig` in `test/identity_test.go`). `test/env.yaml` is gitignored. Plain `go test ./...` (which includes `./test`) will fail without it or will issue real API calls; do not run the whole `test/` suite blind.
 
 Run a single integration test (must have `test/env.yaml` populated):
 
@@ -87,9 +93,18 @@ These are **deliberate, repo-wide patterns** — match them when editing or addi
 - **Versioned services are physical directories** (`v1/`, `v2/`, `inter/`, `internal/`). Don't add version branching inside a single file — add a new directory and wire it in via the gateway.
 - **Tests for new services live in `test/`** as `<product>_test.go` and reuse the `validSdkConfig()` family from `test/identity_test.go`. They are real-API integration tests, not unit tests.
 
+## Sensitive paths
+
+- `vngcloud/services/*/*/` delete/teardown methods (`Delete*`, `Remove*`) call real cloud APIs that destroy resources; URL, method and OK-codes must match the API exactly. Never exercise them from `test/` against a shared project.
+- `vngcloud/client/http.go`, `request.go`: auth, reauth callback, retry; a change affects every service.
+- `vngcloud/sdk_error/`: error codes and categories are public API consumed by controllers; do not rename or renumber.
+- `client/` and `vngcloud/gateway/`: public interface surface and endpoint wiring; breaking changes need a new major version.
+- `go.mod` module path (`/v2`) and `.github/workflows/release_build.yml` / `.goreleaser.yaml`: release flow.
+
 ## Things easy to get wrong
 
 - Module path is `…/v2`, not `…`. New files importing other internal packages must use the `/v2/` prefix.
 - `WithProjectId` on a configured client re-creates gateways in place (see `client.go`). Don't cache gateway references across project switches.
 - `WithVNetworkEndpoint` is sometimes called twice in tests to override — the second call wins. Not a bug.
 - Lint config (`.golangci.yml`) relaxes `dupl`/`gocyclo`/`goconst` only for `*_test.go`, `test/*`, `*request.go`, `*response.go`. Don't push duplicated logic outside those.
+- English only in code, comments, docs and commit messages. Run `make verify-fast` before finishing.
