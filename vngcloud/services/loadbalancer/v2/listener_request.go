@@ -60,8 +60,17 @@ func NewGetListenerByIdRequest(plbId, plistenerId string) IGetListenerByIdReques
 
 type ListenerProtocol string
 
+type ListenerDefaultAction string
+
+const (
+	ListenerDefaultActionAccept ListenerDefaultAction = "accept"
+	ListenerDefaultActionDrop   ListenerDefaultAction = "drop"
+)
+
 type CreateListenerRequest struct {
 	AllowedCidrs                string                         `json:"allowedCidrs"`
+	BlockedCidrs                string                         `json:"blockedCidrs,omitempty"`
+	DefaultAction               ListenerDefaultAction          `json:"defaultAction,omitempty"`
 	ListenerName                string                         `json:"listenerName"`
 	ListenerProtocol            ListenerProtocol               `json:"listenerProtocol"`
 	ListenerProtocolPort        int                            `json:"listenerProtocolPort"`
@@ -85,6 +94,8 @@ func (s *CreateListenerRequest) AddUserAgent(pagent ...string) ICreateListenerRe
 
 type UpdateListenerRequest struct {
 	AllowedCidrs                string                         `json:"allowedCidrs"`
+	BlockedCidrs                *string                        `json:"blockedCidrs,omitempty"`
+	DefaultAction               *ListenerDefaultAction         `json:"defaultAction,omitempty"`
 	DefaultPoolId               string                         `json:"defaultPoolId"`
 	TimeoutClient               int                            `json:"timeoutClient"`
 	TimeoutConnection           int                            `json:"timeoutConnection"`
@@ -235,6 +246,16 @@ func (s *CreateListenerRequest) WithInsertHeaders(pheaders ...string) ICreateLis
 	return s
 }
 
+func (s *CreateListenerRequest) WithBlockedCidrs(pcidrs ...string) ICreateListenerRequest {
+	s.BlockedCidrs = lstr.Join(pcidrs, ",")
+	return s
+}
+
+func (s *CreateListenerRequest) WithDefaultAction(paction ListenerDefaultAction) ICreateListenerRequest {
+	s.DefaultAction = paction
+	return s
+}
+
 func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"listenerName":                s.ListenerName,
@@ -244,6 +265,8 @@ func (s *CreateListenerRequest) ToMap() map[string]interface{} {
 		"timeoutConnection":           s.TimeoutConnection,
 		"timeoutMember":               s.TimeoutMember,
 		"allowedCidrs":                s.AllowedCidrs,
+		"blockedCidrs":                s.BlockedCidrs,
+		"defaultAction":               s.DefaultAction,
 		"defaultPoolId":               s.DefaultPoolId,
 		"certificateAuthorities":      s.CertificateAuthorities,
 		"clientCertificate":           s.ClientCertificate,

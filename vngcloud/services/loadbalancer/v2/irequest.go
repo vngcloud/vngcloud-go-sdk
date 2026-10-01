@@ -57,6 +57,8 @@ type IListLoadBalancersRequest interface {
 type ICreateListenerRequest interface {
 	ToRequestBody() interface{}
 	WithAllowedCidrs(pcidrs ...string) ICreateListenerRequest
+	WithBlockedCidrs(pcidrs ...string) ICreateListenerRequest
+	WithDefaultAction(paction ListenerDefaultAction) ICreateListenerRequest
 	WithLoadBalancerId(plbid string) ICreateListenerRequest
 	WithDefaultPoolId(ppoolId string) ICreateListenerRequest
 	WithTimeoutClient(ptoc int) ICreateListenerRequest
