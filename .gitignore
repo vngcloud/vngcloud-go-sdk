@@ -29,4 +29,4 @@ test/env.yaml
 
 .DS_Store
 
-._*
+._*/bin/
