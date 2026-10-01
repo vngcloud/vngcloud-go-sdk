@@ -27,6 +27,8 @@ type Listener struct {
 	TimeoutMember                   int                             `json:"timeoutMember"`
 	TimeoutConnection               int                             `json:"timeoutConnection"`
 	AllowedCidrs                    string                          `json:"allowedCidrs"`
+	BlockedCidrs                    string                          `json:"blockedCidrs"`
+	DefaultAction                   string                          `json:"defaultAction"`
 	CertificateAuthorities          []string                        `json:"certificateAuthorities"`
 	DisplayStatus                   string                          `json:"displayStatus"`
 	CreatedAt                       string                          `json:"createdAt"`
@@ -76,6 +78,8 @@ func (s *Listener) toEntityListener() *lsentity.Listener {
 		TimeoutMember:                   s.TimeoutMember,
 		TimeoutConnection:               s.TimeoutConnection,
 		AllowedCidrs:                    s.AllowedCidrs,
+		BlockedCidrs:                    s.BlockedCidrs,
+		DefaultAction:                   s.DefaultAction,
 		CertificateAuthorities:          s.CertificateAuthorities,
 		DisplayStatus:                   s.DisplayStatus,
 		CreatedAt:                       s.CreatedAt,

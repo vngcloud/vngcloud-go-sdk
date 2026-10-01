@@ -18,6 +18,8 @@ type Listener struct {
 	TimeoutMember                   int
 	TimeoutConnection               int
 	AllowedCidrs                    string
+	BlockedCidrs                    string
+	DefaultAction                   string
 	CertificateAuthorities          []string
 	DisplayStatus                   string
 	CreatedAt                       string
